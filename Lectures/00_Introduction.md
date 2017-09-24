@@ -2,14 +2,15 @@
 
 ## Organization
 
-- 6 credits
+- 4 credits
 - Professors
     - Lectures: Nicolae Cleju
     - Laboratories: Nicolae Cleju
 
 - Time schedule
     - 14 weeks of lectures (3h each)
-    - 14 weeks of laboratories (2h each)
+    - 7 laboratories (2h each)
+    - 7 seminars (2h each)
 
 - My office hours: *To Be Announced* (best by appointment)
 
