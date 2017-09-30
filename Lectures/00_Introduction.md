@@ -5,7 +5,7 @@
 - 4 credits
 - Professors
     - Lectures: Nicolae Cleju
-    - Laboratories: Nicolae Cleju
+    - Laboratories / Seminar: Nicolae Cleju
 
 - Time schedule
     - 14 weeks of lectures (3h each)
@@ -39,10 +39,9 @@
 
 
 ## Course structure
-1. Chapter I:   ...
-2. Chapter II:  ...
-3. Chapter III: ...
-4. Chapter IV:  ...
+1. Chapter I:   Random signals
+2. Chapter II:  Elements of statistical decision theory
+3. Chapter III: Statistical estimation
 
 ## Bibliography (TBD)
 
