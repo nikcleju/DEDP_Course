@@ -1,2 +1,2 @@
-# IT20162017
-Information Theory class 2016-2017
+# DEDP20162017
+Decision and Estimation in Data Processing, ETII, TUIASI, 2017-2018
