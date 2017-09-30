@@ -165,6 +165,9 @@ $$w(x) =
 
 * Denoted as $\mathcal{U} \;[a, b]$
 
+## Other distributions
+
+* Many other distributions exist, relevant for particular applications
 
 ## R.v. as functions of other r.v.
 
@@ -179,6 +182,39 @@ $$w(x) =
 
 * X, Y, Z, T are not independent
     * A certain value of one of them automatically implies the value of the others
+
+## Exercise
+
+Exercise:
+
+  * If $X$ is a r.v. with distribution $\mathcal{U} \; [0, \pi]$, 
+    compute the probability density of a r.v. $Y$ defined as
+    $$Y = cos(X)$$
+
+## Computing probabilities for the normal distribution
+
+* How to compute $\int_a^b$ for a normal distribution?
+    * Can't be done with algebraic formula, non-elementary function
+
+* Use *the error function*:
+$$erf(z) = \frac{2}{\sqrt{\pi}} \int_0^z e^{-t^2} dt$$
+
+* The CDF of a normal distribution $\mathcal{N}(\mu, \sigma^2)$
+$$F(X) = \frac{1}{2}(1 + erf(\frac{x - \mu}{\sigma \sqrt{2}}))$$
+
+* The values of *erf()* are available / are computed numerically
+    * e.g. on GOogle, search for $erf(0.5)$
+
+* Other useful values:
+    * $erf(-\infty) = -1$
+    * $erf(\infty) = 1$
+
+## Exercise
+
+Exercise:
+
+  * Let $X$ be a r.v. with distribution $\mathcal{N}(3, 2)$. 
+Compute the probability that $X \in [2, 4]$
 
 ## Multiple random variables
 
@@ -212,6 +248,14 @@ $$P\left\{ X = x \cap Y = y \right\} = P\left\{ X = x\right\} \cdot P\left\{ Y =
 
 * Same for more than two r.v.
 
+## Independent random variables
+
+Exercise: 
+
+  * Compute the probability that three r.v. $X$, $Y$ and $Z$ i.i.d. $\mathcal{N}(-1,1)$
+  are all positive simultaneously
+      * ***i.i.d*** = "independent and identically distributed"
+      
 ## Statistical averages
 
 * R.v. are described by statistical averages ("*moments*")
