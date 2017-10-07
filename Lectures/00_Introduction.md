@@ -1,6 +1,6 @@
 # Introduction
 
-## Organization
+### Organization
 
 - 4 credits
 - Professors
@@ -15,7 +15,7 @@
 - My office hours: *To Be Announced* (best by appointment)
 
 
-## Evaluation
+### Evaluation
 
 - Exam
     - 60% of final grade
@@ -38,12 +38,12 @@
 - Final grade = 60% Exam + 20% Lab + 20% Tests
 
 
-## Course structure
+### Course structure
 1. Chapter I:   Random signals
 2. Chapter II:  Elements of statistical decision theory
 3. Chapter III: Statistical estimation
 
-## Bibliography (TBD)
+### Bibliography (TBD)
 
 1. ***Elements of Information Theory*, Valeriu Munteanu, Daniela Tarniceriu, Ed. CERMI 2007**
 1. *Elements of Information Theory*, Thomas M. Cover, Joy A. Thomas, 2nd Edition, Wiley 2006

@@ -1,7 +1,9 @@
 
 # Chapter I. Random Signals
 
-## Random variables
+## I.1 Random variables
+
+### Random variables
 
 * A **random variable** is a variable that holds a value produced
 by a (partially) random phenomenon
@@ -15,7 +17,7 @@ by a (partially) random phenomenon
 
 * The opposite = a **constant value**
 
-## Realizations
+### Realizations
 
 * **A realization** = a single outcome of the random experiment 
 
@@ -28,14 +30,14 @@ by a (partially) random phenomenon
     * But we could have got any value from the sample space
     $$\Omega = \left\{1, 2, 3, 4, 5, 6\right\}$$
 
-## Discrete and continuous random variables
+### Discrete and continuous random variables
 
 * **Discrete** random variable: if $\Omega$ is a discrete set
     * Example: value of a dice
 * **Continuous** random variable: if $\Omega$ is a continuous set
     * Example: a voltage value
 
-## Discrete random variables
+### Discrete random variables
 
 * Consider a discrete r.v. $X$
 
@@ -49,7 +51,7 @@ $$F_X(x) = P\left\{ X \leq x \right\}$$
 
 * For discrete r.v., the CDF is "stairwise"
 
-## Discrete random variables
+### Discrete random variables
 
 * The **probability mass function (PMF)** = the probability that $X$ has value $x$
 $$w_X(x)= P\left\{ X = x\right\}$$
@@ -59,7 +61,7 @@ $$w_X(x)= P\left\{ X = x\right\}$$
 * Relation to CDF:
 $$F(x) = \sum_{all \;\; t \le x} w(t)$$
 
-## Continuous random variables
+### Continuous random variables
 
 * Consider a continuous r.v. $X$
 
@@ -70,7 +72,7 @@ $$F_X(x) = P\left\{ X \leq x \right\}$$
 $$w_X(x) = \frac{dF_X(x)}{dx}$$
 $$F_X(x) = \int_{-\infty}^x w_X(t) dt$$
 
-## Continuous random variables
+### Continuous random variables
 
 * The PDF gives the probability that the value of $X$ is in a small vicinity $epsilon$ around $x$, divided by $epsilon$
 
@@ -79,7 +81,7 @@ w_X(x) = \frac{dF_X(x)}{dx} =& \lim_{\epsilon \to 0}{\frac{F_X(x+\epsilon) - F_X
 =& \lim_{\epsilon \to 0}{\frac{P(X \in [x-\epsilon, x+\epsilon])}{2 \epsilon}}
 \end{split}$$
 
-## Probability of an exact value
+### Probability of an exact value
 
 * The probability that a continuous r.v. $X$ is **exactly** equal to a value $x$ is **zero**
     * because there are an infinity of possibilities (continuous)
@@ -87,7 +89,7 @@ w_X(x) = \frac{dF_X(x)}{dx} =& \lim_{\epsilon \to 0}{\frac{F_X(x+\epsilon) - F_X
 
 * The PDF gives the probability of being **in a small vicinity** around some value $x$
 
-##  Probability and distribution
+###  Probability and distribution
 
 * Compute probability based on PDF (continuous r.v.):
 $$P\left\{ A \leq X \leq B\right\} = \int_A^B w_X(x) dx$$
@@ -95,7 +97,7 @@ $$P\left\{ A \leq X \leq B\right\} = \int_A^B w_X(x) dx$$
 * Compute probability based on PMF (discrete r.v.):
 $$P\left\{ A \leq X \leq B\right\} = \sum_{x=A}^B w_X(x)$$
 
-## Graphical interpretation 
+### Graphical interpretation 
 
 * Probability that a r.v. $X$ is between A and B is **the area below the PDF**
     * i.e. the integral from A to B
@@ -103,7 +105,7 @@ $$P\left\{ A \leq X \leq B\right\} = \sum_{x=A}^B w_X(x)$$
 * Probability that $X$ is exactly equal to a certain value is zero
     * the area below a single point is zero
 
-## Properties of PDF/PMF/CDF
+### Properties of PDF/PMF/CDF
 
 * The CDF is monotonously increasing (non-decreasing)
 
@@ -115,7 +117,7 @@ $$P\left\{ A \leq X \leq B\right\} = \sum_{x=A}^B w_X(x)$$
 
 * Some others, mention when needed
 
-## The normal distribution
+### The normal distribution
 
 * Probability density function
 
@@ -125,7 +127,7 @@ $$w(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
 ![](figures/01_RandomSignals_figure1_1.png){width=8cm}\
 
 
-## The normal distribution
+### The normal distribution
 
 * Has two parameters:
     * **Average value** $\mu$ = "center" of the function
@@ -139,7 +141,7 @@ $$w(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
 
 * Usually denoted as $\mathcal{N}(\mu, \sigma)$
 
-## The uniform distribution
+### The uniform distribution
 
 * The probability density function = constant, between two endpoints
 
@@ -153,7 +155,7 @@ $$w(x) =
 ![](figures/01_RandomSignals_figure2_1.png){width=8cm}\
 
 
-## The uniform distribution
+### The uniform distribution
 
 * Has two parameters: the limits $a$ and $b$ of the interval
 
@@ -165,11 +167,11 @@ $$w(x) =
 
 * Denoted as $\mathcal{U} \;[a, b]$
 
-## Other distributions
+### Other distributions
 
 * Many other distributions exist, relevant for particular applications
 
-## R.v. as functions of other r.v.
+### R.v. as functions of other r.v.
 
 * A function applied to a r.v. produces another r.v.
 
@@ -183,7 +185,7 @@ $$w(x) =
 * X, Y, Z, T are not independent
     * A certain value of one of them automatically implies the value of the others
 
-## Exercise
+### Exercise
 
 Exercise:
 
@@ -191,7 +193,7 @@ Exercise:
     compute the probability density of a r.v. $Y$ defined as
     $$Y = cos(X)$$
 
-## Computing probabilities for the normal distribution
+### Computing probabilities for the normal distribution
 
 * How to compute $\int_a^b$ for a normal distribution?
     * Can't be done with algebraic formula, non-elementary function
@@ -209,14 +211,14 @@ $$F(X) = \frac{1}{2}(1 + erf(\frac{x - \mu}{\sigma \sqrt{2}}))$$
     * $erf(-\infty) = -1$
     * $erf(\infty) = 1$
 
-## Exercise
+### Exercise
 
 Exercise:
 
   * Let $X$ be a r.v. with distribution $\mathcal{N}(3, 2)$. 
 Compute the probability that $X \in [2, 4]$
 
-## Multiple random variables
+### Multiple random variables
 
 * Consider a system with two continuous r.v. $X$ and $Y$
 
@@ -232,7 +234,7 @@ are in a vicinity of $x_i$ and $y_i$ **simultaneously**
 * Similar for discrete r.v.: the joint PMF
 $$w_{XY}(x,y) = P\left\{ X = x \cap Y = y \right\}$$
 
-## Independent random variables
+### Independent random variables
 
 * Two v.a. $X$ and $Y$ are **independent** if the value of one of them
 does not influence in any way the value of the other
@@ -248,7 +250,7 @@ $$P\left\{ X = x \cap Y = y \right\} = P\left\{ X = x\right\} \cdot P\left\{ Y =
 
 * Same for more than two r.v.
 
-## Independent random variables
+### Independent random variables
 
 Exercise: 
 
@@ -256,7 +258,7 @@ Exercise:
   are all positive simultaneously
       * ***i.i.d*** = "independent and identically distributed"
       
-## Statistical averages
+### Statistical averages
 
 * R.v. are described by statistical averages ("*moments*")
 
@@ -272,7 +274,7 @@ $$\overline{X} = E\{X\} = \sum_{x=-\infty}^{\infty} x \cdot w_X(x) dx$$
 
 * Usual notation: $\mu$
 
-## Properties of the average value
+### Properties of the average value
 
 * Computing the average value is a **linear** operation
     * because the underlying integral / sum is a linear operation
@@ -286,7 +288,7 @@ $$E\{X + Y\} = E\{X\} + E\{Y\}$$
 
 * No proof given here
 
-## Average squared value
+### Average squared value
 
 * Average squared value = average value of the squared values
 
@@ -300,7 +302,7 @@ $$\overline{X^2} = E\{X^2\} = \sum_{-\infty}^{\infty} x^2 \cdot w_X(x) dx$$
 
 * Interpretation: average of squared values = average energy of a signal
 
-## Dispersion (variance)
+### Dispersion (variance)
 
 * Dispersion (variance) = average squared value of the difference to the average value
 
@@ -314,7 +316,7 @@ $$\sigma^2 = \overline{\left\{ X - \mu \right\}^2} = \sum_{-\infty}^{\infty} (x-
     * $\sigma^2 =$ large: large spread around the average value
     * $\sigma^2 =$ small: values are concentrated around the average value
 
-## Relation between the three values
+### Relation between the three values
 
 * Relation between the average value, the average squared value, and the dispersion:
 $$\begin{split}
@@ -324,7 +326,7 @@ $$\begin{split}
 &= \overline{X^2} - \mu^2
 \end{split}$$
 
-## Sum of random variables
+### Sum of random variables
 
 * Sum of two or more **independent** r.v. is also a r.v.
 
@@ -338,7 +340,10 @@ $$w(z) = w(x) \star w(y)$$
     * average = sum of the two averages: $\mu_Z = \mu_X + \mu_Y$
     * dispersion = sum of the two dispersions: $\sigma_Z^2 = \sigma_X^2 + \sigma_Y^2$
     
-## Random process
+
+## I.2 Random processes
+
+### Random process
 
 * A **random process** = a sequence of random variables indexed in time
 
@@ -351,7 +356,7 @@ $$w(z) = w(x) \star w(y)$$
 * Every sample from a random process is a (different) random variable!
     * e.g. $f(t_0)$  = value at time $t_0$ is a r.v.
 
-## Realizations of random processes
+### Realizations of random processes
 
 * A **realization** of the random process = a particular sequence of realizations of the underlying r.v.
     * e.g. we see a given noise signal on the oscilloscope, but *we could have
@@ -359,7 +364,7 @@ $$w(z) = w(x) \star w(y)$$
 
 * When we consider a random process = we consider the set of all possible realizations
 
-## Distributions of order 1 of random processes
+### Distributions of order 1 of random processes
 
 * Every sample $f(t_1)$ from a random process is a random variable
     * with CDF $F_1(x;t_1)$
@@ -373,9 +378,9 @@ $$w(z) = w(x) \star w(y)$$
 
 * The index $w_1$ indicates we consider a single random variable from the process (distributions of order 1)
 
-* Same for discrete p.a.
+* Same for discrete-time random processes
 
-## Distributions of order 2
+### Distributions of order 2
 
 * A pair of random variables $f(t_1)$ and $f(t_2)$ sampled from the random process $f(t)$ have
     * joint CDF $F_2(x_i, x_j; t_1, t_2)$
@@ -383,9 +388,9 @@ $$w(z) = w(x) \star w(y)$$
 
 * These functions specify how the pair of values is distributed (distributions of order 2)
 
-* Same for discrete p.a.
+* Same for discrete-time random processes
 
-## Distributions of order n
+### Distributions of order n
 
 * Generalize to $n$ samples of the random process
 
@@ -395,22 +400,11 @@ $$w(z) = w(x) \star w(y)$$
 
 * These functions specify how the whole set of $n$ values is distributed (distributions of order $n$)
 
-* Same for discrete p.a.
-
-
-
-
-
-
-
-
-
-
-## Hic sunt leones
+* Same for discrete-time random processes
 
 ### Statistical averages
 
-We characterize random processes using statistical / temporal averages (*moments*)
+Random processes are characterized using statistical / temporal averages (*moments*)
 
 1. Average value
 $$\overline{f(t_1)} = \mu(t_1) = \int_{-\infty}^{\infty} x \cdot w_1(x; t_1) dx$$
@@ -418,13 +412,22 @@ $$\overline{f(t_1)} = \mu(t_1) = \int_{-\infty}^{\infty} x \cdot w_1(x; t_1) dx$
 2. Average squared value (*valoarea patratica medie*)
 $$\overline{f^2(t_1)} = \int_{-\infty}^{\infty} x^2 \cdot w_1(x; t_1) dx$$
 
+
 ### Statistical averages - variance
 3. Variance (= *dispersia*)
 $$\sigma^2(t_1) = \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} = \int_{-\infty}^{\infty} (x-\mu(t_1)^2 \cdot w_1(x; t_1) dx$$
 
 * The variance can be computed as:
-$$\sigma^2(t_1) = \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} = \overline{f(t_1)^2 - 2f(t_1)\mu(t_1) + \mu(t_1)^2} = 
-\overline{f^2(t_1)} - \mu(t_1)^2$$
+$$\begin{split}
+\sigma^2(t_1) =& \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} \\
+=& \overline{f(t_1)^2 - 2f(t_1)\mu(t_1) + \mu(t_1)^2} \\
+=& \overline{f^2(t_1)} - \mu(t_1)^2
+\end{split}$$
+
+* Note:
+    * these three values are calculated across all realizations, at time $t_1$
+    * they characterize only the sample at time $t_1$
+    * at a different time $t_2$, the r.v. $f(t_2)$ is different so all average values might be different
 
 ### Statistical averages - autocorrelation
 
@@ -434,20 +437,17 @@ $$R_{ff}(t_1,t_2) = \overline{f(t_1) f(t_2)} = \int_{-\infty}^\infty \int_{-\inf
 5. The correlation function (for different random processes $f(t)$ and $g(t)$)
 $$R_{fg}(t_1,t_2) = \overline{f(t_1) g(t_2)} = \int_{-\infty}^\infty \int_{-\infty}^\infty x_1 y_2 w_2(x_1, y_2; t_1, t_2) dx_1 dy_2$$
 
-* **Note 1**:
-    * all these values are calculated across all realizations, at a single time $t_1$
-    * all these characterize only the r.v. at time $t_1$
-    * at a different time $t_2$, the r. v. $f(t_2)$ is different so *all average values might be different*
+* Note:
+    * these functions may have different values for a different pair of values ($t_1$,$t_2$)
+
 
 ### Temporal averages
 
-* What to do when we only have access to a single realization?
-* Compute values **for a single realization $f^{(k)(t)}$, across all time moments**
+* What to do when we only have access to a single realization $f^{(k)}(t)$?
+* Compute values **for a single realization $f^{(k)}(t)$, across all time moments**
 
 1. Temporal average value
 $$\overline{f^{(k)}(t)} = \mu^{(k)} = \lim_{T \to \infty} \frac{1}{T} \int_{T/2}^{T/2} f^{(k)}(t) dt$$
-
-* This value does not depend on time $t$
 
 2. Temporal average squared value
 $$\overline{[f^{(k)}(t)]^2} = \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} [f^{(k)}(t)]^2 dt$$
@@ -459,25 +459,43 @@ $$\sigma^2 = \overline{\left\{ f^{(k)}(t) - \mu^{(k)} \right\}^2} = \lim_{T \to 
 * The variance can be computed as:
 $$\sigma^2 = \overline{[f^{(k)}(t)]^2} - [\mu^{(k)}]^2$$
 
+* Note:
+    * these values do not depend anymore on time $t$ (integrated)
+
 ### Temporal autocorrelation
 
 4. The temporal autocorrelation function
-$$R_{ff}(t_1,t_2) = \overline{f^{(k)}(t_1 + t) f^{(k)}(t_2+t)}$$
-$$R_{ff}(t_1,t_2) = \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t_1+t) f^{(k)}(t_2 + t) dt$$
+$$\begin{split}
+R_{ff}(t_1,t_2) =& \overline{f^{(k)}(t_1 + t) f^{(k)}(t_2+t)} \\
+=& \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t_1+t) f^{(k)}(t_2 + t) dt
+\end{split}$$
+
 5. The temporal correlation function (for different random processes $f(t)$ and $g(t)$)
-$$R_{fg}(t_1,t_2) = \overline{f^{(k)}(t_1 + t) g^{(k)}(t_2+t)}$$
-$$R_{fg}(t_1,t_2) = \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t_1+t) g^{(k)}(t_2 + t) dt$$
+$$\begin{split}
+R_{fg}(t_1,t_2) =& \overline{f^{(k)}(t_1 + t) g^{(k)}(t_2+t)}\\
+=& \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t_1+t) g^{(k)}(t_2 + t) dt
+\end{split}$$
+
+### Statistical and temporal averages
+
+* Statistical averages are usually the relevant values
+* But in real life, we can only compute the temporal values
+* Fortunately, in many cases they are the same (ergodicity, see later)
 
 ### Stationary random processes
 
-* All the statistical averages are dependent on the time $t_1$
+* All the statistical averages are dependent on the time
     * i.e. they might be different for a sample at $t_2$
 
-* **Stationary** random process =  when statistical averages
-are identical upon shifting the time origin (e.g. delaying the signal
+* **Stationary** random process = when all statistical averages
+are **identical if we shift the time origin** (e.g. delay the signal)
 
-* The PDF are identical when shifting the time origin:
-$$w_n(x_1,...x_n; t_1,...t_n) = w_n(x_1,...x_n; t_1+\tau,... t_n + =tau)$$
+* Equivalent definition: if all the PDF are identical when shifting the time origin
+$$w_n(x_1,...x_n; t_1,...t_n) = w_n(x_1,...x_n; t_1+\tau,... t_n + \tau)$$
+
+* Basically, nothing should depend on the time $t$
+
+### Strict-sense and wide-sense stationary
 
 * Strictly stationary / strongly stationary / strict-sense stationary:
     * relation holds for every $n$
@@ -490,113 +508,107 @@ $$w_n(x_1,...x_n; t_1,...t_n) = w_n(x_1,...x_n; t_1+\tau,... t_n + =tau)$$
 * For $n=1$:
 $$w_1(x_i;t_1) = w_1(x_i; t_2) = w_1(x_i)$$
 
-* Consequence: the average value, average squared value, variance
+* The average value, average squared value, variance 
 of a sample are all **identical** for any time $t$
 $$\overline{f(t)} = constant, \forall t$$
 $$\overline{f^2(t)} = constant, \forall t$$
 $$\sigma^2(t) = constant, \forall t$$
 
-* For $n=2$:
-$$w_2(x_i,x_j;t_1,t_2) = w_2(x_i,x_j;0, t_2-t_1) = w_2(x_i,x_2; t_2-t_1)$$
+### Consequences of stationarity
 
-* Consequence: the autocorrelation / correlation functions depend only on the 
-**time difference** $t_2 - t_1$ between the samples,
-no matter where they are located
-$$R_{ff}(t_1,t_2) = R_{ff}(t_2 - t_1) = R_{ff}(\tau)$$
-$$R_{fg}(t_1,t_2) = R_{fg}(t_2 - t_1) = R_{fg}(\tau)$$
+* For $n=2$:
+$$w_2(x_i,x_j;t_1,t_2) = w_2(x_i,x_j;0, t_2-t_1) = w_2(x_i,x_j; t_2-t_1)$$
+
+* The autocorrelation function depends only on the 
+**time difference** $\tau = t_2 - t_1$ between the samples
+$$R_{ff}(t_1,t_2) = R_{ff}(0, t_2 - t_1) = R_{ff}(\tau) = \overline{f(t) f(t + \tau)}$$
+
+* Is the average value of a product of two samples time $\tau$ apart
+
+* Depends on a single value $\tau$ = time difference of the two samples
+
+### Consequences of stationarity
+
+* Same for correlation function between two different r.p
+
+* Depends only on the **time difference** $\tau = t_2 - t_1$ between the samples
+$$R_{fg}(t_1,t_2) = R_{fg}(0, t_2 - t_1) = R_{fg}(\tau) = \overline{f(t) g(t + \tau)}$$
+
+* Is the average value of a product of two samples time $\tau$ apart
 
 ### Ergodic random processes
 
-* In practice, we have access to a single realization 
+* In practice, we have access to a single realization
 
-* **Ergodic** random process = when the temporal averages on any realization
-are **equal** to the statistical averages
+* **Ergodic** random process = the temporal averages on any realization
+are equal to the statistical averages
 
-* We can compute all averages from a single realization
-    * the realization must be very long (length $\to \infty$)
-    * a realization is characteristic of the whole process
-    * realizations are all similar to the others, statistically
+* We can compute / estimate all averages from a single realization (any)
+    * the realization must be very long (length $\to \infty$) for precise results
 
-* Most random processes we are about are ergodic and stationary
+* Realizations are all similar to the others, statistically
+    * a single realization is characteristic of the whole process
+
+### Ergodic random processes 
+
+* Most random processes we care about are ergodic and stationary
     * e.g. noises
 
 * Example of non-ergodic process:
     * throw a dice, then the next 50 values are identical to the first
     * a single realization is not characteristic
 
-### Practical distributions
+## I.3 More on autocorrelation
 
-* Some of the most encountered probability density functions:
+### The Power Spectral Density of a random process
 
-* The uniform distribution $U[a,b]$
-    * insert expression here
+* The Power Spectral Density (PSD) $S_{ff}(\omega)$ is the power of the random process
+at every frequency $f$ ($\omega = 2 \pi f$)
 
-* The normal (gaussian) distribution $N(\mu, \sigma^2)$
-$$f(x) = \frac{1}{\sigma \sqrt{2 \pi}}e^{\frac{(x - \mu)^2}{2 \sigma^2}}$$
-    * has average value $\mu$
-    * has variance (*"dispersia"*) $\sigma^2$
-    * has the familiar "bell" shape
-    * variance controls width
-    * narrower = taller, fatter = shorter
+* The PSD describes how the power of a signal is distributed in frequency 
+    * e.g. some random processes have more power at low frequency, others at high frequency etc.
 
-### Computation of probabilities for normal functions
+* The power in the frequency band $[f_1, f_2]$ is equal to $\int_{f_1}^{f_2} S_{ff}(\omega) d\omega$
 
-* We sometimes need to compute $\int_a^b$ of a normal function
+* The whole power of the signal is $\int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$
 
-* Use *the error function*:
-$$erf(z) = \frac{2}{\sqrt{\pi}} \int_0^z e^{-t^2} dt$$
-
-* The cumulative distribution function of a normal distribution $N(\mu, \sigma^2$)
-$$F(X) = \frac{1}{2}(1 + erf(\frac{x - \mu}{\sigma \sqrt{2}}))$$
-
-* The error function can be simply calculated on Google, e.g. search $erf(0.5)$
-
-* Also, we might need:
-    * $erf(-\infty) = -1$
-    * $erf(\infty) = 1$
-
-* Examples at blackboard
-
-### Properties of the auto-correlation function
-
-* For a stationary random process:
-$$R_{ff}(\tau) = \overline{f(t) f(t + \tau)}$$
-$$R_{ff}(t_1, t_2) = R_{ff}(\tau = t_2 - t_1)$$
-
-* Is the average value of a product of two samples time $\tau$ apart
-* Depends on a single value $\tau$ = time difference of the two samples
+* The PSD is basically a measurable quantity
+    * it can be determined experimentally
+    * it is important in practical (engineering) applications
 
 ### The Wiener-Khinchin theorem
 
 * *Rom: teorema Wiener-Hincin*
 
-* **The Fourier transform of the autocorr function = power spectral density of the process**
+Theorem:
+
+* **The Power Spectral Density = the Fourier transform of the autocorrelation function**
 $$S_{ff}(\omega) = \int_{-\infty}^{\infty} R_{ff}(\tau) e^{- j \omega \tau} d\tau$$
 $$R_{ff}(\tau) = \frac{1}{2 \pi}\int_{-\infty}^{\infty} S_{ff}(\omega) e^{j \omega \tau} d\omega$$
 
 * No proof
 
-* The power spectral density
-    * tells the average power of the process at every frequency
-
-* Some random processes have low frequencies (they vary rather slowly)
-* Some random processes have high frequencies (they vary rather fast)
+* Makes a relation between two rather different domains
+    * autocorrelation function: a *statistical* property
+    * PSD function: a *physical* property (relevant for engineering purposes) 
 
 ### White noise
 
-* White noise = random process with autocorr function = a Dirac
+* White noise = a random process with autocorrelation function equal to a Dirac function
 $$R_{ff}(\tau) = \delta(\tau)$$
 
-* Any two different samples are not correlated
-    * all samples are absolutely independent one of the other
+* Any two different samples ($\tau \neq 0$) have zero correlation (are uncorrelated)
+    * they do not vary similarly
     
-* Power spectral density = a constant
-    * has equal power at all frequencies
+* Power spectral density = Fourier transform of a Dirac = a constant
+    * has equal power at all frequencies up to $\infty$
     
 * In real life, power goes to 0 for very high frequencies
-    * e.g. samples which are very close are necessarily correlated
-    * = *limited white noise*
+    * "*band-limited white noise*"
+    * Samples which are very close are necessarily somewhat correlated
 
+* White noise can have almost any distribution
+    * normal, uniform etc.
 
 ### Properties of the autocorrelation function
 
@@ -614,7 +626,7 @@ $$R_{ff}(\infty) = \overline{f(t)}^2 = const$$
 $$R_{ff}(0) \geq R_{ff}(\tau)$$
 
 * Proof: start from $\overline{(f(t) - f(t + \tau))^2} \geq 0$
-* Interpretation: different samples might vary differently, by a sample is always identical with itself
+* Interpretation: different samples might vary differently, but a sample always varies identically with itself
 
 ### Properties of the autocorrelation function
 
@@ -627,5 +639,13 @@ $$R_{ff}(0) = \frac{1}{2 \pi} \int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$$
 $$\sigma^2 = R_{ff}(0) - R_{ff}(\infty)$$
 
 * Proof: $R_{ff}(0) = \overline{f(t)^2}$, $R_{ff}(\infty) = \overline{f(t)}^2$
+
+### Autocorrelation of filtered random processes
+
+* Consider a random process applied as input to a system
+    * either continuous-time: input $x(t)$, system $H(s)$, output $y(t)$
+    * or discrete-time: input $x[n]$, system $H(z)$, output $y[n]$
+    
+* How does the autocorrelation of $y$ depend on that of the input $x$?
 
 
