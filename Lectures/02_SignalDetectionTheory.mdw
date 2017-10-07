@@ -1,7 +1,16 @@
 
 # Chapter II. Elements of Signal Detection Theory
 
-## II.1 Detection based on a single sample
+## II.1 Introduction
+
+### Introduction
+
+* Signal detection = the problem of deciding which
+signal is present from 2 or more possibilities
+    * one possibility may be that there is no signal
+
+* Based on **noisy** observations
+    * signals are affected by noise
 
 ### The model for signal detection
 
@@ -14,36 +23,84 @@
     * Sampler: takes samples from the signal $s_n(t)$
     * Receiver: **decides** what message $a_n$ has been transmitted
 
-### Example
+### Practical scenarios
 
-* A simple case (binary):
+* Data transmission
+    * binary voltage levels (e.g. $s_n(t)$ = constant)
+    * PSK modulation (Phase Shift Keying): $s_n(t)$ = cosine with same frequency but various initial phase
+    * FSK modulation (Frequency Shift Keying): $s_n(t)$ = cosines with different frequencies
+
+* Radar
+    * a signal is emitted; if there is an obstacle, the signal gets reflected back
+    * the receiver waits for possible reflections of the signal and must decide
+        * no reflection is present -> no object
+        * reflected signal is present -> object detected
+
+### Generalizations
+
+* Decide between more than two signals
+
+* Number of observations:
+    * use only one sample
+    * use multiple samples
+    * observe the whole continuous signal for some time $T$
+
+
+## II.2 Detection of constant signals
+
+### Detection of a constant signal, white normal noise, 1 sample
+
+* Simplest case: detection of a constant signal contaminated with white normal noise, using 1 sample
     * two messages $a_0$ and $a_1$
-    * signals are constants (i.e. 0 for $a_0$, 5 for $a_1$)
-    * take just 1 sample
-    * decide: compare with a threshold
+    * messages are encoded as constant signals
+        * for $a_0$: send $s_0(t) = 0$
+        * for $a_1$: send $s_1(t) = A$
+    * over the signals there is white noise, normal distribution $\mathcal{N}(0, \sigma^2)$
+    * receiver takes just 1 sample
+    * decision: compare sample with a threshold
 
-* General case: many messages, various signals, more samples (or continuous)
+### Decision
 
-### Detection for the binary case
+* The value of the sample taken is $r = s + n$
+    * $s$ is the true underlying signal ($s_0 = 0$ or $s_1 = A$)
+    * $n$ is a sample of the noise
 
-* Receiver guesses between two hypotheses:
-    * $H_0$: $a_0$ has been transmitted
-    * $H_1$: $a_1$ has been transmitted
+* $n$ is a (continuous) random variable, with normal distribution
+* $r$ is a random variable also
+    * what distribution does it have?
 
-* The sample $r = s + n$
-    * if more samples, then they are vectors $\overrightarrow{r} = \overrightarrow{s} + \overrightarrow{n}$
+* Decision is taken by comparing with a threshold $T$:
+    * if $r < T$,  take decision $D_0$: decide the true signal is $s_0$
+    * if $r \geq T$,  take decision $D_1$: decide the true signal is $s_1$
 
-* Decision based on regions:
-    * if $r$ in region $R_0$, then decide $D_0$: was $a_0$
-    * if $r$ in region $R_1$, then decide $D_1$: was $a_1$
-    * for single sample, regions are intervals: below/above the threshold
-    * for 2 samples: regions are areas in a 2D plane, etc.
+### Hypotheses 
 
-* Possible errors:
-    * **false alarm**: was $a_0$, but decided $D_1$
-    * probability is $P(D_1 \cap a_0)$
-    * **miss**: was $a_1$, but decided $D_0$
-    * probability is $P(D_0 \cap a_1)$
+* Receiver chooses between **two hypotheses**:
+    * $H_0$: true signal is $s_0$ ($a_0$ has been transmitted)
+    * $H_1$: true signal is $s_1$ ($a_1$ has been transmitted)
+
+* Possible results
+    1. No signal present, no signal detected.
+        * Decision $D_0$ when hypothesis is $H_0$
+        * Probability is $P(D_0 \cap H_0)$
+    2. **False alarm**: no signal present, signal detected (error)
+        * Decision $S_1$ when hypothesis is $H_0$
+        * Probability is $P(D_1 \cap H_0)$
+    3. **Miss**: signal present, no signal detected (error)
+        * Decision $D_0$ when hypothesis is $H_1$
+        * Probability is $P(D_0 \cap H_1)$
+    4. Signal detected correctly: signal present, signal detected
+        * Decision $D_1$ when hypothesis is $H_1$
+        * Probability is $P(D_1 \cap H_1)$
+
+
+### Maximum likelihood criterion
+
+* Choose the hypothesis that **seems most likely** given the observed
+sample $r$
+
+* The **likelihood** = the probability density of $r$ given
+
 
 ### Minimum risk (cost) criterion
 
