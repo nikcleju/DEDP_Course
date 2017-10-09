@@ -31,7 +31,7 @@ The following aspects shall be explained.
 
 2. Histogram plots
     - what are they
-    - the Matlab `histogram()` function
+    - the Matlab `hist()` function
 
 # Exercises
 
@@ -67,7 +67,7 @@ The following aspects shall be explained.
 	- apply `myPDF()` to all values from the vector $n$, for the two vectors generated previously (use `epsilon = 0.3`
 	- plot the results of the function against the values of $n$
 
-8. Plot the histograms of the two data vectors with `histogram()`
+8. Plot the histograms of the two data vectors with `hist()`
 
 # Final questions
 
