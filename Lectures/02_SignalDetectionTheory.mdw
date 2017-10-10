@@ -99,7 +99,82 @@ signal is present from 2 or more possibilities
 * Choose the hypothesis that **seems most likely** given the observed
 sample $r$
 
-* The **likelihood** = the probability density of $r$ given
+* The **likelihood** of an observation $r$ = 
+the probability density of $r$ given a hypothesis $H_0$ or $H_1$
+
+* Likelihood in case of hypothesis $H_0$: $w(r | H_0)$ 
+    * $r$ is only noise, so value is taken from the noise distribution 
+
+* Likelihood in case of hypothesis $H_1$: $w(r | H_1)$
+    * $r$ is A + noise,  so value is taken from the distribution of (A + noise)
+
+* Likelihood test:
+$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH 1$$
+
+### Graphical interpretation
+
+* Consider noise having a normal distribution
+
+* Plot the two density functions for $H_0$, $H_1$
+
+### Decision via threshold
+
+* Decision via ML = comparing $r$ with a threshold $T$
+* The threshold = the cross-over point of the two distributions
+
+### Normal noise
+
+* Particular case: the noise has normal distribution $\mathcal{N}(0,\sigma^2)$
+
+* Likelihood test is $\frac{w(r|H_1)}{r|H_0} = \frac{e^{\frac{(r-A)^2}{2\sigma^2}}}{e^{\frac{r^2}{2\sigma^2}}} \grtlessH 1$
+
+* For normal distribution, it is easier to apply *natural logarithm* to the terms
+    * logarithm is a monotonic increasing function, so it won't change the comparison
+    * if A < B, then $log(A) < log(B)$
+
+* The **log-likelihood** of an observation = the logarithm of the likelihood value
+    * usually the natural logarithm, but any one can be used
+
+### Log-likelihood test for ML
+
+* For normal noise, the ML decision means the log-likelihood test
+$$\frac{(r-A)^2}{r^2} \grtlessH 1$$
+
+* Applying square root 
+$$\frac{|r-A|}{|r|} \grtlessH 1$$
+
+* $|r-A|$ = distance from $r$ to $A$, $|r|$ = distance from $r$ to $0$
+
+* ML decision with normal noise: choose the value 0 or A  which is **nearest** to $r$
+    * very general principle, encountered in many other scenarios
+    * also known as **nearest neighbor** principle / decision
+    * equivalent with setting a threshold $T = \frac{A}{2}$ 
+
+
+### Generalizations
+
+* What if the noise has another distribution?
+    * Threshold $T$ is still the cross-over point, whatever that is
+
+* What if the noise distributions are different for $H_0$ and $H_1$? 
+    * Threshold $T$ is the cross-over point, whatever that is
+
+* What if the signal $s_0(t)$ (for $H_0$) is not 0, but another constant value B?
+    * $T$ is the crossover point, the distributions are centered on B and A
+    * In case of normal noise, choose B or A whichever is nearest (threshold is at middle point)
+
+### Generalizations
+
+* What if we have more than two signal levels?
+    * e.g. 4 possible signals: -6, -2, 2, 6
+    * Just choose the most likely hypothesis, out of 4 likelihood functions 
+    * Not a single threshold value, now there are more
+
+
+### The minimum error criterion
+
+
+
 
 
 ### Minimum risk (cost) criterion
@@ -112,7 +187,7 @@ sample $r$
     * $C_{00}$ = cost for good $a_0$ detection
     * $C_{10}$ = cost for false alarm
     * $C_{01}$ = cost for miss
-    * $C_{11}$ = cost for good $a_1$ detection
+    
 
 *  The risk = the average cost
 $$R = C_{00} P(D_0 \cap a_0) + C_{10} P(D_1 \cap a_0) + C_{01} P(D_0 \cap a_1) + C_{11} P(D_1 \cap a_1)$$
