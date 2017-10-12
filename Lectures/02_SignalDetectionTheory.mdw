@@ -150,7 +150,6 @@ $$\frac{|r-A|}{|r|} \grtlessH 1$$
     * also known as **nearest neighbor** principle / decision
     * equivalent with setting a threshold $T = \frac{A}{2}$ 
 
-
 ### Generalizations
 
 * What if the noise has another distribution?
@@ -170,10 +169,67 @@ $$\frac{|r-A|}{|r|} \grtlessH 1$$
     * Just choose the most likely hypothesis, out of 4 likelihood functions 
     * Not a single threshold value, now there are more
 
+### Pitfalls of ML decision
+
+* The ML is based on comparing **conditional** probability density functions
+    * conditioned by $H_0$ or by $H_1$
+
+* Conditioning by $H_0$ and $H_1$ ignores the probability of $H_0$ or $H_1$ actually happening
+
+* Reminder: the Bayes rule
+$$P(A \cap B) = P(B | A) \cdot P(A))$$
+
+* Interpretation
+    * The probability $P(A)$ is taken out from $P(B|A)$
+    * $P(B|A)$ gives no information  on $P(A)$, the chances of $A$ actually happening
+    * Example: P(score | shoot)
+* Practical: if $p(H_0) >> p(H_1)$, we may want to move the threshold towards $H_1$
 
 ### The minimum error criterion
 
+* Takes into account the probabilities $P(H_0)$ and $P(H_1)$
 
+* Goal is to **minimize the total probability of error $P_e$**
+    * errors = false alarms and misses
+
+* Consider we have a threshold $T$ such that
+    * we decide $D_0$ when $r<T$
+    * we decide $D_1$ when $r \geq T$
+
+* We need to find $T$
+
+### Probability of error
+
+* Probability of false alarm
+$$\begin{split}
+P(D_1 \cap H_0) =& P(D_1 | H_0) \cdot P(H_0)\\
+=& \int_T^{\infty} w(r | H_0) dx \cdot P(H_0)\\
+=& (1 - \int_{-\infty}^T w(r | H_0) dx \cdot P(H_0)
+\end{split}$$
+
+* Probability of miss
+$$\begin{split}
+P(D_0 \cap H_1) =& P(D_0 | H_1) \cdot P(H_1)\\
+=& \int_{-\infty}^T w(r | H_1) dx \cdot P(H_1)}
+\end{split}$$
+
+* The sum is
+$$P_e = P(H_0) + \int_{-\infty}^T [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)] dx$$
+
+### Minimum probability of error
+
+* We want to minimize $P_e$, i.e. to minimize the integral
+
+* To minimize the integral, we choose $T$ such that for all $r < T$, 
+the term below the integral is **negative**
+    * because integrating over all the interval where the function is negative ensures minimum value of integral
+
+* So, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) < 0$ we have $r < T$, i.e. decision $D_0$
+* Conversely, When $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) > 0$ we have $r > T$, i.e. decision $D_1$
+
+* Therefore 
+$$w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) \grtlessH 0$$
+$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0}{P(H_1)}$$
 
 
 
