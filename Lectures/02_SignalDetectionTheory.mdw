@@ -127,6 +127,7 @@ $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH 1$$
 * Particular case: the noise has normal distribution $\mathcal{N}(0,\sigma^2)$
 
 * Likelihood test is $\frac{w(r|H_1)}{r|H_0} = \frac{e^{\frac{(r-A)^2}{2\sigma^2}}}{e^{\frac{r^2}{2\sigma^2}}} \grtlessH 1$
+    * this ratio is usually called **likelihood ratio**
 
 * For normal distribution, it is easier to apply *natural logarithm* to the terms
     * logarithm is a monotonic increasing function, so it won't change the comparison
@@ -185,7 +186,7 @@ $$P(A \cap B) = P(B | A) \cdot P(A))$$
     * Example: P(score | shoot)
 * Practical: if $p(H_0) >> p(H_1)$, we may want to move the threshold towards $H_1$
 
-### The minimum error criterion
+### The minimum error probability criterion
 
 * Takes into account the probabilities $P(H_0)$ and $P(H_1)$
 
@@ -210,7 +211,7 @@ P(D_1 \cap H_0) =& P(D_1 | H_0) \cdot P(H_0)\\
 * Probability of miss
 $$\begin{split}
 P(D_0 \cap H_1) =& P(D_0 | H_1) \cdot P(H_1)\\
-=& \int_{-\infty}^T w(r | H_1) dx \cdot P(H_1)}
+=& \int_{-\infty}^T w(r | H_1) dx \cdot P(H_1)
 \end{split}$$
 
 * The sum is
@@ -227,9 +228,16 @@ the term below the integral is **negative**
 * So, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) < 0$ we have $r < T$, i.e. decision $D_0$
 * Conversely, When $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) > 0$ we have $r > T$, i.e. decision $D_1$
 
-* Therefore 
+* Therefore
 $$w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) \grtlessH 0$$
 $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0}{P(H_1)}$$
+
+### Interpretation
+
+* Similar to ML, but threshold depends on probabilities of the two hypotheses
+    * When one hypotheses is more likely than the other, the threshold
+    is pushed in its favor, towards the other
+
 
 
 

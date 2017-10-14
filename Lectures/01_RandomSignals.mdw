@@ -660,10 +660,121 @@ $$\sigma^2 = R_{ff}(0) - R_{ff}(\infty)$$
 
 ### Autocorrelation of filtered random processes
 
-* Consider a random process applied as input to a system
+* Consider a stationary random process applied as input to a LTI system
     * either continuous-time: input $x(t)$, system $H(s)$, output $y(t)$
     * or discrete-time: input $x[n]$, system $H(z)$, output $y[n]$
     
 * How does the autocorrelation of $y$ depend on that of the input $x$?
 
+* $y$ is the convolution of $x$ and the impulse response $h$
 
+### Computations
+
+* For discrete-time processes 
+$$\begin{split}
+R_{yy}(\tau) =& \overline{y[n] y[n + \tau]}\\
+=& \overline{\sum_{k_1=-\infty}^\infty h[k_1] x[n-k_1] \sum_{k_2=-\infty}^\infty h[k_2] x[n+\tau-k_2]}\\
+=& \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] \overline{x[n-k_1] x[n+\tau-k_2]}\\
+=& \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[\tau - k_1 + k_2]
+\end{split}$$
+
+* From Wiener-Hincin theorem:
+$$S_{ff}(\omega) = \sum_{\tau = -\infty}^{\infty} R_{ff}(\tau) e^{- j \omega \tau}$$
+
+
+### Computations
+
+* Therefore
+$$
+S_{yy}(\omega) = \sum_{\tau=-\infty}^{\infty} \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[\tau - k_1 + k_2] e^{- j \omega \tau}
+$$
+
+* Change of variable: $\tau - k_1 + k_2 = u$
+    * then $\tau = u + k_1 - k_2$ 
+
+$$\begin{split}
+S_{yy}(\omega) =& \sum_{u=-\infty}^{\infty} \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[u] e^{- j \omega (u + k_1 + k_2)}\\
+=& \sum_{u=-\infty}^{\infty} R_{xx}[u] e^{- j \omega u} \sum_{k_1=-\infty}^\infty h[k_1] e^{- j \omega k_1} \sum_{k_2=-\infty}^\infty h[k_2]  e^{ j \omega k_2}\\
+=& S_{xx}(\omega) \cdot H(\omega) \cdot H*^(\omega)\\
+=& S_{xx}(\omega) \cdot |H(\omega)|^2\\
+\end{split}$$
+
+### Result
+
+$$S_{yy}(\omega) = S_{xx}(\omega) \cdot |H(\omega)|^2$$
+
+* The PSD of $y$ = the PSD of $x$ multiplied with the squared amplitude response of the filter
+
+* Same relation is valid for continuous processes as well
+
+### Applications of (auto)correlation
+
+* Searching for a certain part in a large signal
+
+* Correlation of two signals = measure of **similarity** of the two signals
+    * The correlation function measures the similarity of a signal with all the shifted versions of the other
+    * Example at blackboard
+    
+* Correlation can be used to locate data 
+    * The (auto)correlation function has large values when the two signals match
+    * Large value when both positive and negative areas match,
+    * Small values when they don't match
+    
+### The signal to look for
+<<fig=True, echo=False>>=
+import matplotlib.pyplot as plt, numpy as np
+x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
+x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))
+corr = np.correlate(x2, x1)
+plt.figure(figsize=(12,6))
+plt.stem(x1); plt.title ('Signal to look for');plt.axis([0, 20, -1.5, 1.5])
+plt.show()
+@
+
+
+### The complete signal
+
+<<fig=True, echo=False>>=
+import matplotlib.pyplot as plt, numpy as np
+x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
+x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))
+corr = np.correlate(x2, x1)
+plt.figure(figsize=(12,6))
+plt.stem(x2); plt.title ('Signal to search in');
+plt.show()
+@
+
+### Correlation result
+
+<<fig=True, echo=False>>=
+import matplotlib.pyplot as plt, numpy as np
+x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
+x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))
+corr = np.correlate(x2, x1)
+plt.figure(figsize=(12,6))
+plt.stem(corr); plt.title ('Correlation signal');
+plt.show()
+@
+
+### System identification
+
+* Determining the impulse response of an unknown LTI system
+
+* Based on correlation between input and output of the system
+
+![System identification setup](img/SystemIdentif.png){#id .class width=60%}
+
+### System identification
+
+$$\begin{split}
+R_{fg}(\tau) =& \overline{f[n] g[n + \tau]}\\
+=& \overline{f[n] \sum_{k=-\infty}^\infty h[k] f[n+\tau-k]}\\
+=& \sum_{k=-\infty}^\infty h[k] \overline{f[n] f[n+\tau-k]}\\
+=& \sum_{k=-\infty}^\infty h[k] R_{ff}[\tau - k]\\
+=& h[\tau] \star R_{ff}[\tau]
+\end{split}$$
+
+* If the input $f$ is **white noise** with power $A$, $R_{ff}[n] = A \cdot \delta[n]$, and
+$$R_{fg}(\tau) = h[\tau] \star R_{ff}[\tau] = A \cdot h[\tau] \star \delta[\tau] = A \cdot h[\tau]$$
+
+* Then the correlation is proportional with the impulse response of the unknown system
