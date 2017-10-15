@@ -1,6 +1,6 @@
 ---
 title: Seminar 1
-subtitle: DEPI
+subtitle: DEDP
 documentclass: scrartcl
 fontsize: 12pt
 ---
