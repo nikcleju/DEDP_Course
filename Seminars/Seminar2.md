@@ -15,7 +15,7 @@ for a stationary random process with the distribution of a sample:
 2. Compute the temporal average value, the temporal average squared value,
 the temporal variance, and the temporal autocorrelation function for 
 the following realization of a finite-length random process:
-$$v = [-1 2 -1 2 -1 2 -1 2 -1 2]$$
+$$v = [-1, 2, -1, 2, -1, 2, -1, 2, -1, 2]$$
 
 
 3. Find the autocorrelation function of the output of an ideal low-pass filter
@@ -29,7 +29,7 @@ if the input to the filter is white noise with PSD equal to $P$.
 
 
 4. Let $x[n]$ be a discrete-time random process with triangular autocorrelation function
-$$R_xx[\tau] = 
+$$R_{xx}[\tau] = 
 \begin{cases}
 1 - \frac{|\tau|}{5}, & \tau = -5, -4, ... 4, 5\\
 0, & elsewhere
