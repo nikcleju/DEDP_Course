@@ -82,16 +82,16 @@ signal is present from 2 or more possibilities
 * Possible results
     1. No signal present, no signal detected.
         * Decision $D_0$ when hypothesis is $H_0$
-        * Probability is $P(D_0 \cap H_0)$
+        * Probability is $P_n = P(D_0 \cap H_0)$
     2. **False alarm**: no signal present, signal detected (error)
         * Decision $S_1$ when hypothesis is $H_0$
-        * Probability is $P(D_1 \cap H_0)$
+        * Probability is $P_{fa}P(D_1 \cap H_0)$
     3. **Miss**: signal present, no signal detected (error)
         * Decision $D_0$ when hypothesis is $H_1$
-        * Probability is $P(D_0 \cap H_1)$
+        * Probability is $P_m = P(D_0 \cap H_1)$
     4. Signal detected correctly: signal present, signal detected
         * Decision $D_1$ when hypothesis is $H_1$
-        * Probability is $P(D_1 \cap H_1)$
+        * Probability is $P_d = P(D_1 \cap H_1)$
 
 
 ### Maximum likelihood criterion
@@ -155,6 +155,7 @@ $$\frac{|r-A|}{|r|} \grtlessH 1$$
 
 * What if the noise has another distribution?
     * Threshold $T$ is still the cross-over point, whatever that is
+    * Can have multiple **regions**
 
 * What if the noise distributions are different for $H_0$ and $H_1$? 
     * Threshold $T$ is the cross-over point, whatever that is
@@ -238,23 +239,35 @@ $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0}{P(H_1)}$$
     * When one hypotheses is more likely than the other, the threshold
     is pushed in its favor, towards the other
 
+* Also based on a **likelihood ratio** test, just like ML
 
+### Minimum probability of error - gaussian noise
+
+* Assuming the noise is gaussian (normal), $\mathcal{N}(0, \sigma^2)$
+$$w(r | H_1) = e^{\frac{(r-A)^2}{2\sigma^2}}$$
+$$w(r | H_0) = e^{\frac{r^2}{2\sigma^2}}$$
+
+* Apply natural logarithm
+$$\frac{(r-A)^2}{2\sigma^2} - \frac{r^2}{2\sigma^2} \grtlessH \ln \left(\frac{P(H_0}{P(H_1)} \right)$$
+
+* Equivalently
+$$(r-A)^2 \grtlessH (r-0)^2 + \underbrace{2 \sigma^2 \cdot \ln \left(\frac{P(H_0}{P(H_1)} \right)}_C$$
 
 
 ### Minimum risk (cost) criterion
 
-* How to choose the threshold? We need criteria
-    * In general: how to delimit regions $R_i$?
+* What if we care more about one type of errors (e.g. false alarms)
+than other kind (e.g. miss)?
 
 * Minimum risk (cost) criterion: assign costs to decisions, minimize average cost
-    * $C_{ij}$ = cost of decision $D_i$ when symbol was $a_j$
-    * $C_{00}$ = cost for good $a_0$ detection
-    * $C_{10}$ = cost for false alarm
-    * $C_{01}$ = cost for miss
-    
+    * $C_{ij}$ = cost of decision $D_i$ when true hypothesis was $H_j$
+    * $C_{00}$ = cost for good detection $D_0$ in case of $H_0$
+    * $C_{10}$ = cost for false alarm (detection $D_1$ in case of $H_0$)
+    * $C_{01}$ = cost for miss (detection $D_0$ in case of $H_1$)
+    * $C_{11}$ = cost for good detection $D_1$ in case of $H_1$
 
 *  The risk = the average cost
-$$R = C_{00} P(D_0 \cap a_0) + C_{10} P(D_1 \cap a_0) + C_{01} P(D_0 \cap a_1) + C_{11} P(D_1 \cap a_1)$$
+$$R = C_{00} P(D_0 \cap H_0) + C_{10} P(D_1 \cap H_0) + C_{01} P(D_0 \cap H_1) + C_{11} P(D_1 \cap H_1)$$
 
 * Minimum risk criterion: **minimize the risk R**
 
@@ -262,37 +275,134 @@ $$R = C_{00} P(D_0 \cap a_0) + C_{10} P(D_1 \cap a_0) + C_{01} P(D_0 \cap a_1) +
 
 * Proof on table:
     * Use Bayes rule
-    * Notations: $w(r | a_j)$ (*likelihood*)
-    * Probabilities: $\int_{R_i} w(r | a_j) dV$
+    * Notations: $w(r | H_j)$ (*likelihood*)
+    * Probabilities: $\int_{R_i} w(r | H_j) dV$
 
 * Conclusion, **decision rule is**
-$$\frac{w(r|a_1)}{w(r|a_0)} \gtrless \frac{(C_{10}-C_{00})p(a_0)}{(C_{01}-C_{11})p(a_1)}$$
-$$\Lambda(r) \gtrless K$$
+$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$$
 
-* Interpretation: effect of costs, probabilities (move threshold)
+### Interpretation
 
-* Can also apply logarithm (useful for normal distribution)
-$$\ln \Lambda(r) \gtrless \ln K$$
+* Similar to ML and to minimum probability of error criteria
+    * also uses a **likelihood ratio** test
 
-* Example at blackboard: random noise with $N(0, \sigma^2)$, one sample
+* Both probabilities and the assigned costs can move threshold towards one side or the other
 
-### Ideal observer criterion
+* If $C_{10}-C_{00} = C_{01}-C_{11}$, reduces to previous criterion (minimum probability of error)
+    * e.g. if $C_{00} = C_{11} = 0$, and $C_{10} = C_{01}$
 
-* Minimize the probability of decision error $P_e$
-    * definition of $P_e$
+### In gaussian noise
 
-* Particular case of minimum risk, with
-    * $C_{00} = C_{11} = 0$ (good decisions bear no cost)
-    * $C_{10} = C_{01}$ (pay the same in case of bad decisions)
+* If the noise is gaussian (normal), then similar to other criteria, apply logarithm
 
-$$\frac{w(r|a_1)}{w(r|a_0)} \gtrless \frac{p(a_0)}{p(a_1)}$$
+* Equivalently
+$$(r-A)^2 \grtlessH (r-0)^2 + \underbrace{2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)}_C$$
 
-### Maximum likelihood criterion
-
-* Particular case of above, with equal probability of messages
-
-$$\frac{w(r|a_1)}{w(r|a_0)} \gtrless 1$$
-$$\ln \frac{w(r|a_1)}{w(r|a_0)} \gtrless 0$$
+### Example
 
 * Example at blackboard: random noise with $N(0, \sigma^2)$, one sample
-* Example at blackboard: random noise with $N(0, \sigma^2)$, **two** samples
+
+
+### Generalization: two non-zero levels
+
+* What if the $s_0$ signal is not 0, but another constant signal $s_0 = B$
+
+* Noise distribution $w(r|H_0)$ is centered on $B$, not 0
+
+* Otherwise, everything else stays the same
+
+* Performance is defined by the gap between the two levels ($A - B$)
+    * same performance if $s_0 = 0$, $s_1 = A$ or if $s_0 = -\frac{A}{2}$ and $s_1 = frac{A}{2}$
+
+
+### Differential vs single-ended signalling
+
+* Single-ended signaling: one signal is 0, other is non-zero
+    * $s_0 = 0$, $s_1 = A$
+
+* Differential signaling: use two non-zero levels with different sign, same absolute value
+    * $s_0 = 0$, $s_1 = A$
+
+* Which is better?
+
+### Differential vs single-ended signalling
+
+* If gap difference between levels is the same, performance is the same
+
+* Average power of a signal = average squared value
+
+* For differential signal: $P = \left( \pm \frac{A}{2} \right)^2 = \frac{A^2}{4}$
+
+* For signal ended signal: $P = P(H_0) \cdot 0 + P(H_1) \left( A \right)^2 = \frac{A^2}{2}$
+   * assuming equal probabilities of 0 and 1, $P(H_0) = P(H_1) = \frac{1}{2}$
+
+* Differential uses half the power of single-ended (i.e. better)
+
+### Summary of criteria
+
+* We have seen decision based on 1 sample $r$, between 2 constant levels
+
+* All decisions are based on a likelihood-ratio test
+$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
+
+* Different criteria differ in the chosen value of $K$ (likelihood threshold)
+
+* Depending on the noise distributions, the real axis is partitioned into regions
+    * region $R_0$: if $r$ is in here, decide $D_0$
+    * region $R_1$: if $r$ is in here, decide $D_1$
+    * e.g. $R_0 = (-infty, \frac{A+B}/2]$, $R_1 = (\frac{A+B}/2, \infty)$ (ML)
+
+### Receiver Operating Characteristic
+
+* The receiver performance is usually represented with **"Receiver Operating Characteristic"** graph
+
+* It is a graph of correct detection probability $P_d = P(D_1 | H_1)$ 
+as a function of false alarm probability $P_{fa} = P(D_1 \cap H_0)$
+
+* Picture here
+
+### Receiver Operating Characteristic
+
+* There is always a **tradeoff** between good $P_d$ and bad $P_{fa}$
+    * to increase $P_d$ one must also increase $P_{fa}$
+    * if we want to make sure we don't miss any real detections (increase P_d), we pay by increasing
+    the chances of false alarms
+    
+* Different criteria = different likelihood thresholds $K$  = different points on the graph
+ = different tradeoffs
+     * but the tradeoff cannot be avoided
+
+* How to improve the receiver?
+    * i.e. increase $P_D$ while keeping $P_{fa}$ the same
+
+### Performance of likelihood-ratio decoding in WGN
+
+* WGN = "White Gaussian Noise"
+
+* Assume equal probabilities $P(H_0) = P(H_1) = \frac{1}{2}$
+
+* All decisions are based on a likelihood-ratio test
+$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
+
+* Detection probability is
+$$\begin{split}
+P_D =& P(D_1 | H_1) P(H_1) \\
+=& P(H_1) \int_{T}^{\infty} w(r | H_1) \\
+=& P(H_1) (F(\infty) - F(T)) \\
+=& P(H_1) \left( 1 - \frac{1}{2} \left( 1 + erf \left( \frac{r - A}{\sqrt{2}\sigma} \right) \right) \right) \\
+=& \frac{1}{4} \left( 1 - erf \left( \frac{r - A}{\sqrt{2}\sigma} \right) \right) \\
+\end{split}$$
+
+
+### Performance of likelihood-ratio decoding in WGN
+
+* False alarm probability is 
+$$\begin{split}
+P_{fa} =& P(D_1 | H_0) P(H_0) \\
+=& P(H_0) \int_{T}^{\infty} w(r | H_0) \\
+=& P(H_0) (F(\infty) - F(T)) \\
+=& P(H_0) \left( 1 - \frac{1}{2} \left( 1 + erf \left( \frac{r - 0}{\sqrt{2}\sigma} \right) \right) \right) \\
+=& \frac{1}{4} \left( 1 - erf \left( \frac{r - 0}{\sqrt{2}\sigma} \right) \right) \\
+\end{split}$$
+
+* Therefore 
