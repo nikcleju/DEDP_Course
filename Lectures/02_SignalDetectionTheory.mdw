@@ -26,9 +26,10 @@ signal is present from 2 or more possibilities
 ### Practical scenarios
 
 * Data transmission
-    * binary voltage levels (e.g. $s_n(t)$ = constant)
+    * constant voltage levels (e.g. $s_n(t)$ = constant)
     * PSK modulation (Phase Shift Keying): $s_n(t)$ = cosine with same frequency but various initial phase
     * FSK modulation (Frequency Shift Keying): $s_n(t)$ = cosines with different frequencies
+    * OFDM modulation (Orthogonal Frequency Division Multiplexing): particular case of FSK
 
 * Radar
     * a signal is emitted; if there is an obstacle, the signal gets reflected back
@@ -48,26 +49,26 @@ signal is present from 2 or more possibilities
 
 ## II.2 Detection of constant signals
 
-### Detection of a constant signal, white normal noise, 1 sample
+### Detection of a constant signal, 1 sample
 
 * Simplest case: detection of a constant signal contaminated with white normal noise, using 1 sample
     * two messages $a_0$ and $a_1$
     * messages are encoded as constant signals
         * for $a_0$: send $s_0(t) = 0$
         * for $a_1$: send $s_1(t) = A$
-    * over the signals there is white noise, normal distribution $\mathcal{N}(0, \sigma^2)$
+    * over the signals there is additive noise
     * receiver takes just 1 sample
     * decision: compare sample with a threshold
 
-### Decision
+### Threshold-based decision
 
 * The value of the sample taken is $r = s + n$
     * $s$ is the true underlying signal ($s_0 = 0$ or $s_1 = A$)
     * $n$ is a sample of the noise
 
-* $n$ is a (continuous) random variable, with normal distribution
+* $n$ is a (continuous) random variable
 * $r$ is a random variable also
-    * what distribution does it have?
+    * what distribution does $r$ have compared to $n$?
 
 * Decision is taken by comparing with a threshold $T$:
     * if $r < T$,  take decision $D_0$: decide the true signal is $s_0$
@@ -84,7 +85,7 @@ signal is present from 2 or more possibilities
         * Decision $D_0$ when hypothesis is $H_0$
         * Probability is $P_n = P(D_0 \cap H_0)$
     2. **False alarm**: no signal present, signal detected (error)
-        * Decision $S_1$ when hypothesis is $H_0$
+        * Decision $D_1$ when hypothesis is $H_0$
         * Probability is $P_{fa}P(D_1 \cap H_0)$
     3. **Miss**: signal present, no signal detected (error)
         * Decision $D_0$ when hypothesis is $H_1$
@@ -108,7 +109,7 @@ the probability density of $r$ given a hypothesis $H_0$ or $H_1$
 * Likelihood in case of hypothesis $H_1$: $w(r | H_1)$
     * $r$ is A + noise,  so value is taken from the distribution of (A + noise)
 
-* Likelihood test:
+* **Likelihood ratio** test:
 $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH 1$$
 
 ### Graphical interpretation
@@ -119,19 +120,18 @@ $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH 1$$
 
 ### Decision via threshold
 
-* Decision via ML = comparing $r$ with a threshold $T$
+* Likelihood ratio test for ML = comparing $r$ with a threshold $T$
 * The threshold = the cross-over point of the two distributions
 
 ### Normal noise
 
 * Particular case: the noise has normal distribution $\mathcal{N}(0,\sigma^2)$
 
-* Likelihood test is $\frac{w(r|H_1)}{r|H_0} = \frac{e^{\frac{(r-A)^2}{2\sigma^2}}}{e^{\frac{r^2}{2\sigma^2}}} \grtlessH 1$
-    * this ratio is usually called **likelihood ratio**
+* Likelihood ratio is $\frac{w(r|H_1)}{r|H_0} = \frac{e^{\frac{(r-A)^2}{2\sigma^2}}}{e^{\frac{r^2}{2\sigma^2}}} \grtlessH 1$
 
 * For normal distribution, it is easier to apply *natural logarithm* to the terms
     * logarithm is a monotonic increasing function, so it won't change the comparison
-    * if A < B, then $log(A) < log(B)$
+    * if $A < B$, then $\log(A) < \log(B)$
 
 * The **log-likelihood** of an observation = the logarithm of the likelihood value
     * usually the natural logarithm, but any one can be used
@@ -149,13 +149,15 @@ $$\frac{|r-A|}{|r|} \grtlessH 1$$
 * ML decision with normal noise: choose the value 0 or A  which is **nearest** to $r$
     * very general principle, encountered in many other scenarios
     * also known as **nearest neighbor** principle / decision
+    * ML receiver is also known as **minimum distance receiver**
     * equivalent with setting a threshold $T = \frac{A}{2}$ 
 
 ### Generalizations
 
 * What if the noise has another distribution?
     * Threshold $T$ is still the cross-over point, whatever that is
-    * Can have multiple **regions**
+    * There can be more cross-overs, so multiple thresholds
+    * Can think that $\mathbb{R}$ axis is split into **decision regions** $R_0$ and $R_1$
 
 * What if the noise distributions are different for $H_0$ and $H_1$? 
     * Threshold $T$ is the cross-over point, whatever that is
@@ -170,6 +172,22 @@ $$\frac{|r-A|}{|r|} \grtlessH 1$$
     * e.g. 4 possible signals: -6, -2, 2, 6
     * Just choose the most likely hypothesis, out of 4 likelihood functions 
     * Not a single threshold value, now there are more
+
+### Exercises
+
+* A signal can have two possible values, $0$ or $5$. The receiver takes one
+sample with value $r = 2.25$
+    a. Considering that the noise is white gaussian noise, what signal is decided
+ based on the Maximum Likelihood criterion?
+    b. What if the signal $0$ is affected by gaussian noise $\mathcal{N}(0, 0.5)$,
+  while the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$?
+    c. Repeat a. and b. assuming the value $0$ is replaced by $-1$
+
+* A signal can have four possible values: -6, -2, 2, 6. Each value
+lasts for 1 second. The signal is affected
+by white noise with normal distribution. The receiver takes 1 sample per second.
+Using ML criterion, decide what signal has been transmitted, if the received samples are:
+$$4, 6.6, -5.2, 1.1, 0.3, -1.5, 7, -7, 4.4$$
 
 ### Pitfalls of ML decision
 
@@ -223,15 +241,15 @@ $$P_e = P(H_0) + \int_{-\infty}^T [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)
 * We want to minimize $P_e$, i.e. to minimize the integral
 
 * To minimize the integral, we choose $T$ such that for all $r < T$, 
-the term below the integral is **negative**
+the term inside the integral is **negative**
     * because integrating over all the interval where the function is negative ensures minimum value of integral
 
 * So, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) < 0$ we have $r < T$, i.e. decision $D_0$
-* Conversely, When $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) > 0$ we have $r > T$, i.e. decision $D_1$
+* Conversely, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) > 0$ we have $r > T$, i.e. decision $D_1$
 
 * Therefore
 $$w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) \grtlessH 0$$
-$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0}{P(H_1)}$$
+$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$$
 
 ### Interpretation
 
@@ -248,10 +266,24 @@ $$w(r | H_1) = e^{\frac{(r-A)^2}{2\sigma^2}}$$
 $$w(r | H_0) = e^{\frac{r^2}{2\sigma^2}}$$
 
 * Apply natural logarithm
-$$\frac{(r-A)^2}{2\sigma^2} - \frac{r^2}{2\sigma^2} \grtlessH \ln \left(\frac{P(H_0}{P(H_1)} \right)$$
+$$\frac{(r-A)^2}{2\sigma^2} - \frac{r^2}{2\sigma^2} \grtlessH \ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
 
 * Equivalently
-$$(r-A)^2 \grtlessH (r-0)^2 + \underbrace{2 \sigma^2 \cdot \ln \left(\frac{P(H_0}{P(H_1)} \right)}_C$$
+$$(r-A)^2 \grtlessH (r-0)^2 + \underbrace{2 \sigma^2 \cdot \ln \left(\frac{P(H_0)}{P(H_1)} \right)}_C$$
+
+
+### Exercises
+
+* An information source provides two messages with probabilities $p(a_0) = \frac{2}{3}$ and $p(a_1) = \frac{1}{3}$.
+The messages are encoded as constant signals with values $-5$ ($a_0$) and $5$ ($a_1$).
+The signals are affected by gaussian noise $\mathcal{N}(0, \sigma^2=1)$
+The receiver takes one sample $r$.
+Decision is done by comparing $r$ with a threshold value $T$, as follows: if $r < T$ it is decided
+that the transmitted message is $a_0$, otherwise it is $a_1$.
+    a. Find the threshold value $T$ according to the minimum probability of error criterion
+    b. What if the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$?
+
+
 
 
 ### Minimum risk (cost) criterion
