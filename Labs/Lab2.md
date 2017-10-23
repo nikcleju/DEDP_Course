@@ -39,7 +39,7 @@ P(hit) against  P(false alarm).
 # Exercises
 
 1. Simulate threshold-based detection with a single sample, as follows:
-    * Generate a vector of 1000 values $0$ or $A$, with equal probability (hint: use `rand()` and compare to 0.5)
+    * Generate a vector of 100000 values $0$ or $A$, with equal probability (hint: use `rand()` and compare to 0.5)
     * Add over it a random noise with normal distribution $\mathcal{N}(0, \sigma^2=1)$
     * Compare each element with $T$ to decide which sample is logical 0 or logical 1 (A)
     * Compare the decision result with the true original vector, and count how many
