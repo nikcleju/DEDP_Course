@@ -81,7 +81,7 @@ signal is present from 2 or more possibilities
     * $H_1$: true signal is $s_1$ ($a_1$ has been transmitted)
 
 * Possible results
-    1. No signal present, no signal detected.
+    1. Correct rejection: no signal present, no signal detected.
         * Decision $D_0$ when hypothesis is $H_0$
         * Probability is $P_n = P(D_0 \cap H_0)$
     2. **False alarm**: no signal present, signal detected (error)
@@ -90,7 +90,7 @@ signal is present from 2 or more possibilities
     3. **Miss**: signal present, no signal detected (error)
         * Decision $D_0$ when hypothesis is $H_1$
         * Probability is $P_m = P(D_0 \cap H_1)$
-    4. Signal detected correctly: signal present, signal detected
+    4. **Hit**: signal present, signal detected
         * Decision $D_1$ when hypothesis is $H_1$
         * Probability is $P_d = P(D_1 \cap H_1)$
 
@@ -127,7 +127,7 @@ $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH 1$$
 
 * Particular case: the noise has normal distribution $\mathcal{N}(0,\sigma^2)$
 
-* Likelihood ratio is $\frac{w(r|H_1)}{r|H_0} = \frac{e^{\frac{(r-A)^2}{2\sigma^2}}}{e^{\frac{r^2}{2\sigma^2}}} \grtlessH 1$
+* Likelihood ratio is $\frac{w(r|H_1)}{r|H_0} = \frac{e^{-\frac{(r-A)^2}{2\sigma^2}}}{e^{-\frac{r^2}{2\sigma^2}}} \grtlessH 1$
 
 * For normal distribution, it is easier to apply *natural logarithm* to the terms
     * logarithm is a monotonic increasing function, so it won't change the comparison
@@ -189,12 +189,31 @@ by white noise with normal distribution. The receiver takes 1 sample per second.
 Using ML criterion, decide what signal has been transmitted, if the received samples are:
 $$4, 6.6, -5.2, 1.1, 0.3, -1.5, 7, -7, 4.4$$
 
-### Pitfalls of ML decision
+### Computing conditional error probabilities
 
-* The ML is based on comparing **conditional** probability density functions
-    * conditioned by $H_0$ or by $H_1$
+* We can compute the conditional probabilities of errors
 
-* Conditioning by $H_0$ and $H_1$ ignores the probability of $H_0$ or $H_1$ actually happening
+* Consider the decision regions:
+    * $R_0$: when $r \in R_0$, decision is $D_0$, i.e. $(\infty, T)$ for gaussian noise
+    * $R_1$: when $r \in R_1$, decision is $D_1$, i.e. $[T, \infty)$ for gaussian noise
+    
+* Probability of false alarm ***if** original signal is $s_0(t)$*
+$$P(D_1 | H_0) = \int_{R_1} w(r|H_0) dx$$
+
+* Probability of miss ***if** original signal is $s_1(t)$*
+$$P(D_0 | H_1) = \int_{R_0} w(r|H_1) dx$$
+
+* These probabilities do not account for the probability that the signal actually is $s_0(t)$ or $s_1(t)$
+    * they are **conditional** ("if")
+
+### Computing conditional error probabilities
+
+![Conditional error probabilities](img/SigDetWGN.png){#id .class width=60%}
+
+*[image from hhttp://gru.stanford.edu/doku.php/tutorials/sdt]*
+
+
+### Reminder: the Bayes rule
 
 * Reminder: the Bayes rule
 $$P(A \cap B) = P(B | A) \cdot P(A))$$
@@ -202,8 +221,27 @@ $$P(A \cap B) = P(B | A) \cdot P(A))$$
 * Interpretation
     * The probability $P(A)$ is taken out from $P(B|A)$
     * $P(B|A)$ gives no information  on $P(A)$, the chances of $A$ actually happening
-    * Example: P(score | shoot)
-* Practical: if $p(H_0) >> p(H_1)$, we may want to move the threshold towards $H_1$
+    * Example: P(score | shoot) = $\frac{1}{2}$. How many goals are scored?
+
+### Exercise
+
+* A signal can have two possible values, $0$ or $5$. The signal $0$ is affected by gaussian noise $\mathcal{N}(0, 0.5)$,
+while the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$. The receiver performs ML decision based 
+on a single sample.
+    a. Compute the probability of a wrong decision when the original signal is $s_0(t)$
+    b. Compute the probability of a wrong decision when the original signal is $s_1(t)$
+    
+### Pitfalls of ML decision criterion
+
+* The ML is based on comparing **conditional** probability density functions
+    * conditioned by $H_0$ or by $H_1$
+
+* Conditioning by $H_0$ and $H_1$ ignores the probability of $H_0$ or $H_1$ actually happening
+    * We don't know how $p(H_0)$ or $P(H_1)$
+
+* If $p(H_0) > p(H_1)$, we may want to move the threshold towards $H_1$, and vice-versa
+    * because it is more likely that the signal is $s_0(t)$
+    * and thus we want to "encourage" decision $D_0$ 
 
 ### The minimum error probability criterion
 
@@ -212,40 +250,36 @@ $$P(A \cap B) = P(B | A) \cdot P(A))$$
 * Goal is to **minimize the total probability of error $P_e$**
     * errors = false alarms and misses
 
-* Consider we have a threshold $T$ such that
-    * we decide $D_0$ when $r<T$
-    * we decide $D_1$ when $r \geq T$
-
-* We need to find $T$
+* We need to find the decision regions $R_0$ and $R_1$
 
 ### Probability of error
 
 * Probability of false alarm
 $$\begin{split}
 P(D_1 \cap H_0) =& P(D_1 | H_0) \cdot P(H_0)\\
-=& \int_T^{\infty} w(r | H_0) dx \cdot P(H_0)\\
-=& (1 - \int_{-\infty}^T w(r | H_0) dx \cdot P(H_0)
+=& \int_{R_1} w(r | H_0) dx \cdot P(H_0)\\
+=& (1 - \int_{R_0} w(r | H_0) dx \cdot P(H_0)
 \end{split}$$
 
 * Probability of miss
 $$\begin{split}
 P(D_0 \cap H_1) =& P(D_0 | H_1) \cdot P(H_1)\\
-=& \int_{-\infty}^T w(r | H_1) dx \cdot P(H_1)
+=& \int_{R_0} w(r | H_1) dx \cdot P(H_1)
 \end{split}$$
 
 * The sum is
-$$P_e = P(H_0) + \int_{-\infty}^T [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)] dx$$
+$$P_e = P(H_0) + \int_{R_0} [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)] dx$$
 
 ### Minimum probability of error
 
 * We want to minimize $P_e$, i.e. to minimize the integral
 
-* To minimize the integral, we choose $T$ such that for all $r < T$, 
+* To minimize the integral, we choose $R_0$ such that for all $r \in R_0$, 
 the term inside the integral is **negative**
     * because integrating over all the interval where the function is negative ensures minimum value of integral
 
-* So, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) < 0$ we have $r < T$, i.e. decision $D_0$
-* Conversely, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) > 0$ we have $r > T$, i.e. decision $D_1$
+* So, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) < 0$ we have $r \in R_0$, i.e. decision $D_0$
+* Conversely, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) > 0$ we have $r \in R_1$, i.e. decision $D_1$
 
 * Therefore
 $$w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) \grtlessH 0$$
@@ -262,15 +296,26 @@ $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$$
 ### Minimum probability of error - gaussian noise
 
 * Assuming the noise is gaussian (normal), $\mathcal{N}(0, \sigma^2)$
-$$w(r | H_1) = e^{\frac{(r-A)^2}{2\sigma^2}}$$
-$$w(r | H_0) = e^{\frac{r^2}{2\sigma^2}}$$
+$$w(r | H_1) = e^{-\frac{(r-A)^2}{2\sigma^2}}$$
+$$w(r | H_0) = e^{-\frac{r^2}{2\sigma^2}}$$
 
 * Apply natural logarithm
-$$\frac{(r-A)^2}{2\sigma^2} - \frac{r^2}{2\sigma^2} \grtlessH \ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
+$$-\frac{(r-A)^2}{2\sigma^2} + \frac{r^2}{2\sigma^2} \grtlessH \ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
 
 * Equivalently
-$$(r-A)^2 \grtlessH (r-0)^2 + \underbrace{2 \sigma^2 \cdot \ln \left(\frac{P(H_0)}{P(H_1)} \right)}_C$$
+$$2rA - A^2 \grtlessH 2 \sigma^2 \cdot \ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
+$$ r \grtlessH \underbrace{\frac{A^2 + 2 \sigma^2 \cdot \ln \left(\frac{P(H_0)}{P(H_1)} \right) }{2A}}_T$$
 
+### Decision regions
+
+* We still compare with a threshold $T$, but its value is shifted towards the less probable hypothesis
+    * $T$ depends on the ratio $\frac{P(H_0)}{P(H_1)}$
+    
+* Decision regions
+    * $R_0 = (-\infty, T]$
+    * $R_1 = [T, \infty)$
+    * will be different for other noise distributions (non-gaussian)
+    
 
 ### Exercises
 
@@ -282,8 +327,7 @@ Decision is done by comparing $r$ with a threshold value $T$, as follows: if $r 
 that the transmitted message is $a_0$, otherwise it is $a_1$.
     a. Find the threshold value $T$ according to the minimum probability of error criterion
     b. What if the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$?
-
-
+    c. What are the probabilities of false alarm and of miss?
 
 
 ### Minimum risk (cost) criterion
@@ -328,23 +372,26 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11
 * If the noise is gaussian (normal), then similar to other criteria, apply logarithm
 
 * Equivalently
-$$(r-A)^2 \grtlessH (r-0)^2 + \underbrace{2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)}_C$$
+$$-(r-A)^2 + r^2 \grtlessH \underbrace{2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)}_C$$
+$$ r \grtlessH \underbrace{\frac{A^2 + 2 \sigma^2 \cdot \ln \left(\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right) }{2A}}_T$$
 
 ### Example
 
-* Example at blackboard: random noise with $N(0, \sigma^2)$, one sample
+* Example at blackboard: 0 / 5, random noise with $N(0, \sigma^2)$, one sample
 
 
-### Generalization: two non-zero levels
+### Two non-zero levels
 
-* What if the $s_0$ signal is not 0, but another constant signal $s_0 = B$
+* What if the $s_0$ signal is not 0, but another constant signal $s_0 = B$?
 
 * Noise distribution $w(r|H_0)$ is centered on $B$, not 0
 
 * Otherwise, everything else stays the same
 
 * Performance is defined by the gap between the two levels ($A - B$)
-    * same performance if $s_0 = 0$, $s_1 = A$ or if $s_0 = -\frac{A}{2}$ and $s_1 = frac{A}{2}$
+    * same performance if $s_0 = 0$, $s_1 = A$ or if $s_0 = -\frac{A}{2}$ and $s_1 = \frac{A}{2}$
+    
+* Valid for all decision criteria
 
 
 ### Differential vs single-ended signalling
@@ -353,7 +400,7 @@ $$(r-A)^2 \grtlessH (r-0)^2 + \underbrace{2 \sigma^2 \cdot \ln \left( \frac{(C_{
     * $s_0 = 0$, $s_1 = A$
 
 * Differential signaling: use two non-zero levels with different sign, same absolute value
-    * $s_0 = 0$, $s_1 = A$
+    * $s_0 = -\frac{A}{2}$, $s_1 = \frac{A}{2}$
 
 * Which is better?
 
@@ -366,7 +413,7 @@ $$(r-A)^2 \grtlessH (r-0)^2 + \underbrace{2 \sigma^2 \cdot \ln \left( \frac{(C_{
 * For differential signal: $P = \left( \pm \frac{A}{2} \right)^2 = \frac{A^2}{4}$
 
 * For signal ended signal: $P = P(H_0) \cdot 0 + P(H_1) \left( A \right)^2 = \frac{A^2}{2}$
-   * assuming equal probabilities of 0 and 1, $P(H_0) = P(H_1) = \frac{1}{2}$
+    * assuming equal probabilities $P(H_0) = P(H_1) = \frac{1}{2}$
 
 * Differential uses half the power of single-ended (i.e. better)
 
@@ -382,16 +429,18 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
 * Depending on the noise distributions, the real axis is partitioned into regions
     * region $R_0$: if $r$ is in here, decide $D_0$
     * region $R_1$: if $r$ is in here, decide $D_1$
-    * e.g. $R_0 = (-infty, \frac{A+B}/2]$, $R_1 = (\frac{A+B}/2, \infty)$ (ML)
+    * e.g. $R_0 = (-\infty, \frac{A+B}{2}]$, $R_1 = (\frac{A+B}{2}, \infty)$ (ML)
 
 ### Receiver Operating Characteristic
 
-* The receiver performance is usually represented with **"Receiver Operating Characteristic"** graph
+* The receiver performance is usually represented with **"Receiver Operating Characteristic" (ROC)** graph
 
-* It is a graph of correct detection probability $P_d = P(D_1 | H_1)$ 
+* It is a graph of hit probability $P_d = P(D_1 \cap H_1)$ (correct detection)
 as a function of false alarm probability $P_{fa} = P(D_1 \cap H_0)$
 
-* Picture here
+![Sample ROC curves](img/ROCcurve.png){#id .class width=60%}
+
+*[image from http://www.statisticshowto.com/receiver-operating-characteristic-roc-curve/]*
 
 ### Receiver Operating Characteristic
 
@@ -416,13 +465,13 @@ as a function of false alarm probability $P_{fa} = P(D_1 \cap H_0)$
 * All decisions are based on a likelihood-ratio test
 $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
 
-* Detection probability is
+* Hit probability is
 $$\begin{split}
-P_D =& P(D_1 | H_1) P(H_1) \\
+P_{hit} =& P(D_1 | H_1) P(H_1) \\
 =& P(H_1) \int_{T}^{\infty} w(r | H_1) \\
 =& P(H_1) (F(\infty) - F(T)) \\
-=& P(H_1) \left( 1 - \frac{1}{2} \left( 1 + erf \left( \frac{r - A}{\sqrt{2}\sigma} \right) \right) \right) \\
-=& \frac{1}{4} \left( 1 - erf \left( \frac{r - A}{\sqrt{2}\sigma} \right) \right) \\
+=& \frac{1}{4} \left( 1 - erf \left( \frac{T - A}{\sqrt{2}\sigma} \right) \right) \\
+=& Q \left( \frac{T - A}{\sqrt{2}\sigma} \right) \\
 \end{split}$$
 
 
@@ -433,8 +482,37 @@ $$\begin{split}
 P_{fa} =& P(D_1 | H_0) P(H_0) \\
 =& P(H_0) \int_{T}^{\infty} w(r | H_0) \\
 =& P(H_0) (F(\infty) - F(T)) \\
-=& P(H_0) \left( 1 - \frac{1}{2} \left( 1 + erf \left( \frac{r - 0}{\sqrt{2}\sigma} \right) \right) \right) \\
-=& \frac{1}{4} \left( 1 - erf \left( \frac{r - 0}{\sqrt{2}\sigma} \right) \right) \\
+=& \frac{1}{4} \left( 1 - erf \left( \frac{T - 0}{\sqrt{2}\sigma} \right) \right) \\
+=& Q \left( \frac{T}{\sqrt{2}\sigma} \right) \\
 \end{split}$$
 
-* Therefore 
+* Therefore $\frac{T}{\sqrt{2}\sigma} = Q^{-1} \left( P_{fa}\right)$
+
+* Replacing in $P_{hit}$ yields
+$$P_{hit} = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \frac{A}{\sqrt{2}\sigma} \right)$$
+
+### Signal-to-noise ratio
+
+* **Signal-to-noise ratio (SNR)** = $\frac{\text{power of original signal}}{\text{power of noise}}$
+
+* Average power of a signal = average squared value = $\overline{X^2}$
+    * Original signal power is $\frac{A^2}{2}$
+    * Noise power is $\overline{X^2} = \sigma^2$ (when noise mean value $\mu = 0$)
+    
+* In our case, SNR = $\frac{A^2}{2 \sigma^2}$
+
+$$P_{hit} = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{SNR} \right)$$
+
+* For a fixed $P_{fa}$, $P_{hit}$ increases with SNR
+    * Q is a monotonic decreasing function
+
+
+### Performance depends on SNR
+
+* Receiver performance increases with SNR increase
+    * high SNR: good performance
+    * poor SNR: bad perfomance
+    
+![Detection performance depends on SNR](img/PD_SNR.png){#id .class width=47%}
+
+*[source: Fundamentals of Statistical Signal Processing, Steven Kay]*

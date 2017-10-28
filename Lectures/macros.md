@@ -13,8 +13,6 @@
 \newcommand{\fIoVII}{\frac{1}{7}}
 \newcommand{\fIoVIII}{\frac{1}{8}}
 
-\newcommand{\grtlessH}{\underset{{H_0}}{\overset{H_{1}}{\gtrless}}}
-  
 %\usetheme{default}
 \usetheme{Madrid}
 \setbeamertemplate{footline}{} % disable footer
@@ -24,3 +22,4 @@
 
 \setbeamersize{text margin left=15pt}
 
+\newcommand{\grtlessH}{\underset{{H_0}}{\overset{H_{1}}{\gtrless}}}
