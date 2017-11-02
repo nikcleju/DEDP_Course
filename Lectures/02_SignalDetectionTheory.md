@@ -379,6 +379,23 @@ $$ r \grtlessH \underbrace{\frac{A^2 + 2 \sigma^2 \cdot \ln \left(\frac{(C_{10}-
 
 * Example at blackboard: 0 / 5, random noise with $N(0, \sigma^2)$, one sample
 
+### Neymar-Pearson criterion
+
+* Neymar-Pearson criterion: maximize probability of a hit ($P(D_1 \cap H_1)$)
+while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0) \leq \lambda)$
+
+* Deduce the threshold $T$ from the limit condition $P(D_1 \cap H_0) = \lambda$
+
+### Exercise
+* An information source provides two messages with probabilities $p(a_0) = \frac{2}{3}$ and $p(a_1) = \frac{1}{3}$.
+* The messages are encoded as constant signals with values $-5$ ($a_0$) and $5$ ($a_1$).
+* The signals are affected by noise with triangular distribution $[-5,5]$.
+* The receiver takes one sample $r$.
+* Decision is done by comparing $r$ with a threshold value $T$, as follows: if $r < T$ it is decided 
+that the transmitted message is $a_0$, otherwise it is $a_1$.
+    a. Find the threshold value $T$ according to the Neymar-Pearson criterion
+    b. What is the probability of hit?
+
 
 ### Two non-zero levels
 
@@ -516,3 +533,31 @@ $$P_{hit} = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{
 ![Detection performance depends on SNR](img/PD_SNR.png){#id .class width=47%}
 
 *[source: Fundamentals of Statistical Signal Processing, Steven Kay]*
+
+
+### Decision between hypotheses
+
+* Statistical decision is not useful merely for detecting signals
+
+* We are in fact deciding between two different probability distributions
+    * based on one sample
+
+* For detection of constant signals, we choose between two distributions with different average value
+    * one distribution has average value $0$, the other one $A$
+    
+* But we can choose between distributions that differ in other parameters
+    * average value, or
+    * variance, or
+    * shape, etc
+    
+### Decision between hypotheses
+
+* Example: We have a sample with value $r = 2.5$. It can come from a distribution 
+$\mathcal{N}(0,\sigma^2=1)$ (hypothesis $H_0$) or from $\mathcal{N}(0,\sigma^2=2)$ (hypothesis $H_1$). 
+Which hypothesis do we think is true?
+    * It is the variance that differs, not the average value
+
+* We can use the exact same criteria as before
+    * Draw the two distributions
+    * Compute the likelihoods $w(r|H_0)$ and $w(r|H_1)$ for $r$
+    * Decide based on likelihood ratio using some criterion
