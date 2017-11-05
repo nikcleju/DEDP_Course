@@ -643,3 +643,126 @@ $$\begin{split}
 =& e^{-\frac{- 2 A \sum (r_i) + N A^2}{2 \sigma^2}} \\
 =& e^{-\frac{- 2 A \frac{\sum (r_i)}{N} + A^2}{2 \frac{\sigma^2}{N}}} \\
 \end{split}$$
+
+### Average value of N gaussian random variables
+
+* Let $U_r$ = average value of the samples $r_i$
+$$U_r = \frac{1}{N}\sum r_i$$
+
+* What distribution does it have?
+
+* Consider the sum $S_r = \sum r_i$ of the N samples $r_i$
+    * From chapter 1: the sum of normal r.v. $\mathcal{N}(\mu, \sigma^2)$ has:
+    * normal distribution $\mathcal{N}(\mu_S, \sigma_S^2)$ with
+    * average value: $\mu_S = N \cdot \mu$
+    * variance: $\sigma_S^2 = N \cdot \sigma^2$
+    
+* Then $U_r = \frac{1}{N} S_r$, and from the properties of average values we have
+    * $U_r$ has normal distribution with:
+    * average value = $\frac{1}{N} \mu_S = \frac{1}{N} N \mu = \mu$
+    * variance = $\left(\frac{1}{N}\right)^2 \sigma_S^2 = \left(\frac{1}{N}\right)^2 N \sigma_S^2 = \frac{1}{N} \sigma^2$
+
+### Average value of N gaussian random variables
+* The mean value of $N$ realizations of a normal distribution has a normal distribution with
+    * same average value
+    * variance N times smaller
+
+* If $N$ gets very large, the mean value is a very good **estimator** of the distribution's average value    
+    * its distribution gets very narrow around the average value
+
+### Interpretation 1: average value of samples
+
+$$\begin{split}
+\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} =& e^{-\frac{- 2 A U_r + A^2}{2 \frac{\sigma^2}{N}}} \\
+=& \frac{e^{-\frac{U_r^2 - 2 A U_r + A^2}{2 \frac{\sigma^2}{N}}}} {e^{-\frac{U_r^2}{2 \frac{\sigma^2}{N}}}} \\
+=& \frac{e^{-\frac{(U_r - A)^2}{2 \frac{\sigma^2}{N}}}} {e^{-\frac{U_r^2}{2 \frac{\sigma^2}{N}}}}\\
+=& \frac{w(U_r | H_1)}{w(U_r | H_0)}
+\end{split}$$
+
+* The likelihood ratio of $N$ gaussian samples = the likelihood ratio of **the mean of the samples**
+
+### Interpretation 1: average value of samples
+
+* The likelihood ratio of $N$ gaussian samples = the likelihood ratio of **the mean of the samples**
+    * the mean has smaller variance $\frac{1}{N}\sigma^2$, so is more accurate
+    * it is like the noise distribution gets $N$ times narrower (due to averaging)
+
+* Detection of constant signals with N samples is the same as detection with 1 sample, but:
+    * use the average value of the samples $r_i$
+    * its distributions are N times narrower (variance is N times smaller)
+    
+* As $N$ increases, the probability of errors decrease => better performance
+
+### Exercise
+
+Exercise:
+
+* A signal can have two values, $0$ (hypothesis $H_0$) or $6$ (hypothesis $H_1$). 
+The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
+The receiver takes 5 samples with values $\left\{ 1.1, 4.4, 3.7, 4.1, 3.8 \right\}$.
+    a. What is decision according to Maximum Likelihood criterion?
+    b. What is decision according to minimum probability of error criterion, assuming
+    $P(H_0) = 2/3$ and $P(H_1) = 1/3$?
+
+### Interpretation 2: geometrical
+
+* Useful mainly for Maximum Likelihood criterion
+
+* Likelihood ratio for vector $\vec{r}$
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
+
+* For Maximum Likelihood we compare to 1
+$$\frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH 1$$
+$$e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH 1$$
+$$- \sum (r_i - A)^2 + \sum (r_i)^2 \grtlessH 0$$
+$$\sum (r_i)^2 \grtlessH \sum (r_i - A)^2$$
+$$\sqrt{\sum (r_i)^2} \grtlessH \sqrt{\sum (r_i - A)^2}$$
+
+### Interpretation 2: geometrical
+
+* $\sqrt{\sum (r_i)^2}$ is the geometrical (Euclidian) distance between point $\vec{r} = [r_1, r_2, ... r_N]$ and point $\vec{0} = [0, 0, ...0]$
+* $\sqrt{\sum (r_i - A)^2}$ is the geometrical (Euclidian) distance between point $\vec{r} = [r_1, r_2, ... r_N]$ and point $\vec{A} = [A, A, ...A]$
+* ML decision chooses **the closest signal vector (point)** to the received vector (point), in a N-dimensional space
+    * it is known as "minimum distance receiver"
+    * same interpretation as in the 1-D case
+    
+* Question: what is the geometrical interpretation for the other criteria?
+
+### Exercise
+    
+Exercise:
+
+* A signal can have two values, $0$ (hypothesis $H_0$) or $6$ (hypothesis $H_1$). 
+The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
+The receiver takes 2 samples with values $\left\{ 1.1, 4.4 \right\}$.
+    a. What is decision according to Maximum Likelihood criterion? Use the geometrical interpretation.
+
+
+### Interpretation 3: correlation value
+
+* Likelihood ratio for vector $\vec{r}$
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
+$$e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH K$$
+$$-\sum (r_i - A)^2 + \sum (r_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ 2 \sum r_i A - N A^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ \frac{1}{N} \sum r_i A  \grtlessH \underbrace{\frac{A^2}{2} + \frac{1}{N}\sigma^2 \ln{K}}_{const}$$
+
+### Interpretation 3: correlation value
+
+* The **correlation value** (sometimes just "the correlation") of two signals $x$ and $y$ is
+$$C_{x,y} = \frac{1}{N}\sum x[n] y[n]$$
+
+* It is the value of the correlation function in 0
+$$C_{x,y} = R_{xy}[0] = \overline{x[n] y[n + 0]}$$
+
+* For continuous signals
+$$C_{x,y} = \frac{1}{T}\int_{T/2}^{T/2} x(t) y(t) dt$$
+
+* $\frac{1}{N} \sum r_i A$ is the correlation value of the received samples $\vec{r} = [r_1, r_2, ... r_N]$
+with the **target** samples $\vec{A} = [A, A, ... A]$
+
+
+### Interpretation 3: correlation value
+
+* If the correlation value of the received samples with the target samples $\vec{A} = [A, A, ... A]$
+is greater than a certain threshold
