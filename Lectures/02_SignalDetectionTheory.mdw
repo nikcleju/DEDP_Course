@@ -47,7 +47,7 @@ signal is present from 2 or more possibilities
     * observe the whole continuous signal for some time $T$
 
 
-## II.2 Detection of constant signals
+## II.2 Detection of constant signals based on 1 sample
 
 ### Detection of a constant signal, 1 sample
 
@@ -393,7 +393,7 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
 * The receiver takes one sample $r$.
 * Decision is done by comparing $r$ with a threshold value $T$, as follows: if $r < T$ it is decided 
 that the transmitted message is $a_0$, otherwise it is $a_1$.
-    a. Find the threshold value $T$ according to the Neymar-Pearson criterion
+    a. Find the threshold value $T$ according to the Neymar-Pearson criterion, considering $P_{fa} \leq 10^{-2}$
     b. What is the probability of hit?
 
 
@@ -540,9 +540,9 @@ $$P_{hit} = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{
 * Statistical decision is not useful merely for detecting signals
 
 * We are in fact deciding between two different probability distributions
-    * based on one sample
+    * regardless of what the two distributions mean
 
-* For detection of constant signals, we choose between two distributions with different average value
+* For detection of constant signals, we choose between two distributions with **different average value**, generally
     * one distribution has average value $0$, the other one $A$
     
 * But we can choose between distributions that differ in other parameters
@@ -561,3 +561,112 @@ Which hypothesis do we think is true?
     * Draw the two distributions
     * Compute the likelihoods $w(r|H_0)$ and $w(r|H_1)$ for $r$
     * Decide based on likelihood ratio using some criterion
+
+
+## II.3 Detection of constant signals with multiple samples
+
+### Multiple samples from a constant signal
+
+* Suppose we have multiple samples, not just 1
+
+* The samples are arranged in a **sample vector**
+$$\vec{r} = [r_1, r_2, ... r_N]$$
+
+* In each hypotheses, the signal is a **random process**
+    * $H_0$: random process with average value 0
+    * $H_1$: random process with average value A
+
+* Assuming the noise is stationary and ergodic, the signal random process
+is stationary and ergodic (signal = constant + noise)
+
+* The values of $\vec{r}$ are described by the **distribution of order $N$**
+of the random processes, $w_N(\vec{r}) = w_N(r_1, r_2, ...r_N)$
+
+* Assuming the noise is white noise, the sample times don't matter
+
+### Likelihood-based of vector samples
+
+* We can apply **the same criteria** based on likelihood ratio as 
+for 1 sample
+$$\frac{w_N(\vec{r} | H_0)}{w_N(\vec{r} | H_1)} \grtlessH K$$
+
+* Notes
+    * $\vec{r}$ is a vector; we consider the likelihood of all the samples
+    * the hypotheses $H_0$ and $H_1$ are the same as for 1 sample
+    * $w_N(\vec{r} | H_0)$ = likelihood of the whole vector $\vec{r}$ being obtained in hypothesis $H_0$
+    * $w_N(\vec{r} | H_1)$ = likelihood of the whole vector $\vec{r}$ being obtained in hypothesis $H_1$
+    * the value of $K$ is given by the actual decision criterion used
+
+* Interpretation: we choose the hypothesis that is most likely to have produced the observed data
+    * the same, but now the data = multiple samples
+    
+### Separation 
+
+* Assuming the noise is white noise, the samples $r_i$ are **multiple independent realizations
+of the same distribution**
+
+* In that case the joint distributions $w_N(\vec{r} | H_j)$ can be decomposed as a product
+$$w_N(\vec{r} | H_j) = w(r_1|H_j) \cdot w(r_2|H_j) \cdot ... \cdot w(r_N|H_j)$$
+
+* The $w(r_i|H_j)$ are just the likelihoods of each individual sample
+    * e.g. the likelihood of obtaining $[5.1, 4.7, 4.9]$ = likelihood of obtaining $5.1$ $\times$
+    likelihood of getting $4.7$ $\times$ likelihood of getting $4.9$
+
+### Separation 
+
+* Then all likelihood ratio criteria can be written as
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
+\frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
+
+* The likelihood ratio of a vector of samples = product of likelihood ratio for each sample
+
+### Particular case: AWGN 
+
+* AWGN = "Additive White Gaussian Noise"
+
+* In hypothesis $H_1$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - A)^2}{2 \sigma^2}}$
+* In hypothesis $H_0$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{r_i^2}{2 \sigma^2}}$
+* Likelihood ratio for vector $\vec{r}$
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}}$$
+
+* We can interpret this likelihood ratio in two ways
+
+### Interpretation 1: average value of samples
+
+* Interpretation 1: average value of samples
+
+$$\begin{split}
+\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} =& \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \\
+=& e^{-\frac{\sum (r_i - A)^2 - \sum (r_i)^2}{2 \sigma^2}} \\
+=& e^{-\frac{\sum (r_i^2 - 2 r_i A +A^2) - \sum (r_i)^2}{2 \sigma^2}} \\
+=& e^{-\frac{\sum (- 2 r_i A +A^2)}{2 \sigma^2}} \\
+=& e^{-\frac{- 2 A \sum (r_i) + N A^2}{2 \sigma^2}} \\
+=& e^{-\frac{- 2 A \frac{\sum (r_i)}{N} + A^2}{2 \frac{\sigma^2}{N}}} \\
+\end{split}$$
+
+### Average value of N gaussian random variables
+
+* Let $U$ = average value of the samples
+$$\mu \frac{1}{N}\sum (r_i)$$
+
+* What distribution does it have?
+
+* Consider the sum $S$ of the N samples
+    * From chapter 1: the sum of normal r.v. $\mathcal{N}(\mu, \sigma^2)$ has:
+    * normal distribution $\mathcal{N}(\mu_S, \sigma_S^2)$ with
+    * average value: $\mu_S = N \cdot \mu$
+    * variance: $sigma_S^2 = N \cdot \sigma^2$
+    
+* Then $U = \frac{1}{N} S$, and from the properties of average values we have
+    * $U$ has normal distribution with:
+    * average value = $\frac{1}{N} \mu_S = \frac{1}{N} N \mu = \mu$
+    * variance = $\left(\frac{1}{N}\right)^2 \sigma_S^2 = \left(\frac{1}{N}\right)^2 N \sigma_S^2 = \frac{1}{N} \sigma^2$
+    
+* The mean value of $N$ realizations of a normal distribution
+has a normal distribution with
+    * same average value
+    * variance $\sigma^2$ N times smaller
+    
+    
+
+=& \frac{e^{-\frac{\left(\frac{\sum (r_i)}{N}\right^2 - 2 A \frac{\sum (r_i)}{N} + A^2}{2 \frac{\sigma^2}}{N}}} {e^{-\frac{\left(\frac{\sum (r_i)}{N}\right^2 - 2 A \frac{\sum (r_i)}{N} + A^2}{2 \frac{\sigma^2}}{N}}}  \\
