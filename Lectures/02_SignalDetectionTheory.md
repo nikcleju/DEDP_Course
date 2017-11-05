@@ -379,7 +379,7 @@ $$ r \grtlessH \underbrace{\frac{A^2 + 2 \sigma^2 \cdot \ln \left(\frac{(C_{10}-
 
 * In general, for likelihood ratio test $\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$, 
 the threshold is 
-$T = \frac{A^2 + 2 \sigma^2 \cdot \ln K }{2A}$ 
+$$T = \frac{A^2 + 2 \sigma^2 \cdot \ln K }{2A}$$
 
 ### Example
 
@@ -454,9 +454,7 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
     * region $R_1$: if $r$ is in here, decide $D_1$
     * e.g. $R_0 = (-\infty, \frac{A+B}{2}]$, $R_1 = (\frac{A+B}{2}, \infty)$ (ML)
 
-### Summary of criteria
-
-* For gaussian noise, 
+* For gaussian noise, the threshold is $T = \frac{A^2 + 2 \sigma^2 \cdot \ln K }{2A}$
 
 ### Receiver Operating Characteristic
 
@@ -594,7 +592,7 @@ of the random processes, $w_N(\vec{r}) = w_N(r_1, r_2, ...r_N)$
 
 * Assuming the noise is white noise, the sample times don't matter
 
-### Likelihood-based of vector samples
+### Likelihood of vector samples
 
 * We can apply **the same criteria** based on likelihood ratio as 
 for 1 sample
@@ -639,7 +637,7 @@ $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)} 
 * Likelihood ratio for vector $\vec{r}$
 $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}}$$
 
-* We can interpret this likelihood ratio in two ways
+* We can interpret this likelihood ratio in three ways
 
 ### Interpretation 1: average value of samples
 
