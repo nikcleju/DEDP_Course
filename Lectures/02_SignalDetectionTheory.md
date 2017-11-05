@@ -375,6 +375,12 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11
 $$-(r-A)^2 + r^2 \grtlessH \underbrace{2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)}_C$$
 $$ r \grtlessH \underbrace{\frac{A^2 + 2 \sigma^2 \cdot \ln \left(\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right) }{2A}}_T$$
 
+### In gaussian noise
+
+* In general, for likelihood ratio test $\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$, 
+the threshold is 
+$T = \frac{A^2 + 2 \sigma^2 \cdot \ln K }{2A}$ 
+
 ### Example
 
 * Example at blackboard: 0 / 5, random noise with $N(0, \sigma^2)$, one sample
@@ -447,6 +453,10 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
     * region $R_0$: if $r$ is in here, decide $D_0$
     * region $R_1$: if $r$ is in here, decide $D_1$
     * e.g. $R_0 = (-\infty, \frac{A+B}{2}]$, $R_1 = (\frac{A+B}{2}, \infty)$ (ML)
+
+### Summary of criteria
+
+* For gaussian noise, 
 
 ### Receiver Operating Characteristic
 
@@ -745,7 +755,7 @@ $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)
 $$e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH K$$
 $$-\sum (r_i - A)^2 + \sum (r_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
 $$ 2 \sum r_i A - N A^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ \frac{1}{N} \sum r_i A  \grtlessH \underbrace{\frac{A^2}{2} + \frac{1}{N}\sigma^2 \ln{K}}_{const}$$
+$$ \frac{1}{N} \sum r_i A  \grtlessH \underbrace{\frac{A^2}{2} + \frac{1}{N}\sigma^2 \ln{K}}_{L = const}$$
 
 ### Interpretation 3: correlation value
 
@@ -765,4 +775,10 @@ with the **target** samples $\vec{A} = [A, A, ... A]$
 ### Interpretation 3: correlation value
 
 * If the correlation value of the received samples with the target samples $\vec{A} = [A, A, ... A]$
-is greater than a certain threshold
+is greater than a certain threshold $L$, we decide that signal is detected.
+    * otherwise, the signal is rejected
+    
+* This is **similar to signal detection based on 1 sample**, 
+with the sample value being $C_{x,y}$
+
+### c

@@ -781,4 +781,4 @@ is greater than a certain threshold $L$, we decide that signal is detected.
 * This is **similar to signal detection based on 1 sample**, 
 with the sample value being $C_{x,y}$
 
-### 
+### c
