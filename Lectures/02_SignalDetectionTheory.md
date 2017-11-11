@@ -746,7 +746,7 @@ The receiver takes 2 samples with values $\left\{ 1.1, 4.4 \right\}$.
     a. What is decision according to Maximum Likelihood criterion? Use the geometrical interpretation.
 
 
-### Interpretation 3: correlation value
+### Interpretation 3: cross-correlation
 
 * Likelihood ratio for vector $\vec{r}$
 $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
@@ -755,28 +755,301 @@ $$-\sum (r_i - A)^2 + \sum (r_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
 $$ 2 \sum r_i A - N A^2 \grtlessH 2 \sigma^2 \ln{K}$$
 $$ \frac{1}{N} \sum r_i A  \grtlessH \underbrace{\frac{A^2}{2} + \frac{1}{N}\sigma^2 \ln{K}}_{L = const}$$
 
-### Interpretation 3: correlation value
+### Interpretation 3: cross-correlation
 
-* The **correlation value** (sometimes just "the correlation") of two signals $x$ and $y$ is
-$$C_{x,y} = \frac{1}{N}\sum x[n] y[n]$$
+* The **cross-correlation** (sometimes just "the correlation") of two signals $x$ and $y$ is
+$$<x,y> = \frac{1}{N}\sum x[n] y[n]$$
 
 * It is the value of the correlation function in 0
-$$C_{x,y} = R_{xy}[0] = \overline{x[n] y[n + 0]}$$
+$$<x,y> = R_{xy}[0] = \overline{x[n] y[n + 0]}$$
 
 * For continuous signals
-$$C_{x,y} = \frac{1}{T}\int_{T/2}^{T/2} x(t) y(t) dt$$
+$$<x,y> = \frac{1}{T}\int_{T/2}^{T/2} x(t) y(t) dt$$
 
-* $\frac{1}{N} \sum r_i A$ is the correlation value of the received samples $\vec{r} = [r_1, r_2, ... r_N]$
+* $\frac{1}{N} \sum r_i A$ is the cross-correlation of the received samples $\vec{r} = [r_1, r_2, ... r_N]$
 with the **target** samples $\vec{A} = [A, A, ... A]$
 
 
-### Interpretation 3: correlation value
+### Interpretation 3: cross-correlation
 
-* If the correlation value of the received samples with the target samples $\vec{A} = [A, A, ... A]$
+* If the cross-correlation of the received samples with the target samples $\vec{A} = [A, A, ... A]$
 is greater than a certain threshold $L$, we decide that signal is detected.
     * otherwise, the signal is rejected
     
 * This is **similar to signal detection based on 1 sample**, 
-with the sample value being $C_{x,y}$
+with the sample value being $<x,y>$
 
-### c
+### Cross-correlation as a measure of similarity
+
+* Cross-correlation in signal processing measures **similarity** of two signals
+
+* For detection: we are checking if the received samples look similar enough to the constants signal $A$
+    * If yes (high cross-correlation) => signal detected
+    * If no (low cross-correlation) => no detection
+    
+### Generalization: two non-zero values
+
+* Generalization: two non-zero signal values, $B$ and $A$
+    * still with Gaussian noise
+
+* Interpretation 1: average value of samples
+    * use mean of samples, the two distributions are centered on $B$ and $A$
+    
+* Interpretation 2: geometric
+    * choose minimum Euclidean distance from $\vec{r} = [r_1, r_2, ... r_N]$ to points $\vec{B} = [B, B, ...]$ and $\vec{A} = [A, A, ...]$
+
+* Interpretation 3: cross-correlation
+    * compute cross-correlation of $\vec{r}$ with $\vec{B} = [B, B, ...]$ and with $\vec{A} = [A, A, ...]$.
+    * more complicated
+
+### Exercise
+    
+Exercise:
+
+* A signal can have two values, $-4$ (hypothesis $H_0$) or $5$ (hypothesis $H_1$). 
+The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
+The receiver takes 3 samples with values $\left\{ 1.1, 4.4, 2.2 \right\}$.
+    a. What is decision according to Maximum Likelihood criterion? Use all three interpretations.
+
+
+## II.4 Detection of general signals with multiple samples
+
+### Multiple samples from a general (non-constant) signal
+
+* We want to detect a **general (non-constant)** signal $s(t)$
+
+* The N samples are taken at times $\vec{t} = [t_1, t_2, ... t_N]$ and are arranged in a **sample vector**
+$$\vec{r} = [r_1, r_2, ... r_N]$$
+
+* What changes compared to constant signals?
+
+### Hypotheses
+
+* In each hypothesis, the signal is a **random process**
+    * $H_0$: random process with average value 0
+    * $H_1$: random process with average value **$s(t)$**
+
+* The sample $r_i$, at time $t_i$, is:
+    * 0 + noise, in hypothesis $H_0$
+    * $s(t_i)$ + noise, in hypothesis $H_1$
+
+* The whole sample vector $\vec{r}$ is
+    * 0 + noise, in hypothesis $H_0$
+    * $s(t)$ + noise, in hypothesis $H_1$, for $t$ being all the sample times $t_i$
+    
+* The distribution of the whole vector $\vec{r}$ is described by a function $w_N(\vec{r})$
+    
+### Likelihood of vector samples
+
+* We can apply **the same criteria** based on likelihood ratio as 
+for constant signals:
+$$\frac{w_N(\vec{r} | H_0)}{w_N(\vec{r} | H_1)} \grtlessH K$$
+
+* The difference is that the "true" underlying signals are now
+    * [0, 0, ... 0]  in hypothesis $H_0$
+    * $[s(t_1), s(t_2), ... s(t_N)]$ in hypothesis $H_1$
+    
+### Separation 
+
+* The joint distribution $w_N(\vec{r} | H_j)$ can be decomposed as a product
+$$w_N(\vec{r} | H_j) = w(r_1|H_j) \cdot w(r_2|H_j) \cdot ... \cdot w(r_N|H_j)$$
+
+* Then all likelihood ratio criteria can be written as
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
+\frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
+
+* The likelihood ratio of a sample $r_i$ is computed considering
+the two possible values of the underlying signal, 0 and $s(t_i)$
+    * for constant signals, the two values were 0 and $A$ all the time
+    * now they are 0 and $s(t_i)$, depending on the sample times $t_i$
+    * the sample times $t_i$ should be chosen such as to maximize the performance of detection
+
+### Particular case: AWGN 
+
+* AWGN = "Additive White Gaussian Noise"
+
+* In hypothesis $H_1$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - s(t_i))^2}{2 \sigma^2}}$
+* In hypothesis $H_0$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{r_i^2}{2 \sigma^2}}$
+* Likelihood ratio for vector $\vec{r}$
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}}$$
+
+* We can interpret this likelihood ratio in two ways
+
+### Interpretation 1: average value of samples
+
+* Interpretation 1: average value of samples
+
+* Cannot be used anymore, since the values $s(t_i)$ are not the same
+
+### Interpretation 2: geometrical
+
+* Useful mainly for Maximum Likelihood criterion
+
+* Likelihood ratio for vector $\vec{r}$
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
+
+* For Maximum Likelihood we compare to 1
+$$\frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH 1$$
+$$e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH 1$$
+$$- \sum (r_i - s(t_i))^2 + \sum (r_i)^2 \grtlessH 0$$
+$$\sum (r_i)^2 \grtlessH \sum (r_i - s(t_i))^2$$
+$$\sqrt{\sum (r_i)^2} \grtlessH \sqrt{\sum (r_i - s(t_i))^2}$$
+
+### Interpretation 2: geometrical
+
+* $\sqrt{\sum (r_i)^2}$ is the geometrical (Euclidian) distance between point $\vec{r} = [r_1, r_2, ... r_N]$ and point $\vec{0} = [0, 0, ...0]$
+* $\sqrt{\sum (r_i - s(t_i))^2}$ is the geometrical (Euclidian) distance between point $\vec{r} = [r_1, r_2, ... r_N]$ and point $\vec{s(t)} = [s(t_1), s(t_2), ...s(t_N)]$
+* ML decision chooses **the closest signal vector (point)** to the received vector (point), in a N-dimensional space
+    * it is known as "minimum distance receiver"
+    * same interpretation as in the 1-D case
+    
+* Question: what is the geometrical interpretation for the other criteria?
+
+### Exercise
+    
+Exercise:
+
+* Consider detecting a signal $s(t) = 3 \sin(2 \pi f_1 t)$ that can be present (hypothesis $H_1$) or not (hypothesis $H_0$).
+The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
+The receiver takes 2 samples.
+    a. What are the best sample times $t_1$ and $t_2$ to maximize detection performance?
+    b. The receiver takes 2 samples with values $\left\{ 1.1, 4.4 \right\}$, at sample times $t_1 = \frac{0.125}{f_1}$ and $t_2 = \frac{0.625}{f_1}$.
+    What is decision according to Maximum Likelihood criterion? Use the geometrical interpretation.
+    c. What if the receiver takes an extra third sample at time $t_3 = \frac{0.5}{f_1}$. Will the detection be improved?
+
+
+### Interpretation 3: cross-correlation
+
+* Likelihood ratio for vector $\vec{r}$
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
+$$e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH K$$
+$$-\sum (r_i - s(t_i))^2 + \sum (r_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ 2 \sum r_i s(t_i) - N s(t_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ \frac{1}{N} \sum r_i s(t_i)  \grtlessH \underbrace{\frac{s(t_i)^2}{2} + \frac{1}{N}\sigma^2 \ln{K}}_{L = const}$$
+
+### Interpretation 3: cross-correlation
+
+* $\frac{1}{N} \sum r_i s(t_i)$ is the cross-correlation of the received samples $\vec{r} = [r_1, r_2, ... r_N]$
+with the **target** samples $\vec{s(t_i)} = [s(t_1), s(t_2), ... s(t_N)]$
+
+* If the cross-correlation of the received samples with the target samples $\vec{s(t_i)}$
+is greater than a certain threshold $L$, we decide that signal is detected.
+    * otherwise, the signal is rejected
+    * cross-correlation is a measure of similarity
+
+
+### Generalization: two non-zero values
+
+* Generalization: decide between **two different signals** $s_0(t)$ and $s_1(t)$
+    * still with Gaussian noise
+
+* Interpretation 2: geometric
+    * choose minimum Euclidean distance from $\vec{r} = [r_1, r_2, ... r_N]$ to points $\vec{s_0(t)} = [s_0(t_1), s_0(t_2), ...]$ and $\vec{s_1(t)} = [s_1(t_1), s_1(t_2), ...]$
+
+* Interpretation 3: cross-correlation
+    * compute cross-correlation of $\vec{r}$ with $\vec{s_0(t)} = [s_0(t_1), s_0(t_2), ...]$ and with $\vec{s_1(t)} = [s_1(t_1), s_1(t_2), ...]$.
+    * more complicated
+
+### IMAGE
+
+* PUT IMAGE HERE
+
+### Matched filters
+
+* How to compute the cross-correlation of two signals $r[n]$ and $s[n]$ of length $N$?
+$$<r,s> = \frac{1}{N} \sum r_i s(t_i)$$
+
+* The **convolution** of $r[n]$ and $s[n]$ is given by
+$$y[n] = \sum_k r[k] s[n-k]$$
+
+* Let $s'[n]$ be the signal $s[n]$ **flipped / mirrored** ("oglindit")
+    * still starting from time 0 onwards, we want causality
+$$s'[n] = s[N-n]$$
+
+* The convolution of $r[n]$ with $s'[n]$ is
+$$y'[n] = \sum_k r[k] s'[n-k] = \sum_k r[k] s[N-n+k]$$
+
+* The convolution sampled at the end of the signals $n=N$ is the cross-correlation
+    * up to a scaling constant $\frac{1}{N}$
+$$y'[N] = \sum_k r[k] s[k]$$
+
+### Matched filters
+
+* To detect a signal $s[n]$ we can use a **filter with impulse response = mirrored
+version of $s[n]$**, and take the final sample of the output
+
+* **Matched filter** = a filter designed to have the impulse response the flipped
+version of a signal we search for
+    * the filter is *matched* to the signal we want to detect
+    * rom. "filtru adaptat"
+
+### Matched filters
+
+IMAGE HERE
+
+## II.5 Detection of general signals with continuous observations
+
+### Continuous observation of a general signal
+
+* Continuous observation = we don't take samples anymore, we use 
+**all the continuous signal**
+    * like taking $N$ samples but with $N \to \infty$
+
+* Received signal is $r(t)$
+
+* Target signal is $s(t)$
+
+* Assume Gaussian noise only
+
+* How to detect?
+
+### Detection
+
+* Extend the previous case of $N$ samples to the case a full continuous signal
+
+* Interpretation 1: average value of samples
+    * Cannot be used anymore, since the values $s(t_i)$ are not the same
+    
+### Interpretation 2: geometrical
+
+* Interpretation 2: geometrical
+
+* Each signal $r(t)$, $s(t)$ or $0$ is a data point in an infinite-dimensional Euclidean space
+
+* Distance between two signals is
+$$d(r,s) = \sqrt{\int \left( r(t) - s(t) \right)^2 dt}$$
+
+* Similar with the N dimensional case, but with integral instead of sum
+    
+* Maximum Likelihood criterion:
+    * compute distance $d(r,s)$ from $r(t)$ to $s(t)$
+    * compute distance $d(r,0)$ from $r(t)$ to $0$
+    * choose the minimum
+    
+### Interpretation 3: cross-correlation
+
+* The cross correlation of a continuous signal $r(t)$ with a target signal $s(t)$ of length $T$
+$$<r,s> = \frac{1}{T}{\int_0^T r(t) \cdot s(t) dt}$$
+
+* If the cross-correlation of the received samples with the target samples $\vec{s(t_i)}$
+is greater than a certain threshold $L$, we decide that signal is detected.
+    * otherwise, the signal is rejected
+    * cross-correlation is a measure of similarity
+
+### Generalizations
+
+* Detection **between two signals** $s_0(t)$ and $s_1(t)$
+    * still with Gaussian noise
+
+* Interpretation 2: geometric
+    * choose minimum Euclidean distance from point $\vec{r(t)}$ to points $\vec{s_0(t)}$ and $\vec{s_1(t)}$
+        * using the specified distance formula
+
+* Interpretation 3: cross-correlation
+    * compute cross-correlation of $\vec{r(t)}$ with $\vec{s_0(t)}$ and with $\vec{s_1(t)}$.
+    * more complicated
+
+
+### Matched filters
+
+
