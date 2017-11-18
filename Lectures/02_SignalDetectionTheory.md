@@ -766,7 +766,7 @@ $$<x,y> = R_{xy}[0] = \overline{x[n] y[n + 0]}$$
 * For continuous signals
 $$<x,y> = \frac{1}{T}\int_{T/2}^{T/2} x(t) y(t) dt$$
 
-* $\frac{1}{N} \sum r_i A$ is the cross-correlation of the received samples $\vec{r} = [r_1, r_2, ... r_N]$
+* $\frac{1}{N} \sum r_i A = <\vec{r}, \vec{A}>$ is the cross-correlation of the received samples $\vec{r} = [r_1, r_2, ... r_N]$
 with the **target** samples $\vec{A} = [A, A, ... A]$
 
 
@@ -777,13 +777,13 @@ is greater than a certain threshold $L$, we decide that signal is detected.
     * otherwise, the signal is rejected
     
 * This is **similar to signal detection based on 1 sample**, 
-with the sample value being $<x,y>$
+with the sample value being $<\vec{r},\vec{A}>$
 
 ### Cross-correlation as a measure of similarity
 
 * Cross-correlation in signal processing measures **similarity** of two signals
 
-* For detection: we are checking if the received samples look similar enough to the constants signal $A$
+* Interpretation: we check if the received samples look similar enough to the constant signal $A$
     * If yes (high cross-correlation) => signal detected
     * If no (low cross-correlation) => no detection
     
@@ -795,12 +795,31 @@ with the sample value being $<x,y>$
 * Interpretation 1: average value of samples
     * use mean of samples, the two distributions are centered on $B$ and $A$
     
-* Interpretation 2: geometric
+* Interpretation 2: geometric (Maximum Likelihood)
     * choose minimum Euclidean distance from $\vec{r} = [r_1, r_2, ... r_N]$ to points $\vec{B} = [B, B, ...]$ and $\vec{A} = [A, A, ...]$
 
 * Interpretation 3: cross-correlation
-    * compute cross-correlation of $\vec{r}$ with $\vec{B} = [B, B, ...]$ and with $\vec{A} = [A, A, ...]$.
-    * more complicated
+    * compute $<\vec{r},\vec{B}>$ and $<\vec{r},\vec{A}>$, cross-correlation of $\vec{r}$ with $\vec{B} = [B, B, ...]$ and with $\vec{A} = [A, A, ...]$.
+    * see next slide
+
+### Detection between two non-zero values with cross-correlation
+
+$$e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2} + \frac{\sum (r_i - B)^2}{2 \sigma^2}} \grtlessH K$$
+$$-\sum (r_i - A)^2 + \sum (r_i - B)^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ 2 \sum r_i A - N A^2 - 2 \sum r_i B + N B^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ \frac{1}{N} \sum r_i A - \frac{A^2}{2} \grtlessH \frac{1}{N} \sum r_i B - \frac{B^2}{2} + \frac{1}{N}\sigma^2 \ln{K}$$
+
+### Detection between two non-zero values with cross-correlation
+
+* For Maximum Likelihood ($K=1$):
+$$ <\vec{r}, \vec{A}> - \frac{<\vec{A}, \vec{A}>}{2} \grtlessH <\vec{r},\vec{B}> - \frac{<\vec{B},\vec{B}>}{2}$$
+
+* If the two values are opposite, $B=-A$, choose the most similar to $\vec{r}$:
+    * cross-correlation measures similarity
+$$<\vec{r},\vec{A}> \grtlessH <\vec{r},\vec{-A}>$$
+
+* For other criteria: with an extra offset factor $\frac{1}{N}\sigma^2 \ln{K}$
+
 
 ### Exercise
     
@@ -924,8 +943,8 @@ The receiver takes 2 samples.
 $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
 $$e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH K$$
 $$-\sum (r_i - s(t_i))^2 + \sum (r_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ 2 \sum r_i s(t_i) - N s(t_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ \frac{1}{N} \sum r_i s(t_i)  \grtlessH \underbrace{\frac{s(t_i)^2}{2} + \frac{1}{N}\sigma^2 \ln{K}}_{L = const}$$
+$$ 2 \sum r_i s(t_i) - \sum s(t_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ \frac{1}{N} \sum r_i s(t_i)  \grtlessH \underbrace{\frac{1}{2}\frac{\sum s(t_i)^2}{N} + \frac{1}{N}\sigma^2 \ln{K}}_{L = const}$$
 
 ### Interpretation 3: cross-correlation
 
@@ -938,7 +957,7 @@ is greater than a certain threshold $L$, we decide that signal is detected.
     * cross-correlation is a measure of similarity
 
 
-### Generalization: two non-zero values
+### Generalization: two non-zero signals
 
 * Generalization: decide between **two different signals** $s_0(t)$ and $s_1(t)$
     * still with Gaussian noise
@@ -947,8 +966,31 @@ is greater than a certain threshold $L$, we decide that signal is detected.
     * choose minimum Euclidean distance from $\vec{r} = [r_1, r_2, ... r_N]$ to points $\vec{s_0(t)} = [s_0(t_1), s_0(t_2), ...]$ and $\vec{s_1(t)} = [s_1(t_1), s_1(t_2), ...]$
 
 * Interpretation 3: cross-correlation
-    * compute cross-correlation of $\vec{r}$ with $\vec{s_0(t)} = [s_0(t_1), s_0(t_2), ...]$ and with $\vec{s_1(t)} = [s_1(t_1), s_1(t_2), ...]$.
-    * more complicated
+    * compute cross-correlation of $\vec{r}$ with $\vec{s_0(t)} = [s_0(t_1), s_0(t_2), ...]$ and with $\vec{s_1(t)} = [s_1(t_1), s_1(t_2), ...]$,
+    $<\vec{r},\vec{s_0}>$ and $<\vec{r},\vec{s_1}>$.
+    * see next slide
+
+### Detection between two non-zero signals with cross-correlation
+
+$$e^{-\frac{\sum (r_i - s_1(t_i))^2}{2 \sigma^2} + \frac{\sum (r_i - s_0(t_i))^2}{2 \sigma^2}} \grtlessH K$$
+$$-\sum (r_i - s_1(t_i))^2 + \sum (r_i - s_0(t_i))^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ 2 \sum r_i s_1(t_i) - \sum s_1(t_i)^2 - 2 \sum r_i s_0(t_i) + \sum s_0(t_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
+$$ \frac{1}{N} \sum r_i s_1(t_i) - \sum s_1(t_i)^2 \grtlessH \frac{1}{N} \sum r_i s_0(t_i) - \sum s_0(t_i)^2 + \frac{1}{N}\sigma^2 \ln{K}$$
+
+### Detection between two non-zero signals with cross-correlation
+
+* For Maximum Likelihood ($K=1$):
+$$<\vec{r}, \vec{s_1}> - \frac{<\vec{s_1}, \vec{s_1}>}{2} \grtlessH <\vec{r},\vec{s_0}> - \frac{<\vec{s_0},\vec{s_0}>}{2}$$
+
+* If the two signals have the same energy: $\sum s_1(t_i)^2 = \sum s_0(t_i)^2$,
+then $<\vec{s_1}, \vec{s_1}> = <\vec{s_0}, \vec{s_0}>$, so we choose **the signal most similar to $\vec{r}$**:
+    * cross-correlation measures similarity
+$$<\vec{r},\vec{s_1}> \grtlessH <\vec{r},\vec{s_0}>$$
+
+* Examples:
+    * BPSK modulation: $s_1 = A \cos(2 \pi f t)$, $s_0 = -A \cos(2 \pi f t)$
+    * 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{4})$
+
 
 ### IMAGE
 
@@ -969,7 +1011,7 @@ $$s'[n] = s[N-n]$$
 * The convolution of $r[n]$ with $s'[n]$ is
 $$y'[n] = \sum_k r[k] s'[n-k] = \sum_k r[k] s[N-n+k]$$
 
-* The convolution sampled at the end of the signals $n=N$ is the cross-correlation
+* The convolution sampled at the end of the signal, $y[N]$ ($n=N$), is the cross-correlation
     * up to a scaling constant $\frac{1}{N}$
 $$y'[N] = \sum_k r[k] s[k]$$
 
@@ -977,6 +1019,7 @@ $$y'[N] = \sum_k r[k] s[k]$$
 
 * To detect a signal $s[n]$ we can use a **filter with impulse response = mirrored
 version of $s[n]$**, and take the final sample of the output
+    * it is identical to computing the cross-correlation
 
 * **Matched filter** = a filter designed to have the impulse response the flipped
 version of a signal we search for
@@ -986,6 +1029,7 @@ version of a signal we search for
 ### Matched filters
 
 IMAGE HERE
+
 
 ## II.5 Detection of general signals with continuous observations
 
@@ -1029,9 +1073,9 @@ $$d(r,s) = \sqrt{\int \left( r(t) - s(t) \right)^2 dt}$$
 ### Interpretation 3: cross-correlation
 
 * The cross correlation of a continuous signal $r(t)$ with a target signal $s(t)$ of length $T$
-$$<r,s> = \frac{1}{T}{\int_0^T r(t) \cdot s(t) dt}$$
+$$<\vec{r},\vec{s}> = \frac{1}{T}{\int_0^T r(t) \cdot s(t) dt}$$
 
-* If the cross-correlation of the received samples with the target samples $\vec{s(t_i)}$
+* If the cross-correlation of the received signal with the true signal $\vec{s(t_i)}$
 is greater than a certain threshold $L$, we decide that signal is detected.
     * otherwise, the signal is rejected
     * cross-correlation is a measure of similarity
@@ -1047,9 +1091,36 @@ is greater than a certain threshold $L$, we decide that signal is detected.
 
 * Interpretation 3: cross-correlation
     * compute cross-correlation of $\vec{r(t)}$ with $\vec{s_0(t)}$ and with $\vec{s_1(t)}$.
-    * more complicated
+
+### Detection between two non-zero signals with cross-correlation
+
+* For Maximum Likelihood ($K=1$):
+$$<\vec{r}, \vec{s_1}> - \frac{<\vec{s_1}, \vec{s_1}>}{2} \grtlessH <\vec{r},\vec{s_0}> - \frac{<\vec{s_0},\vec{s_0}>}{2}$$
+
+* If the two signals have the same energy: $\int s_1(t)^2 dt= \int s_0(t)^2 dt$,
+then $<\vec{s_1}, \vec{s_1}> = <\vec{s_0}, \vec{s_0}>$, so we choose **the signal most similar to $\vec{r}$**:
+    * cross-correlation measures similarity
+$$<\vec{r},\vec{s_1}> \grtlessH <\vec{r},\vec{s_0}>$$
+
+* Examples:
+    * BPSK modulation: $s_1 = A \cos(2 \pi f t)$, $s_0 = -A \cos(2 \pi f t)$
+    * 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{4})$
+
+### Matched filters
+
+* Cross-correlation of signals can be computed with **matched filters**
+
+* **Matched filter** = a filter designed to have the impulse response the flipped
+version of a signal we search for
+    * the filter is *matched* to the signal we want to detect
+    * rom. "filtru adaptat"
+    * filter is continuous, continuous impulse response
+
+* To detect a signal $s(t)$ we use a matched filter and take the sample of the output
+at the final moment of the input signal
+    * it is identical with computing cross-correlation
 
 
 ### Matched filters
 
-
+IMAGE HERE
