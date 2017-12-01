@@ -239,3 +239,4 @@ means "choose the hypothesis that maximizes the likelihood function".
     * in Detection we are restricted to a few predefined options
     * in Estimation we are unrestricted => choose the maximizing value
 
+## II.3 Estimating with *a priori* knowledge
