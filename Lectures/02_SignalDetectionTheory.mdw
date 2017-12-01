@@ -992,34 +992,41 @@ $$<\vec{r},\vec{s_1}> \grtlessH <\vec{r},\vec{s_0}>$$
     * 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{4})$
 
 
-### IMAGE
+### Detection with correlator circuit
 
-* PUT IMAGE HERE
+![Signal detection using a correlator](img/Correlator.jpg){#id .class width=100%}
+
+*[image from http://nptel.ac.in/courses/117103018/43]* 
+
+### Detection of two signals
+
+![Decision between two signals](img/CorrelatorMultiple.png){#id .class width=80%}
+
+*[source: Fundamentals of Statistical Signal Processing, Steven Kay]*
+
 
 ### Matched filters
 
 * How to compute the cross-correlation of two signals $r[n]$ and $s[n]$ of length $N$?
 $$<r,s> = \frac{1}{N} \sum r_i s(t_i)$$
 
-* The **convolution** of $r[n]$ and $s[n]$ is given by
-$$y[n] = \sum_k r[k] s[n-k]$$
-
-* Let $s'[n]$ be the signal $s[n]$ **flipped / mirrored** ("oglindit")
+* Let $h[n]$ be the signal $s[n]$ **flipped / mirrored** ("oglindit")
     * still starting from time 0 onwards, we want causality
-$$s'[n] = s[N-n]$$
+$$h[n] = s[N-1-n]$$
 
-* The convolution of $r[n]$ with $s'[n]$ is
-$$y'[n] = \sum_k r[k] s'[n-k] = \sum_k r[k] s[N-n+k]$$
+* The convolution of $r[n]$ with $h[n]$ is
+$$y[n] = \sum_k r[k] h[n-k] = \sum_k r[k] s[N-1-n+k]$$
 
-* The convolution sampled at the end of the signal, $y[N]$ ($n=N$), is the cross-correlation
+* The convolution sampled at the end of the signal, $y[N-1]$ ($n=N-1$), is the cross-correlation
     * up to a scaling constant $\frac{1}{N}$
-$$y'[N] = \sum_k r[k] s[k]$$
+$$y[N-1] = \sum_k r[k] s[k]$$
 
 ### Matched filters
 
 * To detect a signal $s[n]$ we can use a **filter with impulse response = mirrored
 version of $s[n]$**, and take the final sample of the output
     * it is identical to computing the cross-correlation
+$$h[n] = s[N-1-n]$$
 
 * **Matched filter** = a filter designed to have the impulse response the flipped
 version of a signal we search for
@@ -1028,7 +1035,10 @@ version of a signal we search for
 
 ### Matched filters
 
-IMAGE HERE
+![Signal detection with matched filter](img/MatchedFilter.png){#id .class width=80%}
+
+*[source: Fundamentals of Statistical Signal Processing, Steven Kay]*
+
 
 
 ## II.5 Detection of general signals with continuous observations
@@ -1119,8 +1129,3 @@ version of a signal we search for
 * To detect a signal $s(t)$ we use a matched filter and take the sample of the output
 at the final moment of the input signal
     * it is identical with computing cross-correlation
-
-
-### Matched filters
-
-IMAGE HERE
