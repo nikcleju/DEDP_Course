@@ -67,7 +67,8 @@ $$w(\vec{r}; \Theta)$$
 
 2. We know a distribution $p(\Theta)$ for $\Theta$, which tells us
 the values of $\Theta$ that are more likely than others
-    * this is known as *a priori* distribution (i.e. "known beforehand")
+    * this is known as *a priori* (or *prior*) distribution (i.e. "known beforehand")
+    
 
 ## II.2 Maximum Likelihood estimation
 
@@ -200,4 +201,199 @@ means "choose the hypothesis that maximizes the likelihood function".
 * Therefore it is the same principle, merely in a different context:
     * in Detection we are restricted to a few predefined options
     * in Estimation we are unrestricted => choose the maximizing value
+
+## II.3 Bayesian estimation
+
+### Prior distribution
+
+* Suppose we know beforehand a distribution of $\Theta$, $w(\Theta)$
+    * we know beforehand how likely it is to have a certain value
+    * known as *a priori* distribution or *prior* distribution
+
+* The estimation must take it into account
+    * the estimate will be slightly "moved" towards more likely values
+    
+* Known as "Bayesian estimation"
+    * Thomas Bayes = discovered the Bayes rule
+    * Stuff related to Bayes rule are often named "Bayesian"
+
+### Cost function
+
+* The **estimation error** is the difference between the estimate $\hat{\Theta}$
+and the true value $\Theta$
+$$\epsilon = \hat{\Theta} = \Theta$$
+
+* The **cost function $C(\epsilon)$** assigns a cost to each possible estimation error
+    * when $\epsilon = 0$, the cost $C(0) = 0$ 
+    * small errors $\epsilon$ have small costs
+    * large errors $\epsilon$ have large costs
+
+* Usual types of cost functions:
+    * Quadratic: $C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$
+    * Uniform ("hit or miss"): 
+    $C(\epsilon) = \begin{cases}
+    0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
+    1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
+    \end{cases}$
+    * Linear: $C(\epsilon) = |\epsilon| = | \hat{\Theta} - \Theta |$
+    * draw them at whiteboard
+
+### The Bayesian risk
+
+* For each pair of values $\vec{r}$ and $\Theta$, $w(\vec{r}; \Theta)$ tells us how likely it is
+to have them
+
+* Multiplying with $C(\epsilon$ gives us the cost, for each $\vec{r}$ and $\Theta$
+$$C(\epsilon) w(\vec{r}; \Theta)$$
+
+* Integrating over $\Theta$ gives the cost for a certain $\vec{r}$
+$$\int_{-\infty}^\infty C(\epsilon) w(\vec{r}; \Theta) d\Theta$$
+
+* Further integrating also over $\vec{r}$ gives the global cost for all $\vec{r}$ and all $\Theta$
+$$R = \int_{-\infty}^\infty \int_{-\infty}^\infty C(\epsilon) w(\vec{r}; \Theta) d\Theta d\vec{r}$$
+
+### Minimizing the risk
+
+* We want to minimize the risk R
+
+* Bayes rule: $w(\vec{r}; \Theta) = w(\Theta | \vec{r}) w(\vec{r})$
+
+* Replacing in R, we obtain
+$$\begin{split}
+R =& \int_{-\infty}^\infty \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) w(\vec{r}) d\Theta d\vec{r} \\
+=& \int_{-\infty}^\infty w(\vec{r}) \left[ \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta \right] d\vec{r}
+\end{split}$$
+
+* Since $w(\vec{r}) \geq 0$, minimizing the inner integral will minimize $R$
+$$I = \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
+
+* Next, we'll replace $C(\epsilon)$ with its definition and derivate over $\hat{\Theta}$
+    * Attention: $\hat{\Theta}$, not $\Theta$!
+
+### MMSE estimator
+
+* When the cost function is quadratic $C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$
+$$I = \int_{-\infty}^\infty (\hat{\Theta} - \Theta)^2 w(\Theta | \vec{r}) d\Theta$$
+
+* We want the $\hat{\Theta}$ that minimizes $I$, so we derivate
+$$\frac{dI}{d\hat{\Theta}} = 2 \int_{-\infty}^\infty (\hat{\Theta} - \Theta) w(\Theta | \vec{r}) d\Theta = 0$$
+
+* Equivalent to
+$$\hat{\Theta} \underbrace{\int_{-\infty}^\infty w(\Theta | \vec{r})}_1 d\Theta = \int_{-\infty}^\infty \Theta w(\Theta | \vec{r}) d\Theta$$
+
+* The **Minimum Mean Squared Error (MMSE)** estimator is
+$$\hat{\Theta} = \int_{-\infty}^\infty \Theta \cdot w(\Theta | \vec{r}) d\Theta$$
+
+### Interpretation
+
+* $w(\Theta | \vec{r})$ is the **posterior** ( or **a posteriori**) distribution 
+    * it is the distribution of $\Theta$ after we know the data we received
+    * the prior distribution $w(\Theta)$ is the one before knowing any data
+    
+* The MMSE estimation is the **average value** of the posterior distribution
+
+### The MAP estimator
+
+* When the cost function is uniform $C(\epsilon) = \begin{cases}
+    0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
+    1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
+    \end{cases}$
+$$\begin{split}
+
+* Keep in mind that $\Theta = \hat{\Theta} - \epsilon$
+
+* We obtain
+$$\begin{split}
+I =& \int_{-\infty}^{\hat{\Theta}-E} w(\Theta | \vec{r}) d\Theta + \int_{\hat{Theta} + E}^\infty w(\Theta | \vec{r}) d\Theta \\
+I =& 1 - \int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta
+\end{split}$$
+
+### The MAP estimator
+
+* To minimize $I$, we must maximize $\int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta$, the integral
+around point $\hat{\Theta}$
+
+* For $E$ a very small, the function $w(\Theta | \vec{r})$ is approximately constant, so we pick the point where the function is maximum
+
+* The **Maximum A Posteriori (MAP)** estimator is
+$$\hat{\Theta} = \arg\max w(\Theta | \vec{r})$$
+
+* $\arg\max$ = "the value which maximizes the function"
+    * $\max f(x)$ = the maximum value of a function
+    * $\arg\max f(x)$ = the $x$ for which the function reaches its maximum
+
+### Interpretation
+
+* The MAP estimator chooses $\Theta$ as the value where the posterior distribution is maximum
+
+* The MMSE estimator chooses $\Theta$ as average value of the posterior distribution
+
+![MAP vs MMSE estimators](img/MAPvsMMSE.png){#id .class width=60%}
+
+*[image from https://allenlu2007.wordpress.com]*
+
+
+### Finding the posterior distribution
+
+* That's cool, but how do we find this posterior distribution $w(\Theta | \vec{r})$?
+
+* Use the Bayes rule
+$$w(\Theta | \vec{r}) = \frac{w(\vec{r}; \Theta)}{w(\vec{r})} = \frac{w(\vec{r} | \Theta) \cdot w(\Theta)}{w(\vec{r})}$$
+
+* Since $w(\vec{r})$ is constant for a given $\vec{r}$ the MAP estimator is
+$$\hat{\Theta} = \arg\max w(\Theta | \vec{r}) = \arg\max w(\vec{r} | \Theta) w(\Theta)$$
+
+* The MAP estimator is the one which **maximizes** the likelihood of the observed data, 
+but multiplying with the prior distribution $w(\Theta)$
+
+* The MMSE estimator is the **average** of the same thing
+
+
+### Relation with Maximum Likelihood Estimator
+
+* The MLE estimator was just $\arg\max w(\vec{r} | \Theta)$
+
+* The MAP estimator = like the MLE estimator but with the prior distribution $w(\Theta)$
+
+* If $w(\Theta)$ is a constant, the MAP estimator reduces to MLE
+    * $w(\Theta)$ = constant means all values $\Theta$ are equally likely
+    * i.e. we don't have a clue where the real $\Theta$ might be
+
+### Relation with Detection
+
+* The minimum probability of error criterion $\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$
+
+* It can be rewritten as $w(r | H_1)\cdot P(H_1) \grtlessH w(r | H_0) P(H_0)$
+    * i.e. choose the hypothesis where $w(r | H)\cdot P(H)$ is maximum
+    * $w(r | H_1)$, $w(r | H_0)$ are the likelihood of observed data
+    * $P(H_1)$, $P(H_0)$ are the prior probabilities (known beforehand)
+
+* The MAP estimator is where $w(\vec{r} | \Theta) w(\Theta)$ is maximum
+    * $w(\vec{r} | \Theta)$ is the likelihood of observed data
+    * $w(\Theta)$ is the prior distribution (known beforehand)
+
+* Therefore it is the same principle, merely in a different context:
+    * in Detection we are restricted to a few predefined options
+    * in Estimation we are unrestricted => choose the maximizing value of the whole function
+
+### Exercise
+
+Exercise: constant value, 3 measurement, Gaussian same $\sigma$
+
+* We want to estimate today's temperature in Sahara
+* Our thermometer reads 40 degrees, but the value was affected by Gaussian noise $\mathcal{N}(0, \sigma^2=2)$ (crappy thermometer)
+* We know that this time of the year, the temperature is around 35 degrees, with a Gaussian distribution $\mathcal{N}(35, \sigma^2 = 2)$.
+* Estimate the true temperature using MLE, MAP and MLE estimators
+
+
+### Exercise
+
+Exercise: constant value, 3 measurements, Gaussian same $\sigma$
+
+* What if he have three thermometers, showing 40, 38, 41 degrees
+
+Exercise: constant value, 3 measurements, Gaussian different $\sigma$
+
+* What if the temperature this time of the year has Gaussian distribution $\mathcal{N}(35, \sigma_2^2 = 3)$
+    * different variance, $\sigma_2 \neq \sigma$
 
