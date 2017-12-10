@@ -150,7 +150,6 @@ plt.show()
 and variance $\sigma^2$
 
 * Overall likelihood function = product of likelihoods for each sample $r_i$
-
 $$\begin{split}
 L(\Theta) =& \prod_{i=1}^N \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{(r_i - s_\Theta(t_i))^2}{2 \sigma^2}} \\
 =&  \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}}
@@ -163,6 +162,23 @@ $$\begin{split}
 
 ### General signal in AWGN
 
+* The maximum of the function = the minimum of the exponent
+$$\hat{\Theta} = \arg\max_{\Theta} w(r; \Theta) = \arg\min \sum(r_i - s_\Theta(t_i))^2$$
+
+* The term $\sum(r_i - s_\Theta(t_i))^2$ is the **squared distance $d(\vec{r},s_\Theta)$**
+$$d(\vec{r},s_\Theta) = \sqrt{\sum (r_i - s_\Theta(t_i))^2}$$
+$$\left(d(\vec{r},s_\Theta)\right)^2 = \sum (r_i - s_\Theta(t_i))^2$$
+
+* Maximum Likelihood estimate $\hat{\Theta}$ = the value that makes $s_\Theta(t_i)$ 
+**closest to the received values $\vec{r}$**
+    * closer = more likely
+    * closest = most likely = maximum likelihood
+
+* For continuous signals? Same, but use distance function for continuous signals
+
+### General signal in AWGN
+
+* Find maximum by setting derivative to 0
 $$\begin{split}
 \frac{d \ln\left(L(\Theta)\right)}{d\Theta} = 0
 \end{split}$$
@@ -239,6 +255,7 @@ means "choose the hypothesis that maximizes the likelihood function".
 * Therefore it is the same principle, merely in a different context:
     * in Detection we are restricted to a few predefined options
     * in Estimation we are unrestricted => choose the maximizing value
+
 
 ## II.3 Bayesian estimation
 
