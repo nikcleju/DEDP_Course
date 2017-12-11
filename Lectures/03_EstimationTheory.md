@@ -82,7 +82,7 @@ known as Maximum Likelihood Estimation (MLE)
     * the unknown variable in this function is $\Theta$ 
     $$L(\Theta) = w(\vec{r}; \Theta)$$
 
-* Maximum Likelihood Estimation: The estimate $\hat{Theta}$ is **the value
+* Maximum Likelihood Estimation: The estimate $\hat{\Theta}$ is **the value
 that maximizes the likelihood of the observed data**
     * i.e. the value $\Theta$ that maximizes $w(r; \Theta)$
     $$\hat{\Theta} = \arg\max_{\Theta} L(\Theta) = \arg\max_{\Theta} w(r; \Theta)$$
@@ -174,7 +174,7 @@ $$\begin{split}
 \end{split}$$
 means
 $$\begin{split}
-\sum(r_i - s_\Theta(t_i))^2 \frac{d s_\Theta(t_i)}{d\Theta} = 0
+\sum(r_i - s_\Theta(t_i)) \frac{d s_\Theta(t_i)}{d\Theta} = 0
 \end{split}$$
 
 ### Numerical simulation
@@ -198,10 +198,9 @@ The likelihood function is:
 ### Numerical simulation
 
 
-~~~~{.python}
+```
 True frequency = 0.070000, Estimate = 0.071515
-
-~~~~~~~~~~~~~
+```
 
 ![](figures/03_EstimationTheory_figure3_1.png){width=8cm}\
 
