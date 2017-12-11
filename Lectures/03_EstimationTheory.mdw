@@ -82,7 +82,7 @@ known as Maximum Likelihood Estimation (MLE)
     * the unknown variable in this function is $\Theta$ 
     $$L(\Theta) = w(\vec{r}; \Theta)$$
 
-* Maximum Likelihood Estimation: The estimate $\hat{Theta}$ is **the value
+* Maximum Likelihood Estimation: The estimate $\hat{\Theta}$ is **the value
 that maximizes the likelihood of the observed data**
     * i.e. the value $\Theta$ that maximizes $w(r; \Theta)$
     $$\hat{\Theta} = \arg\max_{\Theta} L(\Theta) = \arg\max_{\Theta} w(r; \Theta)$$
