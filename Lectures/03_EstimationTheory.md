@@ -198,9 +198,10 @@ The likelihood function is:
 ### Numerical simulation
 
 
-```
+~~~~{.python}
 True frequency = 0.070000, Estimate = 0.071515
-```
+
+~~~~~~~~~~~~~
 
 ![](figures/03_EstimationTheory_figure3_1.png){width=8cm}\
 
@@ -360,7 +361,7 @@ $$w(\Theta | \vec{r}) = \frac{w(\vec{r}; \Theta)}{w(\vec{r})} = \frac{w(\vec{r} 
 $$\hat{\Theta} = \arg\max w(\Theta | \vec{r}) = \arg\max w(\vec{r} | \Theta) w(\Theta)$$
 
 * The MAP estimator is the one which **maximizes** the likelihood of the observed data, 
-but multiplying with the prior distribution $w(\Theta)$
+**but multiplying with the prior distribution $w(\Theta)$**
 
 * The MMSE estimator is the **average** of the same thing
 
@@ -413,3 +414,105 @@ Exercise: constant value, 3 measurements, Gaussian different $\sigma$
 * What if the temperature this time of the year has Gaussian distribution $\mathcal{N}(35, \sigma_2^2 = 3)$
     * different variance, $\sigma_2 \neq \sigma$
 
+### General signal in AWGN
+
+* Consider that the true underlying signal is $s_\Theta(t)$
+* Consider AWGN noise $\mathcal{N}(\mu=0, \sigma^2)$.
+
+* As in Maximum Likelihood function, overall likelihood function
+$$\begin{split}
+w(\vec{r} | \Theta) =&  \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}}
+\end{split}$$
+
+* But now this function is also **multiplied with $w(\Theta)$**
+$$w(\vec{r} | \Theta) \cdot w(\Theta)$$
+
+### General signal in AWGN
+
+* MAP estimator is the argument that maximizes this product
+$$\hat{\Theta}_{MAP} = \arg\max w(\vec{r} | \Theta) w(\Theta)$$
+
+* Taking logarithm
+$$\begin{split}
+\hat{\Theta}_{MAP} =& \arg\max \ln \left( w(\vec{r} | \Theta) \right) + \ln \left( w(\Theta) \right) \\
+=& \arg\max - \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2} + \ln \left(w(\Theta)\right)
+\end{split}$$
+
+### Gaussian prior
+
+* If the prior distribution is also Gaussian $\mathcal{N}(\mu_\Theta, \sigma_\Theta^2)$
+$$ \ln \left(w(\Theta)\right) = - \frac{\sum(\Theta - \mu_\Theta)^2}{2 \sigma_\Theta^2}$$
+
+* MAP estimation becomes
+$$ \hat{\Theta}_{MAP} = \arg\min \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2} + \frac{\sum(\Theta - \mu_\Theta)^2}{2 \sigma_\Theta^2}$$
+
+* Can be rewritten as
+$$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigma^2}{\sigma_\Theta^2}}_\lambda \cdot d(\Theta, \mu_\Theta)^2$$
+
+### Interpretation
+
+* MAP estimator with Gaussian noise and Gaussian prior
+$$\hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigma^2}{\sigma_\Theta^2}}_\lambda \cdot d(\Theta, \mu_\Theta)^2$$
+
+* $\hat{\Theta}_{MAP}$ is close to its expected value $\mu_\Theta$ and it makes the true signal close to received data $\vec{r}$
+    * Example: "search for a house that is close to job and close to the Mall"
+    * $\lambda$ controls the relative importance of the two terms
+    
+* Particular cases
+    * $\sigma_\Theta$ very small = the prior is very specific (narrow) = $\lambda$ large = second term very important = $\hat{\Theta}_{MAP}$ close to $\mu_\Theta$
+    * $\sigma_\Theta$ very large = the prior is very unspecific = $\lambda$ small = first term very important = $\hat{\Theta}_{MAP}$ close to ML estimation
+
+### Applications
+
+* In general, practical applications:
+    * can use various prior distributions
+    * estimate **multiple parameters** ( a vector of parameters)
+
+* Applications
+    * denoising of signals
+    * signal restoration
+    * signal compression
+    
+### Estimator bias
+
+* How good is an estimator?
+    * Many ways to characterize
+    
+* An estimator $\hat{\Theta}$ is a **random variable**
+    * can have different values, because it is computed based on the received samples, which depend on noise
+    * example: in lab, try on multiple computers => slightly different results
+
+* As a random variable, it has:
+    * an average value (expected value): $E \left\{ \hat{\Theta} \right\}$
+    * a variance: $E \left\{ (\hat{\Theta} - \Theta)^2 \right\}$
+    
+### Estimator bias
+
+* **Unbiased** estimator = if the average value of the estimator is the true value of $\Theta$
+$$E \left\{ \hat{\Theta} \right\} = \Theta$$
+      
+* **Biased** estimator = if the average value of the estimator is different from the true value $\Theta$
+    * the difference $E \left\{ \hat{\Theta} \right\} - \Theta$ is called **the bias** of the estimator
+
+
+### Estimator bias
+
+* Example: for constant signal A with AWGN noise (zero-mean), ML estimator is $\hat{A}_{ML} = \frac{1}{N}\sum_i r_i$
+
+* Then:
+$$\begin{split}
+E \left\{ \hat{A}_{ML} \right\} =& \frac{1}{N}E \left\{ \sum_i r_i \right\} \\
+=& \frac{1}{N} \sum_{i=1}^N E \left\{ r_i \right\} \\
+=& \frac{1}{N} \sum_{i=1}^N E \left\{ A + noise \right\} \\
+=& \frac{1}{N} \sum_{i=1}^N A \\
+=& A
+\end{split}$$
+
+* This estimator in unbiased
+
+### Estimator variance
+
+* Unbiased estimators are good, but if the **variance** of the estimator is large, then
+estimated values can be far from the true value
+
+* We prefer estimators with **small variance**, even if maybe slightly biased
