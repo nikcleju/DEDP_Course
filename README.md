@@ -9,6 +9,10 @@ autumn semester at ETTI, TUIASI.
 - [Lectures\02_SignalDetectionTheory.pdf](Lectures/02_SignalDetectionTheory.pdf)
 - [Lectures\03_EstimationTheory.pdf](Lectures/03_EstimationTheory.pdf)
 
+**Exam**
+
+A sample exam sheet is here: [SampleExam\SampleExamSheet.pdf](SampleExam/SampleExamSheet.pdf)
+
 **Laboratory test**
  
 The list of subjects is here: [Labs\LabTest.pdf](Labs/LabTest.pdf)
