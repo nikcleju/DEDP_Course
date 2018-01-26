@@ -13,6 +13,14 @@ autumn semester at ETTI, TUIASI.
 
 A sample exam sheet is here: [SampleExam\SampleExamSheet.pdf](SampleExam/SampleExamSheet.pdf)
 
+**Grades for Laboratory and Tests**
+
+The Laboratory grades are here: [Grades\NoteLab_Final_2018_01_26.pdf](Grades/NoteLab_Final_2018_01_26.pdf)
+
+The Tests grades are here: [Grades\NoteTeste_Final_2018_01_26.pdf](Grades/NoteTeste_Final_2018_01_26.pdf)
+
+To access the files, download and enter the password: your group number (**xxxx**).
+
 **Laboratory test**
  
 The list of subjects is here: [Labs\LabTest.pdf](Labs/LabTest.pdf)
@@ -23,12 +31,7 @@ All the laboratory documents are in the Labs folder.
 
 **Tests during semester**
 
-The grades of the 3 tests during the semester are available here: [Tests\NoteTeste_2017_12_18.pdf](Tests/NoteTeste_2017_12_18.pdf).
-To access the file, download the file and enter the password: your group number (**xxxx**).
-
-As you know, it is possible to re-take one test during the lecture hours in the last week.
-
-All the tests given this semester will be available in the Tests folder (soon to be).
+All the tests given this semester are available in the Tests folder: [Tests](Tests)
 
 **Seminars**
 
