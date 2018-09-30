@@ -20,12 +20,11 @@ EXPORTED_DOCS_TEX = $(SOURCE_MD:.md=.tex)
 
 # Pandoc options
 PANDOC = pandoc
-PANDOC_OPTIONS = -f markdown+latex_macros --standalone -t beamer --slide-level 3 --include-in-header macros.md
+PANDOC_OPTIONS = -f markdown+latex_macros --standalone 
 
 # PWeave options
 PWEAVE = pweave
 PWEAVE_OPTIONS = -f pandoc
-PWEAVE_OPTIONS_FAST = $(PWEAVE_OPTIONS) --documentation-mode
 
 # Other options
 RM=/bin/rm
@@ -33,15 +32,14 @@ RM=/bin/rm
 
 # Make Rules
 
-# slides_header needed at start, otherwise needs a level-1 header
 %.pdf : %.md
-	$(PANDOC) $(PANDOC_OPTIONS) -o $@ slides_header.md $<
+	$(PANDOC) $(PANDOC_OPTIONS) -o $@ $<
 
 %.odt : %.md
-	$(PANDOC) $(PANDOC_OPTIONS) -o $@ slides_header.md $<
+	$(PANDOC) $(PANDOC_OPTIONS) -o $@ $<
 
 %.tex : %.md
-	$(PANDOC) $(PANDOC_OPTIONS) -o $@ slides_header.md $<
+	$(PANDOC) $(PANDOC_OPTIONS) -o $@ $<
 
 %.md : %.mdw
 	$(PWEAVE) $(PWEAVE_OPTIONS) -o $@ $<
@@ -49,7 +47,9 @@ RM=/bin/rm
 # What is this?
 .PHONY: all clean
 
-all : tex odt pdf
+all : pdf
+
+debug: tex odt pdf
 
 odt : $(EXPORTED_DOCS_ODT)
 

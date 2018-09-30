@@ -1,41 +1,37 @@
-# DEDP20172018
-Here you will find all the materials for the class of Decision and Estimation in Data Processing taught during 2017-2018
+# Decision and Estimation in Data Processing Course
+
+Here you will find all the materials for the class of Decision and Estimation in Data Processing taught during 2018-2019
 autumn semester at ETTI, TUIASI.
 
-**Lectures [pdf]** All lecture slides are available in the Lectures folder:
+## Course contents
+
+### Lectures
+
+All lecture slides are available as pdf in the Lectures folder:
 
 - [Lectures\00_Introduction.pdf](Lectures/00_Introduction.pdf)
 - [Lectures\01_RandomSignals.pdf](Lectures/01_RandomSignals.pdf)
 - [Lectures\02_SignalDetectionTheory.pdf](Lectures/02_SignalDetectionTheory.pdf)
 - [Lectures\03_EstimationTheory.pdf](Lectures/03_EstimationTheory.pdf)
 
-**Exam**
+
+### Laboratory
+
+All laboratories are available in the Labs folder
+
+### Seminars
+
+The exercises done in the seminars are available in the Seminars folder.
+
+## Evaluation
+
+### Exam
 
 A sample exam sheet is here: [SampleExam\SampleExamSheet.pdf](SampleExam/SampleExamSheet.pdf)
 
-**Grades for Laboratory and Tests**
+### Grades
 
-The Laboratory grades are here: [Grades\NoteLab_Final_2018_01_26.pdf](Grades/NoteLab_Final_2018_01_26.pdf)
-
-The Tests grades are here: [Grades\NoteTeste_Final_2018_01_26.pdf](Grades/NoteTeste_Final_2018_01_26.pdf)
-
-To access the files, download and enter the password: your group number (**xxxx**).
-
-**Laboratory test**
- 
-The list of subjects is here: [Labs\LabTest.pdf](Labs/LabTest.pdf)
-
-The schedule of the test entry times is here: [Labs\ProgramareTest.pdf](Labs/ProgramareTest.pdf)
-
-All the laboratory documents are in the Labs folder.
-
-**Tests during semester**
-
-All the tests given this semester are available in the Tests folder: [Tests](Tests)
-
-**Seminars**
-
-The exercises done in the seminars are available in the Seminars folder.
+Grades are available only on the Faculty's [e-learning site](https://edu.etti.tuiasi.ro)
 
 Have fun!
 
