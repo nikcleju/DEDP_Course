@@ -12,23 +12,30 @@ by a (partially) random phenomenon
 * Typically denoted as $X$, $Y$ etc..
 
 * Examples:
-    * The value of a dice
-    * The value of the voltage in a circuit
+    * $X$ = The value of a dice
+    * $V_{in}$ = The value of the voltage in one point of a circuit
 
-* The opposite = a **constant value**
+### Off-topic: Glossary
+
+- *"i.e."* = *id est* = "that is" = "adică"
+
+- *"e.g."* = *exampli gratia* = "for example" = "de exemplu"
 
 ### Realizations
 
-* **A realization** = a single outcome of the random experiment 
+* **A realization** of a random variable = one possible value it can take
+    * e.g. the value 3 of a dice
+    * at different times, one may get different realizations
 
 * **Sample space** $\Omega$ = the set of all values that can be taken by a random variable $X$
     * i.e. the set of all possible realizations
 
 * Example: rolling a dice
     * The r.v. is denoted as $X$
-    * We might get a realization $X = 3$
+    * We might get a realization $X = 6$
     * But we could have got any value from the sample space
     $$\Omega = \left\{1, 2, 3, 4, 5, 6\right\}$$
+
 
 ### Discrete and continuous random variables
 
@@ -37,91 +44,165 @@ by a (partially) random phenomenon
 * **Continuous** random variable: if $\Omega$ is a continuous set
     * Example: a voltage value
 
-### Discrete random variables
+### Why random variables?
 
-* Consider a discrete r.v. $X$
+- Random variables are a great model for **noise**
 
-* The **cumulative distribution function (CDF)** = the probability
-that the value of $X$ is smaller or equal than the argument $x$
-$$F_X(x) = P\left\{ X \leq x \right\}$$
+- Examples:
+    - Measure a voltage in a circuit
+    - Measure several times, the value is never precisely the same.
+The values always *varies* a little.
+    - i.e. it is affected by noise
 
-* In Romanian: *"funcție de repartitie"*
+### Probability Mass Function
 
-* Example: CDF for a dice
+- Consider a **discrete** r.v. $A$
 
-* For discrete r.v., the CDF is "stairwise"
+- The **probability mass function (PMF)** = the probability that $A$ has value $x$
+$$w_A(x)= P\left\{ A = x\right\}$$
 
-### Discrete random variables
+- Also known as the **distribution** of $A$
 
-* The **probability mass function (PMF)** = the probability that $X$ has value $x$
-$$w_X(x)= P\left\{ X = x\right\}$$
+- Example: what is the PMF of a dice? Plot on board.
 
-* Example: what is the PMF of a dice?
+### Computing probability based on PMF
 
-* Relation to CDF:
+- Probability that $A$ is equal to some value $v$
+$$P\left\{ A = v\right\} = w_A(v)$$
+
+- Probability that $A$ is between $a$ and $b$ (including):
+$$P\left\{ a \leq A \leq b\right\} = \sum_{x=a}^b w_A(x)$$
+
+### Cumulative Distribution Function
+
+- The **cumulative distribution function (CDF)** = the probability
+that the value of $A$ is smaller or equal than $x$
+$$F_A(x) = P\left\{ A \leq x \right\}$$
+
+- In Romanian: *"funcție de repartitie"*
+
+- Example: what is the CDF of a dice? Plot on board.
+
+- For discrete r.v., the CDF is "stairwise"
+
+### Computing probability based on CDF
+
+- Probability that $A$ is equal to some value $v$
+$$P\left\{ A = v\right\} = F_A(v) - F_A(v-1)$$
+
+- Probability that $A$ is between $a$ and $b$ (including):
+$$P\left\{ a \leq A \leq b\right\} = F_A(b) - F_A(a-1)$$
+
+### Relation between PMF and CDF
+
+- CDF is the *cumulative sum* (i.e. the integral) of PMF
 $$F(x) = \sum_{all \;\; t \le x} w(t)$$
 
-### Continuous random variables
+- Example for dice: easy to notice graphically
 
-* Consider a continuous r.v. $X$
+### Probability Density Function
 
-* The CDF of a continuous r.v. is defined identically:
-$$F_X(x) = P\left\{ X \leq x \right\}$$
+- Consider a **continuous** r.v. $A$ 
+    - assume it takes values in some interval $[a, b]$
+    
+- The **Probability Density Function (PDF)** of $A$
+= probability that the value of $A$ is in a small vicinity $epsilon$ around $x$, divided by $epsilon$
 
-* The derivative of the CDF is the **probability density function (PDF)**
-$$w_X(x) = \frac{dF_X(x)}{dx}$$
-$$F_X(x) = \int_{-\infty}^x w_X(t) dt$$
+- Denoted as $w_A(x)$, also known as **the distribution** of A
 
-### Continuous random variables
-
-* The PDF gives the probability that the value of $X$ is in a small vicinity $epsilon$ around $x$, divided by $epsilon$
-
-$$\begin{split}
-w_X(x) = \frac{dF_X(x)}{dx} =& \lim_{\epsilon \to 0}{\frac{F_X(x+\epsilon) - F_X(x-\epsilon)}{2 \epsilon}} \\
-=& \lim_{\epsilon \to 0}{\frac{P(X \in [x-\epsilon, x+\epsilon])}{2 \epsilon}}
-\end{split}$$
+- Informally, the PDF gives the probability that the value of $A$ is **close to** $x$
 
 ### Probability of an exact value
 
-* The probability that a continuous r.v. $X$ is **exactly** equal to a value $x$ is **zero**
-    * because there are an infinity of possibilities (continuous)
-    * That's why we can't define a probability mass function like for discrete
+- The probability that a continuous r.v. $A$ is **exactly** equal to a value $x$ is **zero**
+    - because there are an infinity of possibilities (continuous)
+    - That's why we can't define a probability mass function like for discrete r.v.
 
-* The PDF gives the probability of being **in a small vicinity** around some value $x$
+- That's why the PDF says **in a small vicinity** around some value $x$, and not precisely equal to $x$
 
-###  Probability and distribution
+### Computing probability based on PDF
 
-* Compute probability based on PDF (continuous r.v.):
-$$P\left\{ A \leq X \leq B\right\} = \int_A^B w_X(x) dx$$
+- Probability that $A$ is equal to some value $v$ is always 0
+$$P\left\{ A = v\right\} = 0$$
 
-* Compute probability based on PMF (discrete r.v.):
-$$P\left\{ A \leq X \leq B\right\} = \sum_{x=A}^B w_X(x)$$
+- Probability that $A$ is between $a$ and $b$ = integral of PDF from $a$ to $b$:
+$$P\left\{ a \leq A \leq b\right\} = \int_a^b w_A(x) dx$$
 
+### Cumulative Distribution Function
+
+- The **cumulative distribution function (CDF)** = the probability
+that the value of $A$ is smaller or equal than $x$
+$$F_A(x) = P\left\{ A \leq x \right\}$$
+
+- In Romanian: *"funcție de repartiție"*
+
+- Same definition as for discrete r.v.
+
+### Computing probability based on CDF
+
+- Probability that $A$ is between $a$ and $b$:
+$$P\left\{ a \leq A \leq b\right\} = F_A(b) - F_A(a)$$
+
+- Doesn't matter if we consider closed or open interval 
+    - $[a,b]$ or $(a,b)$
+    - why? 
+
+### Relation between PDF and CDF
+
+- CDF is **the integral** of PMF
+- PDF is **the derivative** of CDF
+
+$$F_A(x) = \int_{-\infty}^x w_A(x) \mathrm{d}x$$
+
+$$\begin{split}
+w_A(x) &= \frac{\mathrm{d}F_A(x)}{\mathrm{d}x} \\
+&= \lim_{\epsilon \to 0}{\frac{F_A(x+\epsilon) - F_A(x-\epsilon)}{2 \epsilon}} \\
+&= \lim_{\epsilon \to 0}{\frac{P(A \in [x-\epsilon, x+\epsilon])}{2 \epsilon}}
+\end{split}$$
+    
 ### Graphical interpretation 
 
-* Probability that a r.v. $X$ is between A and B is **the area below the PDF**
-    * i.e. the integral from A to B
+* Probability that a continuous r.v. $A$ is between $a$ and $b$ is **the area below the PDF**
+    * i.e. the integral from $a$ to $b$
     
-* Probability that $X$ is exactly equal to a certain value is zero
+* Probability that $A$ is exactly equal to a certain value is zero
     * the area below a single point is zero
 
-### Properties of PDF/PMF/CDF
+### Discrete vs continuous r.v.
 
-* The CDF is monotonously increasing (non-decreasing)
+Comparison discrete vs continous random variables:
 
-* The PDF/PMF are always $\geq 0$
+- The CDF $F_A(x)$ is defined identically, means same thing
+- The PDF/PMF $w_A(x)$ is the derivative of CDF
+    - for continuous r.v.:
+        - it is a proper derivative
+        - it means probability to be "around" $x$
+    - for discrete r.v:
+        - sort of "discrete derivative"
+        - it means probability to be exactly equal to $x$
 
-* The CDF starts from 0 and goes up to 1
+### Properties of random variables
 
-* Integral/sum over all of the PDF/PMF = 1
+CDF:
 
-* Some others, mention when needed
+- The CDF is always $\geq 0$
+- The CDF is always monotonously increasing (non-decreasing)
+- The CDF starts from 0 and goes up to 1
+$$F_A(-\infty) = 0 \;\;\;\; F_A(\infty) = 1$$
+
+PDF/PFM:
+
+- The PDF/PMF are always $\geq 0$
+- Integral/sum over all of the PDF/PMF = 1
+$$\int_{-\infty}^\infty w_A(x) \mathrm{d}x = 1$$
+$$\sum_{x = -\infty}^\infty w_A(x) = 1$$
+
 
 ### The normal distribution
 
 * Probability density function
 
-$$w(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
+$$w_A(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
 
 
 ![](figures/01_RandomSignals_figure1_1.png){width=8cm}\
@@ -129,23 +210,35 @@ $$w(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
 
 ### The normal distribution
 
-* Has two parameters:
-    * **Average value** $\mu$ = "center" of the function
-    * **Standard deviation** $\sigma$  = "width" is the function
+- Has two parameters:
+    - **Average value** $\mu$ = "center" of the function
+    - **Standard deviation** $\sigma$  = "width" of the function
+        - Small $\sigma$ = narrow and tall
+        - Big $\sigma$ = wide and low
 
-* The front constant is just for normalization (ensures that integral = 1)
+- The front constant is just for normalization (ensures that integral = 1)
     
-* Extremely often encountered in real life
+- Extremely often encountered in real life
 
-* Any real value is possible ($w(x) > 0, \forall x \in \mathbb{R}$)
+- Any real value is possible ($w_A(x) > 0, \forall x \in \mathbb{R}$)
 
-* Usually denoted as $\mathcal{N}(\mu, \sigma)$
+- Usually denoted as $\mathcal{N}(\mu, \sigma^2)$
+
+### The normal distribution - 
+
+- The distribution decreases as $x$ gets farther from $\mu$
+    - Because of the term $-(x - \mu)^2$ at the exponent
+    - Most likely values: around $\mu$ ($x - \mu = 0$)
+    - Values closer to $\mu$ are more likely, values farther from $\mu$ are less likely
+
+- The function describes a preference for values around $\mu$, 
+with decreasing preference when getting farther from $\mu$
 
 ### The uniform distribution
 
-* The probability density function = constant, between two endpoints
+* The probability density function = a constant, between two endpoints
 
-$$w(x) = 
+$$w_A(x) = 
 \begin{cases}
 \frac{1}{b-a}, & x \in [a, b] \\
  0, &elsewhere
@@ -157,19 +250,35 @@ $$w(x) =
 
 ### The uniform distribution
 
-* Has two parameters: the limits $a$ and $b$ of the interval
+- Has two parameters: the limits $a$ and $b$ of the interval
 
-* The "height" of the function is $\frac{1}{b-a}$, for normalization
+- The "height" of the function is $\frac{1}{b-a}$
+    - in order for the integral to be 1
     
-* Very simple
+- Only values from the interval $[a, b]$ are possible
+    - value cannot be outside interval (probability is 0)
 
-* Only values from the interval $[a, b]$ are possible
-
-* Denoted as $\mathcal{U} \;[a, b]$
+- Denoted as $\mathcal{U} \;[a, b]$
 
 ### Other distributions
 
 * Many other distributions exist, relevant for particular applications
+
+### Sum of constant + random variable
+
+- Consider a random variable $A$
+- What is B = 5 + A?
+
+Answer:
+
+- B i also a random variable
+- B has same type of distribution, but the function is "shifted" by 5 to the right
+
+Example:
+
+- A is normal variable with $w_A(x) = \mathcal{N}(\mu=3, \sigma^2=2)$
+- What is the distribution of B = 5 + A?
+- Answer: $w_B(x) = \mathcal{N}(\mu=8, \sigma^2=2)$
 
 ### R.v. as functions of other r.v.
 
@@ -185,31 +294,23 @@ $$w(x) =
 * X, Y, Z, T are not independent
     * A certain value of one of them automatically implies the value of the others
 
-### Exercise
-
-Exercise:
-
-  * If $X$ is a r.v. with distribution $\mathcal{U} \; [0, \pi]$, 
-    compute the probability density of a r.v. $Y$ defined as
-    $$Y = cos(X)$$
 
 ### Computing probabilities for the normal distribution
 
-* How to compute $\int_a^b$ for a normal distribution?
-    * Can't be done with algebraic formula, non-elementary function
+- How to compute $\int_a^b$ for a normal distribution?
+    - Can't be done with algebraic formula, non-elementary function
 
-* Use *the error function*:
+- Use *the error function*:
 $$erf(z) = \frac{2}{\sqrt{\pi}} \int_0^z e^{-t^2} dt$$
 
-* The CDF of a normal distribution $\mathcal{N}(\mu, \sigma^2)$
+- The CDF of a normal distribution $\mathcal{N}(\mu, \sigma^2)$
 $$F(X) = \frac{1}{2}(1 + erf(\frac{x - \mu}{\sigma \sqrt{2}}))$$
 
-* The values of *erf()* are available / are computed numerically
-    * e.g. on GOogle, search for $erf(0.5)$
-
-* Other useful values:
-    * $erf(-\infty) = -1$
-    * $erf(\infty) = 1$
+- The values of *erf()* are available / are computed numerically
+    - e.g. on Google, search for $erf(0.5)$
+    - Other useful values:
+        - $erf(-\infty) = -1$
+        - $erf(\infty) = 1$
 
 ### Exercise
 
