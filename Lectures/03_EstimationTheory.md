@@ -198,10 +198,9 @@ The likelihood function is:
 ### Numerical simulation
 
 
-~~~~{.python}
+```
 True frequency = 0.070000, Estimate = 0.071515
-
-~~~~~~~~~~~~~
+```
 
 ![](figures/03_EstimationTheory_figure3_1.png){width=8cm}\
 

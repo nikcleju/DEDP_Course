@@ -12,23 +12,30 @@ by a (partially) random phenomenon
 * Typically denoted as $X$, $Y$ etc..
 
 * Examples:
-    * The value of a dice
-    * The value of the voltage in a circuit
+    * $X$ = The value of a dice
+    * $V_{in}$ = The value of the voltage in one point of a circuit
 
-* The opposite = a **constant value**
+### Offtopic: Glossary
+
+- *"i.e."* = *id est* = "that is" = "adica"
+
+- *"e.g."* = *exampli gratia* = "for example" = "de exemplu"
 
 ### Realizations
 
-* **A realization** = a single outcome of the random experiment 
+* **A realization** of a random variable = one possible value it can take
+    * e.g. the value 3 of a dice
+    * at different times, one may get different realizations
 
 * **Sample space** $\Omega$ = the set of all values that can be taken by a random variable $X$
     * i.e. the set of all possible realizations
 
 * Example: rolling a dice
     * The r.v. is denoted as $X$
-    * We might get a realization $X = 3$
+    * We might get a realization $X = 6$
     * But we could have got any value from the sample space
     $$\Omega = \left\{1, 2, 3, 4, 5, 6\right\}$$
+
 
 ### Discrete and continuous random variables
 
@@ -36,6 +43,17 @@ by a (partially) random phenomenon
     * Example: value of a dice
 * **Continuous** random variable: if $\Omega$ is a continuous set
     * Example: a voltage value
+
+### Why random variables?
+
+- Random variables are a great model for **noise**
+
+- Examples:
+    - Measure a voltage in a circuit
+
+- Measure several times, the value is never precisely the same.
+The values always *varies* a little
+    - i.e. it is affected by noise
 
 ### Discrete random variables
 

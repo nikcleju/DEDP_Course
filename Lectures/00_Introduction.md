@@ -9,38 +9,36 @@
 
 - Time schedule
     - 14 weeks of lectures (3h each)
-    - 7 laboratories (2h each)
-    - 7 seminars (2h each)
+    - 14h laboratory = 7 laboratories $\times$ 2h each
+    - 14h seminar = 14 seminars $\times$ 1h each
 
 - My office hours: *To Be Announced* (best by appointment)
 
 
 ### Evaluation
 
-- Exam
+- Exam = 60%
     - 60% of final grade
-    - theory and exercises
-    - Many small questions (like in Information Theory exam), both for theory and exercises
+    - Exercises and Theory
+    - Similar to Information Theory exam
     
-- Laboratory
-    - 20% of final grade
-    - in Matlab / Simulink
-    - grade will be computed from:
+- Applications = 40%
+    - Laboratory = 20%
+        - in Matlab / Simulink
         - activity throughout semester (10%)
-	    - final laboratory practical test in Matlab / Simulink (10%)
-	   
-- Intermediate tests
-    - 20% of final grade
-    - 3 tests: in Week 5, Week 8 and Week 11
-    - test = one exercise, 30 minutes, during lecture or laboratory (will be decided)
-    - Tests grade = average of the three tests grades
+        - final laboratory practical test in Matlab / Simulink (10%)
 
-- Final grade = 60% Exam + 20% Lab + 20% Tests
+    - Seminar + Intermediate tests = 20%
+        - 3 tests: in Week 5, Week 8 and Week 11
+        - test = one exercise, 30 minutes, during seminar
+        - Tests grade = average of the three tests grades + presence at Seminar
+
+- Final grade = 60% Exam + (20% Lab + 20% Tests)
 
 
 ### Course structure
 1. Chapter I:   Random signals
-2. Chapter II:  Elements of statistical decision theory
+2. Chapter II:  Statistical decision theory
 3. Chapter III: Statistical estimation
 
 ### Bibliography (TBD)
