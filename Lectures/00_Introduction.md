@@ -48,3 +48,7 @@
 1. *Transmisia si codarea informatiei*, lectures at ETTI (Romanian)
 1. *Information and Coding Theory*, Gareth A. Jones, J. Mary Jones, Springer 2000
 
+### Online access
+
+- Moodle platform: edu.etti.tuiasi.ro
+- github.com: https://github.com/nikcleju/DEDP_Course
