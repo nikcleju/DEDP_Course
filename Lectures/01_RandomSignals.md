@@ -318,13 +318,6 @@ Example:
 - A, B, C, D are *not independent*
     - A certain value of one of them automatically implies the value of the others
 
-### Exercise
-
-Exercise:
-
-  - Let $A$ be a r.v. with distribution $\mathcal{N}(3, 2)$. 
-Compute the probability that $A \in [2, 4]$
-
 ### Multiple random variables
 
 - Consider a system with two continuous r.v. $A$ and $B$
@@ -352,11 +345,11 @@ $$w_{AB}(x,y) = P\left\{ A = x \cap B = y \right\}$$
 
 ### Independent random variables
 
-- Two v.a. $X$ and $Y$ are **independent** if the value of one of them
+- Two v.a. $A$ and $B$ are **independent** if the value of one of them
 does not influence in any way the value of the other
 
-- For independent r.v., the probability that $X$ is around $x$
- and $Y$ is around $y$ is **the product** of the two probabilities
+- For independent r.v., the probability that $A$ is around $x$
+ and $B$ is around $y$ is **the product** of the two probabilities
 
 $$w_{AB}(x,y) = w_A(x) \cdot w_B(y)$$
 
@@ -400,7 +393,7 @@ $$d(\mathbf{u},\mathbf{v}) = \| \mathbf{u}-\mathbf{v} \| = \sqrt{(u_1-v_1)^2+...
 
 - ...
 
-- N-dimensional: $\|\mathbf{u}-\mathbf{v}\| = \sqrt{\int_{-\infty}^{\infty}(u(t) - v(t))^2 dt}$
+- Continuous signals: $\|\mathbf{u}-\mathbf{v}\| = \sqrt{\int_{-\infty}^{\infty}(u(t) - v(t))^2 dt}$
 
 ### Multiple normal variables
 

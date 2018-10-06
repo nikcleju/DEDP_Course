@@ -209,7 +209,7 @@ import matplotlib.pyplot as plt, numpy as np, math;
 mu = 3;
 sigma = 1;
 x = np.linspace(mu-5*sigma,mu+5*sigma,200);
-pdf = 1/(sigma*math.sqrt(2*math.pi))*np.exp(-(x-mu)**2/(2*sigma**2));
+pdf = 1/(sigma*math.sqrt(2*math.pi))*np.exp(-(x-mu)**2/(2*sigma**2)); #**
 plt.plot(x,pdf);
 plt.xlabel('x');
 plt.ylabel('fdp(x)');
@@ -258,7 +258,7 @@ import matplotlib.pyplot as plt, numpy as np, math
 a = -1
 b = 3
 x = np.linspace(-2, 4, 60)
-pdf = np.hstack( (np.zeros((10)), 1/(b-a)*np.ones((40)),  np.zeros((10))))
+pdf = np.hstack( (np.zeros((10)), 1/(b-a)*np.ones((40)),  np.zeros((10))))  #*
 plt.plot(x,pdf)
 plt.xlabel('x')
 plt.ylabel('fdp(x)')
@@ -336,13 +336,6 @@ Example:
 - A, B, C, D are *not independent*
     - A certain value of one of them automatically implies the value of the others
 
-### Exercise
-
-Exercise:
-
-  - Let $A$ be a r.v. with distribution $\mathcal{N}(3, 2)$. 
-Compute the probability that $A \in [2, 4]$
-
 ### Multiple random variables
 
 - Consider a system with two continuous r.v. $A$ and $B$
@@ -370,11 +363,11 @@ $$w_{AB}(x,y) = P\left\{ A = x \cap B = y \right\}$$
 
 ### Independent random variables
 
-- Two v.a. $X$ and $Y$ are **independent** if the value of one of them
+- Two v.a. $A$ and $B$ are **independent** if the value of one of them
 does not influence in any way the value of the other
 
-- For independent r.v., the probability that $X$ is around $x$
- and $Y$ is around $y$ is **the product** of the two probabilities
+- For independent r.v., the probability that $A$ is around $x$
+ and $B$ is around $y$ is **the product** of the two probabilities
 
 $$w_{AB}(x,y) = w_A(x) \cdot w_B(y)$$
 
@@ -418,7 +411,7 @@ $$d(\mathbf{u},\mathbf{v}) = \| \mathbf{u}-\mathbf{v} \| = \sqrt{(u_1-v_1)^2+...
 
 - ...
 
-- N-dimensional: $\|\mathbf{u}-\mathbf{v}\| = \sqrt{\int_{-\infty}^{\infty}(u(t) - v(t))^2 dt}$
+- Continuous signals: $\|\mathbf{u}-\mathbf{v}\| = \sqrt{\int_{-\infty}^{\infty}(u(t) - v(t))^2 dt}$
 
 ### Multiple normal variables
 
