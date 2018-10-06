@@ -444,10 +444,10 @@ in circles (symmetrically)
 * **The average value** (moment of order 1)
 
 * Continuous r.v.:
-$$\overline{X} = E\{X\} = \int_{-\infty}^{\infty} x \cdot w_X(x) dx$$
+$$\overline{A} = E\{A\} = \int_{-\infty}^{\infty} x \cdot w_A(x) dx$$
 
 * Discrete r.v.:
-$$\overline{X} = E\{X\} = \sum_{x=-\infty}^{\infty} x \cdot w_X(x) dx$$
+$$\overline{A} = E\{A\} = \sum_{x=-\infty}^{\infty} x \cdot w_A(x)$$
 
 * (Example: the entropy of H(X) = the average value of the information)
 
@@ -459,11 +459,11 @@ $$\overline{X} = E\{X\} = \sum_{x=-\infty}^{\infty} x \cdot w_X(x) dx$$
     * because the underlying integral / sum is a linear operation
 
 * Linearity
-$$E\{aX + bY\} = aE\{X\} + bE\{Y\}$$
+$$E\{c_1A + c_2B\} = c_1E\{A\} + c_2E\{B\}$$
 
 * Or:
-$$E\{aX\} = a E\{X\}, \forall a \in \mathbb{R}$$
-$$E\{X + Y\} = E\{X\} + E\{Y\}$$
+$$E\{cA\} = c E\{A\}, \forall c \in \mathbb{R}$$
+$$E\{A + B\} = E\{A\} + E\{B\}$$
 
 * No proof given here
 
@@ -474,10 +474,10 @@ $$E\{X + Y\} = E\{X\} + E\{Y\}$$
 * Moment of order 2
 
 * Continuous r.v.:
-$$\overline{X^2} = E\{X^2\} = \int_{-\infty}^{\infty} x^2 \cdot w_X(x) dx$$
+$$\overline{A^2} = E\{A^2\} = \int_{-\infty}^{\infty} x^2 \cdot w_A(x) dx$$
 
 * Discrete r.v.:
-$$\overline{X^2} = E\{X^2\} = \sum_{-\infty}^{\infty} x^2 \cdot w_X(x) dx$$
+$$\overline{A^2} = E\{A^2\} = \sum_{-\infty}^{\infty} x^2 \cdot w_A(x)$$
 
 * Interpretation: average of squared values = average energy of a signal
 
@@ -486,10 +486,10 @@ $$\overline{X^2} = E\{X^2\} = \sum_{-\infty}^{\infty} x^2 \cdot w_X(x) dx$$
 * **Variance**= average squared value of the difference to the average value
 
 * Continuous r.v.:
-$$\sigma^2 = \overline{\left\{ X - \mu \right\}^2} = \int_{-\infty}^{\infty} (x-\mu)^2 \cdot w_X(x) dx$$
+$$\sigma^2 = \overline{\left\{ A - \mu \right\}^2} = \int_{-\infty}^{\infty} (x-\mu)^2 \cdot w_A(x) dx$$
 
 * Discrete r.v.:
-$$\sigma^2 = \overline{\left\{ X - \mu \right\}^2} = \sum_{-\infty}^{\infty} (x-\mu)^2 \cdot w_X(x) dx$$
+$$\sigma^2 = \overline{\left\{ A - \mu \right\}^2} = \sum_{-\infty}^{\infty} (x-\mu)^2 \cdot w_A(x)$$
 
 * Interpretation: how much do the values vary around the average value
     * $\sigma^2 =$ large: large spread around the average value
@@ -499,10 +499,10 @@ $$\sigma^2 = \overline{\left\{ X - \mu \right\}^2} = \sum_{-\infty}^{\infty} (x-
 
 * Relation between the average value, the average squared value, and the dispersion:
 $$\begin{split}
-\sigma^2 &= \overline{\left\{ X - \mu \right\}^2} \\
-&= \overline{X^2 - 2 \cdot X \cdot \mu + \mu^2} \\
-&= \overline{X^2} - 2 \mu \overline{X} + \mu^2 \\
-&= \overline{X^2} - \mu^2
+\sigma^2 &= \overline{\left\{ A - \mu \right\}^2} \\
+&= \overline{A^2 - 2 \cdot A \cdot \mu + \mu^2} \\
+&= \overline{A^2} - 2 \mu \overline{A} + \mu^2 \\
+&= \overline{A^2} - \mu^2
 \end{split}$$
 
 ### Sum of random variables
@@ -511,13 +511,13 @@ $$\begin{split}
 
 * Its distribution = the **convolution** of the distributions of the two r.v.
 
-* If $Z = X + Y$
-$$w(z) = w(x) \star w(y)$$
+* If $C = A + B$
+$$w_C(x) = w_A(x) \star w_B(x)$$
 
-* Particular case: if $X$ and $Y$ are normal r.v., with $\mathcal{N}(\mu_X, \sigma_X^2)$ and $\mathcal{N}(\mu_Y, \sigma_Y^2)$, then:
-    * $Z$ is also a normal r.v., with $\mathcal{N}(\mu_Z, \sigma_Z^2)$, having:
-    * average = sum of the two averages: $\mu_Z = \mu_X + \mu_Y$
-    * dispersion = sum of the two dispersions: $\sigma_Z^2 = \sigma_X^2 + \sigma_Y^2$
+* Particular case: if $A$ and $B$ are normal r.v., with $\mathcal{N}(\mu_A, \sigma_A^2)$ and $\mathcal{N}(\mu_B, \sigma_B^2)$, then:
+    * $C$ is also a normal r.v., with $\mathcal{N}(\mu_C, \sigma_C^2)$, having:
+    * average = sum of the two averages: $\mu_C = \mu_A + \mu_B$
+    * variance = sum of the two variances: $\sigma_C^2 = \sigma_A^2 + \sigma_B^2$
     
 
 ## I.2 Random processes
