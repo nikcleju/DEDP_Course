@@ -233,7 +233,7 @@ plt.show()
 
 - Usually denoted as $\mathcal{N}(\mu, \sigma^2)$
 
-### The normal distribution - 
+### The normal distribution 
 
 - The distribution decreases as $x$ gets farther from $\mu$
     - Because of the term $-(x - \mu)^2$ at the exponent
@@ -282,37 +282,6 @@ plt.show()
 
 * Many other distributions exist, relevant for particular applications
 
-### Sum of constant + random variable
-
-- Consider a random variable $A$
-- What is $B = 5 + A$?
-
-Answer:
-
-- B is also a random variable
-- B has same type of distribution, but the function is "shifted" by 5 to the right
-
-Example:
-
-- A is normal variable with $w_A(x) = \mathcal{N}(\mu=3, \sigma^2=2)$
-- What is the distribution of B = 5 + A?
-- Answer: $w_B(x) = \mathcal{N}(\mu=8, \sigma^2=2)$
-
-### R.v. as functions of other r.v.
-
-* A function applied to a r.v. produces another r.v.
-
-* Examples: if $X$ is a r.v. with distribution $\mathcal{U}\;[0,10]$, then
-    * $Y = 5 + X$ is another r.v., with distribution $\mathcal{U}\;[5,15]$
-    * $Z = X^2$ is also another r.v.
-    * $T = cos(X)$ is also another r.v.
-    
-* Reason: since $X$ is random, the values $Y$, $Z$, $T$ are also random
-
-* X, Y, Z, T are not independent
-    * A certain value of one of them automatically implies the value of the others
-
-
 ### Computing probabilities for the normal distribution
 
 - How to compute $\int_a^b$ for a normal distribution?
@@ -334,54 +303,152 @@ $$F_A(X) = \frac{1}{2}(1 + erf(\frac{x - \mu}{\sigma \sqrt{2}}))$$
 
 Exercise:
 
-  * Let $X$ be a r.v. with distribution $\mathcal{N}(3, 2)$. 
+  - Let $X$ be a r.v. with distribution $\mathcal{N}(3, 2)$. 
 Compute the probability that $X \in [2, 4]$
+
+### Sum of constant + random variable
+
+- Consider a random variable $A$
+- What is $B = 5 + A$?
+
+Answer:
+
+- B is also a random variable
+- B has same type of distribution, but the function is "shifted" by 5 to the right
+
+Example:
+
+- A is normal variable with $w_A(x) = \mathcal{N}(\mu=3, \sigma^2=2)$
+- What is the distribution of B = 5 + A?
+- Answer: $w_B(x) = \mathcal{N}(\mu=8, \sigma^2=2)$
+
+### R.v. as functions of other r.v.
+
+- A function applied to a r.v. produces another r.v.
+
+- Examples: if $B$ is a r.v. with distribution $\mathcal{U}\;[0,10]$, then
+    - $C = 5 + A$ is another r.v., with distribution $\mathcal{U}\;[5,15]$
+    - $D = A^2$ is also another r.v.
+    - $E = cos(A)$ is also another r.v.
+    
+- Reason: since $A$ is random, the values $B$, $C$, $D$ are also random
+
+- A, B, C, D are *not independent*
+    - A certain value of one of them automatically implies the value of the others
+
+### Exercise
+
+Exercise:
+
+  - Let $A$ be a r.v. with distribution $\mathcal{N}(3, 2)$. 
+Compute the probability that $A \in [2, 4]$
 
 ### Multiple random variables
 
-* Consider a system with two continuous r.v. $X$ and $Y$
+- Consider a system with two continuous r.v. $A$ and $B$
 
-* Joint cumulative distribution function:
-$$F_{XY}(x_i, y_j) = P\left\{ X \leq x_i \cap Y \leq y_i \right\}$$
+- What is the probability that the pair $(A,B)$ has values
+around $(x, y)$? 
 
-* Joint probability density function:
-$$w_{XY}(x_i,y_j) = \frac{\partial^2 P_{XY}(x_i,y_j)}{\partial x \partial y}$$
+- Distribution of the values of $(A,B)$ is described by:
+    - joint probability density function $w_{AB}(x,y)$
+    - joint cumulative density function $F_{AB}(x,y)$
 
-* The joint PDF gives the probability that the values of the two r.v. $X$ and $Y$
-are in a vicinity of $x_i$ and $y_i$ **simultaneously**
+### Multiple random variables
 
-* Similar for discrete r.v.: the joint PMF
-$$w_{XY}(x,y) = P\left\{ X = x \cap Y = y \right\}$$
+- Joint cumulative distribution function:
+$$F_{AB}(x, y) = P\left\{ A \leq x \cap B \leq y \right\}$$
+
+- Joint probability density function:
+$$w_{AB}(x,y) = \frac{\partial^2 P_{AB}(x,y)}{\partial x \partial y}$$
+
+- The joint PDF gives the probability that the value of the pair $(A,B)$
+is in a vicinity of $(x,y)$
+
+- Similar for discrete random variables
+$$w_{AB}(x,y) = P\left\{ A = x \cap B = y \right\}$$
 
 ### Independent random variables
 
-* Two v.a. $X$ and $Y$ are **independent** if the value of one of them
+- Two v.a. $X$ and $Y$ are **independent** if the value of one of them
 does not influence in any way the value of the other
 
-* For independent r.v., the probability that $X=x$ and $Y=y$ is the product
-of the two probabilities
+- For independent r.v., the probability that $X$ is around $x$
+ and $Y$ is around $y$ is **the product** of the two probabilities
 
-* Discrete r.v.:
-$$w_{XY}(x,y) = w_X(x) \cdot w_Y(y)$$
-$$P\left\{ X = x \cap Y = y \right\} = P\left\{ X = x\right\} \cdot P\left\{ Y = y \right\}$$
+$$w_{AB}(x,y) = w_A(x) \cdot w_B(y)$$
 
-* Relation holds for CDF / PDF / PMF, continuous or discrete r.v.
+- Relation holds for CDF / PDF / PMF, continuous or discrete r.v.
 
-* Same for more than two r.v.
+- Same for more than two r.v.
 
 ### Independent random variables
 
 Exercise: 
 
-  * Compute the probability that three r.v. $X$, $Y$ and $Z$ i.i.d. $\mathcal{N}(-1,1)$
+  - Compute the probability that three r.v. $X$, $Y$ and $Z$ i.i.d. $\mathcal{N}(-1,1)$
   are all positive simultaneously
       * ***i.i.d*** = "independent and identically distributed"
-      
+
+### Multiple normal variables
+
+- Consider a set of $N$ normal r.v. $(A_1, ...A_N)$, with different $\mu_i$,
+but same $\sigma$
+
+- Then probability that $(A_1,...A_N)$ is around $(x_1, ...x_N)$ is
+$$w_{A_1,...A_N}(x_1,...x_N) = \frac{1}{(\sigma\sqrt{2\pi})^N} e^{\frac{(x_1-\mu_1)^2+...+(x_N - \mu_N)^2}{2\sigma^2}}$$
+
+- The probability depends on the **Euclidean distance** between
+$\mathbf{x}=(x_1,...x_N)$ and $\mathbf{\mu} = (\mu_1,...\mu_N)$
+
+### Euclidean distance 
+
+- **Euclidean (geometric) distance** between two N-dimensional vectors:
+$$d(\mathbf{u},\mathbf{v}) = \| \mathbf{u}-\mathbf{v} \| = \sqrt{(u_1-v_1)^2+...+(u_N - v_N)^2}$$
+
+- One-dimensional: $\|\mathbf{u}-\mathbf{v}\| = |u-v|$
+
+- 2D: $\|\mathbf{u}-\mathbf{v}\| = \sqrt{(u_1 - v_1)^2 + (u_2 - v_2)^2}$
+       
+- 3D: $\|\mathbf{u}-\mathbf{v}\| = \sqrt{(u_1 - v_1)^2 + (u_2 - v_2)^2 + (u_3 - v_3)^2}$
+
+- ...
+
+- N-dimensional: $\|\mathbf{u}-\mathbf{v}\| = \sqrt{\sum_{i=1}^N(u_i - v_i)^2}$
+
+- ...
+
+- N-dimensional: $\|\mathbf{u}-\mathbf{v}\| = \sqrt{\int_{-\infty}^{\infty}(u(t) - v(t))^2 dt}$
+
+### Multiple normal variables
+
+- Probability of $N$ normal random variables, independent, with same $\sigma$ but
+possibly different $\mu_i$
+depends on the **squared Euclidean distance to the mean vector** $\mathbf{\mu} = (\mu_1,...\mu_N)$
+    - Close to $\mu$: higher probability
+    - Far from $\mu$: lower probability
+    - Two points at same distance from $\mu$ have same probability
+
+### 2D normal distribution
+
+- Distribution of 2 normal random variables (2D normal distribution)
+![](img/2DNormal.png)
+
+### 2D normal distribution  - top view
+
+- View from top
+- Here, $\mu = (0,0)$
+- Probability density decreases as distance from center increases,
+in circles (symmetrically)
+
+![](img/2DNormal-TopView.png){.id width=50%}
+
+
 ### Statistical averages
 
 * R.v. are described by statistical averages ("*moments*")
 
-* The average value (moment of order 1)
+* **The average value** (moment of order 1)
 
 * Continuous r.v.:
 $$\overline{X} = E\{X\} = \int_{-\infty}^{\infty} x \cdot w_X(x) dx$$
@@ -409,7 +476,7 @@ $$E\{X + Y\} = E\{X\} + E\{Y\}$$
 
 ### Average squared value
 
-* Average squared value = average value of the squared values
+* **Average squared value** = average value of the squared values
 
 * Moment of order 2
 
@@ -421,9 +488,9 @@ $$\overline{X^2} = E\{X^2\} = \sum_{-\infty}^{\infty} x^2 \cdot w_X(x) dx$$
 
 * Interpretation: average of squared values = average energy of a signal
 
-### Dispersion (variance)
+### Variance
 
-* Dispersion (variance) = average squared value of the difference to the average value
+* **Variance**= average squared value of the difference to the average value
 
 * Continuous r.v.:
 $$\sigma^2 = \overline{\left\{ X - \mu \right\}^2} = \int_{-\infty}^{\infty} (x-\mu)^2 \cdot w_X(x) dx$$
