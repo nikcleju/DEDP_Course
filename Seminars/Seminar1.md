@@ -27,7 +27,8 @@ fontsize: 12pt
 3. Compute the probability that three r.v. $X$, $Y$ and $Z$ i.i.d. $\mathcal{N}(-1,1)$
 are all positive simultaneously
 
-4. Find the relation between the *erf()* function 
-$$erf(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{-t^2} dt$$
-and the Laplace function
-$$F(x) = \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^x e^{-\frac{t^2}{2}} dt$$
+4. Consider 3 three normal random variables $A \sim \mathcal{N}\; \left(\mu=1, \sigma^2=3\right)$,
+ $B \sim \mathcal{N}\; \left(\mu=-4, \sigma^2=3\right)$, $C \sim \mathcal{N}\; \left(\mu=5, \sigma^2=3\right)$.
+     a. Is it more likely that $(A,B,C)$ has values around $(2, -6, 3)$ or around $(-2, -3, 2)$?
+     b. Find a set of values $(x,y,z)$ such that $(A,B,C)$ are as likely to be in a vicinity
+     of $(x, y, z)$ as in a vicinity of $(2, -6, 3)$.
