@@ -461,7 +461,7 @@ $$\overline{A^2} = E\{A^2\} = \int_{-\infty}^{\infty} x^2 \cdot w_A(x) dx$$
 * Discrete r.v.:
 $$\overline{A^2} = E\{A^2\} = \sum_{-\infty}^{\infty} x^2 \cdot w_A(x)$$
 
-* Interpretation: average of squared values = average energy of a signal
+* Interpretation: average of squared values = average power of a signal
 
 ### Variance
 
