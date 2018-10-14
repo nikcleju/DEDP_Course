@@ -497,7 +497,7 @@ $$\sigma^2 = \overline{\left\{ A - \mu \right\}^2} = \sum_{-\infty}^{\infty} (x-
 
 ### Relation between the three values
 
-* Relation between the average value, the average squared value, and the dispersion:
+* Relation between the average value, the average squared value, and the variance:
 $$\begin{split}
 \sigma^2 &= \overline{\left\{ A - \mu \right\}^2} \\
 &= \overline{A^2 - 2 \cdot A \cdot \mu + \mu^2} \\
@@ -546,26 +546,30 @@ $$w_C(x) = w_A(x) \star w_B(x)$$
 ### Distributions of order 1 of random processes
 
 * Every sample $f(t_1)$ from a random process is a random variable
-    * with CDF $F_1(x;t_1)$
-    * with PDF $w_1(x;t_1) = \frac{dF_1(x;t_1)}{dx}$
+    * it is described by a **distribution of order 1**
+    * has a CDF $F_1(x;t_1)$
+    * has a PDF $w_1(x;t_1) = \frac{dF_1(x;t_1)}{dx}$
+    * everything depends on the time moment $t_1$
 
 * The sample at time $t_2$ is a different random variable with **possibly different** functions
-    * with CDF $F_1(x;t_2)$
-    * with PDF $w_1(x;t_2) = \frac{dF_1(x;t_2)}{dx}$
+    * has a different CDF $F_1(x;t_2)$
+    * has a different PDF $w_1(x;t_2) = \frac{dF_1(x;t_2)}{dx}$
 
 * These functions specify how the value of one sample is distributed
 
-* The index $w_1$ indicates we consider a single random variable from the process (distributions of order 1)
+* The index $w_1$ indicates we consider a single random variable (distribution of order 1)
 
 * Same for discrete-time random processes
 
 ### Distributions of order 2
 
-* A pair of random variables $f(t_1)$ and $f(t_2)$ sampled from the random process $f(t)$ have
-    * joint CDF $F_2(x_i, x_j; t_1, t_2)$
-    * joint PDF $w_2(x_i, x_j; t_1, t_2) = \frac{\partial^2 F_2(x_i, x_j;t_1, t_2)}{\partial x_i \partial x_j}$
+* A pair of random variables $f(t_1)$ and $f(t_2)$ form a system of 2 r.v.
+    * they are described by a **distribution of order 2**
+    * have a joint CDF $F_2(x_i, x_j; t_1, t_2)$
+    * have a joint PDF $w_2(x_i, x_j; t_1, t_2) = \frac{\partial^2 F_2(x_i, x_j;t_1, t_2)}{\partial x_i \partial x_j}$
+    * depend on time moments $t_1$ and $t_2$
 
-* These functions specify how the pair of values is distributed (distributions of order 2)
+* These functions specify how the pair of values is distributed
 
 * Same for discrete-time random processes
 
@@ -573,17 +577,20 @@ $$w_C(x) = w_A(x) \star w_B(x)$$
 
 * Generalize to $n$ samples of the random process
 
-* A set of $n$ random variables $f(t_1), ...f(t_n)$ sampled from the random process $f(t)$ have
-    * joint CDF $F_n(x_1,... x_n; t_1,... t_n)$
-    * joint PDF $w_n(x_1,... x_n; t_1,... t_n) = \frac{\partial^2 F_n(x_1,... x_n;t_1,... t_n)}{\partial x_1 ... \partial x_n}$
-
-* These functions specify how the whole set of $n$ values is distributed (distributions of order $n$)
+* A set of $n$ random variables $f(t_1), ...f(t_n)$ from the random process $f(t)$
+    * are described by **distribution of order n**
+    * have joint CDF $F_n(x_1,... x_n; t_1,... t_n)$
+    * have joint PDF $w_n(x_1,... x_n; t_1,... t_n) = \frac{\partial^2 F_n(x_1,... x_n;t_1,... t_n)}{\partial x_1 ... \partial x_n}$
+    * depend on time moments $t_1$, $t_2$, ... $t_n$
+* These functions specify how the whole set of $n$ values is distributed
 
 * Same for discrete-time random processes
 
 ### Statistical averages
 
-Random processes are characterized using statistical / temporal averages (*moments*)
+Random processes are characterized using statistical and temporal averages (*moments*)
+
+For continuous random processes:
 
 1. Average value
 $$\overline{f(t_1)} = \mu(t_1) = \int_{-\infty}^{\infty} x \cdot w_1(x; t_1) dx$$
@@ -593,7 +600,7 @@ $$\overline{f^2(t_1)} = \int_{-\infty}^{\infty} x^2 \cdot w_1(x; t_1) dx$$
 
 
 ### Statistical averages - variance
-3. Variance (= *dispersia*)
+3. Variance (= *varianța*)
 $$\sigma^2(t_1) = \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} = \int_{-\infty}^{\infty} (x-\mu(t_1)^2 \cdot w_1(x; t_1) dx$$
 
 * The variance can be computed as:
@@ -619,21 +626,36 @@ $$R_{fg}(t_1,t_2) = \overline{f(t_1) g(t_2)} = \int_{-\infty}^\infty \int_{-\inf
 * Note:
     * these functions may have different values for a different pair of values ($t_1$,$t_2$)
 
+### Discrete random processes
+
+For **discrete random processes**, replace $\int$ with $\sum$:
+
+1. $\overline{f[t_1]} = \mu(t_1) = \sum_{x=-\infty}^{\infty} x \cdot w_1(x; t_1)$
+
+2. $\overline{f^2[t_1]} = \sum_{x=-\infty}^{\infty} x^2 \cdot w_1(x; t_1)$
+
+3. $\sigma^2(t_1) = \overline{\left\{ f[t_1] - \mu(t_1) \right\}^2} = \sum_{x=-\infty}^{\infty} (x-\mu(t_1)^2 \cdot w_1(x; t_1)$
+
+4. $R_{ff}(t_1,t_2) = \overline{f[t_1] f[t_2]} = \sum_{x_1=-\infty}^\infty \sum_{x_2=-\infty}^\infty x_1 x_2 w_2(x_1, x_2; t_1, t_2)$
+
+5. $R_{fg}(t_1,t_2) = \overline{f[t_1] g[t_2]} = \sum_{x_1=-\infty}^\infty \sum_{x_2=-\infty}^\infty x_1 y_2 w_2(x_1, y_2; t_1, t_2)$
+
 
 ### Temporal averages
 
 * What to do when we only have access to a single realization $f^{(k)}(t)$?
 * Compute values **for a single realization $f^{(k)}(t)$, across all time moments**
+* For continuous random processes:
 
 1. Temporal average value
-$$\overline{f^{(k)}(t)} = \mu^{(k)} = \lim_{T \to \infty} \frac{1}{T} \int_{T/2}^{T/2} f^{(k)}(t) dt$$
+$$\overline{f^{(k)}(t)} = \mu^{(k)} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t) dt$$
 
 2. Temporal average squared value
-$$\overline{[f^{(k)}(t)]^2} = \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} [f^{(k)}(t)]^2 dt$$
+$$\overline{[f^{(k)}(t)]^2} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} [f^{(k)}(t)]^2 dt$$
 
 ### Temporal variance
 3. Temporal variance
-$$\sigma^2 = \overline{\left\{ f^{(k)}(t) - \mu^{(k)} \right\}^2} = \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} (f^{(k)}(t)-\mu^{(k)})^2 dt$$
+$$\sigma^2 = \overline{\left\{ f^{(k)}(t) - \mu^{(k)} \right\}^2} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} (f^{(k)}(t)-\mu^{(k)})^2 dt$$
 
 * The variance can be computed as:
 $$\sigma^2 = \overline{[f^{(k)}(t)]^2} - [\mu^{(k)}]^2$$
@@ -646,19 +668,55 @@ $$\sigma^2 = \overline{[f^{(k)}(t)]^2} - [\mu^{(k)}]^2$$
 4. The temporal autocorrelation function
 $$\begin{split}
 R_{ff}(t_1,t_2) =& \overline{f^{(k)}(t_1 + t) f^{(k)}(t_2+t)} \\
-=& \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t_1+t) f^{(k)}(t_2 + t) dt
+=& \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t_1+t) f^{(k)}(t_2 + t) dt
 \end{split}$$
 
 5. The temporal correlation function (for different random processes $f(t)$ and $g(t)$)
 $$\begin{split}
 R_{fg}(t_1,t_2) =& \overline{f^{(k)}(t_1 + t) g^{(k)}(t_2+t)}\\
-=& \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t_1+t) g^{(k)}(t_2 + t) dt
+=& \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t_1+t) g^{(k)}(t_2 + t) dt
 \end{split}$$
+
+### Discrete random processes
+
+For **discrete random processes**, replace $\int$ with $\sum$, $T$ with $N$,
+and divide to $2N+1$ instead of $2T$
+
+1. $\overline{f^{(k)}[t]} = \mu^{(k)} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t]$
+
+2. $\overline{[f^{(k)}[t]]^2} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} (f^{(k)}[t])^2$
+
+3. $\sigma^2 = \overline{\left\{ f^{(k)}[t] - \mu^{[k]} \right\}^2} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} (f^{(k)}[t]-\mu^{(k)})^2$
+
+### Discrete random processes
+
+4. Temporal autocorrelation:
+$$\begin{split}
+R_{ff}(t_1,t_2) =& \overline{f^{(k)}[t_1 + t] f^{(k)}[t_2+t]} \\
+=& \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t_1+t] f^{(k)}[t_2 + t]
+\end{split}$$
+
+5. Temporal correlation:
+$$\begin{split}
+R_{fg}(t_1,t_2) =& \overline{f^{(k)}[t_1 + t] g^{(k)}[t_2+t]}\\
+=& \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t_1+t] g^{(k)}[t_2 + t]
+\end{split}$$
+
+
+### Finite length realizations
+
+If the realization is not from time $-\infty$ to $\infty$, but only from a $t_{min}$ to $t_{max}$,
+just use $\int_{t_{min}}^{t_{max}}$ or $\sum_{t_{min}}^{t_{max}}$ for the temporal averages
+
+* Example: Compute the temporal averages for the finite-length realization 
+$$\{1,-1,2,-2,3,-3,4,-4,5,-5\}$$
 
 ### Statistical and temporal averages
 
 * Statistical averages are usually the relevant values
-* But in real life, we can only compute the temporal values
+    - but they require to know the distributions 
+* In real life, with unknown signals, we can only measure one realization
+    - so we can only compute the temporal values for one realization
 * Fortunately, in many cases they are the same (ergodicity, see later)
 
 ### Stationary random processes
@@ -702,8 +760,6 @@ $$w_2(x_i,x_j;t_1,t_2) = w_2(x_i,x_j;0, t_2-t_1) = w_2(x_i,x_j; t_2-t_1)$$
 **time difference** $\tau = t_2 - t_1$ between the samples
 $$R_{ff}(t_1,t_2) = R_{ff}(0, t_2 - t_1) = R_{ff}(\tau) = \overline{f(t) f(t + \tau)}$$
 
-* Is the average value of a product of two samples time $\tau$ apart
-
 * Depends on a single value $\tau$ = time difference of the two samples
 
 ### Consequences of stationarity
@@ -713,7 +769,20 @@ $$R_{ff}(t_1,t_2) = R_{ff}(0, t_2 - t_1) = R_{ff}(\tau) = \overline{f(t) f(t + \
 * Depends only on the **time difference** $\tau = t_2 - t_1$ between the samples
 $$R_{fg}(t_1,t_2) = R_{fg}(0, t_2 - t_1) = R_{fg}(\tau) = \overline{f(t) g(t + \tau)}$$
 
-* Is the average value of a product of two samples time $\tau$ apart
+### Interpretation of autocorrelation
+
+- $R_{ff}(\tau)$ = the average value of the product of two samples which are time $\tau$ apart
+    - e.g. tells us if the two samples vary in same direction or not
+
+- Same for correlation, but the samples are taken from different r.p $f$ and $g$
+
+- Example:
+    - $R_{ff}(0.5) > 0$ means two samples separated by $0.5$ seconds tend to vary in same direction
+(both positive, both negative => their product is mostly positive)
+    - $R_{ff}(1) < 0$ means two samples separated by 1 second tend to vary in opposite directions
+(when one is positive, the other is negative => their product is mostly negative)
+    - $R_{ff}(2) = 0$ means two samples separated by 2 seconds are uncorrelated (their product is
+0 on average, so equally positive and negative)
 
 ### Ergodic random processes
 
@@ -722,16 +791,16 @@ $$R_{fg}(t_1,t_2) = R_{fg}(0, t_2 - t_1) = R_{fg}(\tau) = \overline{f(t) g(t + \
 * **Ergodic** random process = the temporal averages on any realization
 are equal to the statistical averages
 
-* We can compute / estimate all averages from a single realization (any)
-    * the realization must be very long (length $\to \infty$) for precise results
-
-* Realizations are all similar to the others, statistically
-    * a single realization is characteristic of the whole process
+* Ergodicity means:
+    * We can compute / estimate all averages from a single realization (any)
+        * but the realization must be very long (length $\to \infty$) for precise results
+    * Realizations are all similar to the others, statistically
+        * so a single realization is characteristic of the whole process
 
 ### Ergodic random processes 
 
 * Most random processes we care about are ergodic and stationary
-    * e.g. noises
+    * e.g. voltage noises
 
 * Example of non-ergodic process:
     * throw a dice, then the next 50 values are identical to the first
@@ -749,9 +818,9 @@ at every frequency $f$ ($\omega = 2 \pi f$)
 
 * The power in the frequency band $[f_1, f_2]$ is equal to $\int_{f_1}^{f_2} S_{ff}(\omega) d\omega$
 
-* The whole power of the signal is $\int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$
+* The whole power of the signal is $P = \int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$
 
-* The PSD is basically a measurable quantity
+* The PSD is a measurable quantity
     * it can be determined experimentally
     * it is important in practical (engineering) applications
 
@@ -767,57 +836,78 @@ $$R_{ff}(\tau) = \frac{1}{2 \pi}\int_{-\infty}^{\infty} S_{ff}(\omega) e^{j \ome
 
 * No proof
 
-* Makes a relation between two rather different domains
+	* Makes a relation between two rather different domains
     * autocorrelation function: a *statistical* property
     * PSD function: a *physical* property (relevant for engineering purposes) 
 
 ### White noise
 
-* White noise = a random process with autocorrelation function equal to a Dirac function
+* **White noise** = a random process with autocorrelation function equal to a Dirac function
 $$R_{ff}(\tau) = \delta(\tau)$$
 
-* Any two different samples ($\tau \neq 0$) have zero correlation (are uncorrelated)
-    * they do not vary similarly
+    - is a random process: every sample of white noise is a random variable
+    - autocorrelation is a Dirac: autocorrelation is 0 for any $\tau \neq 0$ 
+    - any two different samples ($\tau \neq 0$) have zero correlation (are uncorrelated)
+        - values of any two different samples are not related
     
-* Power spectral density = Fourier transform of a Dirac = a constant
-    * has equal power at all frequencies up to $\infty$
-    
-* In real life, power goes to 0 for very high frequencies
-    * "*band-limited white noise*"
-    * Samples which are very close are necessarily somewhat correlated
+* Power spectral density of white noise = Fourier transform of a Dirac = a constant $\forall \omega$
+    - equal distribution of power at all frequencies up to $\infty$
 
-* White noise can have almost any distribution
-    * normal, uniform etc.
+* White noise can have any distribution (normal, uniform etc.)
+    - the term "white noise" doesn't refer to the distribution of sample values,
+    but to the fact that all samples are unrelated to each other
+
+
+### Band-limited white noise
+
+* In real life, power spectral density goes to 0 at very high frequencies
+    - because total power $P = \int_{-\infty}^{\infty} S_{ff}{\omega}$ cannot be infinite
+    - known as "*band-limited white noise*"
+
+* In this case, autocorrelation = approximately a Dirac, but not infinitely thin
+    - samples which are very close are necessarily a bit correlated
+    - e.g. due to small parasitic capacities
+
+### AWGN
+
+- **AWGN** = Additive White Gaussian Noise
+    - is the usual type of noise considered in applications
+
+- It means:
+    - additive: the noise is added to the original signal (e.g. not multiplied with it)
+    - gaussian: the samples have normal distribution
+    - white: the samples are uncorrelated (unrelated) with each other
+
 
 ### Properties of the autocorrelation function
 
 1. Is even
 $$R_{ff}(\tau) = R_{ff}(-\tau)$$
 
-* Proof: change variable in definition
+    * Proof: change variable in definition
 
 2. At infinite it goes to a constant
 $$R_{ff}(\infty) = \overline{f(t)}^2 = const$$
 
-* Proof: two samples separated by $\infty$ are independent
+    * Proof: two samples separated by $\infty$ are independent
 
 3. Is maximum in 0
 $$R_{ff}(0) \geq R_{ff}(\tau)$$
 
-* Proof: start from $\overline{(f(t) - f(t + \tau))^2} \geq 0$
-* Interpretation: different samples might vary differently, but a sample always varies identically with itself
+    * Proof: start from $\overline{(f(t) - f(t + \tau))^2} \geq 0$
+    * Interpretation: different samples might vary differently, but a sample always varies identically with itself
 
 ### Properties of the autocorrelation function
 
 4. Value in 0 = the power of the random process
 $$R_{ff}(0) = \frac{1}{2 \pi} \int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$$
 
-* Proof: Put $\tau = 0$ in inverse Fourier transform of Wiener-Khinchin theorem
+    * Proof: Put $\tau = 0$ in inverse Fourier transform of Wiener-Khinchin theorem
 
 5. Variance = difference between values at 0 and $\infty$
 $$\sigma^2 = R_{ff}(0) - R_{ff}(\infty)$$
 
-* Proof: $R_{ff}(0) = \overline{f(t)^2}$, $R_{ff}(\infty) = \overline{f(t)}^2$
+    * Proof: $R_{ff}(0) = \overline{f(t)^2}$, $R_{ff}(\infty) = \overline{f(t)}^2$
 
 ### Autocorrelation of filtered random processes
 
@@ -826,8 +916,7 @@ $$\sigma^2 = R_{ff}(0) - R_{ff}(\infty)$$
     * or discrete-time: input $x[n]$, system $H(z)$, output $y[n]$
     
 * How does the autocorrelation of $y$ depend on that of the input $x$?
-
-* $y$ is the convolution of $x$ and the impulse response $h$
+    - $y$ is the convolution between $x$ and the impulse response $h$
 
 ### Computations
 

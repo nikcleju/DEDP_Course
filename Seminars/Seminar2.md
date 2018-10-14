@@ -17,7 +17,6 @@ the temporal variance, and the temporal autocorrelation function for
 the following realization of a finite-length random process:
 $$v = [-1, 2, -1, 2, -1, 2, -1, 2, -1, 2]$$
 
-
 3. Find the autocorrelation function of the output of an ideal low-pass filter
 with transfer function
 $$H(j \omega) = 
@@ -26,7 +25,6 @@ A \cdot e^{j \Phi(\omega)}, & |\omega| \leq \omega_c \\
 0, & |\omega| > \omega_c
 \end{cases}$$
 if the input to the filter is white noise with PSD equal to $P$.
-
 
 4. Let $x[n]$ be a discrete-time random process with triangular autocorrelation function
 $$R_{xx}[\tau] = 
@@ -38,7 +36,6 @@ $$
 $x[n]$ is applied to the system defined by $y[n] = x[n] - x[n-5]$. Find and sketch the autocorrelation function of
 the output.
 
-
 5. Let $N(t)$ be a bandlimited white noise process with PSD equal to
 $$S_{NN}(\omega) = 
 \begin{cases}
@@ -47,5 +44,5 @@ S, & |\omega| \leq B\\
 \end{cases}
 $$
     * Find and sketch the autocorrelation function of the process
-    * If we sample the process, whet is the sampling rate $F_s$ such that
+    * If we sample the process, what is the sampling rate $F_s$ such that
     the resulting samples are uncorrelated?

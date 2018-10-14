@@ -44,8 +44,12 @@ RM=/bin/rm
 	$(PANDOC) $(PANDOC_OPTIONS) -o $@ slides_header.md $<
 
 %.md : %.mdw
+ifeq ($(PWEAVE_FAST),TRUE)
+	echo "Skipping Pweave regeneration of images"
+	$(PWEAVE) $(PWEAVE_OPTIONS_FAST) -o $@ $<
+else
 	$(PWEAVE) $(PWEAVE_OPTIONS) -o $@ $<
-	#$(PWEAVE) $(PWEAVE_OPTIONS_FAST) -o $@ $<
+endif
 
 # What is this?
 .PHONY: all clean
