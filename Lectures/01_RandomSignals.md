@@ -245,7 +245,7 @@ $$w_A(x) =
 \end{cases}$$
 
 
-![](figures/01_RandomSignals_figure3_1.png)\
+![](figures/01_RandomSignals_figure2_1.png){width=8cm}\
 
 
 ### The uniform distribution
@@ -954,16 +954,20 @@ $$S_{yy}(\omega) = S_{xx}(\omega) \cdot |H(\omega)|^2$$
     
 ### The signal to look for
 
-![](figures/01_RandomSignals_figure5_1.png)\
+![](figures/01_RandomSignals_figure3_1.png)\
 
 
 
 ### The complete signal
 
 
+![](figures/01_RandomSignals_figure4_1.png)\
+
 
 ### Correlation result
 
+
+![](figures/01_RandomSignals_figure5_1.png)\
 
 
 ### System identification
