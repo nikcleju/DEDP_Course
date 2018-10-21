@@ -95,7 +95,7 @@ signal is present from 2 or more possibilities
 * Terms originate from radar application (first application of detection theory)
     - signal is emitted from source
     - received signal = possible reflection from a target, with lots of noise
-    - $H_0$ = no target is present, no reflected signal
+    - $H_0$ = no target is present, no reflected signal (only noise)
     - $H_1$ = target is present, there is a reflected signal
     - hence the 4 scenarios refer to "has the target been detected"
 
@@ -114,7 +114,7 @@ signal is present from 2 or more possibilities
 ### The sample
 
 - The receiver receives $r(t) = s(t) + n(t)$
-    - $s(t)$ = original signal, either $s_0(t)$ + $s_1(t)$
+    - $s(t)$ = original signal, either $s_0(t)$ or $s_1(t)$
     - $n(t)$ = unknown noise
 
 - The value of the sample taken at $t_0$ is $r(t_0) = s(t_0) + n(t_0)$
@@ -131,12 +131,11 @@ signal is present from 2 or more possibilities
     - it is also a random variable
     - $s(t_0)$ is a constant, either $s_0(t_0)$ or $s_1(t_0)$
 
-- What distribution does $r$ have?
+- What distribution does $r(t_0)$ have?
     - a constant + a r.v. = has same distribution as r.v., but shifted
     with the constant
 
-
-### The conditional likelihoods
+### The conditional distributions
 
 * Assume the noise has known distribution $w(x)$
     - this is the distribution of the r.v. $n(t_0)$
@@ -149,7 +148,7 @@ signal is present from 2 or more possibilities
 
 * $w(r|H_0)$ and $w(r|H_1)$ are known as **conditional distributions** or
 **conditional likelihood functions**
-    - "|"means "conditioned by", "given that"
+    - "|" means "conditioned by", "given that"
     - i.e. considering one hypothesis or the other one
     - $r$ is the unknown of the function 
 
@@ -200,12 +199,11 @@ $$|r-s_0(t_0)| \grtlessH |r - s_1(t_0)|$$
 * Note that $|r-A|$ = distance from $r$ to $A$
     - $|r|$ = distance from $r$ to $0$
 
-* So we choose the smallest distance between $r$ and $s_1(t_0)$ vs $r-s_0(t_0)$
+* So we choose the smallest distance between $r(t_0)$ and $s_1(t_0)$ vs $s_0(t_0)$
 
 ### Maximum Likelihood for gaussian noise
 
 * ML criterion **for gaussian noise**: choose the hypothesis based on whichever of
-p
 $s_0(t_0)$ or $s_1(t_0)$ is **nearest** to our observed sample $r = r(t_0)$
 
     * also known as **nearest neighbor** principle / decision
@@ -230,7 +228,7 @@ $s_0(t_0)$ or $s_1(t_0)$ is **nearest** to our observed sample $r = r(t_0)$
 * Choosing the nearest value = same thing as comparing $r$ with a threshold $T = \frac{s_0(t_0) + s_1(t_0)}{2}$
     - i.e. if the two values are 0 and 5, decide by comparing with 2.5 (like in laboratory)
  
-* In general, the threshold = the cross-over point between the distributions
+* In general, the threshold = the cross-over point between the conditioned distributions
 
 ### Exercise
 
@@ -238,11 +236,10 @@ $s_0(t_0)$ or $s_1(t_0)$ is **nearest** to our observed sample $r = r(t_0)$
 The signal is affected by white gaussian noise $\mathcal{N}\;(\mu=0, \sigma^2=2)$.
 The receiver takes one sample with value $r = 2.25$
     a. Write the expressions of the conditional probabilities and sketch them 
-    a. Considering that the noise is white gaussian noise, what signal is decided
- based on the Maximum Likelihood criterion?
+    a. What is the decision based on the Maximum Likelihood criterion?
     b. What if the signal $0$ is affected by gaussian noise $\mathcal{N}(0, 0.5)$,
   while the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$?
-    c. Repeat a. and b. assuming the value $0$ is replaced by $-1$
+    c. Repeat b. and c. assuming the value $0$ is replaced by $-1$
 
 ### Decision regions
 
@@ -274,17 +271,18 @@ $$w(r | H_i) = \frac{1}{\sigma \sqrt{2 \pi}}e^{-\frac{(r - s_i(t_0))^2}{2\sigma^
 - In the same mathematical expression of a distribution function:
     - if we know the parameters (e.g. $\mu$, $\sigma$, $H_i$), and the unknown is the value (e.g. $r$, $x$)
 we call it **probability function**
-    - if we know value (e.g. $r$, $x$), and the unknown is some statistical parameter ($\mu$, $\sigma$, $i$),
+    - if we know value (e.g. $r$, $x$), and the unknown is some statistical parameter (e.g. $\mu$, $\sigma$, $i$),
 we call it a **likelihood function**
 
 ### The likelihood function
 
 - The function $w(r | H_i)$ = $f(i)$ is a likelihood function
+    - the unknown is $i$
 
 - The function exists only in 2 points, for $i = 0$ and $i = 1$
     - or, in general, for $i$ = how many hypotheses exist in the problem
 
-- ML decision = choose the $i$ for which this function is maximum
+- ML criterion = choose the $i$ for which this function is maximum
 $$Decision \;\; D_i = \arg\max_i w(r | H_i)$$
     - Notation:
         - $\arg\max f(x)$ = the $x$ for which the function $f(x)$ is maximum
@@ -297,9 +295,9 @@ $$Decision \;\; D_i = \arg\max_i w(r | H_i)$$
 ### Generalizations
 
 * What if the noise has another distribution?
-    * Sketch the distributions
+    * Sketch the conditional distributions
     * Locate the given $r = r(t_0)$
-    * ML decision = choose the highest function $w(r|H_i)$ in that point
+    * ML criterion = choose the highest function $w(r|H_i)$ in that point
 
 * The decision regions are defined by the cross-over points 
     * There can be more cross-overs, so multiple thresholds
@@ -309,7 +307,7 @@ $$Decision \;\; D_i = \arg\max_i w(r | H_i)$$
 * What if the noise has a different distribution in hypothesis $H_0$ than in hypothesis $H_1$? 
 
 * Same thing:
-    * Sketch the distributions
+    * Sketch the conditional distributions
     * Locate the given $r = r(t_0)$
     * ML decision = choose the highest function $w(r|H_i)$ in that point
 
@@ -339,11 +337,12 @@ out of the $n$ values $w(r|H_i)$
 
 * Patience, we'll treat this later as a separate sub-chapter
 
-### Exercises
+### Exercise
 
-* A signal can have four possible values: -6, -2, 2, 6. Each value
-lasts for 1 second. The signal is affected
-by white noise with normal distribution. The receiver takes 1 sample per second.
+* A signal can have four possible values: -6, -2, 2, 6. 
+Each value lasts for 1 second. 
+The signal is affected by white noise with normal distribution. 
+The receiver takes 1 sample per second.
 Using ML criterion, decide what signal has been transmitted, if the received samples are:
 $$4,\; 6.6,\; -5.2,\; 1.1,\; 0.3,\; -1.5,\; 7,\; -7,\; 4.4$$
 
@@ -386,9 +385,9 @@ $$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
     * sum of miss + correct detection  = 1
     * Why? Prove this.
 
-### Computing conditional error probabilities
+### Computing conditional probabilities
 
-![Conditional error probabilities](img/SigDetWGN.png){#id .class width=60%}
+![Conditional probabilities](img/SigDetWGN.png){#id .class width=60%}
 
 * Ignore the text, just look at the nice colors
 * [image from hhttp://gru.stanford.edu/doku.php/tutorials/sdt]*
@@ -401,13 +400,13 @@ $$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
     - i.e. $P(H_0)$ = how many times does $H_0$ happen?
     - $P(H_1)$ = how many times does $H_1$ happen?
 
-* To account for these, multiply with $P(H_0)$ and $P(H_1)$
-    - known as the **prior** (or **a priori**) probabilities of the hypotheses
+* To account for these, multiply with $P(H_0)$ or $P(H_1)$
+    - $P(H_0)$ and $P(H_1)$ are known as the **prior** (or **a priori**) probabilities of the hypotheses
 
 ### Reminder: the Bayes rule
 
 * Reminder: the Bayes rule
-$$P(A \cap B) = P(B | A) \cdot P(A))$$
+$$P(A \cap B) = P(B | A) \cdot P(A)$$
 
 * Interpretation
     * The probability $P(A)$ is taken out from $P(B|A)$
