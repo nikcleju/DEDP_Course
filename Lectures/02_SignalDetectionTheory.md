@@ -11,6 +11,7 @@ signal is present from 2 or more possibilities
 
 * Based on **noisy** observations
     * signals are affected by noise
+    * noise is additive (added to the original signal)
 
 ### The model for signal detection
 
@@ -18,16 +19,18 @@ signal is present from 2 or more possibilities
 
 * Contents:
     * Information source: generates messages $a_n$ with probabilities $p(a_n)$
+    * Generator: generates different signals $s_1(t)$,...$s_n(t)$
     * Modulator: transmits a signal $s_n(t)$ for message $a_n$
     * Channel: adds random noise
     * Sampler: takes samples from the signal $s_n(t)$
     * Receiver: **decides** what message $a_n$ has been transmitted
+    * User receives the recovered messages
 
 ### Practical scenarios
 
 * Data transmission
-    * constant voltage levels (e.g. $s_n(t)$ = constant)
-    * PSK modulation (Phase Shift Keying): $s_n(t)$ = cosine with same frequency but various initial phase
+    * constant voltage levels (e.g. $s_n(t)$ = constant = 0 or 5V)
+    * PSK modulation (Phase Shift Keying): $s_n(t)$ = cosine with same frequency but various initial phases
     * FSK modulation (Frequency Shift Keying): $s_n(t)$ = cosines with different frequencies
     * OFDM modulation (Orthogonal Frequency Division Multiplexing): particular case of FSK
 
@@ -47,89 +50,139 @@ signal is present from 2 or more possibilities
     * observe the whole continuous signal for some time $T$
 
 
-## II.2 Detection of constant signals based on 1 sample
+## II.2 Detection of signals based on 1 sample
 
-### Detection of a constant signal, 1 sample
+### Detection of a signal with 1 sample
 
-* Simplest case: detection of a constant signal contaminated with white normal noise, using 1 sample
+* Simplest case: detection of a signal contaminated with noise using 1 sample
     * two messages $a_0$ and $a_1$
-    * messages are encoded as constant signals
-        * for $a_0$: send $s_0(t) = 0$
-        * for $a_1$: send $s_1(t) = A$
-    * over the signals there is additive noise
-    * receiver takes just 1 sample
-    * decision: compare sample with a threshold
+    * messages are encoded as signals $s_0(t)$ and $s_1(t)$
+        * for $a_0$: send $s(t) = s_0(t)$
+        * for $a_1$: send $s(t) = s_1(t)$
+    * over the signals there is additive white noise $n(t)$
+    * receiver receives noisy signal $r(t) = s(t) + n(t)$
+    * receiver takes just 1 sample at time $t_0$, $r(t_0)$
+    * decision: based on $r(t_0)$, which signal was it?
 
-### Threshold-based decision
+### Hypotheses and decisions
 
-* The value of the sample taken is $r = s + n$
-    * $s$ is the true underlying signal ($s_0 = 0$ or $s_1 = A$)
-    * $n$ is a sample of the noise
+- There are **two hypotheses**:
+    - $H_0$: true signal is $s(t) = s_0(t)$ ($a_0$ has been transmitted)
+    - $H_1$: true signal is $s(t) = s_1(t)$ ($a_1$ has been transmitted)
 
-* $n$ is a (continuous) random variable
-* $r$ is a random variable also
-    * what distribution does $r$ have compared to $n$?
+- Receiver can take **two decisions**:
+    - $D_0$: receiver decides that signal was $s(t) = s_0(t)$
+    - $D_1$: receiver decides that signal was $s(t) = s_1(t)$
 
-* Decision is taken by comparing with a threshold $T$:
-    * if $r < T$,  take decision $D_0$: decide the true signal is $s_0$
-    * if $r \geq T$,  take decision $D_1$: decide the true signal is $s_1$
+### Possible outcomes
 
-### Hypotheses 
+* There are 4 possible situations:
 
-* Receiver chooses between **two hypotheses**:
-    * $H_0$: true signal is $s_0$ ($a_0$ has been transmitted)
-    * $H_1$: true signal is $s_1$ ($a_1$ has been transmitted)
+    1. **Correct rejection**: true hypothesis is $H_0$, decision is $D_0$
+        * Probability is $P_r = P(D_0 \cap H_0)$
 
-* Possible results
-    1. Correct rejection: no signal present, no signal detected.
-        * Decision $D_0$ when hypothesis is $H_0$
-        * Probability is $P_n = P(D_0 \cap H_0)$
-    2. **False alarm**: no signal present, signal detected (error)
-        * Decision $D_1$ when hypothesis is $H_0$
+    2. **False alarm** (false detection): true hypothesis is $H_0$, decision is $D_1$
         * Probability is $P_{fa}P(D_1 \cap H_0)$
-    3. **Miss**: signal present, no signal detected (error)
-        * Decision $D_0$ when hypothesis is $H_1$
+
+    3. **Miss** (false rejection): true hypothesis is $H_1$, decision is $D_0$
         * Probability is $P_m = P(D_0 \cap H_1)$
-    4. **Hit**: signal present, signal detected
-        * Decision $D_1$ when hypothesis is $H_1$
+
+    4. **Correct detection** (*hit*): true hypothesis is $H_1$, decision $D_1$
         * Probability is $P_d = P(D_1 \cap H_1)$
 
+### Origin of terms
 
-### Maximum likelihood criterion
+* Terms originate from radar application (first application of detection theory)
+    - signal is emitted from source
+    - received signal = possible reflection from a target, with lots of noise
+    - $H_0$ = no target is present, no reflected signal
+    - $H_1$ = target is present, there is a reflected signal
+    - hence the 4 scenarios refer to "has the target been detected"
 
-* Choose the hypothesis that **seems most likely** given the observed
-sample $r$
 
-* The **likelihood** of an observation $r$ = 
-the probability density of $r$ given a hypothesis $H_0$ or $H_1$
+### The noise
 
-* Likelihood in case of hypothesis $H_0$: $w(r | H_0)$ 
-    * $r$ is only noise, so value is taken from the noise distribution 
+- In general we consider **additive**, **white**, **stationary** noise
+    - additive = the noise is added to the signal
+    - white = two samples from the noise are uncorrelated
+    - stationary = has same statistical properties at all times
 
-* Likelihood in case of hypothesis $H_1$: $w(r | H_1)$
-    * $r$ is A + noise,  so value is taken from the distribution of (A + noise)
+- The noise signal $n(t)$ is unknown
+    - it's random
+    - we just know it's distribution, but not the actual values
 
-* **Likelihood ratio** test:
-$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH 1$$
+### The sample
 
-### Graphical interpretation
+- The receiver receives $r(t) = s(t) + n(t)$
+    - $s(t)$ = original signal, either $s_0(t)$ + $s_1(t)$
+    - $n(t)$ = unknown noise
+
+- The value of the sample taken at $t_0$ is $r(t_0) = s(t_0) + n(t_0)$
+    - $s(t_0)$ = either $s_0(t_0)$ or $s_1(t_0)$
+    - $n(t_0)$ is a sample of the noise
+
+### The sample
+
+- The sample $n(t_0)$ is a **random variable**
+    - since it is a sample of noise (a sample from a random process)
+    - assume is a continuous r.v., i.e. range of possible values is continuous
+
+* $r(t_0) = s(t_0) + n(t_0$ = a constant + a random variable
+    - it is also a random variable
+    - $s(t_0)$ is a constant, either $s_0(t_0)$ or $s_1(t_0)$
+
+- What distribution does $r$ have?
+    - a constant + a r.v. = has same distribution as r.v., but shifted
+    with the constant
+
+
+### The conditional likelihoods
+
+* Assume the noise has known distribution $w(x)$
+    - this is the distribution of the r.v. $n(t_0)$
+
+* The distribution of $r(t_0) = s(t_0) + n(t_0)$ = $w(x)$ shifted by $s(t_0)$
+
+* In hypothesis $H_0$, the distribution is $w(r|H_0)$ = $w(x)$ shifted by $s_0(t_0)$
+
+* In hypothesis $H_1$, the distribution is $w(r|H_1)$ = $w(x)$ shifted by $s_1(t_0)$
+
+* $w(r|H_0)$ and $w(r|H_1)$ are known as **conditional distributions** or
+**conditional likelihood functions**
+    - "|"means "conditioned by", "given that"
+    - i.e. considering one hypothesis or the other one
+    - $r$ is the unknown of the function 
+
+### Maximum Likelihood decision criterion
+
+- How to decide what hypothesis is true based on the observed sample $r = r(t_0)$?
+
+- **Maximum Likelihood (ML) criterion**: choose the hypothesis that is **most likely** to have 
+generated the observed sample value $r = r(t_0)$
+    - choose the higher value between $w(r(t_0)|H_0)$ and $w(r(t_0) | H_1)$
+
+* ML expressed as a  **Likelihood ratio** test:
+$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH 1$$
+    - criterion is evaluated for our observed value $r = r(t_0)$
+
+
+### Example: gaussian noise
 
 * Consider noise having a normal distribution
 
-* Plot the two density functions for $H_0$, $H_1$
+* At blackboard: 
+    - plot the two conditional distributions for $w(r | H_0)$, $w(r | H_1)$
+    - discuss the decision taken for different values of $r$
+    - discuss the threshold value $T$ for taking decisions
 
-### Decision via threshold
-
-* Likelihood ratio test for ML = comparing $r$ with a threshold $T$
-* The threshold = the cross-over point of the two distributions
-
-### Normal noise
+### Gaussian noise (AWGN)
 
 * Particular case: the noise has normal distribution $\mathcal{N}(0,\sigma^2)$
+    - i.e. it is AWGN
 
-* Likelihood ratio is $\frac{w(r|H_1)}{r|H_0} = \frac{e^{-\frac{(r-A)^2}{2\sigma^2}}}{e^{-\frac{r^2}{2\sigma^2}}} \grtlessH 1$
+* Likelihood ratio is $\frac{w(r|H_1)}{w(r|H_0)} = \frac{e^{-\frac{(r-s_1(t_0))^2}{2\sigma^2}}}{e^{-\frac{(r-s_0(r_0))^2}{2\sigma^2}}} \grtlessH 1$
 
-* For normal distribution, it is easier to apply *natural logarithm* to the terms
+* For normal distribution, it is easier to apply **natural logarithm** to the terms
     * logarithm is a monotonic increasing function, so it won't change the comparison
     * if $A < B$, then $\log(A) < \log(B)$
 
@@ -138,80 +191,218 @@ $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH 1$$
 
 ### Log-likelihood test for ML
 
-* For normal noise, the ML decision means the log-likelihood test
-$$\frac{(r-A)^2}{r^2} \grtlessH 1$$
+* Applying natural logarithm to both sides leads to:
+$$-(r-s_1(t_0))^2 + (r-s_0(t_0))^2 \grtlessH 0$$
 
-* Applying square root 
-$$\frac{|r-A|}{|r|} \grtlessH 1$$
+* Which means
+$$|r-s_0(t_0)| \grtlessH |r - s_1(t_0)|$$
 
-* $|r-A|$ = distance from $r$ to $A$, $|r|$ = distance from $r$ to $0$
+* Note that $|r-A|$ = distance from $r$ to $A$
+    - $|r|$ = distance from $r$ to $0$
 
-* ML decision with normal noise: choose the value 0 or A  which is **nearest** to $r$
-    * very general principle, encountered in many other scenarios
+* So we choose the smallest distance between $r$ and $s_1(t_0)$ vs $r-s_0(t_0)$
+
+### Maximum Likelihood for gaussian noise
+
+* ML criterion **for gaussian noise**: choose the hypothesis based on whichever of
+p
+$s_0(t_0)$ or $s_1(t_0)$ is **nearest** to our observed sample $r = r(t_0)$
+
     * also known as **nearest neighbor** principle / decision
-    * ML receiver is also known as **minimum distance receiver**
-    * equivalent with setting a threshold $T = \frac{A}{2}$ 
+    * very general principle, encountered in many other scenarios
+    * because of this, a receiver using ML is also known as **minimum distance receiver**
 
-### Generalizations
+### Steps for ML decision
 
-* What if the noise has another distribution?
-    * Threshold $T$ is still the cross-over point, whatever that is
-    * There can be more cross-overs, so multiple thresholds
-    * Can think that $\mathbb{R}$ axis is split into **decision regions** $R_0$ and $R_1$
+1. Sketch the two conditional distributions $w(r|H_0)$ and $w(r|H_1)$
+2. Find out which function is higher at the observed value $r = r(t_0)$ given.
 
-* What if the noise distributions are different for $H_0$ and $H_1$? 
-    * Threshold $T$ is the cross-over point, whatever that is
+### Steps for ML decision in case of gaussian noise
 
-* What if the signal $s_0(t)$ (for $H_0$) is not 0, but another constant value B?
-    * $T$ is the crossover point, the distributions are centered on B and A
-    * In case of normal noise, choose B or A whichever is nearest (threshold is at middle point)
+* Only if the noise is Gaussian, identical for all hypotheses:
 
-### Generalizations
+    1. Find $s_0(t_0)$ = the value of the original signal, in absence of noise, in case of hypothesis $H_0$
+    2. Find $s_1(t_0)$ = the value of the original signal, in absence of noise, in case of hypothesis $H_1$
+    3. Compare with observed sample $r(t_0)$ and choose the nearest
 
-* What if we have more than two signal levels?
-    * e.g. 4 possible signals: -6, -2, 2, 6
-    * Just choose the most likely hypothesis, out of 4 likelihood functions 
-    * Not a single threshold value, now there are more
+### Thresholding based decision
 
-### Exercises
+* Choosing the nearest value = same thing as comparing $r$ with a threshold $T = \frac{s_0(t_0) + s_1(t_0)}{2}$
+    - i.e. if the two values are 0 and 5, decide by comparing with 2.5 (like in laboratory)
+ 
+* In general, the threshold = the cross-over point between the distributions
 
-* A signal can have two possible values, $0$ or $5$. The receiver takes one
-sample with value $r = 2.25$
+### Exercise
+
+* A signal can have two possible values, $0$ or $5$. 
+The signal is affected by white gaussian noise $\mathcal{N}\;(\mu=0, \sigma^2=2)$.
+The receiver takes one sample with value $r = 2.25$
+    a. Write the expressions of the conditional probabilities and sketch them 
     a. Considering that the noise is white gaussian noise, what signal is decided
  based on the Maximum Likelihood criterion?
     b. What if the signal $0$ is affected by gaussian noise $\mathcal{N}(0, 0.5)$,
   while the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$?
     c. Repeat a. and b. assuming the value $0$ is replaced by $-1$
 
+### Decision regions
+
+* The **decision regions** = the range of values of $r$ for which a certain decision is taken
+
+* Decision regions $R_0$ = all the values of $r$ which lead to decision $D_0$
+* Decision regions $R_1$ = all the values of $r$ which lead to decision $D_1$
+* The decision regions cover the whole $\mathbb{R}$ axis
+
+* Example: indicate the decision regions for the previous exercise:
+    - $R_0 = [-\infty, 2.5]$
+    - $R_1 = [2.5, \infty]$
+
+### The likelihood function
+
+- Call the hypotheses, generically, $H_i$, and the signals $s_i(t)$, where $i$ is either 0 or 1
+
+- Consider the conditional distribution $w(r | H_i)$
+    - think of the function in the previous example, e.g.:
+$$w(r | H_i) = \frac{1}{\sigma \sqrt{2 \pi}}e^{-\frac{(r - s_i(t_0))^2}{2\sigma^2}}$$
+
+- Which is the unknown in this function?
+    - not $r$, since it is actually given in the exercise
+    - $i$ is the unknown variable
+
+
+### Terminology: probability vs likelihood
+
+- In the same mathematical expression of a distribution function:
+    - if we know the parameters (e.g. $\mu$, $\sigma$, $H_i$), and the unknown is the value (e.g. $r$, $x$)
+we call it **probability function**
+    - if we know value (e.g. $r$, $x$), and the unknown is some statistical parameter ($\mu$, $\sigma$, $i$),
+we call it a **likelihood function**
+
+### The likelihood function
+
+- The function $w(r | H_i)$ = $f(i)$ is a likelihood function
+
+- The function exists only in 2 points, for $i = 0$ and $i = 1$
+    - or, in general, for $i$ = how many hypotheses exist in the problem
+
+- ML decision = choose the $i$ for which this function is maximum
+$$Decision \;\; D_i = \arg\max_i w(r | H_i)$$
+    - Notation:
+        - $\arg\max f(x)$ = the $x$ for which the function $f(x)$ is maximum
+        - $\max f(x)$ = the maximum value of the function $f(x)$
+        - see graphical explanation at blackvoard
+
+- Maximum Likelihood criterion means "choose the $i$ which maximizes the likelihood function $f(i) = w(r|H_i)$"
+
+
+### Generalizations
+
+* What if the noise has another distribution?
+    * Sketch the distributions
+    * Locate the given $r = r(t_0)$
+    * ML decision = choose the highest function $w(r|H_i)$ in that point
+
+* The decision regions are defined by the cross-over points 
+    * There can be more cross-overs, so multiple thresholds
+
+### Generalizations
+
+* What if the noise has a different distribution in hypothesis $H_0$ than in hypothesis $H_1$? 
+
+* Same thing:
+    * Sketch the distributions
+    * Locate the given $r = r(t_0)$
+    * ML decision = choose the highest function $w(r|H_i)$ in that point
+
+### Generalizations
+
+* What if the two signals $s_0(t)$ and $s_1(t)$ are constant / not constant?
+
+* We don't care about the shape of the signals
+    * All we care about are the two values at the sample time $t_0$: 
+        - $s_0(t_0)$
+        - $s_1(t_0)$
+
+### Generalizations
+
+* What if we have more than two hypotheses?
+
+* Extend to $n$ hypotheses
+    * We have $n$ possible signals $s_0(t)$, ... $s_{n-1}(t)$
+    * We have $n$ different values $s_0(t_0)$, ... $s_{n-1}(t_0)$
+    * We have $n$ conditional distributions $w(r|H_i)$
+    * For the given $r = r(t_0)$, choose the maximum value
+out of the $n$ values $w(r|H_i)$
+
+### Generalizations
+
+* What if we take more than 1 sample?
+
+* Patience, we'll treat this later as a separate sub-chapter
+
+### Exercises
+
 * A signal can have four possible values: -6, -2, 2, 6. Each value
 lasts for 1 second. The signal is affected
 by white noise with normal distribution. The receiver takes 1 sample per second.
 Using ML criterion, decide what signal has been transmitted, if the received samples are:
-$$4, 6.6, -5.2, 1.1, 0.3, -1.5, 7, -7, 4.4$$
+$$4,\; 6.6,\; -5.2,\; 1.1,\; 0.3,\; -1.5,\; 7,\; -7,\; 4.4$$
 
-### Computing conditional error probabilities
+### Conditional probabilities
 
-* We can compute the conditional probabilities of errors
+* We compute the **conditional probabilities** of the 4 possible outcomes
 
 * Consider the decision regions:
-    * $R_0$: when $r \in R_0$, decision is $D_0$, i.e. $(\infty, T)$ for gaussian noise
-    * $R_1$: when $r \in R_1$, decision is $D_1$, i.e. $[T, \infty)$ for gaussian noise
+    * $R_0$: when $r \in R_0$, decision is $D_0$
+    * $R_1$: when $r \in R_1$, decision is $D_1$
     
-* Probability of false alarm ***if** original signal is $s_0(t)$*
+* Conditional probability of correct rejection
+    * = probability to take decision $D_0$ in the case that hypothesis is $H_0$
+    * = probability that $r$ is in $R_0$ computed from the distribution $w(r|H_0)$ 
+$$P(D_0 | H_0) = \int_{R_0} w(r|H_0) dx$$
+
+* Conditional probability of false alarm 
+    * = probability to take decision $D_1$ in the case that hypothesis is $H_0$
+    * = probability that $r$ is in $R_1$ computed from the distribution $w(r|H_0)$ 
 $$P(D_1 | H_0) = \int_{R_1} w(r|H_0) dx$$
 
-* Probability of miss ***if** original signal is $s_1(t)$*
+
+### Conditional probabilities
+
+* Conditional probability of miss
+    * = probability to take decision $D_0$ in the case that hypothesis is $H_1$
+    * = probability that $r$ is in $R_0$ computed from the distribution $w(r|H_1)$ 
 $$P(D_0 | H_1) = \int_{R_0} w(r|H_1) dx$$
 
-* These probabilities do not account for the probability that the signal actually is $s_0(t)$ or $s_1(t)$
-    * they are **conditional** ("if")
+* Conditional probability of correct rejection
+    * = probability to take decision $D_1$ in the case that hypothesis is $H_1$
+    * = probability that $r$ is in $R_1$ computed from the distribution $w(r|H_1)$ 
+$$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
+
+
+### Conditional probabilities
+
+* Relation between them:
+    * sum of correct rejection + false alarm = 1
+    * sum of miss + correct detection  = 1
+    * Why? Prove this.
 
 ### Computing conditional error probabilities
 
 ![Conditional error probabilities](img/SigDetWGN.png){#id .class width=60%}
 
-*[image from hhttp://gru.stanford.edu/doku.php/tutorials/sdt]*
+* Ignore the text, just look at the nice colors
+* [image from hhttp://gru.stanford.edu/doku.php/tutorials/sdt]*
 
+### Probabilities of the 4 outcomes
+
+* Conditional probabilities are computed **given that** one or the other hypothesis is true
+
+* They do not account for the probabilities *of the hypotheses themselves*
+    - i.e. $P(H_0)$ = how many times does $H_0$ happen?
+    - $P(H_1)$ = how many times does $H_1$ happen?
+
+* To account for these, multiply with $P(H_0)$ and $P(H_1)$
+    - known as the **prior** (or **a priori**) probabilities of the hypotheses
 
 ### Reminder: the Bayes rule
 
@@ -223,25 +414,34 @@ $$P(A \cap B) = P(B | A) \cdot P(A))$$
     * $P(B|A)$ gives no information  on $P(A)$, the chances of $A$ actually happening
     * Example: P(score | shoot) = $\frac{1}{2}$. How many goals are scored?
 
+* In our case: $P(D_i \cap H_j) = P(D_i | H_j) \cdot P(H_j)$
+    - for all $i$ and $j$, i.e. all 4 cases
+
 ### Exercise
 
-* A signal can have two possible values, $0$ or $5$. The signal $0$ is affected by gaussian noise $\mathcal{N}(0, 0.5)$,
-while the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$. The receiver performs ML decision based 
-on a single sample.
-    a. Compute the probability of a wrong decision when the original signal is $s_0(t)$
-    b. Compute the probability of a wrong decision when the original signal is $s_1(t)$
+* A constant signal can have two possible values, $-2$ or $5$. 
+The signal is affected by gaussian noise $\mathcal{N}(\mu=0, \sigma^2=2)$.
+The receiver performs ML decision based on a single sample.
+    a. Compute the conditional probability of a false alarm
+    b. Compute the conditional probability of a miss
+    c. If $P(H_0) = \frac{1}{3}$ and $P(H_1) = \frac{2}{3}$, compute the actual probabilities 
+    of correct rejection and correct detection (not conditional)
+
     
 ### Pitfalls of ML decision criterion
 
-* The ML is based on comparing **conditional** probability density functions
+* The ML criterion is based on comparing **conditional** distributions
     * conditioned by $H_0$ or by $H_1$
 
-* Conditioning by $H_0$ and $H_1$ ignores the probability of $H_0$ or $H_1$ actually happening
-    * We don't know how $p(H_0)$ or $P(H_1)$
+* Conditioning by $H_0$ and $H_1$ ignores the prior probabilities of $H_0$ or $H_1$
+    * Our decision doesn't change if we know that $P(H_0) = 99.99\%$ and $P(H_1) = 0.01\%$,
+or vice-versa
 
-* If $p(H_0) > p(H_1)$, we may want to move the threshold towards $H_1$, and vice-versa
-    * because it is more likely that the signal is $s_0(t)$
+* But if $P(H_0) > P(H_1)$, we may want to move the threshold towards $H_1$, and vice-versa
+    * because it is more likely that the true signal is $s_0(t)$
     * and thus we want to "encourage" decision $D_0$ 
+
+* Looks like we want a more general criterion ...
 
 ### The minimum error probability criterion
 
