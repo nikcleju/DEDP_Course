@@ -270,9 +270,11 @@ $$w(r | H_i) = \frac{1}{\sigma \sqrt{2 \pi}}e^{-\frac{(r - s_i(t_0))^2}{2\sigma^
 
 - In the same mathematical expression of a distribution function:
     - if we know the parameters (e.g. $\mu$, $\sigma$, $H_i$), and the unknown is the value (e.g. $r$, $x$)
-we call it **probability function**
+we call it **probability density function** (distribution)
     - if we know value (e.g. $r$, $x$), and the unknown is some statistical parameter (e.g. $\mu$, $\sigma$, $i$),
 we call it a **likelihood function**
+
+- Hence the subtle distinction in terms: "probability" vs "likelihood"
 
 ### The likelihood function
 
@@ -426,7 +428,6 @@ The receiver performs ML decision based on a single sample.
     c. If $P(H_0) = \frac{1}{3}$ and $P(H_1) = \frac{2}{3}$, compute the actual probabilities 
     of correct rejection and correct detection (not conditional)
 
-    
 ### Pitfalls of ML decision criterion
 
 * The ML criterion is based on comparing **conditional** distributions
@@ -442,38 +443,42 @@ or vice-versa
 
 * Looks like we want a more general criterion ...
 
+
+
 ### The minimum error probability criterion
 
 * Takes into account the probabilities $P(H_0)$ and $P(H_1)$
 
-* Goal is to **minimize the total probability of error $P_e$**
+* Goal is to **minimize the total probability of error $P_e = P_{fa} + P_m$**
     * errors = false alarms and misses
 
-* We need to find the decision regions $R_0$ and $R_1$
+* We need to find a new criterion (new decision regions $R_0$ and $R_1$)
 
-### Probability of error
+### Deducing the new criterion
 
-* Probability of false alarm
+* The probability of false alarm is:
 $$\begin{split}
 P(D_1 \cap H_0) =& P(D_1 | H_0) \cdot P(H_0)\\
 =& \int_{R_1} w(r | H_0) dx \cdot P(H_0)\\
-=& (1 - \int_{R_0} w(r | H_0) dx \cdot P(H_0)
+=& (1 - \int_{R_0} w(r | H_0 dx )  \cdot P(H_0)
 \end{split}$$
 
-* Probability of miss
+* The probability of miss is:
 $$\begin{split}
 P(D_0 \cap H_1) =& P(D_0 | H_1) \cdot P(H_1)\\
 =& \int_{R_0} w(r | H_1) dx \cdot P(H_1)
 \end{split}$$
 
-* The sum is
+* The total error probability (their sum) is:
 $$P_e = P(H_0) + \int_{R_0} [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)] dx$$
 
 ### Minimum probability of error
 
 * We want to minimize $P_e$, i.e. to minimize the integral
 
-* To minimize the integral, we choose $R_0$ such that for all $r \in R_0$, 
+- We can choose $R_0$ as we want for this purpose
+
+* We choose $R_0$ such that for all $r \in R_0$, 
 the term inside the integral is **negative**
     * because integrating over all the interval where the function is negative ensures minimum value of integral
 
@@ -484,71 +489,104 @@ the term inside the integral is **negative**
 $$w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) \grtlessH 0$$
 $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$$
 
+### Minimum probability of error
+
+* **The minimum probability of error** criterion (MPE):
+
+$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$$
+
+
 ### Interpretation
 
-* Similar to ML, but threshold depends on probabilities of the two hypotheses
-    * When one hypotheses is more likely than the other, the threshold
-    is pushed in its favor, towards the other
+* MPE criterion is more general than ML, depends on probabilities of the two hypotheses
+    * Also expressed as a likelihood ratio test
 
-* Also based on a **likelihood ratio** test, just like ML
+* When one hypothesis has higher probability than the other, the threshold
+    is **pushed in its favor**, towards the other one
 
-### Minimum probability of error - gaussian noise
+* The ML criterion is a particular case of the MPE criterion,
+for $P(H_0) = P(H_1) = \frac{1}{2}$
 
-* Assuming the noise is gaussian (normal), $\mathcal{N}(0, \sigma^2)$
-$$w(r | H_1) = e^{-\frac{(r-A)^2}{2\sigma^2}}$$
-$$w(r | H_0) = e^{-\frac{r^2}{2\sigma^2}}$$
+
+### Minimum probability of error - Gaussian noise
+
+* Assuming the noise has normal distribution $\mathcal{N}(0, \sigma^2)$
+$$w(r | H_1) = e^{-\frac{(r-s_1(t_0))^2}{2\sigma^2}}$$
+$$w(r | H_0) = e^{-\frac{(r-s_0(t_0))^2}{2\sigma^2}}$$
 
 * Apply natural logarithm
-$$-\frac{(r-A)^2}{2\sigma^2} + \frac{r^2}{2\sigma^2} \grtlessH \ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
+$$-\frac{(r-s_1(t_0))^2}{2\sigma^2} + \frac{(r-s_0(t_0))^2}{2\sigma^2} \grtlessH \ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
 
 * Equivalently
-$$2rA - A^2 \grtlessH 2 \sigma^2 \cdot \ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
-$$ r \grtlessH \underbrace{\frac{A^2 + 2 \sigma^2 \cdot \ln \left(\frac{P(H_0)}{P(H_1)} \right) }{2A}}_T$$
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2\sigma^2 \cdot\ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
+    * or, after further processing:
+$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
 
-### Decision regions
 
-* We still compare with a threshold $T$, but its value is shifted towards the less probable hypothesis
-    * $T$ depends on the ratio $\frac{P(H_0)}{P(H_1)}$
+### Interpretation 1: Comparing distance
+
+* For ML criterion, we compare the (squared) distances:
+$$|r-s_0(t_0)| \grtlessH |r - s_1(t_0)|$$
+$$(r-s_0(t_0))^2 \grtlessH (r - s_1(t_0))^2$$
+
+* For MPE criterion, we compare the squared distances, but a supplementary term appears in favour
+of the most probable hypothesis:
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2\sigma^2 \cdot\ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
+    * term depends on the ratio $\frac{P(H_0)}{P(H_1)}$
     
-* Decision regions
-    * $R_0 = (-\infty, T]$
-    * $R_1 = [T, \infty)$
-    * will be different for other noise distributions (non-gaussian)
     
+### Interpretation 2: The threshold value
+
+* For ML criterion, we compare $r$ with a threshold $T$
+$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2}$$
+
+* For MPE criterion, the threshold is moved towards the less probable hypothesis:
+$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
+    * depending on the ratio $\frac{P(H_0)}{P(H_1)}$
+
 
 ### Exercises
 
-* An information source provides two messages with probabilities $p(a_0) = \frac{2}{3}$ and $p(a_1) = \frac{1}{3}$.
-The messages are encoded as constant signals with values $-5$ ($a_0$) and $5$ ($a_1$).
-The signals are affected by gaussian noise $\mathcal{N}(0, \sigma^2=1)$
+* Consider the decision between two constant signals: $s_0(t) = -5$ and $s_1(t) = 5$.
+The signals are affected by gaussian noise $\mathcal{N}(0, \sigma^2=3)$
 The receiver takes one sample $r$.
-Decision is done by comparing $r$ with a threshold value $T$, as follows: if $r < T$ it is decided
-that the transmitted message is $a_0$, otherwise it is $a_1$.
-    a. Find the threshold value $T$ according to the minimum probability of error criterion
-    b. What if the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$?
+    a. Find the decision regions $R_0$ and $R_1$ according to the MPE criterion
     c. What are the probabilities of false alarm and of miss?
+    b. Repeat a) and b) considering that $s_1(t)$ is affected by uniform noise $\mathcal{U}[-4,4]$
 
 
-### Minimum risk (cost) criterion
+
+### Minimum risk criterion
 
 * What if we care more about one type of errors (e.g. false alarms)
 than other kind (e.g. miss)?
+    * MPE criterion treats all errors the same
+    * Need a more general criterion
 
-* Minimum risk (cost) criterion: assign costs to decisions, minimize average cost
-    * $C_{ij}$ = cost of decision $D_i$ when true hypothesis was $H_j$
+* Idea: assign a **cost** to each scenario, minimize average cost
+
+* $C_{ij}$ = cost of decision $D_i$ when true hypothesis was $H_j$
     * $C_{00}$ = cost for good detection $D_0$ in case of $H_0$
     * $C_{10}$ = cost for false alarm (detection $D_1$ in case of $H_0$)
     * $C_{01}$ = cost for miss (detection $D_0$ in case of $H_1$)
     * $C_{11}$ = cost for good detection $D_1$ in case of $H_1$
+    
+* The idea of assigning "costs" and minimizing average cost is very general
+    * e.g. IT: Shannon coding: "cost" of each message is the length of its codeword,
+    we want to minimize average cost, i.e. minimize average length
 
-*  The risk = the average cost
+### Minimum risk criterion
+
+*  Define the **risk** = **the average cost** value
 $$R = C_{00} P(D_0 \cap H_0) + C_{10} P(D_1 \cap H_0) + C_{01} P(D_0 \cap H_1) + C_{11} P(D_1 \cap H_1)$$
 
-* Minimum risk criterion: **minimize the risk R**
+* Minimum risk criterion: **minimize the risk R** 
+    * i.e. minimize the average cost
+    * also known as "minimum cost criterion"
 
 ### Computations
 
-* Proof on table:
+* Proof on blackboard: (sorry, no time to put in on slides)
     * Use Bayes rule
     * Notations: $w(r | H_j)$ (*likelihood*)
     * Probabilities: $\int_{R_i} w(r | H_j) dV$
@@ -556,79 +594,121 @@ $$R = C_{00} P(D_0 \cap H_0) + C_{10} P(D_1 \cap H_0) + C_{01} P(D_0 \cap H_1) +
 * Conclusion, **decision rule is**
 $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$$
 
+### Minimum risk criterion
+
+**Minimum risk criterion** (MR):
+
+$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$$
+
 ### Interpretation
 
-* Similar to ML and to minimum probability of error criteria
-    * also uses a **likelihood ratio** test
+* MR is a generalization of MPE criterion (which was itself a generalization of ML)
+    * also expressed as a likelihood ratio test
 
-* Both probabilities and the assigned costs can move threshold towards one side or the other
+* Both **probabilities** and the assigned **costs** can influence the decision towards one hypothesis or the other
 
-* If $C_{10}-C_{00} = C_{01}-C_{11}$, reduces to previous criterion (minimum probability of error)
+* If $C_{10}-C_{00} = C_{01}-C_{11}$, MR reduces to MPE:
     * e.g. if $C_{00} = C_{11} = 0$, and $C_{10} = C_{01}$
 
-### In gaussian noise
+### Minimum Risk - gaussian noise
 
-* If the noise is gaussian (normal), then similar to other criteria, apply logarithm
+* If the noise is gaussian (normal), do like for the other criteria, apply logarithm
 
-* Equivalently
-$$-(r-A)^2 + r^2 \grtlessH \underbrace{2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)}_C$$
-$$ r \grtlessH \underbrace{\frac{A^2 + 2 \sigma^2 \cdot \ln \left(\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right) }{2A}}_T$$
+* Obtain:
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)$$
+    * or 
+$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)$$
 
-### In gaussian noise
+### Interpretation 1: Comparing distance
 
-* In general, for likelihood ratio test $\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$, 
-the threshold is 
-$$T = \frac{A^2 + 2 \sigma^2 \cdot \ln K }{2A}$$
+* For MPE criterion, we compare the squared distances, but a supplementary term appears in favour
+of the most probable hypothesis:
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2\sigma^2 \cdot\ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
+    * term depends on the ratio $\frac{P(H_0)}{P(H_1)}$
 
-### Example
+* For MR criterion, besides the probabilities we also are influenced by the costs
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)$$    
 
-* Example at blackboard: 0 / 5, random noise with $N(0, \sigma^2)$, one sample
+### Interpretation 2: The threshold value
 
-### Neymar-Pearson criterion
+* For MPE criterion, the threshold is moved towards the less probable hypothesis:
+$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
+    * depending on the ratio $\frac{P(H_0)}{P(H_1)}$
 
-* Neymar-Pearson criterion: maximize probability of a hit ($P(D_1 \cap H_1)$)
-while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0) \leq \lambda)$
+* For MR criterion, besides the probabilities we also are influenced by the costs
+$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)$$
 
-* Deduce the threshold $T$ from the limit condition $P(D_1 \cap H_0) = \lambda$
+### Influence of costs
+
+* The MR criterion pushes the decision towards **minimizing the high-cost scenarios**
+
+* Example: from the equations:
+    - what happens if cost $C_{01}$ increases, while the others are unchanged?
+    - what happens if cost $C_{10}$ increases, while the others are unchanged?
+    - what happens if both costs $C_{01}$ and $C_{10}$ increase, while the others are unchanged?
+
+### General form of ML, MPE and MR criteria
+
+* ML, MPE and MR criteria all have the following form
+$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
+    * for ML: $K=1$
+    * for MPE: $K=\frac{P(H_0)}{P(H_1)}$
+    * for MR: $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
+
+### General form of ML, MPE and MR criteria
+
+In gaussian noise, all criteria reduce to:
+
+* Comparing squared distances:
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( K \right)$$    
+
+* Comparing the sample $r$ with a threshold $T$:
+$$r \grtlessH \underbrace{\frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(K \right)}_T$$
 
 ### Exercise
+
+* A vehicle airbag system detects a crash by evaluating a sensor which provides two values: $s_0(t) = 0$ (no crash) or $s_1(t) = 5$ (crashing)
+* The signal is affected by gaussian noise $\mathcal{N}\;(\mu=0, \sigma^2=1)$.
+* The costs of the scenarios are: $C_{00} = 0$, $C_{01} = 100$, $C_{10} = 10$, $C_{11} = -100$
+    a. Find the decision regions $R_0$ and $R_1$.
+
+
+### Neyman-Pearson criterion
+
+* An even more general criteria than all the others until now
+
+* **Neyman-Pearson criterion**: maximize probability of correct detection ($P(D_1 \cap H_1)$)
+while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0) \leq \lambda)$
+    * Deduce the threshold $T$ from the limit condition $P(D_1 \cap H_0) = \lambda$
+    
+* ML, MPE and MR criteria are particular cases of Neyman-Pearson, for particular values of $\lambda$
+
+### Exercise
+
 * An information source provides two messages with probabilities $p(a_0) = \frac{2}{3}$ and $p(a_1) = \frac{1}{3}$.
 * The messages are encoded as constant signals with values $-5$ ($a_0$) and $5$ ($a_1$).
-* The signals are affected by noise with triangular distribution $[-5,5]$.
+* The signals are affected by noise with uniform distribution $U [-5,5]$.
 * The receiver takes one sample $r$.
-* Decision is done by comparing $r$ with a threshold value $T$, as follows: if $r < T$ it is decided 
-that the transmitted message is $a_0$, otherwise it is $a_1$.
-    a. Find the threshold value $T$ according to the Neymar-Pearson criterion, considering $P_{fa} \leq 10^{-2}$
-    b. What is the probability of hit?
+    a. Find the decision regions according to the Neymar-Pearson criterion, considering $P_{fa} \leq 10^{-2}$
+    b. What is the probability of correct detection, in this case?
 
 
-### Two non-zero levels
+### Application: Differential vs single-ended signalling
 
-* What if the $s_0$ signal is not 0, but another constant signal $s_0 = B$?
+* Application: binary transmission with constant signals (e.g. constant voltage levels)
 
-* Noise distribution $w(r|H_0)$ is centered on $B$, not 0
+* Two common possibilities:
+    * Single-ended signalling: one signal is 0, other is non-zero
+        * $s_0(t) = 0$, $s_1(t) = A$
 
-* Otherwise, everything else stays the same
+    * Differential signalling: use two non-zero levels with different sign, same absolute value
+        * $s_0(t) = -\frac{A}{2}$, $s_1(t) = \frac{A}{2}$
 
-* Performance is defined by the gap between the two levels ($A - B$)
-    * same performance if $s_0 = 0$, $s_1 = A$ or if $s_0 = -\frac{A}{2}$ and $s_1 = \frac{A}{2}$
-    
-* Valid for all decision criteria
-
+* Find out which is better?
 
 ### Differential vs single-ended signalling
 
-* Single-ended signaling: one signal is 0, other is non-zero
-    * $s_0 = 0$, $s_1 = A$
-
-* Differential signaling: use two non-zero levels with different sign, same absolute value
-    * $s_0 = -\frac{A}{2}$, $s_1 = \frac{A}{2}$
-
-* Which is better?
-
-### Differential vs single-ended signalling
-
-* If gap difference between levels is the same, performance is the same
+* Since difference between levels is the same, decision performance is the same
 
 * Average power of a signal = average squared value
 
@@ -637,11 +717,11 @@ that the transmitted message is $a_0$, otherwise it is $a_1$.
 * For signal ended signal: $P = P(H_0) \cdot 0 + P(H_1) \left( A \right)^2 = \frac{A^2}{2}$
     * assuming equal probabilities $P(H_0) = P(H_1) = \frac{1}{2}$
 
-* Differential uses half the power of single-ended (i.e. better)
+* Differential uses half the power of single-ended (i.e. better), for same decision performance
 
 ### Summary of criteria
 
-* We have seen decision based on 1 sample $r$, between 2 constant levels
+* We have seen decision based on 1 sample $r$, between 2 signals (mostly)
 
 * All decisions are based on a likelihood-ratio test
 $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
@@ -651,9 +731,11 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
 * Depending on the noise distributions, the real axis is partitioned into regions
     * region $R_0$: if $r$ is in here, decide $D_0$
     * region $R_1$: if $r$ is in here, decide $D_1$
-    * e.g. $R_0 = (-\infty, \frac{A+B}{2}]$, $R_1 = (\frac{A+B}{2}, \infty)$ (ML)
 
-* For gaussian noise, the threshold is $T = \frac{A^2 + 2 \sigma^2 \cdot \ln K }{2A}$
+* For gaussian noise, the boundary of the regions (threshold) is 
+$$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(K \right)$$
+
+
 
 ### Receiver Operating Characteristic
 
@@ -742,32 +824,34 @@ $$P_{hit} = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{
 *[source: Fundamentals of Statistical Signal Processing, Steven Kay]*
 
 
-### Decision between hypotheses
+### Applications of decision theory
 
-* Statistical decision is not useful merely for detecting signals
-
-* We are in fact deciding between two different probability distributions
-    * regardless of what the two distributions mean
-
-* For detection of constant signals, we choose between two distributions with **different average value**, generally
-    * one distribution has average value $0$, the other one $A$
+- Can we apply these decision criteria in other engineering problems?
+    - e.g. not for deciding between two signals, but for something else
     
-* But we can choose between distributions that differ in other parameters
-    * average value, or
-    * variance, or
-    * shape, etc
-    
-### Decision between hypotheses
+- The core mathematical problem we solve is:
+    - we have 2 (or more) possible distributions
+    - we observe 1 value
+    - we determine the most likely distribution, according to the value
 
-* Example: We have a sample with value $r = 2.5$. It can come from a distribution 
-$\mathcal{N}(0,\sigma^2=1)$ (hypothesis $H_0$) or from $\mathcal{N}(0,\sigma^2=2)$ (hypothesis $H_1$). 
-Which hypothesis do we think is true?
-    * It is the variance that differs, not the average value
+- In our particular problem, we decide between two signals
 
-* We can use the exact same criteria as before
-    * Draw the two distributions
-    * Compute the likelihoods $w(r|H_0)$ and $w(r|H_1)$ for $r$
-    * Decide based on likelihood ratio using some criterion
+- But this can be applied to many other statistical problems:
+    - medicine: does this ECG signal look healthy or not?
+    - business: will this client buy something or not?
+    - Typically we use more than 1 value for these,
+      but the mathematical principle is the same
+
+### Applications of decision theory
+
+Example (purely imaginary): 
+
+ - A healthy person of weight = X kg has the concentration of thrombocytes per ml of blood
+   distributed approximately as $\mathcal{N} \; (\mu=10 \cdot X, \sigma^2 = 20)$.
+- A person suffering from disease D has a much lower value of thrombocytes,
+    distributed approximately as $\mathcal{N} \; (100, \sigma^2=10)$.
+- The lab measures your blood and finds your value equal to $r = 255$. Your weight is 70 kg.
+- Decide: are you most likely healthy, or ill?
 
 
 ## II.3 Detection of constant signals with multiple samples
