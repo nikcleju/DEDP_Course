@@ -754,10 +754,36 @@ $$R_{ff}(t_1,t_2) = R_{ff}(0, t_2 - t_1) = R_{ff}(\tau) = \overline{f(t) f(t + \
 
 ### Consequences of stationarity
 
+* Definition of autocorrelation function for **stationary** r.p:
+    * the function now depends on $\tau = t_2 - t_1$, instead of $t_1$ and $t_2$
+
+* Statistical autocorrelation: no change
+
+* Temporal autocorrelation:
+    * for continuous r.p.
+    $$\begin{split}
+    R_{ff}(\tau) =& \overline{f(t) f(t + \tau)} \\
+    =& \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t) f^{(k)}(t + \tau) dt
+    \end{split}$$
+
+    * for discrete r.p.
+    $$\begin{split}
+    R_{ff}(\tau) =& \overline{f(t) f(t + \tau)} \\
+    =& \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t] f^{(k)}[t + \tau]
+    \end{split}$$
+    
+    * finite length: limit the integrals / sums to the length of the signal, $\int_{t_{min}}^{t_{max}}$ or $\sum_{t_{min}}^{t_{max}}$
+
+
+### Consequences of stationarity
+
 * Same for correlation function between two different r.p
 
 * Depends only on the **time difference** $\tau = t_2 - t_1$ between the samples
 $$R_{fg}(t_1,t_2) = R_{fg}(0, t_2 - t_1) = R_{fg}(\tau) = \overline{f(t) g(t + \tau)}$$
+
+* Definition is similar to the autocorrelation definition on the previous slide
+
 
 ### Interpretation of autocorrelation
 
