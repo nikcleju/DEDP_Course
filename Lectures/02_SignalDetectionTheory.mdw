@@ -736,21 +736,21 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
 $$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(K \right)$$
 
 
-
 ### Receiver Operating Characteristic
 
 * The receiver performance is usually represented with **"Receiver Operating Characteristic" (ROC)** graph
 
-* It is a graph of hit probability $P_d = P(D_1 \cap H_1)$ (correct detection)
-as a function of false alarm probability $P_{fa} = P(D_1 \cap H_0)$
+* It is a graph of $P_d = P(D_1 | H_1)$ as a function of $P_{fa} = P(D_1 | H_0)$,
+    * obtained for different values of the threshold value $T$
+    * i.e. for every $T$ you get a certain value of $P_{fa}$ and a certain value of $P_d$
 
-![Sample ROC curves](img/ROCcurve.png){#id .class width=60%}
+![Sample ROC curves](img/ROCcurve.png){#id .class width=50%}
 
 *[image from http://www.statisticshowto.com/receiver-operating-characteristic-roc-curve/]*
 
 ### Receiver Operating Characteristic
 
-* There is always a **tradeoff** between good $P_d$ and bad $P_{fa}$
+* It shows there is always a **tradeoff** between good $P_d$ and bad $P_{fa}$
     * to increase $P_d$ one must also increase $P_{fa}$
     * if we want to make sure we don't miss any real detections (increase P_d), we pay by increasing
     the chances of false alarms
@@ -762,54 +762,65 @@ as a function of false alarm probability $P_{fa} = P(D_1 \cap H_0)$
 * How to improve the receiver?
     * i.e. increase $P_D$ while keeping $P_{fa}$ the same
 
-### Performance of likelihood-ratio decoding in WGN
+### Performance of likelihood-ratio decoding in AWGN
 
 * WGN = "White Gaussian Noise"
 
 * Assume equal probabilities $P(H_0) = P(H_1) = \frac{1}{2}$
+    * Equivalently, consider only the conditional probabilities
 
 * All decisions are based on a likelihood-ratio test
 $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
 
-* Hit probability is
+* Conditional probability of correct detection is:
 $$\begin{split}
-P_{hit} =& P(D_1 | H_1) P(H_1) \\
-=& P(H_1) \int_{T}^{\infty} w(r | H_1) \\
-=& P(H_1) (F(\infty) - F(T)) \\
-=& \frac{1}{4} \left( 1 - erf \left( \frac{T - A}{\sqrt{2}\sigma} \right) \right) \\
-=& Q \left( \frac{T - A}{\sqrt{2}\sigma} \right) \\
+P_d =& P(D_1 | H_1)\\
+=& \int_{T}^{\infty} w(r | H_1) \\
+=& (F(\infty) - F(T)) \\
+=& \frac{1}{2} \left( 1 - erf \left( \frac{T - s_1(t_0)}{\sqrt{2}\sigma} \right) \right) \\
+=& Q \left( \frac{T - s_1(t_0)}{\sqrt{2}\sigma} \right) \\
 \end{split}$$
 
 
-### Performance of likelihood-ratio decoding in WGN
+### Performance of likelihood-ratio decoding in AWGN
 
-* False alarm probability is 
+* Conditional probability of false alarm is:
 $$\begin{split}
-P_{fa} =& P(D_1 | H_0) P(H_0) \\
-=& P(H_0) \int_{T}^{\infty} w(r | H_0) \\
-=& P(H_0) (F(\infty) - F(T)) \\
-=& \frac{1}{4} \left( 1 - erf \left( \frac{T - 0}{\sqrt{2}\sigma} \right) \right) \\
-=& Q \left( \frac{T}{\sqrt{2}\sigma} \right) \\
+P_{fa} =& P(D_1 | H_0) \\
+=& \int_{T}^{\infty} w(r | H_0) \\
+=& (F(\infty) - F(T)) \\
+=& \frac{1}{2} \left( 1 - erf \left( \frac{T - s_0(t_0)}{\sqrt{2}\sigma} \right) \right) \\
+=& Q \left( \frac{T - s_0(t_0)}{\sqrt{2}\sigma} \right) \\
 \end{split}$$
 
-* Therefore $\frac{T}{\sqrt{2}\sigma} = Q^{-1} \left( P_{fa}\right)$
+* Therefore $\frac{T - s_0(t_0)}{\sqrt{2}\sigma} = Q^{-1} \left( P_{fa}\right)$, 
 
-* Replacing in $P_{hit}$ yields
-$$P_{hit} = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \frac{A}{\sqrt{2}\sigma} \right)$$
+* And: $\frac{T - s_1(t_0)}{\sqrt{2}\sigma} = Q^{-1} \left( P_{fa}\right) + \frac{s_0(t_0) - s_1(t_0)}{\sqrt{2}\sigma}$
+
+### Performance of likelihood-ratio decoding in AWGN
+
+* Replacing in $P_d$ yields:
+$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} + \frac{s_0(t_0) - s_1(t_0)}{\sqrt{2}\sigma} \right)$$
+
+* Consider a simple case:
+    * $s_0(t_0) = 0$
+    * $s_1(t_0) = A = constant$
+
+* We get:
+$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \frac{A}{\sqrt{2}\sigma} \right)$$
 
 ### Signal-to-noise ratio
 
 * **Signal-to-noise ratio (SNR)** = $\frac{\text{power of original signal}}{\text{power of noise}}$
 
 * Average power of a signal = average squared value = $\overline{X^2}$
-    * Original signal power is $\frac{A^2}{2}$
+    * Original signal power of $s(t)$ is $\frac{A^2}{2}$
     * Noise power is $\overline{X^2} = \sigma^2$ (when noise mean value $\mu = 0$)
     
 * In our case, SNR = $\frac{A^2}{2 \sigma^2}$
+$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{SNR} \right)$$
 
-$$P_{hit} = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{SNR} \right)$$
-
-* For a fixed $P_{fa}$, $P_{hit}$ increases with SNR
+* For a fixed $P_{fa}$, $P_d$ **increases with SNR**
     * Q is a monotonic decreasing function
 
 
@@ -854,135 +865,145 @@ Example (purely imaginary):
 - Decide: are you most likely healthy, or ill?
 
 
-## II.3 Detection of constant signals with multiple samples
+## II.3 Signal detection with multiple samples
 
-### Multiple samples from a constant signal
+### Multiple samples from a signal
 
-* Suppose we have multiple samples, not just 1
+* The overall context stays the same:
+    - A signal $s(t)$ is transmitted
+    - There are **two hypotheses**:
+        - $H_0$: true signal is $s(t) = s_0(t)$
+        - $H_1$: true signal is $s(t) = s_1(t)$
+    - Receiver can take **two decisions**:
+        - $D_0$: receiver decides that signal was $s(t) = s_0(t)$
+        - $D_1$: receiver decides that signal was $s(t) = s_1(t)$
+    - There 4 possible outcomes 
+
+### Multiple samples from a signal
+
+* The overall context stays the same:
+    - There is noise on the channel (unknown)
+    - The receiver receives $r(t) = s(t) + n(t)$
+
+* Suppose we take N samples from $r(t)$, not just 1
+    * Each sample is $r_i = r(t_i)$, taken at moment $t_i$
 
 * The samples are arranged in a **sample vector**
 $$\vec{r} = [r_1, r_2, ... r_N]$$
 
-* In each hypotheses, the signal is a **random process**
-    * $H_0$: random process with average value 0
-    * $H_1$: random process with average value A
+### Multiple samples from a signal
 
-* Assuming the noise is stationary and ergodic, the signal random process
-is stationary and ergodic (signal = constant + noise)
+* Each sample $r_i$ is a **random variable**
+    - since $r(t_i) = s(t_i) + n(t_i)$ = a constant + a random variable
 
-* The values of $\vec{r}$ are described by the **distribution of order $N$**
-of the random processes, $w_N(\vec{r}) = w_N(r_1, r_2, ...r_N)$
+* The sample vector $\vec{r}$ is a set of $N$ random variables from a random process
 
-* Assuming the noise is white noise, the sample times don't matter
+* Considering the whole sample vector $\vec{r}$ as a whole, 
+the values of $\vec{r}$ are described by the **distributions of order $N$**
+
+* In hypothesis $H_0$: 
+$$w_N(\vec{r} | H_0) = w_N(r_1, r_2, ...r_N | H_0)$$
+
+* In hypothesis $H_1$: 
+$$w_N(\vec{r} | H_1) = w_N(r_1, r_2, ...r_N | H_1)$$
+
 
 ### Likelihood of vector samples
 
 * We can apply **the same criteria** based on likelihood ratio as 
 for 1 sample
-$$\frac{w_N(\vec{r} | H_0)}{w_N(\vec{r} | H_1)} \grtlessH K$$
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} \grtlessH K$$
 
 * Notes
-    * $\vec{r}$ is a vector; we consider the likelihood of all the samples
-    * the hypotheses $H_0$ and $H_1$ are the same as for 1 sample
+    * $\vec{r}$ is a vector; we consider the likelihood of all the sample vector as a whole
     * $w_N(\vec{r} | H_0)$ = likelihood of the whole vector $\vec{r}$ being obtained in hypothesis $H_0$
     * $w_N(\vec{r} | H_1)$ = likelihood of the whole vector $\vec{r}$ being obtained in hypothesis $H_1$
     * the value of $K$ is given by the actual decision criterion used
 
 * Interpretation: we choose the hypothesis that is most likely to have produced the observed data
-    * the same, but now the data = multiple samples
+    * now the data = a set of samples, not just 1
     
 ### Separation 
 
-* Assuming the noise is white noise, the samples $r_i$ are **multiple independent realizations
-of the same distribution**
+* Assuming the noise is white noise, the noise samples are independent, 
+and therefore the samples $r_i$ are independent
 
-* In that case the joint distributions $w_N(\vec{r} | H_j)$ can be decomposed as a product
-$$w_N(\vec{r} | H_j) = w(r_1|H_j) \cdot w(r_2|H_j) \cdot ... \cdot w(r_N|H_j)$$
-
-* The $w(r_i|H_j)$ are just the likelihoods of each individual sample
+* In that case the joint distribution $w_N(\vec{r} | H_i)$ can be decomposed 
+as a **product of individual distributions**:
+$$w_N(\vec{r} | H_i) = w(r_1|H_i) \cdot w(r_2|H_i) \cdot ... \cdot w(r_N|H_i)$$
     * e.g. the likelihood of obtaining $[5.1, 4.7, 4.9]$ = likelihood of obtaining $5.1$ $\times$
     likelihood of getting $4.7$ $\times$ likelihood of getting $4.9$
 
+* The $w(r_i|H_i)$ are just conditional distributions for each sample
+    * we've seen them already
+
 ### Separation 
 
-* Then all likelihood ratio criteria can be written as
+* Then all likelihood ratio criteria can be written as:
 $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
 \frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
 
 * The likelihood ratio of a vector of samples = product of likelihood ratio for each sample
 
+* We **multiply** the likelihood ratio **of each sample**, and then use the same 
+criteria for the end result
+
+### Criteria for decisions
+
+* All likelihood ratio criteria can be written as:
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
+\frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
+
+* The value of $K$ is the same as for 1 sample:
+    * for ML: $K=1$
+    * for MPE: $K=\frac{P(H_0)}{P(H_1)}$
+    * for MR: $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
+
 ### Particular case: AWGN 
 
 * AWGN = "Additive White Gaussian Noise"
 
-* In hypothesis $H_1$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - A)^2}{2 \sigma^2}}$
-* In hypothesis $H_0$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{r_i^2}{2 \sigma^2}}$
+* In hypothesis $H_1$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - s_1(t_i))^2}{2 \sigma^2}}$
+* In hypothesis $H_0$: $w(r_i|H_0) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - s_1(t_i))^2}{2 \sigma^2}}$
+
 * Likelihood ratio for vector $\vec{r}$
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}}$$
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s_1(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i - s_0(t_i))^2}{2 \sigma^2}}} = e^{\frac{\sum (r_i - s_0(t_i))^2 - \sum (r_i - s_1(t_i))^2}{2 \sigma^2}}$$
 
-* We can interpret this likelihood ratio in three ways
+### Decision criteria for AWGN
 
-### Interpretation 1: average value of samples
+* The global likelihood ratio is compared with $K$:
+$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = e^{\frac{\sum (r_i - s_0(t_i))^2 - \sum (r_i - s_1(t_i))^2}{2 \sigma^2}} \grtlessH K$$
 
-* Interpretation 1: average value of samples
+* Applying the natural logarithm, this becomes:
+$$\sum (r_i - s_0(t_i))^2 \grtlessH \sum (r_i - s_1(t_i))^2  + 2 \sigma^2 \ln(K)$$
 
-$$\begin{split}
-\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} =& \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \\
-=& e^{-\frac{\sum (r_i - A)^2 - \sum (r_i)^2}{2 \sigma^2}} \\
-=& e^{-\frac{\sum (r_i^2 - 2 r_i A +A^2) - \sum (r_i)^2}{2 \sigma^2}} \\
-=& e^{-\frac{\sum (- 2 r_i A +A^2)}{2 \sigma^2}} \\
-=& e^{-\frac{- 2 A \sum (r_i) + N A^2}{2 \sigma^2}} \\
-=& e^{-\frac{- 2 A \frac{\sum (r_i)}{N} + A^2}{2 \frac{\sigma^2}{N}}} \\
-\end{split}$$
+### Interpretation 1: geometrical distance
 
-### Average value of N gaussian random variables
+* The sums are squared **geometrical distances**:
+$$\sum (r_i - s_1(t_i))^2 = \|\vec{r} - \vec{s_1(t)}\|^2 = d(\vec{r}, s_1(t))^2$$
+$$\sum (r_i - s_0(t_i))^2 = \|\vec{r} - \vec{s_0(t)}\|^2 = d(\vec{r}, s_0(t))^2$$
+    * the distance between the observed samples $\vec{r}$ and 
+    the true possible underlying signals $s_1(t)$ and $s_0(t)$
+    * with N samples => distance between vectors of size $N$
 
-* Let $U_r$ = average value of the samples $r_i$
-$$U_r = \frac{1}{N}\sum r_i$$
+* It comes down to a decision between distances
 
-* What distribution does it have?
+### Interpretation 1: geometrical distance
 
-* Consider the sum $S_r = \sum r_i$ of the N samples $r_i$
-    * From chapter 1: the sum of normal r.v. $\mathcal{N}(\mu, \sigma^2)$ has:
-    * normal distribution $\mathcal{N}(\mu_S, \sigma_S^2)$ with
-    * average value: $\mu_S = N \cdot \mu$
-    * variance: $\sigma_S^2 = N \cdot \sigma^2$
+* Maximum Likelihood criterion:
+    * $K = 1$, $\ln(K) = 0$
+    * we choose the **minimum distance** between what is ($\vec{r}$) 
+    and what should have been in absence of noise ($s_1(t)$ and $s_0(t)$)
+    * hence the name "minimum distance receiver"
     
-* Then $U_r = \frac{1}{N} S_r$, and from the properties of average values we have
-    * $U_r$ has normal distribution with:
-    * average value = $\frac{1}{N} \mu_S = \frac{1}{N} N \mu = \mu$
-    * variance = $\left(\frac{1}{N}\right)^2 \sigma_S^2 = \left(\frac{1}{N}\right)^2 N \sigma_S^2 = \frac{1}{N} \sigma^2$
+* Minimum Probability of Error criterion:
+    * $K = \frac{P(H_0)}{P(H_1)}$
+    * An additional term appears in favor of the most probable hypothesis
 
-### Average value of N gaussian random variables
-* The mean value of $N$ realizations of a normal distribution has a normal distribution with
-    * same average value
-    * variance N times smaller
+* Minimum Risk criterion:
+    * $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
+    * Additional term depends on both probabilities and costs
 
-* If $N$ gets very large, the mean value is a very good **estimator** of the distribution's average value    
-    * its distribution gets very narrow around the average value
-
-### Interpretation 1: average value of samples
-
-$$\begin{split}
-\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} =& e^{-\frac{- 2 A U_r + A^2}{2 \frac{\sigma^2}{N}}} \\
-=& \frac{e^{-\frac{U_r^2 - 2 A U_r + A^2}{2 \frac{\sigma^2}{N}}}} {e^{-\frac{U_r^2}{2 \frac{\sigma^2}{N}}}} \\
-=& \frac{e^{-\frac{(U_r - A)^2}{2 \frac{\sigma^2}{N}}}} {e^{-\frac{U_r^2}{2 \frac{\sigma^2}{N}}}}\\
-=& \frac{w(U_r | H_1)}{w(U_r | H_0)}
-\end{split}$$
-
-* The likelihood ratio of $N$ gaussian samples = the likelihood ratio of **the mean of the samples**
-
-### Interpretation 1: average value of samples
-
-* The likelihood ratio of $N$ gaussian samples = the likelihood ratio of **the mean of the samples**
-    * the mean has smaller variance $\frac{1}{N}\sigma^2$, so is more accurate
-    * it is like the noise distribution gets $N$ times narrower (due to averaging)
-
-* Detection of constant signals with N samples is the same as detection with 1 sample, but:
-    * use the average value of the samples $r_i$
-    * its distributions are N times narrower (variance is N times smaller)
-    
-* As $N$ increases, the probability of errors decrease => better performance
 
 ### Exercise
 
@@ -992,296 +1013,103 @@ Exercise:
 The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
 The receiver takes 5 samples with values $\left\{ 1.1, 4.4, 3.7, 4.1, 3.8 \right\}$.
     a. What is decision according to Maximum Likelihood criterion?
-    b. What is decision according to minimum probability of error criterion, assuming
+    b. What is decision according to Minimum Probability of Error criterion, assuming
     $P(H_0) = 2/3$ and $P(H_1) = 1/3$?
+    c. What is the decision according to Minimum Risk Criterion, assuming
+    $P(H_0) = 2/3$ and $P(H_1) = 1/3$, and $C_{00} = 0$, $C_{10} = 10$, $C_{01} = 20$, $C_{11} = 5$?
 
-### Interpretation 2: geometrical
 
-* Useful mainly for Maximum Likelihood criterion
-
-* Likelihood ratio for vector $\vec{r}$
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
-
-* For Maximum Likelihood we compare to 1
-$$\frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH 1$$
-$$e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH 1$$
-$$- \sum (r_i - A)^2 + \sum (r_i)^2 \grtlessH 0$$
-$$\sum (r_i)^2 \grtlessH \sum (r_i - A)^2$$
-$$\sqrt{\sum (r_i)^2} \grtlessH \sqrt{\sum (r_i - A)^2}$$
-
-### Interpretation 2: geometrical
-
-* $\sqrt{\sum (r_i)^2}$ is the geometrical (Euclidian) distance between point $\vec{r} = [r_1, r_2, ... r_N]$ and point $\vec{0} = [0, 0, ...0]$
-* $\sqrt{\sum (r_i - A)^2}$ is the geometrical (Euclidian) distance between point $\vec{r} = [r_1, r_2, ... r_N]$ and point $\vec{A} = [A, A, ...A]$
-* ML decision chooses **the closest signal vector (point)** to the received vector (point), in a N-dimensional space
-    * it is known as "minimum distance receiver"
-    * same interpretation as in the 1-D case
+### Another exercise
     
-* Question: what is the geometrical interpretation for the other criteria?
+Another Exercise:
 
-### Exercise
-    
-Exercise:
-
-* A signal can have two values, $0$ (hypothesis $H_0$) or $6$ (hypothesis $H_1$). 
-The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
-The receiver takes 2 samples with values $\left\{ 1.1, 4.4 \right\}$.
-    a. What is decision according to Maximum Likelihood criterion? Use the geometrical interpretation.
-
-
-### Interpretation 3: cross-correlation
-
-* Likelihood ratio for vector $\vec{r}$
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
-$$e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH K$$
-$$-\sum (r_i - A)^2 + \sum (r_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ 2 \sum r_i A - N A^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ \frac{1}{N} \sum r_i A  \grtlessH \underbrace{\frac{A^2}{2} + \frac{1}{N}\sigma^2 \ln{K}}_{L = const}$$
-
-### Interpretation 3: cross-correlation
-
-* The **cross-correlation** (sometimes just "the correlation") of two signals $x$ and $y$ is
-$$<x,y> = \frac{1}{N}\sum x[n] y[n]$$
-
-* It is the value of the correlation function in 0
-$$<x,y> = R_{xy}[0] = \overline{x[n] y[n + 0]}$$
-
-* For continuous signals
-$$<x,y> = \frac{1}{T}\int_{T/2}^{T/2} x(t) y(t) dt$$
-
-* $\frac{1}{N} \sum r_i A = <\vec{r}, \vec{A}>$ is the cross-correlation of the received samples $\vec{r} = [r_1, r_2, ... r_N]$
-with the **target** samples $\vec{A} = [A, A, ... A]$
-
-
-### Interpretation 3: cross-correlation
-
-* If the cross-correlation of the received samples with the target samples $\vec{A} = [A, A, ... A]$
-is greater than a certain threshold $L$, we decide that signal is detected.
-    * otherwise, the signal is rejected
-    
-* This is **similar to signal detection based on 1 sample**, 
-with the sample value being $<\vec{r},\vec{A}>$
-
-### Cross-correlation as a measure of similarity
-
-* Cross-correlation in signal processing measures **similarity** of two signals
-
-* Interpretation: we check if the received samples look similar enough to the constant signal $A$
-    * If yes (high cross-correlation) => signal detected
-    * If no (low cross-correlation) => no detection
-    
-### Generalization: two non-zero values
-
-* Generalization: two non-zero signal values, $B$ and $A$
-    * still with Gaussian noise
-
-* Interpretation 1: average value of samples
-    * use mean of samples, the two distributions are centered on $B$ and $A$
-    
-* Interpretation 2: geometric (Maximum Likelihood)
-    * choose minimum Euclidean distance from $\vec{r} = [r_1, r_2, ... r_N]$ to points $\vec{B} = [B, B, ...]$ and $\vec{A} = [A, A, ...]$
-
-* Interpretation 3: cross-correlation
-    * compute $<\vec{r},\vec{B}>$ and $<\vec{r},\vec{A}>$, cross-correlation of $\vec{r}$ with $\vec{B} = [B, B, ...]$ and with $\vec{A} = [A, A, ...]$.
-    * see next slide
-
-### Detection between two non-zero values with cross-correlation
-
-$$e^{-\frac{\sum (r_i - A)^2}{2 \sigma^2} + \frac{\sum (r_i - B)^2}{2 \sigma^2}} \grtlessH K$$
-$$-\sum (r_i - A)^2 + \sum (r_i - B)^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ 2 \sum r_i A - N A^2 - 2 \sum r_i B + N B^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ \frac{1}{N} \sum r_i A - \frac{A^2}{2} \grtlessH \frac{1}{N} \sum r_i B - \frac{B^2}{2} + \frac{1}{N}\sigma^2 \ln{K}$$
-
-### Detection between two non-zero values with cross-correlation
-
-* For Maximum Likelihood ($K=1$):
-$$ <\vec{r}, \vec{A}> - \frac{<\vec{A}, \vec{A}>}{2} \grtlessH <\vec{r},\vec{B}> - \frac{<\vec{B},\vec{B}>}{2}$$
-
-* If the two values are opposite, $B=-A$, choose the most similar to $\vec{r}$:
-    * cross-correlation measures similarity
-$$<\vec{r},\vec{A}> \grtlessH <\vec{r},\vec{-A}>$$
-
-* For other criteria: with an extra offset factor $\frac{1}{N}\sigma^2 \ln{K}$
-
-
-### Exercise
-    
-Exercise:
-
-* A signal can have two values, $-4$ (hypothesis $H_0$) or $5$ (hypothesis $H_1$). 
-The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
-The receiver takes 3 samples with values $\left\{ 1.1, 4.4, 2.2 \right\}$.
-    a. What is decision according to Maximum Likelihood criterion? Use all three interpretations.
-
-
-## II.4 Detection of general signals with multiple samples
-
-### Multiple samples from a general (non-constant) signal
-
-* We want to detect a **general (non-constant)** signal $s(t)$
-
-* The N samples are taken at times $\vec{t} = [t_1, t_2, ... t_N]$ and are arranged in a **sample vector**
-$$\vec{r} = [r_1, r_2, ... r_N]$$
-
-* What changes compared to constant signals?
-
-### Hypotheses
-
-* In each hypothesis, the signal is a **random process**
-    * $H_0$: random process with average value 0
-    * $H_1$: random process with average value **$s(t)$**
-
-* The sample $r_i$, at time $t_i$, is:
-    * 0 + noise, in hypothesis $H_0$
-    * $s(t_i)$ + noise, in hypothesis $H_1$
-
-* The whole sample vector $\vec{r}$ is
-    * 0 + noise, in hypothesis $H_0$
-    * $s(t)$ + noise, in hypothesis $H_1$, for $t$ being all the sample times $t_i$
-    
-* The distribution of the whole vector $\vec{r}$ is described by a function $w_N(\vec{r})$
-    
-### Likelihood of vector samples
-
-* We can apply **the same criteria** based on likelihood ratio as 
-for constant signals:
-$$\frac{w_N(\vec{r} | H_0)}{w_N(\vec{r} | H_1)} \grtlessH K$$
-
-* The difference is that the "true" underlying signals are now
-    * [0, 0, ... 0]  in hypothesis $H_0$
-    * $[s(t_1), s(t_2), ... s(t_N)]$ in hypothesis $H_1$
-    
-### Separation 
-
-* The joint distribution $w_N(\vec{r} | H_j)$ can be decomposed as a product
-$$w_N(\vec{r} | H_j) = w(r_1|H_j) \cdot w(r_2|H_j) \cdot ... \cdot w(r_N|H_j)$$
-
-* Then all likelihood ratio criteria can be written as
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
-\frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
-
-* The likelihood ratio of a sample $r_i$ is computed considering
-the two possible values of the underlying signal, 0 and $s(t_i)$
-    * for constant signals, the two values were 0 and $A$ all the time
-    * now they are 0 and $s(t_i)$, depending on the sample times $t_i$
-    * the sample times $t_i$ should be chosen such as to maximize the performance of detection
-
-### Particular case: AWGN 
-
-* AWGN = "Additive White Gaussian Noise"
-
-* In hypothesis $H_1$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - s(t_i))^2}{2 \sigma^2}}$
-* In hypothesis $H_0$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{r_i^2}{2 \sigma^2}}$
-* Likelihood ratio for vector $\vec{r}$
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}}$$
-
-* We can interpret this likelihood ratio in two ways
-
-### Interpretation 1: average value of samples
-
-* Interpretation 1: average value of samples
-
-* Cannot be used anymore, since the values $s(t_i)$ are not the same
-
-### Interpretation 2: geometrical
-
-* Useful mainly for Maximum Likelihood criterion
-
-* Likelihood ratio for vector $\vec{r}$
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
-
-* For Maximum Likelihood we compare to 1
-$$\frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH 1$$
-$$e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH 1$$
-$$- \sum (r_i - s(t_i))^2 + \sum (r_i)^2 \grtlessH 0$$
-$$\sum (r_i)^2 \grtlessH \sum (r_i - s(t_i))^2$$
-$$\sqrt{\sum (r_i)^2} \grtlessH \sqrt{\sum (r_i - s(t_i))^2}$$
-
-### Interpretation 2: geometrical
-
-* $\sqrt{\sum (r_i)^2}$ is the geometrical (Euclidian) distance between point $\vec{r} = [r_1, r_2, ... r_N]$ and point $\vec{0} = [0, 0, ...0]$
-* $\sqrt{\sum (r_i - s(t_i))^2}$ is the geometrical (Euclidian) distance between point $\vec{r} = [r_1, r_2, ... r_N]$ and point $\vec{s(t)} = [s(t_1), s(t_2), ...s(t_N)]$
-* ML decision chooses **the closest signal vector (point)** to the received vector (point), in a N-dimensional space
-    * it is known as "minimum distance receiver"
-    * same interpretation as in the 1-D case
-    
-* Question: what is the geometrical interpretation for the other criteria?
-
-### Exercise
-    
-Exercise:
-
-* Consider detecting a signal $s(t) = 3 \sin(2 \pi f_1 t)$ that can be present (hypothesis $H_1$) or not (hypothesis $H_0$).
+* Consider detecting a signal $s_1(t) = 3 \sin(2 \pi f_1 t)$ that can be present (hypothesis $H_1$) or not ($s_0(t)=0$, hypothesis $H_0$).
 The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
 The receiver takes 2 samples.
     a. What are the best sample times $t_1$ and $t_2$ to maximize detection performance?
     b. The receiver takes 2 samples with values $\left\{ 1.1, 4.4 \right\}$, at sample times $t_1 = \frac{0.125}{f_1}$ and $t_2 = \frac{0.625}{f_1}$.
-    What is decision according to Maximum Likelihood criterion? Use the geometrical interpretation.
-    c. What if the receiver takes an extra third sample at time $t_3 = \frac{0.5}{f_1}$. Will the detection be improved?
+    What is decision according to Maximum Likelihood criterion?
+    c. What if we take the decision with Minimum Probability of Error criterion, assuming
+    $P(H_0) = 2/3$ and $P(H_1) = 1/3$?
+    d. What is the decision according to Minimum Risk Criterion, assuming
+    $P(H_0) = 2/3$ and $P(H_1) = 1/3$, and $C_{00} = 0$, $C_{10} = 10$, $C_{01} = 20$, $C_{11} = 5$?
+    e. What if the receiver takes an extra third sample at time $t_3 = \frac{0.5}{f_1}$. Will the detection be improved?
 
 
-### Interpretation 3: cross-correlation
+### Interpretation 2: inner-product
 
-* Likelihood ratio for vector $\vec{r}$
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i)^2}{2 \sigma^2}}} \grtlessH K$$
-$$e^{-\frac{\sum (r_i - s(t_i))^2}{2 \sigma^2} + \frac{\sum (r_i)^2}{2 \sigma^2}} \grtlessH K$$
-$$-\sum (r_i - s(t_i))^2 + \sum (r_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ 2 \sum r_i s(t_i) - \sum s(t_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ \frac{1}{N} \sum r_i s(t_i)  \grtlessH \underbrace{\frac{1}{2}\frac{\sum s(t_i)^2}{N} + \frac{1}{N}\sigma^2 \ln{K}}_{L = const}$$
+* Let's decompose the parentheses in the distances:
+$$\sum (r_i - s_0(t_i))^2 \grtlessH \sum (r_i - s_1(t_i))^2  + 2 \sigma^2 \ln(K)$$
 
-### Interpretation 3: cross-correlation
+* Equivalent to:
 
-* $\frac{1}{N} \sum r_i s(t_i)$ is the cross-correlation of the received samples $\vec{r} = [r_1, r_2, ... r_N]$
-with the **target** samples $\vec{s(t_i)} = [s(t_1), s(t_2), ... s(t_N)]$
+$$\begin{split}
+\sum (r_i )^2 + \sum s_0(t_i)^2& - 2 \sum r_i s_0(t_i) \grtlessH \sum (r_i )^2 + \\
+& + \sum s_1(t_i)^2 - 2 \sum r_i s_1(t_i)  + 2 \sigma^2 \ln(K)
+\end{split}$$
 
-* If the cross-correlation of the received samples with the target samples $\vec{s(t_i)}$
-is greater than a certain threshold $L$, we decide that signal is detected.
-    * otherwise, the signal is rejected
-    * cross-correlation is a measure of similarity
+* Equivalent to:
+$$\sum r_i s_1(t_i) - \frac{ \sum (s_1(t_i))^2}{2} \grtlessH \sum r_i s_0(t_i) - \frac{\sum (s_0(t_i))^2 }{2}  + \sigma^2 \ln(K)$$
 
 
-### Generalization: two non-zero signals
+### Interpretation 2: inner-product
 
-* Generalization: decide between **two different signals** $s_0(t)$ and $s_1(t)$
-    * still with Gaussian noise
+* Linear algebra: **inner product** of vectors $\vec{a}$ and $\vec{b}$: 
+$$\langle a,b \rangle = \sum_i a_i b_i$$
 
-* Interpretation 2: geometric
-    * choose minimum Euclidean distance from $\vec{r} = [r_1, r_2, ... r_N]$ to points $\vec{s_0(t)} = [s_0(t_1), s_0(t_2), ...]$ and $\vec{s_1(t)} = [s_1(t_1), s_1(t_2), ...]$
+* $\sum r_i s_1(t_i) = \langle \vec{r}, \vec{s_1(t)} \rangle$ is the inner product of vector $\vec{r} = [r_1, r_2, ... r_N]$
+with $\vec{s_1(t_i)} = [s_1(t_1), s_1(t_2), ... s_1(t_N)]$
 
-* Interpretation 3: cross-correlation
-    * compute cross-correlation of $\vec{r}$ with $\vec{s_0(t)} = [s_0(t_1), s_0(t_2), ...]$ and with $\vec{s_1(t)} = [s_1(t_1), s_1(t_2), ...]$,
-    $<\vec{r},\vec{s_0}>$ and $<\vec{r},\vec{s_1}>$.
-    * see next slide
+* $\sum r_i s_0(t_i) = \langle \vec{r}, \vec{s_0(t)} \rangle$ is the inner product of vector $\vec{r} = [r_1, r_2, ... r_N]$
+with $\vec{s_0(t_i)} = [s_0(t_1), s_0(t_2), ... s_0(t_N)]$
 
-### Detection between two non-zero signals with cross-correlation
+* $\sum (s_1(t_i))^2 = \sum s_1(t_i) \cdot s_1(t_i) = \langle \vec{s_1(t)}, \vec{s_1(t)} \rangle = E_1$ is the **energy** of vector $s_1(t)$
 
-$$e^{-\frac{\sum (r_i - s_1(t_i))^2}{2 \sigma^2} + \frac{\sum (r_i - s_0(t_i))^2}{2 \sigma^2}} \grtlessH K$$
-$$-\sum (r_i - s_1(t_i))^2 + \sum (r_i - s_0(t_i))^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ 2 \sum r_i s_1(t_i) - \sum s_1(t_i)^2 - 2 \sum r_i s_0(t_i) + \sum s_0(t_i)^2 \grtlessH 2 \sigma^2 \ln{K}$$
-$$ \frac{1}{N} \sum r_i s_1(t_i) - \sum s_1(t_i)^2 \grtlessH \frac{1}{N} \sum r_i s_0(t_i) - \sum s_0(t_i)^2 + \frac{1}{N}\sigma^2 \ln{K}$$
-
-### Detection between two non-zero signals with cross-correlation
-
-* For Maximum Likelihood ($K=1$):
-$$<\vec{r}, \vec{s_1}> - \frac{<\vec{s_1}, \vec{s_1}>}{2} \grtlessH <\vec{r},\vec{s_0}> - \frac{<\vec{s_0},\vec{s_0}>}{2}$$
-
-* If the two signals have the same energy: $\sum s_1(t_i)^2 = \sum s_0(t_i)^2$,
-then $<\vec{s_1}, \vec{s_1}> = <\vec{s_0}, \vec{s_0}>$, so we choose **the signal most similar to $\vec{r}$**:
-    * cross-correlation measures similarity
-$$<\vec{r},\vec{s_1}> \grtlessH <\vec{r},\vec{s_0}>$$
-
-* Examples:
-    * BPSK modulation: $s_1 = A \cos(2 \pi f t)$, $s_0 = -A \cos(2 \pi f t)$
-    * 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{4})$
+* $\sum (s_0(t_i))^2 = \sum s_0(t_i) \cdot s_0(t_i) = \langle \vec{s_0(t)}, \vec{s_0(t)} \rangle = E_0$ is the **energy** of vector $s_0(t)$
 
 
-### Detection with correlator circuit
+### Interpretation 2: inner-product
 
-![Signal detection using a correlator](img/Correlator.jpg){#id .class width=100%}
+* The decision can be rewritten as:
+$$\langle \vec{r}, \vec{s_1} \rangle - \frac{E_1}{2} \grtlessH \langle \vec{r},\vec{s_0} \rangle - \frac{E_0}{2} + \sigma^2 \ln(K)$$
 
-*[image from http://nptel.ac.in/courses/117103018/43]* 
+* Interpretation: we **compare the inner-products**
+    * also subtract the energies of the signals, for a fair comparison
+    * also with a term depending on the criterion
 
-### Detection of two signals
+* Particular case:
+    * If the two signals have the same energy: $E_1 = \sum s_1(t_i)^2 = E_0 = \sum s_0(t_i)^2$
+    * Examples:
+        * BPSK modulation: $s_1 = A \cos(2 \pi f t)$, $s_0 = -A \cos(2 \pi f t)$
+        * 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{4})$
+    * Then it is simplified as:
+    $$\langle \vec{r}, \vec{s_1} \rangle \grtlessH \langle \vec{r},\vec{s_0} \rangle + \sigma^2 \ln(K)$$    
+    
+
+### Interpretation 2: inner-product
+
+* Inner-product in signal processing measures **similarity** of two signals
+
+* Interpretation: we check if the received samples $\vec{r}$ look **more similar to**
+$s_1(t)$ or to $s_0(t)$
+    * Choose the one which shows more similarity to $\vec{r}$
+    * There is also the subtraction of the energies, for a fair comparison (due to mathematical reasons)
+
+### Inner product vs. cross-correlation
+
+* **Inner product** of vectors $\vec{a}$ and $\vec{b}$: 
+$$\langle a,b \rangle = \sum_i a_i b_i$$
+
+* (Temporal) cross-correlation function:
+$$R_{ab}[\tau] = E\{a_i b_{i + \tau}\}$$
+
+* (Temporal) cross-correlation function for $\tau = 0$:
+$$R_{ab}[0] = E\{a_i b_i\} = \frac{1}{N} \sum_i a_i b_i$$
+
+* Inner product = cross-correlation in $\tau = 0$
+    * with a scaling factor $\frac{1}{N}$ in front
+
+### Decision with correlator circuits
 
 ![Decision between two signals](img/CorrelatorMultiple.png){#id .class width=80%}
 
@@ -1290,38 +1118,58 @@ $$<\vec{r},\vec{s_1}> \grtlessH <\vec{r},\vec{s_0}>$$
 
 ### Matched filters
 
-* How to compute the cross-correlation of two signals $r[n]$ and $s[n]$ of length $N$?
-$$<r,s> = \frac{1}{N} \sum r_i s(t_i)$$
+* How to compute the inner product of two signals $r[n]$ and $s[n]$ of length $N$?
+$$\langle \vec{r},\vec{s} \rangle = \sum r_i s(t_i)$$
 
-* Let $h[n]$ be the signal $s[n]$ **flipped / mirrored** ("oglindit")
-    * still starting from time 0 onwards, we want causality
+* Let $h[n]$ be the signal $s[n]$ **flipped / mirrored** ("oglindit") and delayed with $N$
+    * starts from time 0, goes up to time $N-1$, but backwards
 $$h[n] = s[N-1-n]$$
+
+* Example:
+    * if $s[n] = [\underuparrow{1}, 2, 3, 4, 5, 6]$
+    * then $h[n] = s[N-1-n] = [\underuparrow{6}, 5, 4, 3, 2, 1]$
+
+### Matched filters
 
 * The convolution of $r[n]$ with $h[n]$ is
 $$y[n] = \sum_k r[k] h[n-k] = \sum_k r[k] s[N-1-n+k]$$
 
-* The convolution sampled at the end of the signal, $y[N-1]$ ($n=N-1$), is the cross-correlation
-    * up to a scaling constant $\frac{1}{N}$
+* The convolution sampled at the end of the signal, $y[N-1]$ (for $n=N-1$), is the inner product:
 $$y[N-1] = \sum_k r[k] s[k]$$
 
 ### Matched filters
 
 * To detect a signal $s[n]$ we can use a **filter with impulse response = mirrored
 version of $s[n]$**, and take the final sample of the output
-    * it is identical to computing the cross-correlation
-$$h[n] = s[N-1-n]$$
+    $$h[n] = s[N-1-n]$$
+    * it is identical to computing the inner product
 
 * **Matched filter** = a filter designed to have the impulse response the flipped
 version of a signal we search for
     * the filter is *matched* to the signal we want to detect
     * rom. "filtru adaptat"
 
-### Matched filters
 
-![Signal detection with matched filter](img/MatchedFilter.png){#id .class width=80%}
+### Signal detection with matched filters
+
+* Use one filter matched to signal $s_1(t_i)$
+
+* Use another filter matched to signal $s_0(t_i)$
+
+* Sample both filters at the end of the signal $n = N-1$
+    * obtain the values of the inner products
+
+* Use the decision rule (with the inner products) to decide 
+
+
+### Signal detection with matched filters
+
+* In case $s_0(t) = 0$, we need only one matched filter for $s_1(t)$,
+and compare the result to a threshold
+
+![Signal detection with matched filter](img/MatchedFilter.png){#id .class width=60%}
 
 *[source: Fundamentals of Statistical Signal Processing, Steven Kay]*
-
 
 
 ## II.5 Detection of general signals with continuous observations
@@ -1332,83 +1180,127 @@ version of a signal we search for
 **all the continuous signal**
     * like taking $N$ samples but with $N \to \infty$
 
+* Original signals are $s_0(t)$ and $s_1(t)$
+
+* Signals are affected by noise
+    * Assume **only Gaussian noise**, for simplicity
+
 * Received signal is $r(t)$
 
-* Target signal is $s(t)$
+### Euclidian space
 
-* Assume Gaussian noise only
+* Extend from $N$ samples to the case a full continuous signal
 
-* How to detect?
+* Each signal $r(t)$, $s_1(t)$ or $s_0(t)$ is a data point in an **infinite-dimensional Euclidean space**
 
-### Detection
+* **Distance** between two signals is:
+$$d(\vec{r},\vec{s}) = \sqrt{\int \left( r(t) - s(t) \right)^2 dt}$$
 
-* Extend the previous case of $N$ samples to the case a full continuous signal
-
-* Interpretation 1: average value of samples
-    * Cannot be used anymore, since the values $s(t_i)$ are not the same
-    
-### Interpretation 2: geometrical
-
-* Interpretation 2: geometrical
-
-* Each signal $r(t)$, $s(t)$ or $0$ is a data point in an infinite-dimensional Euclidean space
-
-* Distance between two signals is
-$$d(r,s) = \sqrt{\int \left( r(t) - s(t) \right)^2 dt}$$
+* **Inner product** between two signals is:
+$$\langle \vec{r},\vec{s} \rangle = \int r(t) s(t) dt$$
 
 * Similar with the N dimensional case, but with integral instead of sum
+
+### Decision rule for AWGN: distances
+
+* For AWGN, same decision rule as always:
+$$d(\vec{r}, \vec{s_0})^2 \grtlessH d(\vec{r}, \vec{s_1})^2  + 2 \sigma^2 \ln(K)$$
     
-* Maximum Likelihood criterion:
-    * compute distance $d(r,s)$ from $r(t)$ to $s(t)$
-    * compute distance $d(r,0)$ from $r(t)$ to $0$
-    * choose the minimum
+* Distance = previous formula, with integral
+
+* Same criteria:
+    * Maximum Likelihood criterion: $K = 1$, $\ln(K) = 0$
+        * we choose the **minimum distance**
+    * Minimum Probability of Error criterion: $K = \frac{P(H_0)}{P(H_1)}$
+    * Minimum Risk criterion: $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
     
-### Interpretation 3: cross-correlation
+### Decision rule for AWGN: inner products
 
-* The cross correlation of a continuous signal $r(t)$ with a target signal $s(t)$ of length $T$
-$$<\vec{r},\vec{s}> = \frac{1}{T}{\int_0^T r(t) \cdot s(t) dt}$$
+* For AWGN, same decision rule as always:
+$$\langle \vec{r}, \vec{s_1} \rangle - \frac{E_1}{2} \grtlessH \langle \vec{r},\vec{s_0} \rangle - \frac{E_0}{2} + \sigma^2 \ln(K)$$
+    
+* Inner product = previous formula, with integral
 
-* If the cross-correlation of the received signal with the true signal $\vec{s(t_i)}$
-is greater than a certain threshold $L$, we decide that signal is detected.
-    * otherwise, the signal is rejected
-    * cross-correlation is a measure of similarity
+* All interpretations remain the same
+    * we only change the **type of signal** we work with
 
-### Generalizations
-
-* Detection **between two signals** $s_0(t)$ and $s_1(t)$
-    * still with Gaussian noise
-
-* Interpretation 2: geometric
-    * choose minimum Euclidean distance from point $\vec{r(t)}$ to points $\vec{s_0(t)}$ and $\vec{s_1(t)}$
-        * using the specified distance formula
-
-* Interpretation 3: cross-correlation
-    * compute cross-correlation of $\vec{r(t)}$ with $\vec{s_0(t)}$ and with $\vec{s_1(t)}$.
-
-### Detection between two non-zero signals with cross-correlation
-
-* For Maximum Likelihood ($K=1$):
-$$<\vec{r}, \vec{s_1}> - \frac{<\vec{s_1}, \vec{s_1}>}{2} \grtlessH <\vec{r},\vec{s_0}> - \frac{<\vec{s_0},\vec{s_0}>}{2}$$
-
-* If the two signals have the same energy: $\int s_1(t)^2 dt= \int s_0(t)^2 dt$,
-then $<\vec{s_1}, \vec{s_1}> = <\vec{s_0}, \vec{s_0}>$, so we choose **the signal most similar to $\vec{r}$**:
-    * cross-correlation measures similarity
-$$<\vec{r},\vec{s_1}> \grtlessH <\vec{r},\vec{s_0}>$$
-
-* Examples:
-    * BPSK modulation: $s_1 = A \cos(2 \pi f t)$, $s_0 = -A \cos(2 \pi f t)$
-    * 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{4})$
 
 ### Matched filters
 
-* Cross-correlation of signals can be computed with **matched filters**
+* Inner product of signals can be computed with **matched filters**
 
 * **Matched filter** = a filter designed to have the impulse response the flipped
 version of a signal we search for
-    * the filter is *matched* to the signal we want to detect
-    * rom. "filtru adaptat"
-    * filter is continuous, continuous impulse response
+    * if original signal $s(t)$ has length T
+    * then $h(t) = s(T - t)$
+    * filter is analogical, impulse response is continuous
 
-* To detect a signal $s(t)$ we use a matched filter and take the sample of the output
-at the final moment of the input signal
-    * it is identical with computing cross-correlation
+* Output of a matched filter at time $t = T$ is equal to the inner product
+of the input $r(t)$ with $s(t)$
+
+### Signal detection with matched filters
+
+* Use one filter matched to signal $s_1(t)$
+
+* Use another filter matched to signal $s_0(t)$
+
+* Sample both filters at the end of the signal $t = T$
+    * obtain the values of the inner products
+
+* Use the decision rule (with the inner products) to decide 
+
+### Review of Euclidean vector spaces
+
+* Review of Euclidean vector spaces
+
+* Vector space
+    * one thing + another thing = still in same space
+    * constant $\times$ a vector = still in same space
+    * has basic arithmetic: sum, multiplication by a constant
+    * Examples:
+        * 1D = a line
+        * 2D = a plane
+        * 3D = a 3-D space
+        * N-D = ...
+        * $\infty$-D = ..
+    
+### Review of Euclidean vector spaces
+
+* The fundamental function: **inner product**
+    * for discrete signals 
+        $$\langle \vec{x},\vec{y} \rangle = \sum_i x_i y_i$$
+    * for continuous signals 
+        $$\langle \vec{x},\vec{y} \rangle = \int x(t) y(t)$$        
+
+* Norm (length) of a vector = sqrt(inner product with itself)
+$$\|\vec{x}\| = \sqrt{ \langle \vec{x},\vec{x} \rangle }$$
+
+* Distance between two vectors = norm of their difference
+$$d(\vec{x}, \vec{y}) = \|\vec{x} - \vec{y}\|$$
+
+### Review of Euclidean vector spaces
+
+* Energy of a signal = squared norm
+$$E_x = \|\vec{x}\|^2 = \langle \vec{x},\vec{x} \rangle$$
+
+* Angle between two vectors
+$$cos(\alpha) = \frac{\langle x,y \rangle}{||x|| \cdot ||y||}$$
+    * value between -1 and 1
+    * if $\langle x,y \rangle = 0$, the two vectors are **orthogonal** (perpendicular)
+
+### Review of Euclidean vector spaces
+
+* Bonus: the Fourier transform = inner product with $e^{j \omega t}$
+$$\mathcal{F} \{ x(t)\} = \langle x(t), e^{j \omega t}\rangle = \int x(t) e^{-j \omega t}$$
+    * for complex signals, the second function is conjugated, hence $-j$ instead of $j$
+        $$\langle \vec{x},\vec{y} \rangle = \sum_i x_i y_i^*$$
+        $$\langle \vec{x},\vec{y} \rangle = \int x(t) y(t)^*$$        
+ 
+* Also same for discrete signals     
+
+### Review of Euclidean vector spaces
+
+* Conclusion: expressing algorithms in a generic way, 
+with inner products / distances / norms, is very powerful
+    * they automatically apply to all vector spaces
+    * work once, reuse in many places
