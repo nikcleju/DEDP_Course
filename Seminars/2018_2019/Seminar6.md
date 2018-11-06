@@ -21,11 +21,12 @@ and $P(H_1) = \frac{3}{4}$.
     changes to $t_0 = 1.1$
     e. What are the possible values of $P(H_0)$ that
     make the false alarm probability smaller than $1\%$, for each criterion?
-    f. If we could change the value of $s_0(t) = A$, 
+    f. **Difficult, not done fully.** If we could change the value of $s_0(t) = A$, 
     what is the maximum value of A such that 
     the probability of false alarm is smaller than $0.1\%$?
 
 \ 
+**Not done:**
 
 2. Consider the decision between two constant signals: $s_0(t) = -5$ and $s_1(t) = 5$.
 The signals are affected by gaussian noise $\mathcal{N}(0, \sigma^2=3)$
