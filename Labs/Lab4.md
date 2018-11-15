@@ -48,6 +48,15 @@ They sizes of the datasets should be around:
 - 20% of all data for the cross-validation set
 - 20% of all data for the in the testing set
 
+## Data for this laboratory
+
+In this laboratory we will use image data from the Extended Yale B Database of face images.
+
+The full database contains 2414 frontal face images of 38 different people (around 64 images per person),
+in grayscale, of size $48 \times 42$ pixels, under varying ilumination conditions.
+
+The excerpt provided for this lab contains only 256 images: 4 persons, 64 images per person.
+
 # Exercises
 
 1. Load the data file 'face_dataset.mat'. Explore the dataset:
@@ -65,10 +74,17 @@ They sizes of the datasets should be around:
     - the function computes the Euclidean distance between ``image`` and each image from the training set
     - the output ``class`` is defined by the majority of the $k$ nearest neighbours of the image
     
-4. Call the function ``myKNN`` for each image from the testing set and compare the classification results against the ground truth.    
-Print the *confusion matrix*: $A_{ij}$ = percentage of each images of class $i$ which
+4. Call the function ``myKNN`` for each image from the testing set and compare the classification results against the ground truth.
+Use different values for $k$: $k=1$, then $k=5$, then $k=15$.
+In each case, print the *confusion matrix*: $A_{ij}$ = percentage of each images of class $i$ which
 are classified by our algorithm as being in class $j$.
     
+5. Repeat the test in 4., this time adding a variable amount of gaussian noise to the test images.
+How does the performance change?
+
+5. Repeat the test in 4., this time adding a variable amount of global illumination to the test images
+(adding a small constant value to all the pixel values). How does the performance change?
+	
 # Final questions
 
 1. How does the confusion matrix look like in the ideal case?
