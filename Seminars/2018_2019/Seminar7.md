@@ -1,5 +1,5 @@
 ---
-title: Seminar 6 - ML / MPE criteria
+title: Seminar 7 - Criteria
 subtitle: DEDP
 documentclass: scrartcl
 fontsize: 12pt
