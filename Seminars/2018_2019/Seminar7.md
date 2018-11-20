@@ -19,7 +19,8 @@ The receiver takes one sample $r$.
     a. Find the decision regions according to the Neymar-Pearson criterion, considering $P_{fa} \leq 10^{-2}$
     b. What is the probability of correct detection, in this case?
 
- 
+**Not done:**
+
 1. Consider the detection of a signal with two possible levels, 0 (hypothesis $H_0$) or 6 (hypothesis $H_1$). 
 The signal is affected by noise with triangular distribution $[-5,5]$.
 The receiver takes one sample $r = 3.5$.
@@ -33,11 +34,3 @@ The receiver takes one sample $r = 3.5$.
             - $C_{01} = 5$
             - $C_{10} = 2$
     b. What is the probability of false alarm, $P(D_1 \cap H_0)$, for the third criterion above?
-
-
-2. An information source provides two messages with probabilities $p(a_0) = \frac{2}{3}$ and $p(a_1) = \frac{1}{3}$.
-The messages are encoded as constant signals with values $-5$ ($a_0$) and $5$ ($a_1$).
-The signals are affected by noise with triangular distribution $[-10,10]$.
-The receiver takes one sample $r$. Decision is done by comparing $r$ with a threshold value $T$.
-    a. Find the threshold value $T$ according to the Neymar-Pearson criterion, considering $P_{fa} \leq 10^{-2}$
-    b. What is the probability of correct detection, $P(D_1 \cap H_1)$?
