@@ -13,6 +13,7 @@ The receiver takes 5 samples with values $\left\{ 1.1, 4.4, 3.7, 4.1, 3.8 \right
     $P(H_0) = 2/3$ and $P(H_1) = 1/3$?
     c. What is the decision according to Minimum Risk Criterion, assuming
     $P(H_0) = 2/3$ and $P(H_1) = 1/3$, and $C_{00} = 0$, $C_{10} = 10$, $C_{01} = 20$, $C_{11} = 5$?
+    d. How large should $P(H_0)$ be, in order for the decision to be $D_0$?
     
 
 **Only a) Done:**
