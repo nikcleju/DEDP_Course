@@ -1,49 +1,55 @@
 ---
-title: Parameter and Signal Estimation
-subtitle: Laboratory 5, DEPI
+title: Clustering with the k-Means Algorithm
+subtitle: Laboratory 5, DEDP
 documentclass: scrartcl
 fontsize: 12pt
 ---
 
-\newcommand{\grtlessH}{\underset{{H_0}}{\overset{H_{1}}{\gtrless}}}
-\renewcommand{\vec}[1]{\mathbf{#1}}
-
 
 # Objective
 
-Experiment with Maximum Likelihood, Maximum A Posteriori and Minimum Mean
-Squared Error estimation for a basic signal.
+Implement and use the k-Means algorithm for 
+color-based segmentation of images.
 
 # Theoretical aspects
+
+## The k-Means algorithm
+
+Look it up on the web :) 
+
+I'll explain it at the whiteboard.
 
 
 # Exercises
 
-1. Generate a 100-samples long sinusoidal signal with frequency $f = 0.02$,
-and add over it normal noise with distribution $\mathcal{N}(0, \sigma^2 = 2)$.
-Name the resulting vector `data`. Plot the `data` vector.
+## Pixel-based clustering
 
-2. Estimate the frequency $\hat{f}$ of the signal via Maximum Likelihood estimation,
-based only on the `data` vector.
-    * Write the mathematical expression of the likelihood function $w(\vec{r} | f)$
-    * Compute numerically the value of likelihood function for $f$ going from 0 to 0.5, in 200 equally-spaced values
-    * Maximum Likelihood: choose $\hat{f}_{ML}$ as the value which maximizes the likelihood
-    * Display $\hat{f}_{ML}$, and plot the resulting sinusoidal along the original
-    * Try changing the length of the data. How is the estimation accuracy affected?
-    * Try changing the variance of the noise. How is the estimation accuracy affected?
+1. Load the color image 'image.jpg' using `imread()`.
+Convert the image to `double` and display it
+(don't convert to grayscale, leave the colors).
 
-3. Suppose that for $f$ we know a *prior distribution $w(f)$, displayed on the whiteboard.
-Modify the previous example to implement Bayesian estimation.
-    * Multiply the computed likelihood function from previous exercise with the prior distribution, for each point.
-    The result is the *posterior* distribution.
-    * Maximum A Posteriori: choose $\hat{f}_{MAP}$ as the value which maximizes the posterior distribution
-    * Minimum Mean Squared Error: : choose $\hat{f}_{MMSE}$ as the average value of the posterior distribution
-    * Display $\hat{f}_{MAP}$ and $\hat{f}_{MMSE}$, and plot the resulting sinusoidal signals along the original and the ML one
+2. Use Matlab's k-Means algorithm to cluster all
+the pixel values (each pixel = a group of three values R, G, B)
+into 4 groups.
 
-4. *Signal inpainting (recover missing parts of signal)*. Randomly replace 20 samples from `data` with 0, to simulate missing data. 
-Rerun exercise 3 and estimate the original signal. Plot the result(s) against the starting data (with the missing samples) to visualize the result.
+3. Replace each pixel of the image with the *centroid*
+of its class. Display the image. How does it look?
 
+4. Change the number of clusters from 2 to 13
+and display them in single window with `subplot()`.
+
+## Vector quantization
+
+1. Repeat process but cluster now a group of pixels:
+    - Convert each $2 \times 2$ block of pixels into
+    a single vector with 12 values. 
+    - Perform clustering on these 12-values data
+    - Replace each group of $2 \times 2$ pixels with each centroid
+    and plot the result.
+
+	
 # Final questions
 
-1. TBD
+1. Suppose we do exercises 1 - 3 on a grayscale image.
+How will it look?
 
