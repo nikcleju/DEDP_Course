@@ -1172,7 +1172,7 @@ and compare the result to a threshold
 *[source: Fundamentals of Statistical Signal Processing, Steven Kay]*
 
 
-## II.5 Detection of general signals with continuous observations
+## II.4 Detection of general signals with continuous observations
 
 ### Continuous observation of a general signal
 
@@ -1304,3 +1304,198 @@ $$\mathcal{F} \{ x(t)\} = \langle x(t), e^{j \omega t}\rangle = \int x(t) e^{-j 
 with inner products / distances / norms, is very powerful
     * they automatically apply to all vector spaces
     * work once, reuse in many places
+
+
+## II.5 Decision with unknown distributions
+
+### Knowing vs not knowing the distribution
+
+* Until now, we always knew what samples we expect
+  * We knew the signals:
+    * $s_0(t) = ...$
+    * $s_1(t) = ...$
+  * We knew the noise type
+    * gaussian, uniform, etc.
+  * So we knew the sample distributions:
+    * $w(r|H_0) = ...$
+    * $w(r|H_1) = ...$
+
+* In real life, things are more complicated
+
+### Typical example
+
+* What if the signals $s_0(t)$ and $s_1(t)$
+do not exist / we do not know them?
+
+* Example: face detection
+    * Task: identify person A vs B based on a face image 
+    * We have:
+        * 100 images of person A, in various conditions
+        * 100 images of person B, in various conditions
+
+### Samples vs distributions
+
+* Compare face detection with our previous signal detection
+
+* We still have:
+    * two hypotheses $H_0$ (person A) and $H_1$ (person B)
+    * a sample vector $\vec{r}$ = the test image we need to decide upon
+    * we can take two decisions 
+    * 4 scenarios: correct rejection, false alarm, miss, correct detection
+
+* What's different? We don't have formulas
+    * there is no "true" data described by formulas $s_0(t) = ...$ and $s_1(t)...$
+    * true faces of A and B are not even signals 
+    * instead, we have lots of examples of each distribution
+        * 100 images of A = examples of $\vec{r}$ might look in hypotesis $H_0$
+        * 100 images of B = examples of $\vec{r}$ might look in hypotesis $H_1$
+
+### Machine learning terminology
+
+* Terminology used in **machine learning**:
+    * This kind of problem = signal **classification** problem
+        * given one data vector, specify which class it belongs to
+    * The **classes** = the two categories, hypotheses $H_i$, persons A/B etc
+    * A **training set** = a set of known data
+        * e.g. our 100 images of each person
+        * it will be used in the decision process
+    * Signal **label** = the class of a signal
+
+### Machine learning terminology
+    
+* Terminology used in **machine learning**:    
+    * **Supervised learning** = algorithms where you know the classes of 
+    the training set data (labelled data)
+        * you know what signals in the training set is class A and which is class B
+    * **Unsupervised learning** = algorithms where you don't know the classes of 
+    the training set data (labelled data)
+        * harder, less info is available        
+
+### Samples vs distributions
+
+* In supervised learning, training set gives us the same information as 
+the conditional distributions $w(r|H_0)$ and $w(r|H_1)$
+    * $w(r|H_0)$ tells us how $r$ looks like in hypothesis $H_0$
+    * $w(r|H_1)$ tells us how $r$ looks like in hypothesis $H_1$
+    * the training set shows the same thing, without formulas, but via many examples
+
+* OK, so how to classify the data in these conditions?
+
+### The k-NN algorithm
+
+The k-Neareast Neighbours algorithm (k-NN)
+
+* Input: 
+    * a labelled training set of vectors $\vec{x}_1 ... \vec{x}_N$,
+    from $L$ possible classes $C_1$...$C_L$
+    * a test vector $\vec{r}$ we need to classify
+    * a parameter $k$
+
+1. Compute distance from $\vec{r}$ to each training vector $\vec{x}_i$
+    * can use same Euclidean distance we used for signal 
+    detection with multiple samples
+
+2. Choose the closest $k$ vectors to $\vec{r}$ (the *$k$ nearest neighbours*)
+
+3. Determine class of $\vec{r}$ = the majority class among the $k$ nearest neighbours
+
+* Output: the class of $\vec{r}$
+
+### Discussion
+
+* k-NN is a supervised learning algorithm
+    * training data needs to be labelled
+
+* Effect of $k$ is to smooth the decision boundary:
+    * small $k$: lots of edges
+    * large $k$: smooth boundary
+
+* How to find $k$?
+
+### Cross-validation
+
+* How to find a good value for $k$?
+    * by trial and error ("băbește")
+
+* **Cross-validation** = use a small testing set for checking what parameter value is best
+    * this data set is known as **cross-validation set**
+    * use $k=1$, test with cross-validation set and see how many vectors are classified correctly
+    * repeat for $k=2, 3, ... max$
+    * choose value of $k$ with best results on the cross-validation set
+
+### Evaluating algorithms
+
+* How to evaluate the performance of k-NN?
+    * Use a testing set to test the algorithm, check the percentage of correct classification
+
+* Final testing set should be different from the cross-validation set
+    * For final testing, use data that the algorithm has never seen, for fairness
+
+* How to split the data into datasets?
+    * Suppose you have 200 face images, 100 images of person A and 100 of person B
+
+### Datasets
+    
+* Split the data into:
+    * Training set
+        * data that shall be used by the algorithm
+        * largest part (about 60% of the whole data)
+        * i.e. 60 images of person A and 60 images of B
+    * Cross-validation set
+        * used to test the algorithm and choose best value of parameters ($k$)
+        * smaller, about 20%, e.g. 20 images of A and 20 images of B
+    * Testing set
+        * used to evaluate the final algorithm, with all parameters set to a final value
+        * smaller, about 20%, e.g. 20 images of A and 20 images of B
+
+### The k-Means algorithm
+
+* k-Means: an algorithm for data **clustering**
+    * identifying groups of close vectors in data
+    
+* Is an example of unsupervised learning algorithm
+    * we don't know data classes beforehand
+
+### The k-Means algorithm
+
+The k-Means algorithm
+
+* Input: 
+    * unlabelled training set of vectors $\vec{x}_1 ... \vec{x}_N$
+    * number of classes C
+
+* Initialization: randomly initialize the C centroids
+	$$\vec{c}_i \leftarrow \textrm{ random values }$$
+* Repeat
+  1. Classification: classify each data $\vec{x}_n$ using nearest neighbour:
+	    $$l_n = \arg\min_i d(\vec{x}_n, \vec{c}_i)$$
+  2. Update: update each centroids $\vec{c}_i$
+	    $$\vec{c}_i \leftarrow \textrm{ average of } \vec{x}_n \forall \vec{x}_n \textrm{ in class } i$$
+
+* Output: return the centroids $\vec{c}_i$, the labels $l_i$ of the input data $\vec{x}_i$
+
+
+```{=beamer}
+\begin{algorithm} 
+\floatname{algorithm}{Algoritmul}
+
+\begin{algorithmic}[1]
+\STATE Initialization: randomly initialize the C centroids
+	\STATE $\vec{c}_i \leftarrow$ random values
+\REPEAT
+	\STATE 1. Classification: classify each data $\vec{x}_n$ using nearest neighbour:
+	    $$l_n = \arg\min_i d(\vec{x}_n, \vec{c}_i)$$
+	\STATE 2. Update: update each centroids $\vec{c}_i$
+	    $$\vec{c}_i \leftarrow \textrm{ average of } x) \forall $x$ \textrm{ in class } i$$
+\RETURN{labels $l_i$ of the data, the centroids $\vec{c}_i$}
+\end{algorithmic}
+\end{algorithm}
+```
+
+### The k-Means algorithm
+
+* Not guaranteed that k-Means identifies good clusters
+    * results depend on the random initialization of centroids
+    * repeat many times, choose best result
+    * smart initializations are possible (*k-Means++*)
+
