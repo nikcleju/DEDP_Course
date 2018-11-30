@@ -1327,7 +1327,7 @@ with inner products / distances / norms, is very powerful
 * What if the signals $s_0(t)$ and $s_1(t)$
 do not exist / we do not know them?
 
-* Example: face detection
+* Example: face recognition
     * Task: identify person A vs B based on a face image 
     * We have:
         * 100 images of person A, in various conditions
@@ -1335,7 +1335,7 @@ do not exist / we do not know them?
 
 ### Samples vs distributions
 
-* Compare face detection with our previous signal detection
+* Compare face recognition with our previous signal detection
 
 * We still have:
     * two hypotheses $H_0$ (person A) and $H_1$ (person B)
@@ -1345,7 +1345,7 @@ do not exist / we do not know them?
 
 * What's different? We don't have formulas
     * there is no "true" data described by formulas $s_0(t) = ...$ and $s_1(t)...$
-    * true faces of A and B are not even signals 
+    * (faces of persons A and B are not signals)
     * instead, we have lots of examples of each distribution
         * 100 images of A = examples of $\vec{r}$ might look in hypotesis $H_0$
         * 100 images of B = examples of $\vec{r}$ might look in hypotesis $H_1$
@@ -1368,7 +1368,7 @@ do not exist / we do not know them?
     the training set data (labelled data)
         * you know what signals in the training set is class A and which is class B
     * **Unsupervised learning** = algorithms where you don't know the classes of 
-    the training set data (labelled data)
+    the training set data (unlabelled data)
         * harder, less info is available        
 
 ### Samples vs distributions
@@ -1470,7 +1470,7 @@ The k-Means algorithm
   1. Classification: classify each data $\vec{x}_n$ using nearest neighbour:
 	    $$l_n = \arg\min_i d(\vec{x}_n, \vec{c}_i)$$
   2. Update: update each centroids $\vec{c}_i$
-	    $$\vec{c}_i \leftarrow \textrm{ average of } \vec{x}_n \forall \vec{x}_n \textrm{ in class } i$$
+	    $$\vec{c}_i \leftarrow \textrm{ average of } \vec{x}_n, \forall \vec{x}_n \textrm{ in class } i$$
 
 * Output: return the centroids $\vec{c}_i$, the labels $l_i$ of the input data $\vec{x}_i$
 
