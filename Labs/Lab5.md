@@ -38,6 +38,10 @@ of its class. Display the image. How does it look?
 4. Change the number of clusters from 2 to 13
 and display them in single window with `subplot()`.
 
+## TODO:
+- make background of `flower.bmp` image lighter/darker/different color
+- replace background of an image with background from another image
+
 ## Vector quantization
 
 1. Repeat process but cluster now a group of pixels:
