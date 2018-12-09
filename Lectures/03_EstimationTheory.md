@@ -75,22 +75,30 @@ the values of $\Theta$ that are more likely than others
 ### Maximum Likelihood definition
 
 * When no distribution is known about the parameter, we use a method
-known as Maximum Likelihood Estimation (MLE)
+known as **Maximum Likelihood estimation (MLE)**
 
 * The distribution of the received data, $w(\vec{r}; \Theta)$, is known as the **likelihood function**
     * we know the vector $\vec{r}$ we received, so this is a constant
     * the unknown variable in this function is $\Theta$ 
     $$L(\Theta) = w(\vec{r}; \Theta)$$
 
-* Maximum Likelihood Estimation: The estimate $\hat{\Theta}$ is **the value
+### Maximum Likelihood definition
+
+Maximum Likelihood (ML) Estimation: 
+
+* The estimate $\hat{\Theta}$ is **the value
 that maximizes the likelihood of the observed data**
-    * i.e. the value $\Theta$ that maximizes $w(r; \Theta)$
-    $$\hat{\Theta} = \arg\max_{\Theta} L(\Theta) = \arg\max_{\Theta} w(r; \Theta)$$
+    * i.e. the value $\Theta$ that maximizes $L(\Theta) = w(\vec{r}; \Theta)$
+    $$\hat{\Theta} = \arg\max_{\Theta} L(\Theta) = \arg\max_{\Theta} w(\vec{r}; \Theta)$$
 
 * If $\Theta$ is allowed to live only in a certain range, restrict
 the maximization only to that range.
 
-### Computations
+
+### How to solve
+
+* How to solve the maximization problem?
+    * i.e. how to find the estimate $\Theta$ which maximizes $L(\Theta)$
 
 * Find maximum by setting derivative to 0
 $$\frac{d L(\Theta)}{d\Theta} = 0$$
@@ -98,9 +106,9 @@ $$\frac{d L(\Theta)}{d\Theta} = 0$$
 * We can also maximize **natural logarithm** of the likelihood function ("log-likelihood function")
 $$\frac{d \ln\left(L(\Theta)\right)}{d\Theta} = 0$$
 
-### Computations
+### Solving procedure
 
-Method:
+Solving procedure:
 
 1. Find the function $$L(\Theta) = w(\vec{r}; \Theta)$$
 
@@ -116,7 +124,7 @@ $$\frac{d L(\Theta)}{d\Theta} = 0, \text{ or }\frac{d \ln\left(L(\Theta)\right)}
 
 Estimating a constant signal in gaussian noise:
 
-* Find the Maximum Likelihood estimate of a constant value $A$ from 5 noisy measurements
+* Find the ML estimate of a constant value $A$ from 5 noisy measurements
 $r_i = A + noise$ with values $[5, 7, 8, 6.1, 5.3]$. The noise is AWGN $\mathcal{N}(\mu=0, \sigma^2)$.
 
 * Solution: at whiteboard.
@@ -128,6 +136,15 @@ $r_i = A + noise$ with values $[5, 7, 8, 6.1, 5.3]$. The noise is AWGN $\mathcal
 
 ![](figures/03_EstimationTheory_figure1_1.png){width=8cm}\
 
+
+### Curve fitting
+
+* Estimation = curve fitting
+
+* From the previous graphical example:
+    * we have some data $\vec{r}$
+    * we know the shape of the signal = a line (constant A)
+    * we're fitting the best line through the data
 
 ### General signal in AWGN
 
@@ -145,6 +162,8 @@ L(\Theta) =& \prod_{i=1}^N \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{(r_i - s_\Th
 =&  \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}}
 \end{split}$$
 
+### General signal in AWGN
+
 * The log-likelihood is 
 $$\begin{split}
 \ln\left(L(\Theta)\right) =& \underbrace{\ln\left(\frac{1}{\sigma \sqrt{2 \pi}}\right)}_{constant} - \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}
@@ -159,12 +178,21 @@ $$\hat{\Theta} = \arg\max_{\Theta} w(r; \Theta) = \arg\min \sum(r_i - s_\Theta(t
 $$d(\vec{r},s_\Theta) = \sqrt{\sum (r_i - s_\Theta(t_i))^2}$$
 $$\left(d(\vec{r},s_\Theta)\right)^2 = \sum (r_i - s_\Theta(t_i))^2$$
 
-* Maximum Likelihood estimate $\hat{\Theta}$ = the value that makes $s_\Theta(t_i)$ 
+### General signal in AWGN
+
+* ML estimation can be rewritten as:
+$$\hat{\Theta} = \arg\max_{\Theta} w(r; \Theta) = \arg\min d(\vec{r}, \vec{s}_\Theta)^2$$
+
+* ML estimate $\hat{\Theta}$ = the value that makes $s_\Theta(t_i)$ 
 **closest to the received values $\vec{r}$**
     * closer = more likely
     * closest = most likely = maximum likelihood
 
-* For continuous signals? Same, but use distance function for continuous signals
+* ML estimation = minimization of distance
+
+* True for all kinds of vector spaces
+    * vectors with N elements, continous signals, etc
+    * just change the definition of the distance function
 
 ### General signal in AWGN
 
@@ -216,6 +244,72 @@ means "choose the hypothesis that maximizes the likelihood function".
 * Therefore it is the same principle, merely in a different context:
     * in Detection we are restricted to a few predefined options
     * in Estimation we are unrestricted => choose the maximizing value
+
+
+### Loss function
+
+* The distance $d(\vec{r}, \vec{s}_\Theta)$ is known as
+the "**loss function**" in machine learning terminology
+    * the Euclidean distance = the "**Mean Squared Error**" (MSE) loss function
+
+* For a given $\vec{r}$, the MSE loss = $\frac{1}{N}d(\vec{r},\vec{s}_\Theta)$
+
+
+* Other loss functions are used in different scenarios
+
+### Multiple parameters
+
+* What if we have more than one parameter?
+    * e.g. unknown parameters are the amplitude, frequency and the initial phase of a cosine:
+$$s_\vec{\Theta}(t) = A \cos(2 \pi f t + \phi)$$
+
+* We can consider the parameter $\Theta$ to be a vector:
+$$\bm{\Theta} = [\Theta_1, \Theta_2, ... \Theta_M]$$
+    * e.g. $\bm{\Theta} = [\Theta_1, \Theta_2, \Theta_3] =[A, f, \phi]$
+
+
+### Gradient Descent 
+
+* How to estimate the parameters $\bm{\Theta}$ in complicated cases?
+    * e.g. in real life applications
+    * usually there are many parameters ($\bm{\Theta}$ is a vector)
+
+* Typically it is impossible to get the optimal values directly
+
+* Improve them iteratively with **Gradient Descent** algorithm or its variations
+
+### Gradient Descent procedure
+
+1. Start with some random parameter values $\bm{\Theta}^{(0)}$
+2. Repeat for each iteration $k$:
+    1. Compute loss value $L(\bm{\Theta}^{(k)})$
+    2. Compute derivative $\frac{\partial L}{\partial \Theta_i^{(k)}}$ for each $\Theta_i$
+    3. Update all values $\Theta_i$ by subtracting the derivative
+        $$\Theta_i^{(k+1)} = \Theta_i^{(k)} - \mu \frac{\partial L}{\partial \Theta_i^{(k)}}$$
+        * or, in vector form:
+        $$\bm{\Theta}^{(k+1)} = \bm{\Theta}^{k} - \mu \frac{\partial L}{\partial \bm{\Theta}^{(k)}}$$ 
+3. Until termination criterion (e.g. parameters don't change much)
+
+
+### Gradient Descent explained
+
+* Explanations at blackboard
+
+* Simple example: logistic regression on 2D-data
+    * maybe do example at blackboard
+
+### Neural Networks
+
+* The most prominent example is **Artificial Neural Networks** (a.k.a. Neural Networks, 
+Deep Learning, etc.)
+    * Can be regarded as ML estimation 
+    * Use loss function (typically not MSE, but others)
+    * Use Gradient Descent to update parameters
+    * State-of-the-art applications: image classification/recognition, automated driving etc.
+ 
+* More info on neural networks / machine learning: 
+    * look up online courses, books (e.g. prof. Iulian Ciocoiu's book)
+    * join the IASI AI Meetup
 
 
 ## II.3 Bayesian estimation
