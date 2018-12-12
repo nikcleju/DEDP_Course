@@ -1,56 +1,49 @@
 ---
-title: Image Denoising with Estimation Theory
+title: Parameter and Signal Estimation
 subtitle: Laboratory 6, DEDP
 documentclass: scrartcl
 fontsize: 12pt
 ---
 
+\newcommand{\grtlessH}{\underset{{H_0}}{\overset{H_{1}}{\gtrless}}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
 
 # Objective
 
-Implement and use a non-trivial use of estimation theory for image processing:
-given a noisy image, estimate the original with Total Variation $\ell_1$ minimization.
+Experiment with Maximum Likelihood, Maximum A Posteriori and Minimum Mean
+Squared Error estimation for a basic signal.
 
 # Theoretical aspects
 
-Consider an image that has been affected by noise.
-We only have the noisy image $I_z$.
-
-Our job: estimate the true original image $I^*$ from the noisy version. 
-How? We know *a priori* that the true image is rather *smooth* (like all images, really).
-
-The denoising problem can be formulated as follows:
-$$\hat{I} = \arg\min_I \|I_z - I\| + \lambda \cdot TV(I)$$
-
-Here, $TV(I)$ is "the Total Variation" of I and is defined as:
-$$TV(I) = \sum_{i,j} |x[i+1,j] - x[i,j]| + |x[i,j+1] - x[i,j]|$$
-	
 
 # Exercises
 
-1. Load the noisy image 'noisy.jpg'. 
-Convert to ``double``, bring values to range $[0,1]$, and convert to grayscale.
-Display the image.
-    
-2. Download and install the ``cvx`` Matlab package from [http://cvxr.com/cvx/](http://cvxr.com/cvx/)
+1. Generate a 100-samples long sinusoidal signal with frequency $f = 0.02$,
+and add over it normal noise with distribution $\mathcal{N}(0, \sigma^2 = 2)$.
+Name the resulting vector `data`. Plot the `data` vector.
 
-3. Make a script which calls the ``cvx`` package as follows:
+2. Estimate the frequency $\hat{f}$ of the signal via Maximum Likelihood estimation,
+based only on the `data` vector.
+    * Write the mathematical expression of the likelihood function $w(\vec{r} | f)$
+    * Compute numerically the value of likelihood function for $f$ going from 0 to 0.5, in 200 equally-spaced values
+    * Maximum Likelihood: choose $\hat{f}_{ML}$ as the value which maximizes the likelihood
+    * Display $\hat{f}_{ML}$, and plot the resulting sinusoidal along the original
+    * Try changing the length of the data. How is the estimation accuracy affected?
+    * Try changing the variance of the noise. How is the estimation accuracy affected?
 
-	```
-	...
-	lambda = 0.1;
-	[height width] = size(Iz);
-	cvx_begin
-		variable I(height,width)
-		minimize( norm( I_z - I, 2 ) + lambda * TV(I) )
-		% Replace TV(I) with its actual definition!
-	cvx_end
-	...
-	```
-	
-	Plot the resulting image $I$. Repeat for various values of $\lambda$ and compare.
+3. Suppose that for $f$ we know a *prior distribution* $w(f)$, displayed on the whiteboard.
+Modify the previous example to implement Bayesian estimation.
+    * Multiply the computed likelihood function from previous exercise with the prior distribution, for each point.
+    The result is the *posterior* distribution.
+    * Maximum A Posteriori: choose $\hat{f}_{MAP}$ as the value which maximizes the posterior distribution
+    * Minimum Mean Squared Error: : choose $\hat{f}_{MMSE}$ as the average value of the posterior distribution
+    * Display $\hat{f}_{MAP}$ and $\hat{f}_{MMSE}$, and plot the resulting sinusoidal signals along the original and the ML one
 
+4. *Signal inpainting (recover missing parts of signal)*. Randomly replace 20 samples from `data` with 0, to simulate missing data. 
+Rerun exercise 3 and estimate the original signal. Plot the result(s) against the starting data (with the missing samples) to visualize the result.
 
 # Final questions
 
 1. TBD
+
