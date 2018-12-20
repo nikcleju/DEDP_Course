@@ -19,20 +19,21 @@ Squared Error estimation for a basic signal.
 
 # Exercises
 
-1. Generate a 100-samples long sinusoidal signal with frequency $f = 0.02$,
+1. Generate a 300-samples long sinusoidal signal $s_\Theta = \sin(2 \pi f n)$ with frequency $f = 0.02$,
 and add over it normal noise with distribution $\mathcal{N}(0, \sigma^2 = 2)$.
-Name the resulting vector `data`. Plot the `data` vector.
+Name the resulting vector `r`. Plot the `r` vector.
 
 2. Estimate the frequency $\hat{f}$ of the signal via Maximum Likelihood estimation,
-based only on the `data` vector.
-    * Write the mathematical expression of the likelihood function $w(\vec{r} | f)$
-    * Compute numerically the value of likelihood function for $f$ going from 0 to 0.5, in 200 equally-spaced values
-    * Maximum Likelihood: choose $\hat{f}_{ML}$ as the value which maximizes the likelihood
+based only on the `r` vector.
+    * Write the mathematical expression of the Maximum Likelihood estimation in case of Gaussian noise (`Hint:` based on the Euclidean distance)
+    * Generate 1000 candidate frequencies $f_k$ equally spaced from 0 to 0.5
+    * Compute the Euclidean distance between `r` and a sine signal with each candidate frequency
+    * Maximum Likelihood: choose $\hat{f}_{ML}$ as the candidate frequency which minimizes the Euclidean distance
     * Display $\hat{f}_{ML}$, and plot the resulting sinusoidal along the original
     * Try changing the length of the data. How is the estimation accuracy affected?
     * Try changing the variance of the noise. How is the estimation accuracy affected?
 
-3. Suppose that for $f$ we know a *prior distribution* $w(f)$, displayed on the whiteboard.
+3. TO UPDATE: Suppose that for $f$ we know a *prior distribution* $w(f)$, displayed on the whiteboard.
 Modify the previous example to implement Bayesian estimation.
     * Multiply the computed likelihood function from previous exercise with the prior distribution, for each point.
     The result is the *posterior* distribution.
