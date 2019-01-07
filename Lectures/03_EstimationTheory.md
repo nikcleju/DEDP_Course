@@ -134,7 +134,6 @@ $r_i = A + noise$ with values $[5, 7, 8, 6.1, 5.3]$. The noise is AWGN $\mathcal
 ### Numerical simulation
 
 
-![](figures/03_EstimationTheory_figure1_1.png){width=8cm}\
 
 
 ### Curve fitting
@@ -220,17 +219,11 @@ The sample times $t_i = [0,1,2,3,4,5,6,7,8,9]$
 The likelihood function is:
 
 
-![](figures/03_EstimationTheory_figure2_1.png){width=8cm}\
 
 
 ### Numerical simulation
 
 
-```
-True frequency = 0.070000, Estimate = 0.071515
-```
-
-![](figures/03_EstimationTheory_figure3_1.png){width=8cm}\
 
 
 ### ML Estimation and ML Detection
@@ -461,13 +454,15 @@ $$\hat{\Theta} = \arg\max w(\Theta | \vec{r}) = \arg\max w(\vec{r} | \Theta) w(\
 
 ### Relation with Maximum Likelihood Estimator
 
-* The MLE estimator was just $\arg\max w(\vec{r} | \Theta)$
+* The ML estimator was just $\arg\max w(\vec{r} | \Theta)$
 
-* The MAP estimator = like the MLE estimator but with the prior distribution $w(\Theta)$
+* The MAP estimator = like the ML estimator but multiplied with the prior distribution $w(\Theta)$
 
-* If $w(\Theta)$ is a constant, the MAP estimator reduces to MLE
+* If $w(\Theta)$ is a constant, the MAP estimator reduces to ML
     * $w(\Theta)$ = constant means all values $\Theta$ are equally likely
     * i.e. we don't have a clue where the real $\Theta$ might be
+
+* The MMSE estimator = like MAP, but don't take the *argmax* of the function, but its average value
 
 ### Relation with Detection
 
@@ -493,7 +488,7 @@ Exercise: constant value, 3 measurement, Gaussian same $\sigma$
 * We want to estimate today's temperature in Sahara
 * Our thermometer reads 40 degrees, but the value was affected by Gaussian noise $\mathcal{N}(0, \sigma^2=2)$ (crappy thermometer)
 * We know that this time of the year, the temperature is around 35 degrees, with a Gaussian distribution $\mathcal{N}(35, \sigma^2 = 2)$.
-* Estimate the true temperature using MLE, MAP and MLE estimators
+* Estimate the true temperature using ML, MAP and MMSE estimators
 
 
 ### Exercise
