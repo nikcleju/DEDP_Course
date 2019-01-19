@@ -7,6 +7,12 @@ autumn semester at ETTI, TUIASI.
 
 ### Notes for 2018-2019 exam
 
+- Lectures have markings indicating what slides we haven't covered
+    - end of Chapter I
+    - 3 slides from Chapter II
+    - end of chapter III
+
+- Semester tests are available in [Tests_2018_2019.zip](Tests_2018_2019.zip)
 
 
 ### Lectures
