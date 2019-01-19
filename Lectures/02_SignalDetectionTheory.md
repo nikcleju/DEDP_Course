@@ -762,6 +762,10 @@ $$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot
 * How to improve the receiver?
     * i.e. increase $P_D$ while keeping $P_{fa}$ the same
 
+### 2018-2018 Exam
+
+* 2018-2019 Exam: Skip next 3 slides (until Signal-to-noise ratio)
+
 ### Performance of likelihood-ratio decoding in AWGN
 
 * WGN = "White Gaussian Noise"

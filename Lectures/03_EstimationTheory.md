@@ -134,6 +134,7 @@ $r_i = A + noise$ with values $[5, 7, 8, 6.1, 5.3]$. The noise is AWGN $\mathcal
 ### Numerical simulation
 
 
+![](figures/03_EstimationTheory_figure1_1.png){width=8cm}\
 
 
 ### Curve fitting
@@ -219,11 +220,17 @@ The sample times $t_i = [0,1,2,3,4,5,6,7,8,9]$
 The likelihood function is:
 
 
+![](figures/03_EstimationTheory_figure2_1.png){width=8cm}\
 
 
 ### Numerical simulation
 
 
+```
+True frequency = 0.070000, Estimate = 0.071515
+```
+
+![](figures/03_EstimationTheory_figure3_1.png){width=8cm}\
 
 
 ### ML Estimation and ML Detection
@@ -480,6 +487,11 @@ $$\hat{\Theta} = \arg\max w(\Theta | \vec{r}) = \arg\max w(\vec{r} | \Theta) w(\
 * Therefore it is the same principle, merely in a different context:
     * in Detection we are restricted to a few predefined options
     * in Estimation we are unrestricted => choose the maximizing value of the whole function
+
+
+### 2018-2019 Exam
+
+- Chapter ends here for 2018-2019 exam. Following slides not needed.
 
 ### Exercise
 

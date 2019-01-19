@@ -3,21 +3,11 @@
 Here you will find all the materials for the class of Decision and Estimation in Data Processing taught during 2018-2019
 autumn semester at ETTI, TUIASI.
 
-## News
-
-- Se pot reface ambele teste, de la fiecare disciplina
-- DSP Laborator:
-    - recuperari: saptamana 13
-    - test laborator: saptamana 14
-- DSP refacere teste semestriale:
-    - vineri saptamana 13, la curs, ultimele doua ore: de la 09:00 la 10:00 grupa 5311, de la 10:00 la 11:00 grupa 5312. Ca sa nu le amestecam cu altele si sa iasa haos.
-- DEDP Laborator:
-    - test laborator: in saptamana 13 si 14, la laborator
-    - recuperari: doar in timpul recuperarilor de la DSP din saptamana 13, altfel nu avem cand
-- DEDP refacere teste semestriale:
-    - saptamana 13, marti, la seminar
-
 ## Course contents
+
+### Notes for 2018-2019 exam
+
+
 
 ### Lectures
 
@@ -27,7 +17,6 @@ All lecture slides are available as pdf in the Lectures folder:
 - [Lectures\01_RandomSignals.pdf](Lectures/01_RandomSignals.pdf)
 - [Lectures\02_SignalDetectionTheory.pdf](Lectures/02_SignalDetectionTheory.pdf)
 - [Lectures\03_EstimationTheory.pdf](Lectures/03_EstimationTheory.pdf)
-
 
 ### Laboratory
 

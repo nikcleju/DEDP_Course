@@ -527,6 +527,11 @@ $$\hat{\Theta} = \arg\max w(\Theta | \vec{r}) = \arg\max w(\vec{r} | \Theta) w(\
     * in Detection we are restricted to a few predefined options
     * in Estimation we are unrestricted => choose the maximizing value of the whole function
 
+
+### 2018-2019 Exam
+
+- Chapter ends here for 2018-2019 exam. Following slides not needed.
+
 ### Exercise
 
 Exercise: constant value, 3 measurement, Gaussian same $\sigma$
