@@ -134,6 +134,14 @@ $r_i = A + noise$ with values $[5, 7, 8, 6.1, 5.3]$. The noise is AWGN $\mathcal
 ### Numerical simulation
 
 
+```
+/home/ncleju/.local/bin/pweave:5: UserWarning: In Matplotlib 3.3
+individual lines on a stem plot will be added as a LineCollection
+instead of individual lines. This significantly improves the
+performance of a stem plot. To remove this warning and switch to the
+new behaviour, set the "use_line_collection" keyword argument to True.
+```
+
 ![](figures/03_EstimationTheory_figure1_1.png){width=8cm}\
 
 
@@ -227,6 +235,11 @@ The likelihood function is:
 
 
 ```
+/home/ncleju/.local/bin/pweave:15: UserWarning: In Matplotlib 3.3
+individual lines on a stem plot will be added as a LineCollection
+instead of individual lines. This significantly improves the
+performance of a stem plot. To remove this warning and switch to the
+new behaviour, set the "use_line_collection" keyword argument to True.
 True frequency = 0.070000, Estimate = 0.071515
 ```
 

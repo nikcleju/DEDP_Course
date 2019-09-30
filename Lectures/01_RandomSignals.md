@@ -974,6 +974,15 @@ $$S_{yy}(\omega) = S_{xx}(\omega) \cdot |H(\omega)|^2$$
     
 ### The signal to look for
 
+```
+/home/ncleju/.local/bin/pweave:6: UserWarning: In Matplotlib 3.3
+individual lines on a stem plot will be added as a LineCollection
+instead of individual lines. This significantly improves the
+performance of a stem plot. To remove this warning and switch to the
+new behaviour, set the "use_line_collection" keyword argument to True.
+  from pweave.scripts import weave
+```
+
 ![](figures/01_RandomSignals_figure3_1.png)\
 
 
@@ -981,11 +990,29 @@ $$S_{yy}(\omega) = S_{xx}(\omega) \cdot |H(\omega)|^2$$
 ### The complete signal
 
 
+```
+/home/ncleju/.local/bin/pweave:6: UserWarning: In Matplotlib 3.3
+individual lines on a stem plot will be added as a LineCollection
+instead of individual lines. This significantly improves the
+performance of a stem plot. To remove this warning and switch to the
+new behaviour, set the "use_line_collection" keyword argument to True.
+  from pweave.scripts import weave
+```
+
 ![](figures/01_RandomSignals_figure4_1.png)\
 
 
 ### Correlation result
 
+
+```
+/home/ncleju/.local/bin/pweave:6: UserWarning: In Matplotlib 3.3
+individual lines on a stem plot will be added as a LineCollection
+instead of individual lines. This significantly improves the
+performance of a stem plot. To remove this warning and switch to the
+new behaviour, set the "use_line_collection" keyword argument to True.
+  from pweave.scripts import weave
+```
 
 ![](figures/01_RandomSignals_figure5_1.png)\
 

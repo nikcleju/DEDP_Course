@@ -1,8 +1,9 @@
 # Decision and Estimation in Data Processing Course
 
-Here you will find all the materials for the class of Decision and Estimation in Data Processing taught during 2018-2019
+Here you will find all the materials for the class of Decision and Estimation in Data Processing taught during 2019-2020
 autumn semester at ETTI, TUIASI.
 
+<!--
 ## Notes for 2018-2019 exam
 
 - Lectures have markings indicating what slides we haven't covered
@@ -11,7 +12,7 @@ autumn semester at ETTI, TUIASI.
     - end of chapter III
 
 - Semester tests are available in [Tests_2018_2019.zip](Tests_2018_2019.zip)
-
+-->
 
 ## Course contents
 

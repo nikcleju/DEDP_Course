@@ -8,9 +8,9 @@
     - Laboratories / Seminar: Nicolae Cleju
 
 - Time schedule
-    - 14 weeks of lectures (3h each)
+    - 14 weeks of lectures (2h each)
     - 14h laboratory = 7 laboratories $\times$ 2h each
-    - 14h seminar = 14 seminars $\times$ 1h each
+    - 14h seminar = 7 seminars $\times$ 2h each
 
 - My office hours: *To Be Announced* (best by appointment)
 
