@@ -23,17 +23,17 @@
     - Similar to Information Theory exam
     
 - Applications = 40%
-    - Laboratory = 20%
+    - Laboratory = 20% (half of Applications grade)
         - in Matlab / Simulink
         - activity throughout semester (10%)
         - final laboratory practical test in Matlab / Simulink (10%)
 
-    - Seminar + Intermediate tests = 20%
+    - Seminar + Intermediate tests = 20% (half of Applications grade))
         - 3 tests: in Week 5, Week 8 and Week 11
         - test = one exercise, 30 minutes, during seminar
         - Tests grade = average of the three tests grades + presence at Seminar
 
-- Final grade = 60% Exam + (20% Lab + 20% Tests)
+- Final grade = 60% Exam + 40% Applications
 
 
 ### Course structure
