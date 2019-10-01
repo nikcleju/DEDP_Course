@@ -36,6 +36,16 @@ by a (partially) random phenomenon
     * But we could have got any value from the sample space
     $$\Omega = \left\{1, 2, 3, 4, 5, 6\right\}$$
 
+### Rolling a die
+
+- Random variable X = "the face obtained by throwing a coin"
+	
+	\smallskip
+
+    ![](img/RandomVariable_img.svg){.id width=50%}
+
+(image from *https://www.mathsisfun.com/data/random-variables.html*)
+
 
 ### Discrete and continuous random variables
 
@@ -96,7 +106,7 @@ $$P\left\{ a \leq A \leq b\right\} = F_A(b) - F_A(a-1)$$
 ### Relation between PMF and CDF
 
 - CDF is the *cumulative sum* (i.e. the integral) of PMF
-$$F_A(x) = \sum_{all \;\; t \le x} w_A(t)$$
+$$F_A(x) = \sum_{t = -\infty}^{t = x} w_A(t)$$
 
 - Example for dice: easy to notice graphically
 
@@ -111,6 +121,14 @@ $$F_A(x) = \sum_{all \;\; t \le x} w_A(t)$$
 - Denoted as $w_A(x)$, also known as **the distribution** of A
 
 - Informally, the PDF gives the probability that the value of $A$ is **close to** $x$
+
+### Continuous and discrete random variables
+
+\smallskip
+
+![](img/RandomVariable_Types.png){.id width=80%}
+
+(image from "Probability Distributions: Discrete and Continuous", Seema Singh, *https://towardsdatascience.com/probability-distributions-discrete-and-continuous-7a94ede66dc0*)
 
 ### Probability of an exact value
 
@@ -167,6 +185,14 @@ w_A(x) &= \frac{\mathrm{d}F_A(x)}{\mathrm{d}x} \\
     
 * Probability that $A$ is exactly equal to a certain value is zero
     * the area below a single point is zero
+
+\smallskip
+
+![](img/RandomVariable_AreaPDFProb.png){.id width=50%}
+
+(image from "https://intellipaat.com/blog/tutorial/statistics-and-probability-tutorial/probability-distributions-of-continuous-variables/*)
+
+
 
 ### Discrete vs continuous r.v.
 
