@@ -260,6 +260,18 @@ $$w_A(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
 - The function describes a preference for values around $\mu$, 
 with decreasing preference when getting farther from $\mu$
 
+### Example of values from the normal distribution (mu=0, sigma=1)
+
+
+![](figures/01_RandomSignals_figure2_1.png){width=8cm}\
+
+
+### Example of values from the normal distribution (mu=2, sigma=4)
+
+
+![](figures/01_RandomSignals_figure3_1.png){width=8cm}\
+
+
 ### The uniform distribution
 
 * The probability density function = a constant, between two endpoints
@@ -271,7 +283,7 @@ $$w_A(x) =
 \end{cases}$$
 
 
-![](figures/01_RandomSignals_figure2_1.png){width=8cm}\
+![](figures/01_RandomSignals_figure4_1.png){width=8cm}\
 
 
 ### The uniform distribution
@@ -1009,7 +1021,7 @@ new behaviour, set the "use_line_collection" keyword argument to True.
   from pweave.scripts import weave
 ```
 
-![](figures/01_RandomSignals_figure3_1.png)\
+![](figures/01_RandomSignals_figure5_1.png)\
 
 
 
@@ -1025,7 +1037,7 @@ new behaviour, set the "use_line_collection" keyword argument to True.
   from pweave.scripts import weave
 ```
 
-![](figures/01_RandomSignals_figure4_1.png)\
+![](figures/01_RandomSignals_figure6_1.png)\
 
 
 ### Correlation result
@@ -1040,7 +1052,7 @@ new behaviour, set the "use_line_collection" keyword argument to True.
   from pweave.scripts import weave
 ```
 
-![](figures/01_RandomSignals_figure5_1.png)\
+![](figures/01_RandomSignals_figure7_1.png)\
 
 
 ### System identification

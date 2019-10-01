@@ -269,6 +269,34 @@ plt.show()
 - The function describes a preference for values around $\mu$, 
 with decreasing preference when getting farther from $\mu$
 
+### Example of values from the normal distribution (mu=0, sigma=1)
+
+<<fig=True, echo=False, width='8cm'>>=
+import matplotlib.pyplot as plt, numpy as np, math;
+mu = 0;
+sigma = 1;
+x = np.linspace(1, 200, 200)
+v = mu + np.sqrt(sigma)*np.random.randn(200)
+plt.plot(x,v)
+plt.ylim(-5,5)
+plt.title('Sample values from the normal distribution');
+plt.show()
+@
+
+### Example of values from the normal distribution (mu=2, sigma=4)
+
+<<fig=True, echo=False, width='8cm'>>=
+import matplotlib.pyplot as plt, numpy as np, math;
+mu = 2;
+sigma = 4;
+x = np.linspace(1, 200, 200)
+v = mu + np.sqrt(sigma)*np.random.randn(200)
+plt.plot(x,v)
+plt.ylim(-5,5)
+plt.title('Sample values from the normal distribution');
+plt.show()
+@
+
 ### The uniform distribution
 
 * The probability density function = a constant, between two endpoints
