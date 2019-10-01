@@ -223,6 +223,64 @@ PDF/PFM:
 $$\int_{-\infty}^\infty w_A(x) \mathrm{d}x = 1$$
 $$\sum_{x = -\infty}^\infty w_A(x) = 1$$
 
+### Different distributions
+
+* Normal sine signal
+
+
+![](figures/01_RandomSignals_figure1_1.png){width=8cm}\
+
+
+### Different distributions
+
+* Sine + noise 1 (normal, $\mu = 0, \sigma^2 = 1$)
+
+
+![](figures/01_RandomSignals_figure2_1.png){width=8cm}\
+
+
+### Different distributions
+
+* Sine + noise 2 (uniform $\mathcal{U} [-1,1]$)
+
+* What's different? The distribution type
+
+
+![](figures/01_RandomSignals_figure3_1.png){width=8cm}\
+
+
+### Different distributions
+
+* Clean Image 
+
+
+![](figures/01_RandomSignals_figure4_1.png){width=8cm}\
+
+
+### Different distributions
+
+* Image + noise (normal, $\mu = 0, \sigma^2 = 1$)
+
+
+![](figures/01_RandomSignals_figure5_1.png){width=8cm}\
+
+
+### Different distributions
+
+* Image + larger noise (normal, $\mu = 0, \sigma^2 = 10$)
+
+
+![](figures/01_RandomSignals_figure6_1.png){width=8cm}\
+
+
+### Different distributions
+
+* Image + noise (uniform, $\mathcal{U} [-5, 5]$)
+
+
+![](figures/01_RandomSignals_figure7_1.png){width=8cm}\
+
+
 
 ### The normal distribution
 
@@ -231,7 +289,7 @@ $$\sum_{x = -\infty}^\infty w_A(x) = 1$$
 $$w_A(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
 
 
-![](figures/01_RandomSignals_figure1_1.png){width=8cm}\
+![](figures/01_RandomSignals_figure8_1.png){width=8cm}\
 
 
 ### The normal distribution
@@ -263,13 +321,13 @@ with decreasing preference when getting farther from $\mu$
 ### Example of values from the normal distribution (mu=0, sigma=1)
 
 
-![](figures/01_RandomSignals_figure2_1.png){width=8cm}\
+![](figures/01_RandomSignals_figure9_1.png){width=8cm}\
 
 
 ### Example of values from the normal distribution (mu=2, sigma=4)
 
 
-![](figures/01_RandomSignals_figure3_1.png){width=8cm}\
+![](figures/01_RandomSignals_figure10_1.png){width=8cm}\
 
 
 ### The uniform distribution
@@ -283,7 +341,7 @@ $$w_A(x) =
 \end{cases}$$
 
 
-![](figures/01_RandomSignals_figure4_1.png){width=8cm}\
+![](figures/01_RandomSignals_figure11_1.png){width=8cm}\
 
 
 ### The uniform distribution
@@ -1021,7 +1079,7 @@ new behaviour, set the "use_line_collection" keyword argument to True.
   from pweave.scripts import weave
 ```
 
-![](figures/01_RandomSignals_figure5_1.png)\
+![](figures/01_RandomSignals_figure12_1.png)\
 
 
 
@@ -1037,7 +1095,7 @@ new behaviour, set the "use_line_collection" keyword argument to True.
   from pweave.scripts import weave
 ```
 
-![](figures/01_RandomSignals_figure6_1.png)\
+![](figures/01_RandomSignals_figure13_1.png)\
 
 
 ### Correlation result
@@ -1052,7 +1110,7 @@ new behaviour, set the "use_line_collection" keyword argument to True.
   from pweave.scripts import weave
 ```
 
-![](figures/01_RandomSignals_figure7_1.png)\
+![](figures/01_RandomSignals_figure14_1.png)\
 
 
 ### System identification
