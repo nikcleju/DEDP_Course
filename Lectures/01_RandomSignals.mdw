@@ -454,7 +454,7 @@ plt.show()
 $$erf(z) = \frac{2}{\sqrt{\pi}} \int_0^z e^{-t^2} dt$$
 
 - The CDF of a normal distribution $\mathcal{N}(\mu, \sigma^2)$
-$$F_A(X) = \frac{1}{2}(1 + erf(\frac{x - \mu}{\sigma \sqrt{2}}))$$
+$$F_A(x) = \frac{1}{2}(1 + erf(\frac{x - \mu}{\sigma \sqrt{2}}))$$
 
 - The values of *erf()* are available / are computed numerically
     - e.g. on Google, search for $erf(0.5)$
@@ -604,7 +604,7 @@ in circles (symmetrically)
 
 * R.v. are described by statistical averages ("*moments*")
 
-* **The average value** (moment of order 1)
+* **The average value** (or "expected value", or "moment of order 1")
 
 * Continuous r.v.:
 $$\overline{A} = E\{A\} = \int_{-\infty}^{\infty} x \cdot w_A(x) dx$$
@@ -616,10 +616,38 @@ $$\overline{A} = E\{A\} = \sum_{x=-\infty}^{\infty} x \cdot w_A(x)$$
 
 * Usual notation: $\mu$
 
+### Meaning of average value
+
+* What does the average value of a random variable *mean*?
+
+  * If we have $N \to \infty$ values drawn from this distribution, it is their average;
+  * If you'd have to guess the value of a random variable value $X$, and you pay a price proportional 
+  to square of the error of your guess $u$, $(u - X)^2$, the average value $\mu$ would be the best choice, 
+  as it minimizes the overall cost:
+  
+  $$\mu = \arg\min_u \int_{-\infty}^{\infty} (u - x)^2\cdot w(x) dx$$
+  
+  * Proof: on blackboard: derivate and set derivative to 0
+
+### Meaning of average value
+
+* Values with high probability will "pull" the average value closer to them
+
+* For distributions with symmetrical shape (like the normal distribution),
+the average value is always the middle value
+  * Proof: both sides of the function "pull" the average value equally, so it remains in the middle
+
+* For the normal distribution, $\overline{X} = \mu$ (obvious from notation)
+
+* For the uniform distribution $\mathcal{U} [a, b]$, $\overline{X} = \frac{a + b}{2}$ (middle)
+
+
 ### Properties of the average value
 
 * Computing the average value is a **linear** operation
     * because the underlying integral / sum is a linear operation
+
+* If A and B are two (independent) random variables:
 
 * Linearity
 $$E\{c_1A + c_2B\} = c_1E\{A\} + c_2E\{B\}$$
@@ -634,7 +662,7 @@ $$E\{A + B\} = E\{A\} + E\{B\}$$
 
 * **Average squared value** = average value of the squared values
 
-* Moment of order 2
+* "Moment of order 2"
 
 * Continuous r.v.:
 $$\overline{A^2} = E\{A^2\} = \int_{-\infty}^{\infty} x^2 \cdot w_A(x) dx$$
