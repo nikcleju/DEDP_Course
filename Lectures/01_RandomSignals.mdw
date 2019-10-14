@@ -732,7 +732,44 @@ $$w_C(x) = w_A(x) \star w_B(x)$$
     * e.g. we see a given noise signal on the oscilloscope, but *we could have
     seen any other realization just as well*
 
+* Typically denoted as $f^{(k)}[n]$ or $f^{(k)}(t)$
+   * $k$ indicates the particular realization that we consider
+
 * When we consider a random process = we consider the set of all possible realizations
+
+### Random process is 2-D
+
+* A random process is a 2-Dimensional thing
+  * $f^{(k)}[n]$ or $f^{(k)}(t)$ depends on two variables:
+    * k = the particular realization
+    * t or n = time
+
+### Random process is 2-D
+
+![](img/RandomProcess_2D.png){.id width=80%}
+
+* from "Information-Based Inversion and Processing with Applications"
+Edited by Tadeusz J. Ulrych, Mauricio D. Sacchi, Volume 36,
+
+### Random process is 2-D
+
+![](img/RandomProcess_1.png){.id width=80%}
+
+
+### Random process is 2-D
+
+![](img/RandomProcess_3.png){.id width=80%}
+
+### Two types of averages
+
+* Random processes have two types of averages:
+  * **Statistical** averages = for a given time $t$ or $n$, across all possible realizations
+  * **Temporal** averages = for a given realization $k$, across all time
+
+### Two types of averages
+
+![](img/RandomProcess_2.webp){.id width=80%}
+
 
 ### Distributions of order 1 of random processes
 
