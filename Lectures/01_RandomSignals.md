@@ -647,7 +647,48 @@ $$w_C(x) = w_A(x) \star w_B(x)$$
     * e.g. we see a given noise signal on the oscilloscope, but *we could have
     seen any other realization just as well*
 
+* Typically denoted as $f^{(k)}[n]$ or $f^{(k)}(t)$
+   * $k$ indicates the particular realization that we consider
+
 * When we consider a random process = we consider the set of all possible realizations
+
+### Random process is 2-D
+
+* A random process is a 2-Dimensional thing
+  * $f^{(k)}[n]$ or $f^{(k)}(t)$ depends on two variables:
+    * k = the particular realization
+    * t or n = time
+
+### Random process is 2-D
+
+![](img/RandomProcess_2D.gif){.id width=80%}
+
+* from "Information-Based Inversion and Processing with Applications"
+Edited by Tadeusz J. Ulrych, Mauricio D. Sacchi, Volume 36,
+
+### Random process is 2-D
+
+![](img/RandomProcess_1.png){.id width=80%}
+
+* from: Razdolsky, L. (2014). Random Processes. In Probability-Based Structural Fire Load (pp. 89-136). Cambridge: Cambridge University Press
+
+### Random process is 2-D
+
+![](img/RandomProcess_3.png){.id width=60%}
+
+* from: https://www.quora.com/What-is-the-difference-between-a-stationary-ergodic-and-a-stationary-non-ergodic-process
+
+### Two types of averages
+
+* Random processes have two types of averages:
+  * **Statistical** averages = for a given time $t$ or $n$, across all possible realizations
+  * **Temporal** averages = for a given realization $k$, across all time
+
+### Two types of averages
+
+![](img/RandomProcess_2.png){.id width=60%}
+
+* from: https://www.quora.com/What-is-the-difference-between-a-stationary-ergodic-and-a-stationary-non-ergodic-process
 
 ### Distributions of order 1 of random processes
 
@@ -734,7 +775,17 @@ $$R_{fg}(t_1,t_2) = \overline{f(t_1) g(t_2)} = \int_{-\infty}^\infty \int_{-\inf
 
 ### Discrete random processes
 
-For **discrete random processes**, nothing changes (except notation from $f(t)$ to $f[t]$):
+For **discrete random processes**, nothing changes (except notation from $f(t)$ to $f[t]$): 
+
+1. $\overline{f[t_1]} = \mu(t_1) = \sum_{x=-\infty}^{\infty} x \cdot w_1(x; t_1)$
+
+2. $\overline{f^2[t_1]} = \sum_{x=-\infty}^{\infty} x^2 \cdot w_1(x; t_1)$
+
+3. $\sigma^2(t_1) = \overline{\left\{ f[t_1] - \mu(t_1) \right\}^2} = \sum_{x=-\infty}^{\infty} (x-\mu(t_1)^2 \cdot w_1(x; t_1)$
+
+4. $R_{ff}(t_1,t_2) = \overline{f[t_1] f[t_2]} = \sum_{x_1=-\infty}^\infty \sum_{x_2=-\infty}^\infty x_1 x_2 w_2(x_1, x_2; t_1, t_2)$
+
+5. $R_{fg}(t_1,t_2) = \overline{f[t_1] g[t_2]} = \sum_{x_1=-\infty}^\infty \sum_{x_2=-\infty}^\infty x_1 y_2 w_2(x_1, y_2; t_1, t_2)$
 
 
 ### Temporal averages
@@ -832,9 +883,29 @@ $$w_n(x_1,...x_n; t_1,...t_n) = w_n(x_1,...x_n; t_1+\tau,... t_n + \tau)$$
 
 * Strictly stationary / strongly stationary / strict-sense stationary:
     * relation holds for every $n$
+    * average value, average squared value, variance, autocorrelation, and all other higher-order statistics 
+    do not depend on origin of time $t$
 
 * Weakly stationary / wide-sense stationary:
     * relation holds only for $n=1$ and $n=2$  (the most used)
+    * only average value, average squared value, variance, autocorrelation do not depend 
+    on time $t$, high-order statistics may depend
+    
+
+### Stationary random processes
+
+* Is the Random Process below stationary or non-stationary?
+
+![](img/RandomProcess_NonStat.png){.id width=60%}
+
+* from: SEX, LIES & STATISTICS, Ned Wright, http://www.astro.ucla.edu/~wright/statistics/
+
+### Stationary random processes
+
+* Answer: non-stationary
+
+* You can see that the variance is not the same at all moments of time
+
 
 ### Consequences of stationarity
 
@@ -843,9 +914,9 @@ $$w_1(x_i;t_1) = w_1(x_i; t_2) = w_1(x_i)$$
 
 * The average value, average squared value, variance 
 of a sample are all **identical** for any time $t$
-$$\overline{f(t)} = constant, \forall t$$
-$$\overline{f^2(t)} = constant, \forall t$$
-$$\sigma^2(t) = constant, \forall t$$
+$$\overline{f(t)} = constant = \overline{f}, \forall t$$
+$$\overline{f^2(t)} = constant = \overline{f^2}, \forall t$$
+$$\sigma^2(t) = constant = \sigma^2, \forall t$$
 
 ### Consequences of stationarity
 
@@ -927,6 +998,19 @@ are equal to the statistical averages
 * Example of non-ergodic process:
     * throw a dice, then the next 50 values are identical to the first
     * a single realization is not characteristic
+
+### Ergodic random processes 
+
+![](img/XKCD_random_number.png){.id width=60%}
+
+* from: XKCD (221)
+
+* Consider all numbers which could have been obtained by the "fair dice roll"
+
+* What's the problem here?
+    * stationary or non-stationary?
+    * ergodic or non-ergodic?
+
 
 ## I.3 More on autocorrelation
 
