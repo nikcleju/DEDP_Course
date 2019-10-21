@@ -1024,14 +1024,12 @@ $$R_{ff}(t_1,t_2) = R_{ff}(0, t_2 - t_1) = R_{ff}(\tau) = \overline{f(t) f(t + \
 * Temporal autocorrelation:
     * for continuous r.p.
     $$\begin{split}
-    R_{ff}(\tau) =& \overline{f(t) f(t + \tau)} \\
-    =& \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t) f^{(k)}(t + \tau) dt
+    R_{ff}(\tau) =& \overline{f(t) f(t + \tau)} = \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t) f^{(k)}(t + \tau) dt
     \end{split}$$
 
     * for discrete r.p.
     $$\begin{split}
-    R_{ff}(\tau) =& \overline{f(t) f(t + \tau)} \\
-    =& \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t] f^{(k)}[t + \tau]
+    R_{ff}(\tau) =& \overline{f(t) f(t + \tau)} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t] f^{(k)}[t + \tau]
     \end{split}$$
     
     * finite length: limit the integrals / sums to the length of the signal, $\int_{t_{min}}^{t_{max}}$ or $\sum_{t_{min}}^{t_{max}}$
@@ -1066,7 +1064,7 @@ $$R_{fg}(t_1,t_2) = R_{fg}(0, t_2 - t_1) = R_{fg}(\tau) = \overline{f(t) g(t + \
 
 * In practice, we have access to a single realization
 
-* **Ergodic** random process = the temporal averages on any realization
+* **Ergodic** random process = if the temporal averages on any realization
 are equal to the statistical averages
 
 * Ergodicity means:
