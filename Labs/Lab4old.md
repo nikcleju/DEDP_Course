@@ -1,68 +1,91 @@
 ---
-title: Signal detection with multiple samples
-subtitle: Laboratory 4, DEPI
+title: Signal Classification with the k-NN Algorithm
+subtitle: Laboratory 4, DEDP
 documentclass: scrartcl
 fontsize: 12pt
 ---
 
-\newcommand{\grtlessH}{\underset{{H_0}}{\overset{H_{1}}{\gtrless}}}
-\renewcommand{\vec}[1]{\mathbf{#1}}
-
 
 # Objective
 
-Visualize the signal detection rules for detection of signals based
-on multiple samples
+Implement and use the k-NN algorithm for classification of various signals.
 
 # Theoretical aspects
 
-For detecting a constant signal with two possible levels $B$ (hypothesis $H_0$) and $A$ (hypothesis $H_1$), 
-affected by Gaussian noise, based on multiple samples, the decision formula is:
-$$\sum (r_i - B)^2 \grtlessH \sum (r_i - A)^2 + 2 \sigma^2 \ln{K}$$.
+## The k-NN algorithm
 
-For Maximum Likelihood criterion, $K=1$. In this case, the equation 
-can be interpreted geometrically as 
-**choosing minimum Euclidean distance from point $\vec{r} = [r_1, r_2, ... r_N]$ to points $\vec{B} = [B, B, ...]$ and $\vec{A} = [A, A, ...]$**.
+We have a set of **training signals** whose classes are known beforehand.
+For example:
 
-The Euclidian distance between two points $\vec{x} = [x_1, x_2, ... x_N]$ and $\vec{y} = [y_1, y_2, ... y_N]$ is
-$$d(x,y) = \sqrt{\sum_i (x_i - y_i)^2}$$.
+- 10 images of class A (e.g. images of cats)
+- 10 images of class B (e.g. images of dogs)
+- ...
+    
+We have a new signal X. We need to decide to which class it belongs (A, B, etc).
 
-The general formula thus becomes:
-$$\left[d(r,B)\right]^2 \grtlessH \left[d(r,A)\right]^2 + 2 \sigma^2 \ln{K}$$.
+The k-NN algorithm:
+
+1. Compute the distances from X to all the signals in the training set
+2. Choose the **closest $k$ neighbors**, take the class of the majority of them
+(e.g. majority voting).
+
+## Datasets organization
+
+We have at our disposal a large class of signals whose classes are known.
+The data is randomly split into:
+
+- a **training set**: this data is used for the majority voting
+- a **test set**: used only for **evaluation** of the algorithm performance.
+This data should never be used for training (the algorithm should never
+have seen this data before the testing).
+- (optional) a **cross-validation set**: a subset of the training set, 
+used to determine which values of $k$ work best
+
+The datasets are obtained by randomly splitting all the signals available at the beginning.
+They sizes of the datasets should be around:
+
+- 60% of all data for the training set
+- 20% of all data for the cross-validation set
+- 20% of all data for the in the testing set
+
+## Data for this laboratory
+
+In this laboratory we will use image data from the Extended Yale B Database of face images.
+
+The full database contains 2414 frontal face images of 38 different people (around 64 images per person),
+in grayscale, of size $48 \times 42$ pixels, under varying ilumination conditions.
+
+The excerpt provided for this lab contains only 256 images: 4 persons, 64 images per person.
 
 # Exercises
 
-1. Simulate detection of a constant signal with two levels $B=0$ and $A=5$, based on two samples, as follows:
-    * Generate a vector `data` of 1000 values $0$ or $1$, with equal probability (hint: use `rand()` and compare to 0.5).
-    * Generate a $1000 \times 2$ matrix `points` of data samples defined as: 
-        * row $i$ of `points` is $(B,B)$ if `data(i) is 0`, or
-        * row $i$ of `points` is $(A,A)$ if `data(i) is 1`.
-    * Add over it a random noise with normal distribution $\mathcal{N}(0, \sigma^2=2)$ (use a noise matrix of same size $1000 \times 2$).
-    The result should be saved as the matrix `received`.
-    * Implement the Maximum Likelihood decision rule for each row $i$ of the received samples.
-    The result ($0$ or $1$) should be saved as vector `decision`.
-    * Compare the decision result with the original data vector, and classify the result in a 1000-long vector `result` with the following values:
-        * `result(i) = 0` if for bit $i$ there was a correct rejection
-        * `result(i) = 1` if for bit $i$ there was a false alarm
-        * `result(i) = 2` if for bit $i$ there was a miss
-        * `result(i) = 3` if for bit $i$ there was a correct detection
-    * Generate a **scatter plot** displaying the received data samples with different coloring of the decisions (*Hint*: check Matlab function `scatter()`).
-    * What are the decision regions? What is the decision rule, geometrically? 
+1. Load the data file 'face_dataset.mat'. Explore the dataset:
+    - display 5 images from the dataset
+    - print the image sizes
+    
+2. Split the dataset as follows:
+    - 80% of images of each class as the ``training set``
+    - 20% of images of each class as the ``test set``
+    - save the datasets as different files ``trainset.mat`` and ``testset.mat``
+    
+3. Implement a function ``[class] = myKNN(image, k)`` for performing k-NN classification of an image:
+    - the function takes as input an image ``image``
+    - the function loads the training set from ``trainset.mat``
+    - the function computes the Euclidean distance between ``image`` and each image from the training set
+    - the output ``class`` is defined by the majority of the $k$ nearest neighbours of the image
+    
+4. Call the function ``myKNN`` for each image from the testing set and compare the classification results against the ground truth.
+Use different values for $k$: $k=1$, then $k=5$, then $k=15$.
+In each case, print the *confusion matrix*: $A_{ij}$ = percentage of each images of class $i$ which
+are classified by our algorithm as being in class $j$.
+    
+5. Repeat the test in 4., this time adding a variable amount of gaussian noise to the test images.
+How does the performance change?
 
-1. Repeat Exercise 1 for Minimum Probability of Error criterion with probabilities $P(H_0) = 2/3$ and $P(H_1) = 1/3$
-    * Change the threshold value for comparing `rand()` to generate $0$ with probability 2/3 and $1$ with probability 1/3.
-    * Modify the detection rule taking into account $K = \frac{P(H_0)}{P(H_1)}$.
-    * Visualize the data. How does it look like?
-
-1. Repeat Exercise 1 for four values of $K$: $K = 1$, $K = 5$, $K = 25$, $K = 125$.
-Display the 4 scatter plots as subfigures of a figure window, arranged $2 \times 2$.
-
-1. Repeat Exercise 2 for 3 samples.
-    * The matrix's sizes should be $1000 \times 3$.
-    * Detection rule should consider all three samples.
-
-
+5. Repeat the test in 4., this time adding a variable amount of global illumination to the test images
+(adding a small constant value to all the pixel values). How does the performance change?
+	
 # Final questions
 
-1. In a practical scenario, what is the disadvantage of using multiple samples for detection, compared to just 1?
-
+1. How does the confusion matrix look like in the ideal case?
+(perfect classification)
