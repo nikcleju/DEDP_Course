@@ -36,6 +36,9 @@ The receiver takes 5 samples with values $\left\{ 1.1, 4.4, 3.7, 4.1, 3.8 \right
     
 \smallskip
 
+
+**I think not done:**
+
 4. Consider detecting a signal $s_1(t) = 3 \sin(2 \pi f_1 t)$ that can be present (hypothesis $H_1$) or not ($s_0(t)=0$, hypothesis $H_0$).
 The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
 The receiver takes 2 samples.
