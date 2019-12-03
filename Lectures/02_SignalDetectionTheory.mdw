@@ -1405,11 +1405,48 @@ The k-Neareast Neighbours algorithm (k-NN)
 
 * Output: the class of $\vec{r}$
 
+
+### The k-NN algorithm
+
+![The k-NN algorithm illustrated [1]](img/kNN.png){#id .class width=58%}
+
+\maketiny{
+[1] image from "KNN Classification using Scikit-learn", Avinash Navlani, https://www.datacamp.com/community/tutorials/k-nearest-neighbor-classification-scikit-learn
+}
+
+### Exercise
+
+Exercise
+
+1. Consider the k-NN algorithm with the following training set, composed
+of 5 vectors of class A and another 5 vectors from class B:
+    * Class A:
+    $$
+\vec{v}_1 = \begin{bmatrix}  1 \\ -2 \end{bmatrix}\;
+\vec{v}_2 = \begin{bmatrix} -1 \\  1 \end{bmatrix}\;
+\vec{v}_3 = \begin{bmatrix} -4 \\  2 \end{bmatrix}\;
+\vec{v}_4 = \begin{bmatrix}  2 \\  1 \end{bmatrix}\;
+\vec{v}_5 = \begin{bmatrix} -2 \\ -2 \end{bmatrix}$$
+    
+    * Class B:
+    $$
+\vec{v}_6    = \begin{bmatrix}  7 \\ 0 \end{bmatrix}\;
+\vec{v}_7    = \begin{bmatrix}  2 \\ 3 \end{bmatrix}\;
+\vec{v}_8    = \begin{bmatrix}  3 \\ 2 \end{bmatrix}\;
+\vec{v}_9    = \begin{bmatrix} -3 \\ 8 \end{bmatrix}\;
+\vec{v}_{10} = \begin{bmatrix} -2 \\ 5 \end{bmatrix}$$
+
+    Compute the class of the vector $\vec{x} = \begin{bmatrix} -3 \\ 6 \end{bmatrix}$
+using the k-NN algorithm, with $k=1$, $k=3$, $k=5$, $k=7$ and $k=9$
+
+
 ### Discussion
 
 * k-NN is a supervised learning algorithm
     * training data needs to be labelled
 
+\smallskip
+    
 * Effect of $k$ is to smooth the decision boundary:
     * small $k$: lots of edges
     * large $k$: smooth boundary
@@ -1421,6 +1458,8 @@ The k-Neareast Neighbours algorithm (k-NN)
 * How to find a good value for $k$?
     * by trial and error ("băbește")
 
+\smallskip
+    
 * **Cross-validation** = use a small testing set for checking what parameter value is best
     * this data set is known as **cross-validation set**
     * use $k=1$, test with cross-validation set and see how many vectors are classified correctly
@@ -1432,22 +1471,33 @@ The k-Neareast Neighbours algorithm (k-NN)
 * How to evaluate the performance of k-NN?
     * Use a testing set to test the algorithm, check the percentage of correct classification
 
+\smallskip
+
 * Final testing set should be different from the cross-validation set
     * For final testing, use data that the algorithm has never seen, for fairness
 
+\smallskip
+    
 * How to split the data into datasets?
-    * Suppose you have 200 face images, 100 images of person A and 100 of person B
+
 
 ### Datasets
-    
+
+* Suppose you have 200 face images, 100 images of person A and 100 of person B
+
+\smallskip
+	    
 * Split the data into:
+	\smallskip
     * Training set
         * data that shall be used by the algorithm
         * largest part (about 60% of the whole data)
         * i.e. 60 images of person A and 60 images of B
+    \smallskip
     * Cross-validation set
         * used to test the algorithm and choose best value of parameters ($k$)
         * smaller, about 20%, e.g. 20 images of A and 20 images of B
+    \smallskip
     * Testing set
         * used to evaluate the final algorithm, with all parameters set to a final value
         * smaller, about 20%, e.g. 20 images of A and 20 images of B
@@ -1457,8 +1507,10 @@ The k-Neareast Neighbours algorithm (k-NN)
 * k-Means: an algorithm for data **clustering**
     * identifying groups of close vectors in data
     
+\smallskip
+       
 * Is an example of unsupervised learning algorithm
-    * we don't know data classes beforehand
+    * "unsupervised learning" = we don't know the data classes of the signals beforehand
 
 ### The k-Means algorithm
 
@@ -1471,30 +1523,27 @@ The k-Means algorithm
 * Initialization: randomly initialize the C centroids
 	$$\vec{c}_i \leftarrow \textrm{ random values }$$
 * Repeat
-  1. Classification: classify each data $\vec{x}_n$ using nearest neighbour:
-	    $$l_n = \arg\min_i d(\vec{x}_n, \vec{c}_i)$$
-  2. Update: update each centroids $\vec{c}_i$
-	    $$\vec{c}_i \leftarrow \textrm{ average of } \vec{x}_n, \forall \vec{x}_n \textrm{ in class } i$$
+  1. Classification: assign each data $\vec{x}$ to the nearest centroid $\vec{c}_i$:
+	    $$l_n = \arg\min_i d(\vec{x}, \vec{c}_i), \forall \vec{x}$$
+  2. Update: update each centroids $\vec{c}_i$ = average of the $\vec{x}$ assigned to $\vec{c}_i$
+	    $$\vec{c}_i \leftarrow \textrm{ average of } \vec{x}, \forall \vec{x} \textrm{ in class } i$$
 
 * Output: return the centroids $\vec{c}_i$, the labels $l_i$ of the input data $\vec{x}_i$
 
+### The k-Means algorithm
 
-```{=beamer}
-\begin{algorithm} 
-\floatname{algorithm}{Algoritmul}
+Video explanations of the k-Means algorithm:
 
-\begin{algorithmic}[1]
-\STATE Initialization: randomly initialize the C centroids
-	\STATE $\vec{c}_i \leftarrow$ random values
-\REPEAT
-	\STATE 1. Classification: classify each data $\vec{x}_n$ using nearest neighbour:
-	    $$l_n = \arg\min_i d(\vec{x}_n, \vec{c}_i)$$
-	\STATE 2. Update: update each centroids $\vec{c}_i$
-	    $$\vec{c}_i \leftarrow \textrm{ average of } x) \forall $x$ \textrm{ in class } i$$
-\RETURN{labels $l_i$ of the data, the centroids $\vec{c}_i$}
-\end{algorithmic}
-\end{algorithm}
-```
+* Watch this, starting from time 6:28 to 7:08
+
+    [https://www.youtube.com/watch?v=4b5d3muPQmA](https://www.youtube.com/watch?v=4b5d3muPQmA)
+
+\smallskip
+
+* Watch this, starting from time 3:05 to end
+
+    [https://www.youtube.com/watch?v=IuRb3y8qKX4](https://www.youtube.com/watch?v=IuRb3y8qKX4)
+
 
 ### The k-Means algorithm
 
@@ -1503,3 +1552,15 @@ The k-Means algorithm
     * repeat many times, choose best result
     * smart initializations are possible (*k-Means++*)
 
+
+### Exercise
+
+Exercise
+
+1. Consider the following data
+    $$\left\lbrace \vec{v_n} \right\rbrace = 
+[ 1.3, -0.1, 0.5, 4.7, 5.1, 5.8, 0.4, 4.8, -0.7, 4.9 ] $$
+
+    Use the k-Means algorithm to find the two centroids $\vec{c}_1$ and $\vec{c}_2$,
+starting from two random values $\vec{c}_1 = -0.5$ and $\vec{c}_2 = 0.9$. Perform
+5 iterations of the algorithm.
