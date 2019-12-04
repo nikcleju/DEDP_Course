@@ -15,22 +15,27 @@ color-based segmentation of images.
 
 ## The k-Means algorithm
 
-Look it up on the web :) 
-
-I'll explain it at the whiteboard.
+Check the lectures.
 
 
 # Exercises
 
 ## Pixel-based clustering
 
-1. Load the color image 'image.jpg' using `imread()`.
+1. Load the color image 'Peppers.tiff' using `imread()`.
 Convert the image to `double` and display it
 (don't convert to grayscale, leave the colors).
 
 2. Use Matlab's k-Means algorithm to cluster all
 the pixel values (each pixel = a group of three values R, G, B)
 into 4 groups.
+  - Use the `reshape()` function to resize a $M \times N \times 3$
+  tensor `I` into a $(M*N) \times 3$ matrix `P`, as follows:
+    ```
+    P = reshape(I, [], 3);
+    ```
+  - Use the `kmeans()` Matlab function to do the clustering.
+  Read the documentation for more details.
 
 3. Replace each pixel of the image with the *centroid*
 of its class. Display the image. How does it look?
