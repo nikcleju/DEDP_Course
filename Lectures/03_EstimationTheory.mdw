@@ -58,12 +58,62 @@ that depends on $\Theta$ (and the noise)
     * It has a N-dimensional distribution that depends on $\Theta$
 $$w(\vec{r}; \Theta)$$
 
-### Types of estimation
+
+### Likelihood function
+
+* In an estimation problem:
+  * $\vec{r}$ is known
+  * $\Theta$ is unknown
+  
+\smallskip  
+  
+* We want to estimate $\Theta$ based on $\vec{r}$, so we are interested in the 
+following function:
+
+$$L(\Theta) = w(\Theta | \vec{r})$$
+
+* This is the likelihood (distribution / probability) of $\Theta$, for a given known $\vec{r}$
+
+
+### Bayes rule
+
+* In general, we can use the Bayes rule
+
+$$L(\Theta) = w(\Theta | \vec{r}) = \frac{w(\vec{r} | \Theta) \cdot w(\Theta)}{w(\vec{r})}$$
+
+* Explanation of the terms:
+  * $\Theta$ is the unknown parameter
+  * $\vec{r}$ are the observations that we have
+  * $L(\Theta) = w(\Theta | \vec{r})$ is the likelihood of $\Theta$, given our current observations;
+  * $w(\vec{r} | \Theta)$ is the "normal" probability of $\vec{r}$ for a given $\Theta$, given by the noise distribution
+  * $w(\Theta)$ is the **prior** distribution of $\Theta$, i.e. what we know about $\Theta$ even in the absence of evidence
+  * $w(\vec{r})$ is the prior distribution of $\vec{r}$, it is assumed constant
+
+
+### Bayes rule
+
+* The previous relation is rather complex
+
+\smallskip
+
+* It shows that our estimation of $\Theta$ depends on two things:
+
+  1. The observations that we have, via the term $w(\vec{r} | \Theta)$
+  2. The prior knowledge (or prior belief) about $\Theta$, via the term $w(\Theta)$
+  
+\smallskip
+  
+(the third term $w(\vec{r})$ is considered a constant, and plays no significant role)
+  
+### Two types of estimation
 
 * We consider estimating a parameter $\Theta$ under two circumstances:
     
 1. No distribution is known about the parameter, except maybe some allowed range (e.g. $\Theta > 0$)
     * The parameter can be any value in the allowed range, equally likely
+    * We treat $w(\Theta)$ as a constant
+
+\smallskip
 
 2. We know a distribution $p(\Theta)$ for $\Theta$, which tells us
 the values of $\Theta$ that are more likely than others
@@ -77,10 +127,12 @@ the values of $\Theta$ that are more likely than others
 * When no distribution is known about the parameter, we use a method
 known as **Maximum Likelihood estimation (MLE)**
 
-* The distribution of the received data, $w(\vec{r}; \Theta)$, is known as the **likelihood function**
-    * we know the vector $\vec{r}$ we received, so this is a constant
-    * the unknown variable in this function is $\Theta$ 
-    $$L(\Theta) = w(\vec{r}; \Theta)$$
+\smallskip
+
+* We treat $w(\Theta$ as a constant, so that the likelihood function becomes:
+
+    $$L(\Theta) = w(\vec{r} | \Theta) \cdot constant$$
+
 
 ### Maximum Likelihood definition
 
@@ -89,7 +141,7 @@ Maximum Likelihood (ML) Estimation:
 * The estimate $\hat{\Theta}$ is **the value
 that maximizes the likelihood of the observed data**
     * i.e. the value $\Theta$ that maximizes $L(\Theta) = w(\vec{r}; \Theta)$
-    $$\hat{\Theta} = \arg\max_{\Theta} L(\Theta) = \arg\max_{\Theta} w(\vec{r}; \Theta)$$
+    $$\hat{\Theta} = \arg\max_{\Theta} L(\Theta) = \arg\max_{\Theta} w(\vec{r} | \Theta)$$
 
 * If $\Theta$ is allowed to live only in a certain range, restrict
 the maximization only to that range.
@@ -110,7 +162,7 @@ $$\frac{d \ln\left(L(\Theta)\right)}{d\Theta} = 0$$
 
 Solving procedure:
 
-1. Find the function $$L(\Theta) = w(\vec{r}; \Theta)$$
+1. Find the function $$L(\Theta) = w(\vec{r} | \Theta)$$
 
 1. Set the condition that derivative of $L(\Theta)$ or $\ln(\left(L(\Theta)\right)$ is 0
 $$\frac{d L(\Theta)}{d\Theta} = 0, \text{ or }\frac{d \ln\left(L(\Theta)\right)}{d\Theta} = 0$$
