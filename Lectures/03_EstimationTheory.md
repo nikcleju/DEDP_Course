@@ -140,7 +140,7 @@ Maximum Likelihood (ML) Estimation:
 
 * The estimate $\hat{\Theta}$ is **the value
 that maximizes the likelihood of the observed data**
-    * i.e. the value $\Theta$ that maximizes $L(\Theta) = w(\vec{r}; \Theta)$
+    * i.e. the value $\Theta$ that maximizes $L(\Theta)$, i.e. maximize $w(\vec{r} | \Theta)$
     $$\hat{\Theta} = \arg\max_{\Theta} L(\Theta) = \arg\max_{\Theta} w(\vec{r} | \Theta)$$
 
 * If $\Theta$ is allowed to live only in a certain range, restrict
@@ -186,14 +186,6 @@ $r_i = A + noise$ with values $[5, 7, 8, 6.1, 5.3]$. The noise is AWGN $\mathcal
 ### Numerical simulation
 
 
-```
-/home/ncleju/.local/bin/pweave:5: UserWarning: In Matplotlib 3.3
-individual lines on a stem plot will be added as a LineCollection
-instead of individual lines. This significantly improves the
-performance of a stem plot. To remove this warning and switch to the
-new behaviour, set the "use_line_collection" keyword argument to True.
-```
-
 ![](figures/03_EstimationTheory_figure1_1.png){width=8cm}\
 
 
@@ -219,7 +211,7 @@ and variance $\sigma^2$
 * Overall likelihood function = product of likelihoods for each sample $r_i$
 $$\begin{split}
 L(\Theta) =& \prod_{i=1}^N \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{(r_i - s_\Theta(t_i))^2}{2 \sigma^2}} \\
-=&  \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}}
+=&  \left( \frac{1}{\sigma \sqrt{2 \pi}} \right)^N e^{- \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}}
 \end{split}$$
 
 ### General signal in AWGN
