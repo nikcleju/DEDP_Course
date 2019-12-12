@@ -42,3 +42,8 @@ starting from two random values $\vec{c}_1 = 0.95$ and $\vec{c}_2 = 0.96$. Perfo
  and the values are $r_i = [1.2, 3.7, 8.5, 18, 25.8]$. The noise distribution
  is $\mathcal{N}(0,\sigma^2=1)$. Estimate the parameter $a$.
     a. use Maximum Likelihood (ML) estimation
+	
+1. Fit a linear function $y = ax$ (i.e. estimate $a$) through the following data points
+$(x_i, y_i) = {(1,1.8),(2,4.1),(2.5, 5.1),(4,7.9),(4.3, 8.5)}$,
+assuming the noise is $\mathcal{N}(0,\sigma^2=1)$
+    a. use Maximum Likelihood (ML) estimation
