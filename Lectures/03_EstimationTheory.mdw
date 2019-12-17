@@ -405,6 +405,16 @@ Deep Learning, etc.)
 
 ## II.3 Bayesian estimation
 
+
+### Bayesian estimation
+
+Bayesian estimation brings two new things to ML estimation:
+
+  1. Take into account a known prior distribution of $\Theta$, $w(\Theta)$
+  
+  2. Pick a value for the estimate $\hat{\Theta}$ depending on a certain cost function
+
+
 ### Prior distribution
 
 * Suppose we know beforehand a distribution of $\Theta$, $w(\Theta)$
@@ -422,7 +432,7 @@ Deep Learning, etc.)
 
 * The **estimation error** is the difference between the estimate $\hat{\Theta}$
 and the true value $\Theta$
-$$\epsilon = \hat{\Theta} = \Theta$$
+$$\epsilon = \hat{\Theta} - \Theta$$
 
 * The **cost function $C(\epsilon)$** assigns a cost to each possible estimation error
     * when $\epsilon = 0$, the cost $C(0) = 0$ 
@@ -441,32 +451,23 @@ $$\epsilon = \hat{\Theta} = \Theta$$
 
 ### The Bayesian risk
 
-* For each pair of values $\vec{r}$ and $\Theta$, $w(\vec{r}; \Theta)$ tells us how likely it is
-to have them
+* The posterior distribution $w(\Theta | \vec{r})$ tells us how likely it is to have a certain value of $\Theta$
+  
+  - it is a distribution
 
-* Multiplying with $C(\epsilon$ gives us the cost, for each $\vec{r}$ and $\Theta$
-$$C(\epsilon) w(\vec{r}; \Theta)$$
+* Picking a certain estimate value $\hat{\Theta}$ implies a certain error
 
-* Integrating over $\Theta$ gives the cost for a certain $\vec{r}$
-$$\int_{-\infty}^\infty C(\epsilon) w(\vec{r}; \Theta) d\Theta$$
+* The error implies a certain cost
 
-* Further integrating also over $\vec{r}$ gives the global cost for all $\vec{r}$ and all $\Theta$
-$$R = \int_{-\infty}^\infty \int_{-\infty}^\infty C(\epsilon) w(\vec{r}; \Theta) d\Theta d\vec{r}$$
+* Multiplying with $C(\epsilon$) and intergrating gives us the expected (average) cost:
 
-### Minimizing the risk
+$$C = \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 
-* We want to minimize the risk R
+### The Bayes estimator
 
-* Bayes rule: $w(\vec{r}; \Theta) = w(\Theta | \vec{r}) w(\vec{r})$
+* **Bayesian estimation** =  Pick $\hat{\Theta}$ which minimized the expected cost 
 
-* Replacing in R, we obtain
-$$\begin{split}
-R =& \int_{-\infty}^\infty \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) w(\vec{r}) d\Theta d\vec{r} \\
-=& \int_{-\infty}^\infty w(\vec{r}) \left[ \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta \right] d\vec{r}
-\end{split}$$
-
-* Since $w(\vec{r}) \geq 0$, minimizing the inner integral will minimize $R$
-$$I = \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
+$$\hat{\Theta} = \arg\min_\Theta \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 
 * Next, we'll replace $C(\epsilon)$ with its definition and derivate over $\hat{\Theta}$
     * Attention: $\hat{\Theta}$, not $\Theta$!
@@ -474,10 +475,10 @@ $$I = \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 ### MMSE estimator
 
 * When the cost function is quadratic $C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$
-$$I = \int_{-\infty}^\infty (\hat{\Theta} - \Theta)^2 w(\Theta | \vec{r}) d\Theta$$
+$$C = \int_{-\infty}^\infty (\hat{\Theta} - \Theta)^2 w(\Theta | \vec{r}) d\Theta$$
 
 * We want the $\hat{\Theta}$ that minimizes $I$, so we derivate
-$$\frac{dI}{d\hat{\Theta}} = 2 \int_{-\infty}^\infty (\hat{\Theta} - \Theta) w(\Theta | \vec{r}) d\Theta = 0$$
+$$\frac{dC}{d\hat{\Theta}} = 2 \int_{-\infty}^\infty (\hat{\Theta} - \Theta) w(\Theta | \vec{r}) d\Theta = 0$$
 
 * Equivalent to
 $$\hat{\Theta} \underbrace{\int_{-\infty}^\infty w(\Theta | \vec{r})}_1 d\Theta = \int_{-\infty}^\infty \Theta w(\Theta | \vec{r}) d\Theta$$
@@ -511,7 +512,7 @@ I =& 1 - \int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta
 
 ### The MAP estimator
 
-* To minimize $I$, we must maximize $\int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta$, the integral
+* To minimize $C$, we must maximize $\int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta$, the integral
 around point $\hat{\Theta}$
 
 * For $E$ a very small, the function $w(\Theta | \vec{r})$ is approximately constant, so we pick the point where the function is maximum
