@@ -33,6 +33,14 @@ based only on the `r` vector.
     * Try changing the length of the data. How is the estimation accuracy affected?
     * Try changing the variance of the noise. How is the estimation accuracy affected?
 
+3. Estimate the amplitude $A$ of the signal via Maximum Likelihood Estimation, assuming the frequency is known to be $0.02$, based only on the $r$ vector. 
+    
+    Use a similar approach as in Exercise 2.
+    
+    Try different amplitude values of the signal in Exercise 1, and see if they are estimated correctly.
+    
+4. Repeat Exercise 3, but use the Gradient Descent algorithm for estimating $A$, instead of the polling strategy.
+
 3. TO UPDATE: Suppose that for $f$ we know a *prior distribution* $w(f)$, displayed on the whiteboard.
 Modify the previous example to implement Bayesian estimation.
     * Multiply the computed likelihood function from previous exercise with the prior distribution, for each point.
