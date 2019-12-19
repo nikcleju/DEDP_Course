@@ -431,19 +431,19 @@ $$C = \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 
 ### The Bayes estimator
 
-* **Bayesian estimation** =  Pick $\hat{\Theta}$ which minimized the expected cost 
+* **Bayesian estimation** =  Pick $\hat{\Theta}$ which minimizes the expected cost 
 
 $$\hat{\Theta} = \arg\min_\Theta \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 
-* Next, we'll replace $C(\epsilon)$ with its definition and derivate over $\hat{\Theta}$
-    * Attention: $\hat{\Theta}$, not $\Theta$!
+* To find it, replace $C(\epsilon)$ with its definition and derivate over $\hat{\Theta}$
+    * Attention: derivate with respect to $\hat{\Theta}$, not $\Theta$!
 
 ### MMSE estimator
 
 * When the cost function is quadratic $C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$
 $$C = \int_{-\infty}^\infty (\hat{\Theta} - \Theta)^2 w(\Theta | \vec{r}) d\Theta$$
 
-* We want the $\hat{\Theta}$ that minimizes $I$, so we derivate
+* We want the $\hat{\Theta}$ that minimizes $C$, so we derivate
 $$\frac{dC}{d\hat{\Theta}} = 2 \int_{-\infty}^\infty (\hat{\Theta} - \Theta) w(\Theta | \vec{r}) d\Theta = 0$$
 
 * Equivalent to
@@ -458,6 +458,8 @@ $$\hat{\Theta} = \int_{-\infty}^\infty \Theta \cdot w(\Theta | \vec{r}) d\Theta$
     * it is the distribution of $\Theta$ after we know the data we received
     * the prior distribution $w(\Theta)$ is the one before knowing any data
     
+\smallskip
+    
 * The MMSE estimation is the **average value** of the posterior distribution
 
 ### The MAP estimator
@@ -466,7 +468,7 @@ $$\hat{\Theta} = \int_{-\infty}^\infty \Theta \cdot w(\Theta | \vec{r}) d\Theta$
     0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
     1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
     \end{cases}$
-$$\begin{split}
+
 
 * Keep in mind that $\Theta = \hat{\Theta} - \epsilon$
 
