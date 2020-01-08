@@ -1,5 +1,7 @@
 ---
-title: Seminar 6
+title: | 
+       | Seminar 6
+       | k-NN and k-Means + ML estimation
 subtitle: DEDP
 documentclass: scrartcl
 fontsize: 12pt
