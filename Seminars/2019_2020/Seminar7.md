@@ -26,6 +26,9 @@ header-includes: \usepackage{bm}
    a. Estimate the true position using ML estimation
    b. Estimate the true position using MAP estimation
    c. Estimate the true position using MMSE estimators
+   
+   d. What if the prior distribution is more imprecise and has $\sigma^2 = 20$?
+   e. What if the prior distribution is more precise and has $\sigma^2 = 0.2$?
 
 
 2. Repeat Exercise 1, but instead of taking one position reading from the sensor, 
