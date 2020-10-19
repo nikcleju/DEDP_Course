@@ -42,7 +42,7 @@ by a (partially) random phenomenon
 	
 	\smallskip
 
-    ![](img/RandomVariable_img.svg){.id width=50%}
+    ![](img/RandomVariable_img.pdf){.id width=50%}
 
 (image from *https://www.mathsisfun.com/data/random-variables.html*)
 
@@ -227,17 +227,39 @@ $$\sum_{x = -\infty}^\infty w_A(x) = 1$$
 
 * Normal sine signal
 
-
-![](figures/01_RandomSignals_figure1_1.png){width=8cm}\
-
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math;
+x = np.linspace(0, 99, 100);
+s = np.sin(2*math.pi*0.02*x)
+plt.figure(figsize=(10,6));
+plt.plot(x,s);
+plt.ylim(-3,3)
+plt.xlabel('t');
+plt.ylabel('sin(x)');
+plt.title('Sinusiodal signal');
+plt.savefig('fig/01_RandomSignals_Sine.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_Sine.png){width=70% max-width=1000px}
 
 ### Different distributions
 
 * Sine + noise 1 (normal, $\mu = 0, \sigma^2 = 1$)
 
-
-![](figures/01_RandomSignals_figure2_1.png){width=8cm}\
-
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math;
+x = np.linspace(0, 99, 100);
+s = np.sin(2*math.pi*0.02*x)
+sn = s + np.random.randn(100)
+plt.plot(x,s, x, sn);
+plt.ylim(-3,3)
+plt.xlabel('t');
+plt.ylabel('sin(x)');
+plt.title('Sinusiodal signal + random noise');
+plt.savefig('fig/01_RandomSignals_SinePlusRandn.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_SinePlusRandn.png){width=70% max-width=1000px}
 
 ### Different distributions
 
@@ -245,40 +267,87 @@ $$\sum_{x = -\infty}^\infty w_A(x) = 1$$
 
 * What's different? The distribution type
 
-
-![](figures/01_RandomSignals_figure3_1.png){width=8cm}\
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math;
+x = np.linspace(0, 99, 100);
+s = np.sin(2*math.pi*0.02*x)
+sn = s + np.random.uniform(-1,1,100)
+plt.plot(x,s,x,sn);
+plt.ylim(-3,3)
+plt.xlabel('t');
+plt.ylabel('sin(x)');
+plt.title('Sinusiodal signal  + random noise');
+plt.savefig('fig/01_RandomSignals_SinePlusRand.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_SinePlusRand.png){width=70% max-width=1000px}
 
 
 ### Different distributions
 
 * Clean Image 
 
-
-![](figures/01_RandomSignals_figure4_1.png){width=8cm}\
-
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math, PIL;
+from PIL import Image
+myImage = Image.open("img/TestImageGirl.gif").convert("L");
+im = np.array(myImage)
+plt.imshow(im, cmap='gray', vmin=0, vmax=255)
+plt.savefig('fig/01_RandomSignals_ImageClean.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_ImageClean.png){width=70% max-width=1000px}
 
 ### Different distributions
 
 * Image + noise (normal, $\mu = 0, \sigma^2 = 1$)
 
-
-![](figures/01_RandomSignals_figure5_1.png){width=8cm}\
-
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math, PIL;
+from PIL import Image
+myImage = Image.open("img/TestImageGirl.gif").convert("L");
+im = np.array(myImage)
+sigma = math.sqrt(225);
+imn = im + sigma*np.random.randn(im.shape[0], im.shape[1])
+plt.imshow(imn, cmap='gray', vmin=0, vmax=255)
+plt.savefig('fig/01_RandomSignals_ImageRandn1.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_ImageRandn1.png){width=70% max-width=1000px}
 
 ### Different distributions
 
 * Image + larger noise (normal, $\mu = 0, \sigma^2 = 10$)
 
-
-![](figures/01_RandomSignals_figure6_1.png){width=8cm}\
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math, PIL;
+from PIL import Image
+myImage = Image.open("img/TestImageGirl.gif").convert("L");
+im = np.array(myImage)
+sigma = math.sqrt(1500);
+imn = im + sigma*np.random.randn(im.shape[0], im.shape[1])
+plt.imshow(imn, cmap='gray', vmin=0, vmax=255)
+plt.savefig('fig/01_RandomSignals_ImageRandn2.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_ImageRandn2.png){width=70% max-width=1000px}
 
 
 ### Different distributions
 
 * Image + noise (uniform, $\mathcal{U} [-5, 5]$)
 
-
-![](figures/01_RandomSignals_figure7_1.png){width=8cm}\
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math, PIL;
+from PIL import Image
+myImage = Image.open("img/TestImageGirl.gif").convert("L");
+im = np.array(myImage)
+imn = im + sigma*np.random.uniform(-5, 5, im.shape)
+plt.imshow(imn, cmap='gray', vmin=0, vmax=255)
+plt.savefig('fig/01_RandomSignals_ImageRandUnif.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_ImageRandUnif.png){width=70% max-width=1000px}
 
 
 
@@ -288,8 +357,20 @@ $$\sum_{x = -\infty}^\infty w_A(x) = 1$$
 
 $$w_A(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
 
-
-![](figures/01_RandomSignals_figure8_1.png){width=8cm}\
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math;
+mu = 3;
+sigma = 1;
+x = np.linspace(mu-5*sigma,mu+5*sigma,200);
+pdf = 1/(sigma*math.sqrt(2*math.pi))*np.exp(-(x-mu)**2/(2*sigma**2)); #**
+plt.plot(x,pdf);
+plt.xlabel('x');
+plt.ylabel('fdp(x)');
+plt.title('The normal distribution $\mathcal{N}(\mu=3,\sigma=1)$');
+plt.savefig('fig/01_RandomSignals_DistributionNormal.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_DistributionNormal.png){width=60% max-width=1000px}
 
 
 ### The normal distribution
@@ -320,14 +401,36 @@ with decreasing preference when getting farther from $\mu$
 
 ### Example of values from the normal distribution (mu=0, sigma=1)
 
-
-![](figures/01_RandomSignals_figure9_1.png){width=8cm}\
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math;
+mu = 0;
+sigma = 1;
+x = np.linspace(1, 200, 200)
+v = mu + np.sqrt(sigma)*np.random.randn(200)
+plt.plot(x,v)
+plt.ylim(-5,5)
+plt.title('Sample values from the normal distribution');
+plt.savefig('fig/01_RandomSignals_DistributionNormalSampleValues1.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_DistributionNormalSampleValues1.png){width=70% max-width=1000px}
 
 
 ### Example of values from the normal distribution (mu=2, sigma=4)
 
-
-![](figures/01_RandomSignals_figure10_1.png){width=8cm}\
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math;
+mu = 2;
+sigma = 4;
+x = np.linspace(1, 200, 200)
+v = mu + np.sqrt(sigma)*np.random.randn(200)
+plt.plot(x,v)
+plt.ylim(-5,5)
+plt.title('Sample values from the normal distribution');
+plt.savefig('fig/01_RandomSignals_DistributionNormalSampleValues2.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_DistributionNormalSampleValues2.png){width=70% max-width=1000px}
 
 
 ### The uniform distribution
@@ -340,8 +443,20 @@ $$w_A(x) =
  0, &elsewhere
 \end{cases}$$
 
-
-![](figures/01_RandomSignals_figure11_1.png){width=8cm}\
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np, math
+a = -1
+b = 3
+x = np.linspace(-2, 4, 60)
+pdf = np.hstack( (np.zeros((10)), 1/(b-a)*np.ones((40)),  np.zeros((10))))  #*
+plt.plot(x,pdf)
+plt.xlabel('x')
+plt.ylabel('fdp(x)')
+plt.title('The uniform distribution $\mathcal{U}\;[-1,3]$')
+plt.savefig('fig/01_RandomSignals_DistributionUniform.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
+```
+![](fig/01_RandomSignals_DistributionUniform.png){width=60% max-width=1000px}
 
 
 ### The uniform distribution
@@ -643,21 +758,26 @@ $$w_C(x) = w_A(x) \star w_B(x)$$
 
 ### Realizations of random processes
 
-* A **realization** of the random process = a particular sequence of realizations of the underlying r.v.
-    * e.g. we see a given noise signal on the oscilloscope, but *we could have
-    seen any other realization just as well*
+- A **realization** of the random process = a particular sequence of realizations of the underlying r.v.
 
-* Typically denoted as $f^{(k)}[n]$ or $f^{(k)}(t)$
-   * $k$ indicates the particular realization that we consider
+    - e.g. we see a given noise signal on the oscilloscope, but *we could have seen any other realization just as well*
 
-* When we consider a random process = we consider the set of all possible realizations
+- Typically denoted as $f^{(k)}[n]$ or $f^{(k)}(t)$
+
+   - $k$ indicates the particular realization that we consider
+
+- When we consider a random process = we consider the set of all possible realizations
 
 ### Random process is 2-D
 
-* A random process is a 2-Dimensional thing
-  * $f^{(k)}[n]$ or $f^{(k)}(t)$ depends on two variables:
-    * k = the particular realization
-    * t or n = time
+- A random process is a 2-Dimensional thing
+
+  - $f^{(k)}[n]$ or $f^{(k)}(t)$ depends on two variables:
+  
+    - k = the particular realization
+
+    - t or n = time
+
 
 ### Random process is 2-D
 
@@ -680,9 +800,10 @@ Edited by Tadeusz J. Ulrych, Mauricio D. Sacchi, Volume 36,
 
 ### Two types of averages
 
-* Random processes have two types of averages:
-  * **Statistical** averages = for a given time $t$ or $n$, across all possible realizations
-  * **Temporal** averages = for a given realization $k$, across all time
+- Random processes have two types of averages:
+
+  - **Statistical** averages = for a given time $t$ or $n$, across all possible realizations
+  - **Temporal** averages = for a given realization $k$, across all time
 
 ### Two types of averages
 
@@ -692,33 +813,34 @@ Edited by Tadeusz J. Ulrych, Mauricio D. Sacchi, Volume 36,
 
 ### Distributions of order 1 of random processes
 
-* Every sample $f(t_1)$ from a random process is a random variable
-    * it is described by a **distribution of order 1**
-    * has a CDF $F_1(x;t_1)$
-    * has a PDF $w_1(x;t_1) = \frac{dF_1(x;t_1)}{dx}$
-    * everything depends on the time moment $t_1$
+- Every sample $f(t_1)$ from a random process is a random variable
+    - it is described by a **distribution of order 1**
+    - has a CDF $F_1(x;t_1)$
+    - has a PDF $w_1(x;t_1) = \frac{dF_1(x;t_1)}{dx}$
+    - everything depends on the time moment $t_1$
 
-* The sample at time $t_2$ is a different random variable with **possibly different** functions
-    * has a different CDF $F_1(x;t_2)$
-    * has a different PDF $w_1(x;t_2) = \frac{dF_1(x;t_2)}{dx}$
+- The sample at time $t_2$ is a different random variable with **possibly different** functions
+    - has a different CDF $F_1(x;t_2)$
+    - has a different PDF $w_1(x;t_2) = \frac{dF_1(x;t_2)}{dx}$
 
-* These functions specify how the value of one sample is distributed
+- These functions specify how the value of one sample is distributed
 
-* The index $w_1$ indicates we consider a single random variable (distribution of order 1)
+- The index $w_1$ indicates we consider a single random variable (distribution of order 1)
 
-* Same for discrete-time random processes
+- Same for discrete-time random processes
 
 ### Distributions of order 2
 
-* A pair of random variables $f(t_1)$ and $f(t_2)$ form a system of 2 r.v.
-    * they are described by a **distribution of order 2**
-    * have a joint CDF $F_2(x_i, x_j; t_1, t_2)$
-    * have a joint PDF $w_2(x_i, x_j; t_1, t_2) = \frac{\partial^2 F_2(x_i, x_j;t_1, t_2)}{\partial x_i \partial x_j}$
-    * depend on time moments $t_1$ and $t_2$
+- A pair of random variables $f(t_1)$ and $f(t_2)$ form a system of 2 r.v.
 
-* These functions specify how the pair of values is distributed
+    - they are described by a **distribution of order 2**
+    - have a joint CDF $F_2(x_i, x_j; t_1, t_2)$
+    - have a joint PDF $w_2(x_i, x_j; t_1, t_2) = \frac{\partial^2 F_2(x_i, x_j;t_1, t_2)}{\partial x_i \partial x_j}$
+    - depend on time moments $t_1$ and $t_2$
 
-* Same for discrete-time random processes
+- These functions specify how the pair of values is distributed
+
+- Same for discrete-time random processes
 
 ### Distributions of order n
 
@@ -735,47 +857,49 @@ Edited by Tadeusz J. Ulrych, Mauricio D. Sacchi, Volume 36,
 
 ### Statistical averages
 
-Random processes are characterized using statistical and temporal averages (*moments*)
+Random processes are characterized using **statistical** and **temporal** averages ("moments")
 
 For continuous random processes:
 
-1. Average value
+1. **Average value**
 $$\overline{f(t_1)} = \mu(t_1) = \int_{-\infty}^{\infty} x \cdot w_1(x; t_1) dx$$
 
-2. Average squared value (*valoarea patratica medie*)
+2. **Average squared value** ("valoarea pătratică medie")
 $$\overline{f^2(t_1)} = \int_{-\infty}^{\infty} x^2 \cdot w_1(x; t_1) dx$$
 
 
 ### Statistical averages - variance
-3. Variance (= *varianța*)
+3. **Variance** ("varianța")
 $$\sigma^2(t_1) = \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} = \int_{-\infty}^{\infty} (x-\mu(t_1)^2 \cdot w_1(x; t_1) dx$$
 
-* The variance can be computed as:
-$$\begin{split}
-\sigma^2(t_1) =& \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} \\
-=& \overline{f(t_1)^2 - 2f(t_1)\mu(t_1) + \mu(t_1)^2} \\
-=& \overline{f^2(t_1)} - \mu(t_1)^2
+- Relation between these three:
+    $$\begin{split}
+    \sigma^2(t_1) =& \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} \\
+    =& \overline{f(t_1)^2 - 2f(t_1)\mu(t_1) + \mu(t_1)^2} \\
+    =& \overline{f^2(t_1)} - \mu(t_1)^2
 \end{split}$$
 
-* Note:
-    * these three values are calculated across all realizations, at time $t_1$
-    * they characterize only the sample at time $t_1$
-    * at a different time $t_2$, the r.v. $f(t_2)$ is different so all average values might be different
+- Note:
+    - these three values are calculated across all realizations, at time $t_1$
+    - they characterize only the sample at time $t_1$
+    - at a different time $t_2$, the r.v. $f(t_2)$ is different so all average values might be different
 
 ### Statistical averages - autocorrelation
 
-4. The autocorrelation function
+Statistical averages for a pair of **two samples**:
+
+4. **The autocorrelation function**
 $$R_{ff}(t_1,t_2) = \overline{f(t_1) f(t_2)} = \int_{-\infty}^\infty \int_{-\infty}^\infty x_1 x_2 w_2(x_1, x_2; t_1, t_2) dx_1 dx_2$$
 
-5. The correlation function (for different random processes $f(t)$ and $g(t)$)
+5. **The correlation function** (for different random processes $f(t)$ and $g(t)$)
 $$R_{fg}(t_1,t_2) = \overline{f(t_1) g(t_2)} = \int_{-\infty}^\infty \int_{-\infty}^\infty x_1 y_2 w_2(x_1, y_2; t_1, t_2) dx_1 dy_2$$
 
 * Note:
-    * these functions may have different values for a different pair of values ($t_1$,$t_2$)
+    * these functions may have different values for a different pair of sampels at times ($t_1$,$t_2$)
 
 ### Discrete random processes
 
-For **discrete random processes**, nothing changes (except notation from $f(t)$ to $f[t]$): 
+For **discrete random processes**: integral becomes sum, notation $f(t)$ becomes $f[t]$): 
 
 1. $\overline{f[t_1]} = \mu(t_1) = \sum_{x=-\infty}^{\infty} x \cdot w_1(x; t_1)$
 
@@ -790,43 +914,48 @@ For **discrete random processes**, nothing changes (except notation from $f(t)$ 
 
 ### Temporal averages
 
-* What to do when we only have access to a single realization $f^{(k)}(t)$?
-* Compute values **for a single realization $f^{(k)}(t)$, across all time moments**
-* For continuous random processes:
+- What to do when we only have access to a single realization $f^{(k)}(t)$?
 
-1. Temporal average value
-$$\overline{f^{(k)}(t)} = \mu^{(k)} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t) dt$$
+- Compute values **for a single realization $f^{(k)}(t)$, across all time moments**
 
-2. Temporal average squared value
-$$\overline{[f^{(k)}(t)]^2} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} [f^{(k)}(t)]^2 dt$$
+### Temporal averages
+
+**Temporal** averages for continuous random processes:
+
+1. **Temporal average value**
+    $$\overline{f^{(k)}(t)} = \mu^{(k)} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t) dt$$
+
+2. **Temporal average squared value**
+    $$\overline{[f^{(k)}(t)]^2} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} [f^{(k)}(t)]^2 dt$$
 
 ### Temporal variance
-3. Temporal variance
-$$\sigma^2 = \overline{\left\{ f^{(k)}(t) - \mu^{(k)} \right\}^2} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} (f^{(k)}(t)-\mu^{(k)})^2 dt$$
 
-* The variance can be computed as:
-$$\sigma^2 = \overline{[f^{(k)}(t)]^2} - [\mu^{(k)}]^2$$
+3. **Temporal variance**
+    $$\sigma^2 = \overline{\left\{ f^{(k)}(t) - \mu^{(k)} \right\}^2} = \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} (f^{(k)}(t)-\mu^{(k)})^2 dt$$
 
-* Note:
-    * these values do not depend anymore on time $t$ (integrated)
+- Relation between the three:
+    $$\sigma^2 = \overline{[f^{(k)}(t)]^2} - [\mu^{(k)}]^2$$
+
+- Note:
+    - these values do not depend anymore on time $t$ (integrated)
 
 ### Temporal autocorrelation
 
-4. The temporal autocorrelation function
-$$\begin{split}
-R_{ff}(t_1,t_2) =& \overline{f^{(k)}(t_1 + t) f^{(k)}(t_2+t)} \\
-=& \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t_1+t) f^{(k)}(t_2 + t) dt
-\end{split}$$
+4. The **temporal autocorrelation function**
+    $$\begin{split}
+    R_{ff}(t_1,t_2) =& \overline{f^{(k)}(t_1 + t) f^{(k)}(t_2+t)} \\
+    =& \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t_1+t) f^{(k)}(t_2 + t) dt
+    \end{split}$$
 
-5. The temporal correlation function (for different random processes $f(t)$ and $g(t)$)
-$$\begin{split}
-R_{fg}(t_1,t_2) =& \overline{f^{(k)}(t_1 + t) g^{(k)}(t_2+t)}\\
-=& \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t_1+t) g^{(k)}(t_2 + t) dt
-\end{split}$$
+5. The **temporal correlation function** (for different random processes $f(t)$ and $g(t)$)
+    $$\begin{split}
+    R_{fg}(t_1,t_2) =& \overline{f^{(k)}(t_1 + t) g^{(k)}(t_2+t)}\\
+    =& \lim_{T \to \infty} \frac{1}{2T} \int_{-T}^{T} f^{(k)}(t_1+t) g^{(k)}(t_2 + t) dt
+    \end{split}$$
 
 ### Discrete random processes
 
-For **discrete random processes**, replace $\int$ with $\sum$, $T$ with $N$,
+For **discrete random processes**: replace $\int$ with $\sum$, $T$ with $N$,
 and divide to $2N+1$ instead of $2T$
 
 1. $\overline{f^{(k)}[t]} = \mu^{(k)} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t]$
@@ -838,226 +967,256 @@ and divide to $2N+1$ instead of $2T$
 ### Discrete random processes
 
 4. Temporal autocorrelation:
-$$\begin{split}
-R_{ff}(t_1,t_2) =& \overline{f^{(k)}[t_1 + t] f^{(k)}[t_2+t]} \\
-=& \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t_1+t] f^{(k)}[t_2 + t]
-\end{split}$$
+    $$\begin{split}
+    R_{ff}(t_1,t_2) =& \overline{f^{(k)}[t_1 + t] f^{(k)}[t_2+t]} \\
+    =& \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t_1+t] f^{(k)}[t_2 + t]
+    \end{split}$$
 
 5. Temporal correlation:
-$$\begin{split}
-R_{fg}(t_1,t_2) =& \overline{f^{(k)}[t_1 + t] g^{(k)}[t_2+t]}\\
-=& \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t_1+t] g^{(k)}[t_2 + t]
-\end{split}$$
+    $$\begin{split}
+    R_{fg}(t_1,t_2) =& \overline{f^{(k)}[t_1 + t] g^{(k)}[t_2+t]}\\
+    =& \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t_1+t] g^{(k)}[t_2 + t]
+    \end{split}$$
 
 
 ### Finite length realizations
 
-If the realization is not from time $-\infty$ to $\infty$, but only from a $t_{min}$ to $t_{max}$,
-just use $\int_{t_{min}}^{t_{max}}$ or $\sum_{t_{min}}^{t_{max}}$ for the temporal averages
+- We may have a realization of **finite length** (e.g. a vector with 1000 elements)
 
-* Example: Compute the temporal averages for the finite-length realization 
-$$\{1,-1,2,-2,3,-3,4,-4,5,-5\}$$
+- How do we compute the temporal averages?
+
+- Just use $\int_{t_{min}}^{t_{max}}$ or $\sum_{t_{min}}^{t_{max}}$ instead of $-\infty$ to $\infty$
+
+- Example: Compute the temporal averages (all five) for the finite-length realization:
+  $$\{1,-1,2,-2,3,-3,4,-4,5,-5\}$$
 
 ### Statistical and temporal averages
 
-* Statistical averages are usually the relevant values
-    - but they require to know the distributions 
-* In real life, with unknown signals, we can only measure one realization
+- Statistical averages are usually the ones we want
+
+    - but they require to know the distributions $w(x)$, which is most often unknown
+    
+- In real life, typically we can only measure one realization
+    
     - so we can only compute the temporal values for one realization
-* Fortunately, in many cases they are the same (ergodicity, see later)
+    
+- Fortunately, in many cases statistical and temporal averages **are the same** (ergodicity)
 
 ### Stationary random processes
 
-* All the statistical averages are dependent on the time
-    * i.e. they might be different for a sample at $t_2$
+- Until now, all the statistical averages are dependent on time
+    
+    - i.e. they might be different for a sample at $t_1$ and another at $t_2$
 
-* **Stationary** random process = when all statistical averages
-are **identical if we shift the time origin** (e.g. delay the signal)
+- **Stationary** random process = when all statistical averages are identical if we shift the time origin (e.g. delay the signal)
 
-* Equivalent definition: if all the PDF are identical when shifting the time origin
-$$w_n(x_1,...x_n; t_1,...t_n) = w_n(x_1,...x_n; t_1+\tau,... t_n + \tau)$$
+- Equivalent definition: if all the PDF are identical when shifting the time origin
+    $$w_n(x_1,...x_n; t_1,...t_n) = w_n(x_1,...x_n; t_1+\tau,... t_n + \tau)$$
 
-* Basically, nothing should depend on the time $t$
+- Basically, stationary = **all statistical averages do not depend on time** $t$
 
 ### Strict-sense and wide-sense stationary
 
-* Strictly stationary / strongly stationary / strict-sense stationary:
-    * relation holds for every $n$
-    * average value, average squared value, variance, autocorrelation, and all other higher-order statistics 
+- **Strictly** stationary / **strongly** stationary / **strict-sense** stationary:
+
+    - relation holds for every $n$ (i.e. for distributions of any order)
+    
+    - average value, average squared value, variance, autocorrelation, **and all other** higher-order statistics 
     do not depend on origin of time $t$
 
-* Weakly stationary / wide-sense stationary:
-    * relation holds only for $n=1$ and $n=2$  (the most used)
-    * only average value, average squared value, variance, autocorrelation do not depend 
-    on time $t$, high-order statistics may depend
+- **Weakly** stationary / **wide-sense** stationary:
+    
+    - relation holds only for $n=1$ and $n=2$ (i.e. for distributions of a single sample, and of a pair of samples)
+    
+    - **only** the average value, average squared value, variance, autocorrelation do not depend 
+    on time $t$, but high-order statistics may depend
     
 
 ### Stationary random processes
 
-* Is the Random Process below stationary or non-stationary?
+- Is the Random Process below stationary or non-stationary?
 
 ![](img/RandomProcess_NonStat.png){.id width=60%}
 
-* from: SEX, LIES & STATISTICS, Ned Wright, http://www.astro.ucla.edu/~wright/statistics/
+- from: SEX, LIES & STATISTICS, Ned Wright, http://www.astro.ucla.edu/~wright/statistics/
 
 ### Stationary random processes
 
-* Answer: non-stationary
+- Answer: non-stationary
 
-* You can see that the variance is not the same at all moments of time
+- You can see that the variance is not the same at all moments of time
 
 
 ### Consequences of stationarity
 
-* For $n=1$:
-$$w_1(x_i;t_1) = w_1(x_i; t_2) = w_1(x_i)$$
+- For distributions of a single sample (order $n=1$):
+    $$w_1(x_i;t_1) = w_1(x_i; t_2) = w_1(x_i)$$
 
-* The average value, average squared value, variance 
-of a sample are all **identical** for any time $t$
+- The average value, average squared value, variance 
+of a sample are all **identical at any time $t$**
 $$\overline{f(t)} = constant = \overline{f}, \forall t$$
 $$\overline{f^2(t)} = constant = \overline{f^2}, \forall t$$
 $$\sigma^2(t) = constant = \sigma^2, \forall t$$
 
 ### Consequences of stationarity
 
-* For $n=2$:
+- For distributions of a pair of samples (order $n=2$):
 $$w_2(x_i,x_j;t_1,t_2) = w_2(x_i,x_j;0, t_2-t_1) = w_2(x_i,x_j; t_2-t_1)$$
 
-* The autocorrelation function depends only on the 
+- The autocorrelation & correlation function depend only on the 
 **time difference** $\tau = t_2 - t_1$ between the samples
 $$R_{ff}(t_1,t_2) = R_{ff}(0, t_2 - t_1) = R_{ff}(\tau) = \overline{f(t) f(t + \tau)}$$
 
-* Depends on a single value $\tau$ = time difference of the two samples
+- Depend on a single value $\tau = t_2 - t_1$ = time difference of the two samples
 
 ### Consequences of stationarity
 
-* Definition of autocorrelation function for **stationary** r.p:
-    * the function now depends on $\tau = t_2 - t_1$, instead of $t_1$ and $t_2$
+Definition of autocorrelation function for a **stationary** r.p:
 
-* Statistical autocorrelation: no change
+- Statistical autocorrelation: no change
 
-* Temporal autocorrelation:
-    * for continuous r.p.
+- Temporal autocorrelation:
+    - for continuous r.p.
     $$\begin{split}
     R_{ff}(\tau) =& \overline{f(t) f(t + \tau)} = \lim_{T \to \infty} \frac{1}{T} \int_{-T/2}^{T/2} f^{(k)}(t) f^{(k)}(t + \tau) dt
     \end{split}$$
 
-    * for discrete r.p.
+    - for discrete r.p.
     $$\begin{split}
     R_{ff}(\tau) =& \overline{f(t) f(t + \tau)} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} f^{(k)}[t] f^{(k)}[t + \tau]
     \end{split}$$
     
-    * finite length: limit the integrals / sums to the length of the signal, $\int_{t_{min}}^{t_{max}}$ or $\sum_{t_{min}}^{t_{max}}$
+    - finite length realizations: use $\int_{t_{min}}^{t_{max}}$ or $\sum_{t_{min}}^{t_{max}}$
 
 
 ### Consequences of stationarity
 
-* Same for correlation function between two different r.p
+- For **correlation**, similar to the autocorrelation definition on the previous slide
 
-* Depends only on the **time difference** $\tau = t_2 - t_1$ between the samples
+- Correlation depends only on the **time difference** $\tau = t_2 - t_1$ between the samples
 $$R_{fg}(t_1,t_2) = R_{fg}(0, t_2 - t_1) = R_{fg}(\tau) = \overline{f(t) g(t + \tau)}$$
 
-* Definition is similar to the autocorrelation definition on the previous slide
+
 
 
 ### Interpretation of autocorrelation
 
-- $R_{ff}(\tau)$ = the average value of the product of two samples which are time $\tau$ apart
+- $R_{ff}(\tau) = \overline{f(t) f(t + \tau)}$ = the **average value of the product of two samples which are time $\tau$ apart**
+
     - e.g. tells us if the two samples vary in same direction or not
 
 - Same for correlation, but the samples are taken from different r.p $f$ and $g$
 
+### Interpretation of autocorrelation
+
 - Example:
+
     - $R_{ff}(0.5) > 0$ means two samples separated by $0.5$ seconds tend to vary in same direction
 (both positive, both negative => their product is mostly positive)
+        - knowing one of them, you can "guess" the other one
+
     - $R_{ff}(1) < 0$ means two samples separated by 1 second tend to vary in opposite directions
 (when one is positive, the other is negative => their product is mostly negative)
-    - $R_{ff}(2) = 0$ means two samples separated by 2 seconds are uncorrelated (their product is
-0 on average, so equally positive and negative)
+        - knowing one of them, you can "guess" the other one
+
+    - $R_{ff}(2) = 0$ means two samples separated by 2 seconds are **uncorrelated** (their product is
+0 on average, so the two samples have equal chances of being in the same or opposite directions)
+        - knowing one of them, you **can't** "guess" the other one
 
 ### Ergodic random processes
 
-* In practice, we have access to a single realization
+- In practice, we have access to a single realization
 
-* **Ergodic** random process = if the temporal averages on any realization
-are equal to the statistical averages
+- **Ergodic** random process = if the temporal averages on any realization
+are **equal to the statistical** averages
 
-* Ergodicity means:
-    * We can compute / estimate all averages from a single realization (any)
-        * but the realization must be very long (length $\to \infty$) for precise results
-    * Realizations are all similar to the others, statistically
-        * so a single realization is characteristic of the whole process
+- Ergodicity means:
+
+    - We can compute / estimate all averages from a single realization (any)
+        - but the realization must be very long (length $\to \infty$) for precise results
+        
+    - Realizations are all similar to the others, in terms of averages
+        - so a single realization is characteristic of the whole process
 
 ### Ergodic random processes 
 
-* Most random processes we care about are ergodic and stationary
-    * e.g. voltage noises
+- Most random processes we consider in this course are both ergodic and stationary
+    
+    - e.g. voltage noises
+    
+- Example of **non-ergodic** process:
 
-* Example of non-ergodic process:
-    * throw a dice, then the next 50 values are identical to the first
-    * a single realization is not characteristic
+    - throw a dice, then the next 50 values are identical to the first
+    
+        - a single realization is not characteristic
 
 ### Ergodic random processes 
 
 ![](img/XKCD_random_number.png){.id width=60%}
 
-* from: XKCD (221)
+- XKCD 221  (link here: [https://xkcd.com/221/](https://xkcd.com/221/))
 
-* Consider all numbers which could have been obtained by the "fair dice roll"
+- Consider all numbers which could have been obtained by the "fair dice roll"
 
-* What's the problem here?
-    * stationary or non-stationary?
-    * ergodic or non-ergodic?
+- What's the problem here?
+    - stationary or non-stationary?
+    - ergodic or non-ergodic?
 
 
 ## I.3 More on autocorrelation
 
 ### The Power Spectral Density of a random process
 
-* The Power Spectral Density (PSD) $S_{ff}(\omega)$ is the power of the random process
+- The **Power Spectral Density (PSD)** $S_{ff}(\omega)$ = the power of the random process
 at every frequency $f$ ($\omega = 2 \pi f$)
 
-* The PSD describes how the power of a signal is distributed in frequency 
-    * e.g. some random processes have more power at low frequency, others at high frequency etc.
+- The PSD describes how the power of a signal is distributed in frequency 
 
-* The power in the frequency band $[f_1, f_2]$ is equal to $\int_{f_1}^{f_2} S_{ff}(\omega) d\omega$
+    - e.g. some random processes have more power at low frequency, others at high frequency etc.
 
-* The whole power of the signal is $P = \int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$
+- The power in the frequency band $[f_1, f_2]$ is equal to $\int_{f_1}^{f_2} S_{ff}(\omega) d\omega$
 
-* The PSD is a measurable quantity
-    * it can be determined experimentally
-    * it is important in practical (engineering) applications
+- The whole power of the signal is $P = \int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$
+
+- The PSD is a measurable quantity
+
+    - it can be determined experimentally
+    - it is important in practical (engineering) applications
 
 ### The Wiener-Khinchin theorem
 
-* *Rom: teorema Wiener-Hincin*
+**The Wiener-Khinchin theorem** ("teorema Wiener-Hincin")
 
-Theorem:
+- The Power Spectral Density = **the Fourier transform of the autocorrelation function**
+    $$S_{ff}(\omega) = \int_{-\infty}^{\infty} R_{ff}(\tau) e^{- j \omega \tau} d\tau$$
+    $$R_{ff}(\tau) = \frac{1}{2 \pi}\int_{-\infty}^{\infty} S_{ff}(\omega) e^{j \omega \tau} d\omega$$
 
-* **The Power Spectral Density = the Fourier transform of the autocorrelation function**
-$$S_{ff}(\omega) = \int_{-\infty}^{\infty} R_{ff}(\tau) e^{- j \omega \tau} d\tau$$
-$$R_{ff}(\tau) = \frac{1}{2 \pi}\int_{-\infty}^{\infty} S_{ff}(\omega) e^{j \omega \tau} d\omega$$
+- No proof, too complicated
 
-* No proof
-
-	* Makes a relation between two rather different domains
-    * autocorrelation function: a *statistical* property
-    * PSD function: a *physical* property (relevant for engineering purposes) 
+- Notes:
+	- Makes a relation between two rather different domains
+    - autocorrelation function: a *statistical* property
+    - PSD function: a *physical* property (relevant for engineering purposes) 
 
 ### White noise
 
-* **White noise** = a random process with autocorrelation function equal to a Dirac function
-$$R_{ff}(\tau) = \delta(\tau)$$
+- **White noise** = a random process with **autocorrelation function equal to a Dirac** function
+    $$R_{ff}(\tau) = \delta(\tau)$$
 
     - is a random process: every sample of white noise is a random variable
     - autocorrelation is a Dirac: autocorrelation is 0 for any $\tau \neq 0$ 
     - any two different samples ($\tau \neq 0$) have zero correlation (are uncorrelated)
         - values of any two different samples are not related
+
+### White noise
     
-* Power spectral density of white noise = Fourier transform of a Dirac = a constant $\forall \omega$
+- Power spectral density of white noise = Fourier transform of a Dirac = a constant = does not depend on $\omega$
+    $$S_{ff}(\omega) = constant, \forall \omega $$
+   
     - equal distribution of power at all frequencies up to $\infty$
 
-* White noise can have any distribution (normal, uniform etc.)
+- White noise can have **any distribution** (normal, uniform etc.)
+
     - the term "white noise" doesn't refer to the distribution of sample values,
     but to the fact that all samples are unrelated to each other
 
@@ -1065,27 +1224,35 @@ $$R_{ff}(\tau) = \delta(\tau)$$
 ### Band-limited white noise
 
 * In real life, power spectral density goes to 0 at very high frequencies
+
     - because total power $P = \int_{-\infty}^{\infty} S_{ff}{\omega}$ cannot be infinite
+    
     - known as "*band-limited white noise*"
 
 * In this case, autocorrelation = approximately a Dirac, but not infinitely thin
+
     - samples which are very close are necessarily a bit correlated
+    
     - e.g. due to small parasitic capacities
 
 ### AWGN
 
 - **AWGN** = Additive White Gaussian Noise
+
     - is the usual type of noise considered in applications
 
 - It means:
+
     - additive: the noise is added to the original signal (e.g. not multiplied with it)
+    
     - gaussian: the samples have normal distribution
+    
     - white: the samples are uncorrelated (unrelated) with each other
 
 
-### 2018-2019 Exam
+### 2020-2021 Exam
 
-- Chapter 1 ends here for 2018-2019 exam. Following slides not needed.
+- Chapter 1 ends here for 2020-2021 exam. Following slides not needed.
 
 ### Properties of the autocorrelation function
 
@@ -1179,48 +1346,50 @@ $$S_{yy}(\omega) = S_{xx}(\omega) \cdot |H(\omega)|^2$$
     * Small values when they don't match
     
 ### The signal to look for
-
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np
+x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
+x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))
+corr = np.correlate(x2, x1)
+plt.figure(figsize=(12,6))
+plt.stem(x1); plt.title ('Signal to look for');plt.axis([0, 20, -1.5, 1.5])
+plt.savefig('fig/01_RandomSignals_CorrSearch_Pattern.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
 ```
-/home/ncleju/.local/bin/pweave:6: UserWarning: In Matplotlib 3.3
-individual lines on a stem plot will be added as a LineCollection
-instead of individual lines. This significantly improves the
-performance of a stem plot. To remove this warning and switch to the
-new behaviour, set the "use_line_collection" keyword argument to True.
-  from pweave.scripts import weave
-```
+![](fig/01_RandomSignals_CorrSearch_Pattern.png){width=70% max-width=1000px}
 
-![](figures/01_RandomSignals_figure12_1.png)\
 
 
 
 ### The complete signal
 
-
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np
+x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
+x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))
+corr = np.correlate(x2, x1)
+plt.figure(figsize=(12,6))
+plt.stem(x2); plt.title ('Signal to search in');
+plt.savefig('fig/01_RandomSignals_CorrSearch_CompleteSignal.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
 ```
-/home/ncleju/.local/bin/pweave:6: UserWarning: In Matplotlib 3.3
-individual lines on a stem plot will be added as a LineCollection
-instead of individual lines. This significantly improves the
-performance of a stem plot. To remove this warning and switch to the
-new behaviour, set the "use_line_collection" keyword argument to True.
-  from pweave.scripts import weave
-```
-
-![](figures/01_RandomSignals_figure13_1.png)\
+![](fig/01_RandomSignals_CorrSearch_CompleteSignal.png){width=70% max-width=1000px}
 
 
 ### Correlation result
 
-
+```{.python .cb.run session=plot}
+import matplotlib.pyplot as plt, numpy as np
+x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
+x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))
+corr = np.correlate(x2, x1)
+plt.figure(figsize=(12,6))
+plt.stem(corr); plt.title ('Correlation signal');
+plt.savefig('fig/01_RandomSignals_CorrSearch_Result.png', transparent=True, bbox_inches='tight', dpi=300)
+plt.close()
 ```
-/home/ncleju/.local/bin/pweave:6: UserWarning: In Matplotlib 3.3
-individual lines on a stem plot will be added as a LineCollection
-instead of individual lines. This significantly improves the
-performance of a stem plot. To remove this warning and switch to the
-new behaviour, set the "use_line_collection" keyword argument to True.
-  from pweave.scripts import weave
-```
+![](fig/01_RandomSignals_CorrSearch_Result.png){width=70% max-width=1000px}
 
-![](figures/01_RandomSignals_figure14_1.png)\
 
 
 ### System identification
