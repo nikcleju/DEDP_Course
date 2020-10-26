@@ -1165,14 +1165,13 @@ are **equal to the statistical** averages
 
 ## I.3 More on autocorrelation
 
-### The Power Spectral Density of a random process
+### The Power Spectral Density of a signal
 
-- The **Power Spectral Density (PSD)** $S_{ff}(\omega)$ = the power of the random process
-at every frequency $f$ ($\omega = 2 \pi f$)
+- The **Power Spectral Density (PSD)** $S_{ff}(\omega)$ = a function indicating the power of the signal
+depending on the frequency $f$ ($\omega = 2 \pi f$)
 
-- The PSD describes how the power of a signal is distributed in frequency 
-
-    - e.g. some random processes have more power at low frequency, others at high frequency etc.
+- For a **deterministic** signal (i.e. non-random), it is given by the modulus of the Fourier transform (squared):
+    $$S_{ff}(\omega) = |F(\omega)|^2$$
 
 - The power in the frequency band $[f_1, f_2]$ is equal to $\int_{f_1}^{f_2} S_{ff}(\omega) d\omega$
 
@@ -1183,20 +1182,34 @@ at every frequency $f$ ($\omega = 2 \pi f$)
     - it can be determined experimentally
     - it is important in practical (engineering) applications
 
+
+### The Power Spectral Density of a random process
+
+- How about for a random process?
+    - we don't have one signal, we have an infinite number of possible realizations
+    - we have a (different) Fourier transform for each possible realization
+    - the PSD for every realization is, itself, a random process
+
+- The **PSD of a random process** = the average value of the PSD for all the realizations
+
+- Has the same meaning and use as for a deterministic signal, but **in average** across
+all possible realizations
+    - for a particular realization, the values vary around the average
+
 ### The Wiener-Khinchin theorem
 
 **The Wiener-Khinchin theorem** ("teorema Wiener-Hincin")
 
-- The Power Spectral Density = **the Fourier transform of the autocorrelation function**
+- The Power Spectral Density of a random process = **the Fourier transform of the autocorrelation function**
     $$S_{ff}(\omega) = \int_{-\infty}^{\infty} R_{ff}(\tau) e^{- j \omega \tau} d\tau$$
     $$R_{ff}(\tau) = \frac{1}{2 \pi}\int_{-\infty}^{\infty} S_{ff}(\omega) e^{j \omega \tau} d\omega$$
 
-- No proof, too complicated
+- No proof
 
 - Notes:
-	- Makes a relation between two rather different domains
-    - autocorrelation function: a *statistical* property
-    - PSD function: a *physical* property (relevant for engineering purposes) 
+	- Makes a relation between two rather different domains:
+    1. The autocorrelation function: a *statistical* property
+    2. The PSD function: a *physical* property (relevant for engineering purposes) 
 
 ### White noise
 
@@ -1210,7 +1223,7 @@ at every frequency $f$ ($\omega = 2 \pi f$)
 
 ### White noise
     
-- Power spectral density of white noise = Fourier transform of a Dirac = a constant = does not depend on $\omega$
+- Power spectral density of white noise = Fourier transform of a Dirac = **a constant** = does not depend on $\omega$
     $$S_{ff}(\omega) = constant, \forall \omega $$
    
     - equal distribution of power at all frequencies up to $\infty$
@@ -1223,13 +1236,13 @@ at every frequency $f$ ($\omega = 2 \pi f$)
 
 ### Band-limited white noise
 
-* In real life, power spectral density goes to 0 at very high frequencies
+- In real life, power spectral density goes to 0 at very high frequencies
 
     - because total power $P = \int_{-\infty}^{\infty} S_{ff}{\omega}$ cannot be infinite
     
-    - known as "*band-limited white noise*"
+    - known as "**band-limited white noise**"
 
-* In this case, autocorrelation = approximately a Dirac, but not infinitely thin
+- In this case, autocorrelation = **approximately** a Dirac, but not infinitely thin
 
     - samples which are very close are necessarily a bit correlated
     
@@ -1245,9 +1258,11 @@ at every frequency $f$ ($\omega = 2 \pi f$)
 
     - additive: the noise is added to the original signal (e.g. not multiplied with it)
     
-    - gaussian: the samples have normal distribution
-    
     - white: the samples are uncorrelated (unrelated) with each other
+    
+    - gaussian: the samples have normal distribution
+       
+    - noise: it is a random process, every sample is random, every realization is different
 
 
 ### 2020-2021 Exam
@@ -1346,6 +1361,7 @@ $$S_{yy}(\omega) = S_{xx}(\omega) \cdot |H(\omega)|^2$$
     * Small values when they don't match
     
 ### The signal to look for
+
 ```{.python .cb.run session=plot}
 import matplotlib.pyplot as plt, numpy as np
 x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
