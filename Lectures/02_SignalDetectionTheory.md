@@ -267,9 +267,18 @@ The signal is affected by noise $\mathcal{N}(\mu=0, \sigma^2 = 2)$.
     - discuss the decision taken for different values of $r$
     - discuss the choice of the threshold value $T$ for taking decisions
 
+### Example: Trees
+
+From what tree did the leaf fall?
+
+![](img/ML_Trees.png){#id .class width=60%}
 
 
+### Example: Trees
 
+Pick the tree with the **highest likelihood**:
+
+![](img/ML_Trees2.png)
 
 
 ### Gaussian noise (AWGN)
@@ -283,10 +292,8 @@ The signal is affected by noise $\mathcal{N}(\mu=0, \sigma^2 = 2)$.
     - logarithm is a monotonic increasing function, so it won't change the comparison
     - if $A < B$, then $\log(A) < \log(B)$
 
-- The **log-likelihood** of an observation = the logarithm of the likelihood value
-    - usually the natural logarithm, but any one can be used
 
-### Log-likelihood test for ML
+### Log-likelihood ratio test for ML
 
 - Applying natural logarithm to both sides leads to:
 $$-(r-s_1(t_0))^2 + (r-s_0(t_0))^2 \grtlessH 0$$
@@ -294,10 +301,10 @@ $$-(r-s_1(t_0))^2 + (r-s_0(t_0))^2 \grtlessH 0$$
 - Which means
 $$|r-s_0(t_0)| \grtlessH |r - s_1(t_0)|$$
 
-- Note that $|r-A|$ = distance from $r$ to $A$
+- Note that $|r-A|$ = **distance** from $r$ to $A$
     - $|r|$ = distance from $r$ to $0$
 
-- So we choose the smallest distance between $r(t_0)$ and $s_1(t_0)$ vs $s_0(t_0)$
+- So we choose the **smallest distance** between $r(t_0)$ and $s_1(t_0)$ vs $s_0(t_0)$
 
 ### Maximum Likelihood for gaussian noise
 
@@ -311,6 +318,7 @@ $s_0(t_0)$ or $s_1(t_0)$ is **nearest** to our observed sample $r = r(t_0)$
 ### Steps for ML decision
 
 1. Sketch the two conditional distributions $w(r|H_0)$ and $w(r|H_1)$
+
 2. Find out which function is higher at the observed value $r = r(t_0)$ given.
 
 ### Steps for ML decision in case of gaussian noise
@@ -319,20 +327,22 @@ $s_0(t_0)$ or $s_1(t_0)$ is **nearest** to our observed sample $r = r(t_0)$
 
     1. Find $s_0(t_0)$ = the value of the original signal, in absence of noise, in case of hypothesis $H_0$
     2. Find $s_1(t_0)$ = the value of the original signal, in absence of noise, in case of hypothesis $H_1$
-    3. Compare with observed sample $r(t_0)$ and choose the nearest
+    3. Compare with observed sample $r(t_0)$ and choose **the nearest**
 
 ### Thresholding based decision
 
-- Choosing the nearest value = same thing as comparing $r$ with a threshold $T = \frac{s_0(t_0) + s_1(t_0)}{2}$
+- Choosing the nearest value = same thing as **comparing $r$ with a threshold** $T = \frac{s_0(t_0) + s_1(t_0)}{2}$
+
     - i.e. if the two values are 0 and 5, decide by comparing with 2.5 (like in laboratory)
  
-- In general, the threshold = the cross-over point between the conditioned distributions
+- For the **ML criterion**, the threshold = the **cross-over point** between the conditioned distributions
 
 ### Exercise
 
 - A signal can have two possible values, $0$ or $5$. 
 The signal is affected by white gaussian noise $\mathcal{N}\;(\mu=0, \sigma^2=2)$.
-The receiver takes one sample with value $r = 2.25$
+The receiver takes one sample with value $r = 2.25$.
+
     a. Write the expressions of the conditional probabilities and sketch them 
     a. What is the decision based on the Maximum Likelihood criterion?
     b. What if the signal $0$ is affected by gaussian noise $\mathcal{N}(0, 0.5)$,
@@ -353,53 +363,39 @@ The receiver takes one sample with value $r = 2.25$
 
 ### The likelihood function
 
-- Call the hypotheses, generically, $H_i$, and the signals $s_i(t)$, where $i$ is either 0 or 1
+- The subtle distinction in terms: "probability" vs "likelihood"
 
-- Consider the conditional distribution $w(r | H_i)$
-    - think of the function in the previous example, e.g.:
-$$w(r | H_i) = \frac{1}{\sigma \sqrt{2 \pi}}e^{-\frac{(r - s_i(t_0))^2}{2\sigma^2}}$$
+- Consider the conditional distribution $w(r | H_i)$ in the previous example:
+
+    $$\frac{1}{\sigma \sqrt{2 \pi}}e^{-\frac{(r - s_i(t_0))^2}{2\sigma^2}}$$
 
 - Which is the unknown in this function?
-    - not $r$, since it is actually given in the exercise
-    - $i$ is the unknown variable
+
+    - in general, the unknown is $r$
+    - but for our decision problem it is $i$, and $r$ is known
 
 
 ### Terminology: probability vs likelihood
 
 - In the same mathematical expression of a distribution function:
+
     - if we know the parameters (e.g. $\mu$, $\sigma$, $H_i$), and the unknown is the value (e.g. $r$, $x$)
 we call it **probability density function** (distribution)
-    - if we know value (e.g. $r$, $x$), and the unknown is some statistical parameter (e.g. $\mu$, $\sigma$, $i$),
-we call it a **likelihood function**
 
-- Hence the subtle distinction in terms: "probability" vs "likelihood"
-
-### The likelihood function
-
-- The function $w(r | H_i)$ = $f(i)$ is a likelihood function
-    - the unknown is $i$
-
-- The function exists only in 2 points, for $i = 0$ and $i = 1$
-    - or, in general, for $i$ = how many hypotheses exist in the problem
-
-- ML criterion = choose the $i$ for which this function is maximum
-$$Decision \;\; D_i = \arg\max_i w(r | H_i)$$
-    - Notation:
-        - $\arg\max f(x)$ = the $x$ for which the function $f(x)$ is maximum
-        - $\max f(x)$ = the maximum value of the function $f(x)$
-        - see graphical explanation at blackvoard
-
-- Maximum Likelihood criterion means "choose the $i$ which maximizes the likelihood function $f(i) = w(r|H_i)$"
+    - if we know value (e.g. $r$, $x$), and the unknown is some statistical parameter (e.g. $\mu$, $\sigma$, $i$), we call it a **likelihood function**
+ 
 
 
 ### Generalizations
 
 - What if the noise has another distribution?
+
     - Sketch the conditional distributions
     - Locate the given $r = r(t_0)$
     - ML criterion = choose the highest function $w(r|H_i)$ in that point
 
-- The decision regions are defined by the cross-over points 
+- The decision regions are defined by the **cross-over points** 
+
     - There can be more cross-overs, so multiple thresholds
 
 ### Generalizations
@@ -409,33 +405,44 @@ $$Decision \;\; D_i = \arg\max_i w(r | H_i)$$
 - Same thing:
     - Sketch the conditional distributions
     - Locate the given $r = r(t_0)$
-    - ML decision = choose the highest function $w(r|H_i)$ in that point
+    - ML decision = choose **the highest function** $w(r|H_i)$ in that point
 
 ### Generalizations
 
 - What if the two signals $s_0(t)$ and $s_1(t)$ are constant / not constant?
 
-- We don't care about the shape of the signals
-    - All we care about are the two values at the sample time $t_0$: 
-        - $s_0(t_0)$
-        - $s_1(t_0)$
+- We **don't care about the shape** of the signals
+
+- All we care about are **the two values at the sample time $t_0$**: 
+    - $s_0(t_0)$
+    - $s_1(t_0)$
 
 ### Generalizations
 
 - What if we have more than two hypotheses?
 
 - Extend to $n$ hypotheses
+
     - We have $n$ possible signals $s_0(t)$, ... $s_{n-1}(t)$
+    
     - We have $n$ different values $s_0(t_0)$, ... $s_{n-1}(t_0)$
+    
     - We have $n$ conditional distributions $w(r|H_i)$
-    - For the given $r = r(t_0)$, choose the maximum value
-out of the $n$ values $w(r|H_i)$
+    
+    - We **choose the highest function** $w(r|H_i)$ in the point $r = r(t_0)$
 
 ### Generalizations
 
 - What if we take more than 1 sample?
 
 - Patience, we'll treat this later as a separate sub-chapter
+
+
+### Multiple separate detection 
+
+- In a communications setup, each detection/decision reads 1 bit
+
+- We have a different detection for the next bit, and so on
 
 ### Exercise
 
@@ -451,6 +458,7 @@ $$4,\; 6.6,\; -5.2,\; 1.1,\; 0.3,\; -1.5,\; 7,\; -7,\; 4.4$$
 - We compute the **conditional probabilities** of the 4 possible outcomes
 
 - Consider the decision regions:
+
     - $R_0$: when $r \in R_0$, decision is $D_0$
     - $R_1$: when $r \in R_1$, decision is $D_1$
     
@@ -481,8 +489,11 @@ $$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
 ### Conditional probabilities
 
 - Relation between them:
-    - sum of correct rejection + false alarm = 1
-    - sum of miss + correct detection  = 1
+
+    - $P(D_0 | H_0) + P(D_1 | H_0) = 1$ (correct rejection + false alarm)
+    
+    - $P(D_0 | H_1) + P(D_1 | H_1) = 1$ (miss + correct detection)
+    
     - Why? Prove this.
 
 ### Computing conditional probabilities
@@ -496,24 +507,31 @@ $$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
 
 - Conditional probabilities are computed **given that** one or the other hypothesis is true
 
-- They do not account for the probabilities *of the hypotheses themselves*
+- They do not account for the probabilities **of the hypotheses themselves**
+
     - i.e. $P(H_0)$ = how many times does $H_0$ happen?
     - $P(H_1)$ = how many times does $H_1$ happen?
 
 - To account for these, multiply with $P(H_0)$ or $P(H_1)$
+
     - $P(H_0)$ and $P(H_1)$ are known as the **prior** (or **a priori**) probabilities of the hypotheses
 
 ### Reminder: the Bayes rule
 
-- Reminder: the Bayes rule
+- Reminder: **the Bayes rule**
 $$P(A \cap B) = P(B | A) \cdot P(A)$$
 
-- Interpretation
+- Interpretation:
+
     - The probability $P(A)$ is taken out from $P(B|A)$
-    - $P(B|A)$ gives no information  on $P(A)$, the chances of $A$ actually happening
+    
+    - $P(B|A)$ gives no information on $P(A)$, the chances of $A$ actually happening
+    
     - Example: P(score | shoot) = $\frac{1}{2}$. How many goals are scored?
 
-- In our case: $P(D_i \cap H_j) = P(D_i | H_j) \cdot P(H_j)$
+- In our case: 
+    $$P(D_i \cap H_j) = P(D_i | H_j) \cdot P(H_j)$$
+
     - for all $i$ and $j$, i.e. all 4 cases
 
 ### Exercise
@@ -521,6 +539,7 @@ $$P(A \cap B) = P(B | A) \cdot P(A)$$
 - A constant signal can have two possible values, $-2$ or $5$. 
 The signal is affected by gaussian noise $\mathcal{N}(\mu=0, \sigma^2=2)$.
 The receiver performs ML decision based on a single sample.
+
     a. Compute the conditional probability of a false alarm
     b. Compute the conditional probability of a miss
     c. If $P(H_0) = \frac{1}{3}$ and $P(H_1) = \frac{2}{3}$, compute the actual probabilities 
@@ -529,18 +548,25 @@ The receiver performs ML decision based on a single sample.
 ### Pitfalls of ML decision criterion
 
 - The ML criterion is based on comparing **conditional** distributions
+
     - conditioned by $H_0$ or by $H_1$
 
-- Conditioning by $H_0$ and $H_1$ ignores the prior probabilities of $H_0$ or $H_1$
+- Conditioning by $H_0$ and $H_1$ **ignores the prior probabilities of $H_0$ or $H_1$**
+
     - Our decision doesn't change if we know that $P(H_0) = 99.99\%$ and $P(H_1) = 0.01\%$,
 or vice-versa
 
 - But if $P(H_0) > P(H_1)$, we may want to move the threshold towards $H_1$, and vice-versa
+
     - because it is more likely that the true signal is $s_0(t)$
     - and thus we want to "encourage" decision $D_0$ 
 
 - Looks like we want a more general criterion ...
 
+
+### Example: Football fields
+
+TODO
 
 
 ### The minimum error probability criterion
