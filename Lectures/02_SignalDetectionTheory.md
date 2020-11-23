@@ -803,6 +803,7 @@ $$r \grtlessH \underbrace{\frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_
 
 - **Neyman-Pearson criterion**: maximize probability of correct detection ($P(D_1 \cap H_1)$)
 while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0) \leq \lambda)$
+
     - Deduce the threshold $T$ from the limit condition $P(D_1 \cap H_0) = \lambda$
     
 - ML, MPE and MR criteria are particular cases of Neyman-Pearson, for particular values of $\lambda$
@@ -813,6 +814,7 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
 - The messages are encoded as constant signals with values $-5$ ($a_0$) and $5$ ($a_1$).
 - The signals are affected by noise with uniform distribution $U [-5,5]$.
 - The receiver takes one sample $r$.
+
     a. Find the decision regions according to the Neymar-Pearson criterion, considering $P_{fa} \leq 10^{-2}$
     b. What is the probability of correct detection, in this case?
 
@@ -839,6 +841,7 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
 - For differential signal: $P = \left( \pm \frac{A}{2} \right)^2 = \frac{A^2}{4}$
 
 - For signal ended signal: $P = P(H_0) \cdot 0 + P(H_1) \left( A \right)^2 = \frac{A^2}{2}$
+
     - assuming equal probabilities $P(H_0) = P(H_1) = \frac{1}{2}$
 
 - Differential uses half the power of single-ended (i.e. better), for same decision performance
@@ -848,16 +851,17 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
 - We have seen decision based on 1 sample $r$, between 2 signals (mostly)
 
 - All decisions are based on a likelihood-ratio test
-$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
+    $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
 
 - Different criteria differ in the chosen value of $K$ (likelihood threshold)
 
 - Depending on the noise distributions, the real axis is partitioned into regions
+
     - region $R_0$: if $r$ is in here, decide $D_0$
     - region $R_1$: if $r$ is in here, decide $D_1$
 
 - For gaussian noise, the boundary of the regions (threshold) is 
-$$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(K \right)$$
+    $$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(K \right)$$
 
 
 ### Receiver Operating Characteristic
@@ -865,6 +869,7 @@ $$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot
 - The receiver performance is usually represented with **"Receiver Operating Characteristic" (ROC)** graph
 
 - It is a graph of $P_d = P(D_1 | H_1)$ as a function of $P_{fa} = P(D_1 | H_0)$,
+
     - obtained for different values of the threshold value $T$
     - i.e. for every $T$ you get a certain value of $P_{fa}$ and a certain value of $P_d$
 
@@ -875,20 +880,65 @@ $$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot
 ### Receiver Operating Characteristic
 
 - It shows there is always a **tradeoff** between good $P_d$ and bad $P_{fa}$
-    - to increase $P_d$ one must also increase $P_{fa}$
-    - if we want to make sure we don't miss any real detections (increase P_d), we pay by increasing
+
+  - to increase $P_d$ one must also increase $P_{fa}$
+  - if we want to make sure we don't miss any real detections (increase P_d), we pay by increasing
     the chances of false alarms
     
 - Different criteria = different likelihood thresholds $K$  = different points on the graph
  = different tradeoffs
-     - but the tradeoff cannot be avoided
+ 
+  - but the tradeoff cannot be avoided
+     
+- An overall performance measure is the total **Area Under the Curve** (AUC)
+  
+  - overall performance of the detection method, irrespective of a certain threshold
 
-- How to improve the receiver?
-    - i.e. increase $P_D$ while keeping $P_{fa}$ the same
+### The Precision-Recall curve
 
-### 2018-2018 Exam
+- A similar curve is the **Precision vs. Recall** curve
 
-- 2018-2019 Exam: Skip next 3 slides (until Signal-to-noise ratio)
+- **Precision** = $\frac{P(D_1 \cap H_1)}{P(D_1 \cap H_1) + P(D_1 \cap H_0)}$
+    
+  - = True Positives  / (True Positives + False Positives)
+
+- **Recall** = $\frac{P(D_1 \cap H_1)}{P(D_1 \cap H_1) + P(D_0 \cap H_1)} = P(D_1 | H_1)$
+
+  - = True Positives  / (True Positives + False Negatives)
+
+### Precision-Recall curve
+
+Example of a Precision vs Recall Curve
+
+![Precision-Recall curve from a real life app](img/PrecVsRecallExample.png){width=60%}
+
+### Precision-Recall curve
+
+Real-life app from which the preceding curve was taken:
+
+![Real-life app: detecting cars on the street](img/CO_C5_CAM4.jpg)
+
+
+### Signal-to-Noise Ratio
+
+- How to improve the detection performance?
+
+  - i.e. increase $P_D$ while keeping $P_{fa}$ the same
+  
+  - irrespective of what threshold is chosen
+
+- Two solutions:
+   
+  - Increase the seperation between $s_0(t)$ and $s_1(t)$ (increase **signal power**)
+  
+  - Reduce the noise (decrease **noise power**)
+  
+  - i.e. increase **Signal-to-Noise ratio**
+
+
+### 2020-2021 Exam
+
+- 2020-2021 Exam: Skip next 3 slides (until Signal-to-noise ratio)
 
 ### Performance of likelihood-ratio decoding in AWGN
 
@@ -987,8 +1037,10 @@ Example (purely imaginary):
 
  - A healthy person of weight = X kg has the concentration of thrombocytes per ml of blood
    distributed approximately as $\mathcal{N} \; (\mu=10 \cdot X, \sigma^2 = 20)$.
+   
 - A person suffering from disease D has a much lower value of thrombocytes,
     distributed approximately as $\mathcal{N} \; (100, \sigma^2=10)$.
+    
 - The lab measures your blood and finds your value equal to $r = 255$. Your weight is 70 kg.
 - Decide: are you most likely healthy, or ill?
 
@@ -998,30 +1050,37 @@ Example (purely imaginary):
 ### Multiple samples from a signal
 
 - The overall context stays the same:
-    - A signal $s(t)$ is transmitted
-    - There are **two hypotheses**:
-        - $H_0$: true signal is $s(t) = s_0(t)$
-        - $H_1$: true signal is $s(t) = s_1(t)$
-    - Receiver can take **two decisions**:
-        - $D_0$: receiver decides that signal was $s(t) = s_0(t)$
-        - $D_1$: receiver decides that signal was $s(t) = s_1(t)$
-    - There 4 possible outcomes 
+
+  - A signal $s(t)$ is transmitted
+  - There are **two hypotheses**:
+  
+    - $H_0$: true signal is $s(t) = s_0(t)$
+    - $H_1$: true signal is $s(t) = s_1(t)$
+  
+  - Receiver can take **two decisions**:
+    - $D_0$: receiver decides that signal was $s(t) = s_0(t)$
+    - $D_1$: receiver decides that signal was $s(t) = s_1(t)$
+
+  - There 4 possible outcomes 
 
 ### Multiple samples from a signal
 
 - The overall context stays the same:
-    - There is noise on the channel (unknown)
-    - The receiver receives $r(t) = s(t) + n(t)$
+
+  - There is noise on the channel (unknown)
+  - The receiver receives $r(t) = s(t) + n(t)$
 
 - Suppose we take N samples from $r(t)$, not just 1
-    - Each sample is $r_i = r(t_i)$, taken at moment $t_i$
+
+  - Each sample is $r_i = r(t_i)$, taken at moment $t_i$
 
 - The samples are arranged in a **sample vector**
-$$\vec{r} = [r_1, r_2, ... r_N]$$
+  $$\vec{r} = [r_1, r_2, ... r_N]$$
 
 ### Multiple samples from a signal
 
 - Each sample $r_i$ is a **random variable**
+
     - since $r(t_i) = s(t_i) + n(t_i)$ = a constant + a random variable
 
 - The sample vector $\vec{r}$ is a set of $N$ random variables from a random process
@@ -1030,26 +1089,28 @@ $$\vec{r} = [r_1, r_2, ... r_N]$$
 the values of $\vec{r}$ are described by the **distributions of order $N$**
 
 - In hypothesis $H_0$: 
-$$w_N(\vec{r} | H_0) = w_N(r_1, r_2, ...r_N | H_0)$$
+    $$w_N(\vec{r} | H_0) = w_N(r_1, r_2, ...r_N | H_0)$$
 
 - In hypothesis $H_1$: 
-$$w_N(\vec{r} | H_1) = w_N(r_1, r_2, ...r_N | H_1)$$
+    $$w_N(\vec{r} | H_1) = w_N(r_1, r_2, ...r_N | H_1)$$
 
 
 ### Likelihood of vector samples
 
 - We can apply **the same criteria** based on likelihood ratio as 
 for 1 sample
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} \grtlessH K$$
+    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} \grtlessH K$$
 
-- Notes
-    - $\vec{r}$ is a vector; we consider the likelihood of all the sample vector as a whole
-    - $w_N(\vec{r} | H_0)$ = likelihood of the whole vector $\vec{r}$ being obtained in hypothesis $H_0$
-    - $w_N(\vec{r} | H_1)$ = likelihood of the whole vector $\vec{r}$ being obtained in hypothesis $H_1$
-    - the value of $K$ is given by the actual decision criterion used
+- Notes:
+
+  - $\vec{r}$ is a vector; we consider the likelihood of all the sample vector as a whole
+  - $w_N(\vec{r} | H_0)$ = likelihood of the whole vector $\vec{r}$ being obtained in hypothesis $H_0$
+  - $w_N(\vec{r} | H_1)$ = likelihood of the whole vector $\vec{r}$ being obtained in hypothesis $H_1$
+  - the value of $K$ is given by the actual decision criterion used
 
 - Interpretation: we choose the hypothesis that is most likely to have produced the observed data
-    - now the data = a set of samples, not just 1
+
+  - now the data = a set of samples, not just 1
     
 ### Separation 
 
@@ -1058,18 +1119,21 @@ and therefore the samples $r_i$ are independent
 
 - In that case the joint distribution $w_N(\vec{r} | H_i)$ can be decomposed 
 as a **product of individual distributions**:
-$$w_N(\vec{r} | H_i) = w(r_1|H_i) \cdot w(r_2|H_i) \cdot ... \cdot w(r_N|H_i)$$
+    
+    $$w_N(\vec{r} | H_i) = w(r_1|H_i) \cdot w(r_2|H_i) \cdot ... \cdot w(r_N|H_i)$$
+    
     - e.g. the likelihood of obtaining $[5.1, 4.7, 4.9]$ = likelihood of obtaining $5.1$ $\times$
     likelihood of getting $4.7$ $\times$ likelihood of getting $4.9$
 
 - The $w(r_i|H_i)$ are just conditional distributions for each sample
+    
     - we've seen them already
 
 ### Separation 
 
 - Then all likelihood ratio criteria can be written as:
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
-\frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
+    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
+    \frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
 
 - The likelihood ratio of a vector of samples = product of likelihood ratio for each sample
 
@@ -1079,10 +1143,11 @@ criteria for the end result
 ### Criteria for decisions
 
 - All likelihood ratio criteria can be written as:
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
-\frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
+    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
+    \frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
 
 - The value of $K$ is the same as for 1 sample:
+
     - for ML: $K=1$
     - for MPE: $K=\frac{P(H_0)}{P(H_1)}$
     - for MR: $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
@@ -1095,23 +1160,25 @@ $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)} 
 - In hypothesis $H_0$: $w(r_i|H_0) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - s_1(t_i))^2}{2 \sigma^2}}$
 
 - Likelihood ratio for vector $\vec{r}$
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s_1(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i - s_0(t_i))^2}{2 \sigma^2}}} = e^{\frac{\sum (r_i - s_0(t_i))^2 - \sum (r_i - s_1(t_i))^2}{2 \sigma^2}}$$
+    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s_1(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i - s_0(t_i))^2}{2 \sigma^2}}} = e^{\frac{\sum (r_i - s_0(t_i))^2 - \sum (r_i - s_1(t_i))^2}{2 \sigma^2}}$$
 
 ### Decision criteria for AWGN
 
 - The global likelihood ratio is compared with $K$:
-$$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = e^{\frac{\sum (r_i - s_0(t_i))^2 - \sum (r_i - s_1(t_i))^2}{2 \sigma^2}} \grtlessH K$$
+    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = e^{\frac{\sum (r_i - s_0(t_i))^2 - \sum (r_i - s_1(t_i))^2}{2 \sigma^2}} \grtlessH K$$
 
 - Applying the natural logarithm, this becomes:
-$$\sum (r_i - s_0(t_i))^2 \grtlessH \sum (r_i - s_1(t_i))^2  + 2 \sigma^2 \ln(K)$$
+    $$\sum (r_i - s_0(t_i))^2 \grtlessH \sum (r_i - s_1(t_i))^2  + 2 \sigma^2 \ln(K)$$
 
 ### Interpretation 1: geometrical distance
 
 - The sums are squared **geometrical distances**:
-$$\sum (r_i - s_1(t_i))^2 = \|\vec{r} - \vec{s_1(t)}\|^2 = d(\vec{r}, s_1(t))^2$$
-$$\sum (r_i - s_0(t_i))^2 = \|\vec{r} - \vec{s_0(t)}\|^2 = d(\vec{r}, s_0(t))^2$$
+    $$\sum (r_i - s_1(t_i))^2 = \|\vec{r} - \vec{s_1(t)}\|^2 = d(\vec{r}, s_1(t))^2$$
+    $$\sum (r_i - s_0(t_i))^2 = \|\vec{r} - \vec{s_0(t)}\|^2 = d(\vec{r}, s_0(t))^2$$
+    
     - the distance between the observed samples $\vec{r}$ and 
     the true possible underlying signals $s_1(t)$ and $s_0(t)$
+    
     - with N samples => distance between vectors of size $N$
 
 - It comes down to a decision between distances
@@ -1119,18 +1186,21 @@ $$\sum (r_i - s_0(t_i))^2 = \|\vec{r} - \vec{s_0(t)}\|^2 = d(\vec{r}, s_0(t))^2$
 ### Interpretation 1: geometrical distance
 
 - Maximum Likelihood criterion:
-    - $K = 1$, $\ln(K) = 0$
-    - we choose the **minimum distance** between what is ($\vec{r}$) 
+
+  - $K = 1$, $\ln(K) = 0$
+  - we choose the **minimum distance** between what is ($\vec{r}$) 
     and what should have been in absence of noise ($s_1(t)$ and $s_0(t)$)
-    - hence the name "minimum distance receiver"
+  - hence the name "minimum distance receiver"
     
 - Minimum Probability of Error criterion:
-    - $K = \frac{P(H_0)}{P(H_1)}$
-    - An additional term appears in favor of the most probable hypothesis
+
+  - $K = \frac{P(H_0)}{P(H_1)}$
+  - An additional term appears in favor of the most probable hypothesis
 
 - Minimum Risk criterion:
-    - $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
-    - Additional term depends on both probabilities and costs
+
+  - $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
+  - Additional term depends on both probabilities and costs
 
 
 ### Exercise
@@ -1140,6 +1210,7 @@ Exercise:
 - A signal can have two values, $0$ (hypothesis $H_0$) or $6$ (hypothesis $H_1$). 
 The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
 The receiver takes 5 samples with values $\left\{ 1.1, 4.4, 3.7, 4.1, 3.8 \right\}$.
+
     a. What is decision according to Maximum Likelihood criterion?
     b. What is decision according to Minimum Probability of Error criterion, assuming
     $P(H_0) = 2/3$ and $P(H_1) = 1/3$?
@@ -1202,14 +1273,20 @@ with $\vec{s_0(t_i)} = [s_0(t_1), s_0(t_2), ... s_0(t_N)]$
 $$\langle \vec{r}, \vec{s_1} \rangle - \frac{E_1}{2} \grtlessH \langle \vec{r},\vec{s_0} \rangle - \frac{E_0}{2} + \sigma^2 \ln(K)$$
 
 - Interpretation: we **compare the inner-products**
+
     - also subtract the energies of the signals, for a fair comparison
     - also with a term depending on the criterion
 
+### Interpretation 2: inner-product
+
 - Particular case:
+
     - If the two signals have the same energy: $E_1 = \sum s_1(t_i)^2 = E_0 = \sum s_0(t_i)^2$
     - Examples:
+    
         - BPSK modulation: $s_1 = A \cos(2 \pi f t)$, $s_0 = -A \cos(2 \pi f t)$
         - 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{4})$
+        
     - Then it is simplified as:
     $$\langle \vec{r}, \vec{s_1} \rangle \grtlessH \langle \vec{r},\vec{s_0} \rangle + \sigma^2 \ln(K)$$    
     
@@ -1220,22 +1297,13 @@ $$\langle \vec{r}, \vec{s_1} \rangle - \frac{E_1}{2} \grtlessH \langle \vec{r},\
 
 - Interpretation: we check if the received samples $\vec{r}$ look **more similar to**
 $s_1(t)$ or to $s_0(t)$
-    - Choose the one which shows more similarity to $\vec{r}$
-    - There is also the subtraction of the energies, for a fair comparison (due to mathematical reasons)
 
-### Inner product vs. cross-correlation
+  - Choose the one which shows more similarity to $\vec{r}$
+  - There is also the subtraction of the energies, for a fair comparison (due to mathematical reasons)
 
 - **Inner product** of vectors $\vec{a}$ and $\vec{b}$: 
 $$\langle a,b \rangle = \sum_i a_i b_i$$
 
-- (Temporal) cross-correlation function:
-$$R_{ab}[\tau] = E\{a_i b_{i + \tau}\}$$
-
-- (Temporal) cross-correlation function for $\tau = 0$:
-$$R_{ab}[0] = E\{a_i b_i\} = \frac{1}{N} \sum_i a_i b_i$$
-
-- Inner product = cross-correlation in $\tau = 0$
-    - with a scaling factor $\frac{1}{N}$ in front
 
 ### Decision with correlator circuits
 
@@ -1274,6 +1342,7 @@ version of $s[n]$**, and take the final sample of the output
 
 - **Matched filter** = a filter designed to have the impulse response the flipped
 version of a signal we search for
+
     - the filter is *matched* to the signal we want to detect
     - rom. "filtru adaptat"
 
@@ -1337,6 +1406,7 @@ $$d(\vec{r}, \vec{s_0})^2 \grtlessH d(\vec{r}, \vec{s_1})^2  + 2 \sigma^2 \ln(K)
 - Distance = previous formula, with integral
 
 - Same criteria:
+
     - Maximum Likelihood criterion: $K = 1$, $\ln(K) = 0$
         - we choose the **minimum distance**
     - Minimum Probability of Error criterion: $K = \frac{P(H_0)}{P(H_1)}$
@@ -1439,11 +1509,16 @@ with inner products / distances / norms, is very powerful
 ### Knowing vs not knowing the distribution
 
 - Until now, we always knew what samples we expect
+
   - We knew the signals:
+  
     - $s_0(t) = ...$
     - $s_1(t) = ...$
+  
   - We knew the noise type
+  
     - gaussian, uniform, etc.
+  
   - So we knew the sample distributions:
     - $w(r|H_0) = ...$
     - $w(r|H_1) = ...$
@@ -1456,6 +1531,7 @@ with inner products / distances / norms, is very powerful
 do not exist / we do not know them?
 
 - Example: face recognition
+
     - Task: identify person A vs B based on a face image 
     - We have:
         - 100 images of person A, in various conditions
@@ -1466,43 +1542,44 @@ do not exist / we do not know them?
 - Compare face recognition with our previous signal detection
 
 - We still have:
+
     - two hypotheses $H_0$ (person A) and $H_1$ (person B)
     - a sample vector $\vec{r}$ = the test image we need to decide upon
     - we can take two decisions 
     - 4 scenarios: correct rejection, false alarm, miss, correct detection
 
 - What's different? We don't have formulas
+
     - there is no "true" data described by formulas $s_0(t) = ...$ and $s_1(t)...$
     - (faces of persons A and B are not signals)
     - instead, we have lots of examples of each distribution
+    
         - 100 images of A = examples of $\vec{r}$ might look in hypotesis $H_0$
         - 100 images of B = examples of $\vec{r}$ might look in hypotesis $H_1$
 
 ### Machine learning terminology
 
 - Terminology used in **machine learning**:
+
     - This kind of problem = signal **classification** problem
+    
         - given one data vector, specify which class it belongs to
+        
     - The **classes** = the two categories, hypotheses $H_i$, persons A/B etc
+    
     - A **training set** = a set of known data
+    
         - e.g. our 100 images of each person
         - it will be used in the decision process
+        
     - Signal **label** = the class of a signal
-
-### Machine learning terminology
-    
-- Terminology used in **machine learning**:    
-    - **Supervised learning** = algorithms where you know the classes of 
-    the training set data (labelled data)
-        - you know what signals in the training set is class A and which is class B
-    - **Unsupervised learning** = algorithms where you don't know the classes of 
-    the training set data (unlabelled data)
-        - harder, less info is available        
+   
 
 ### Samples vs distributions
 
-- In supervised learning, training set gives us the same information as 
+- The training set gives us the same information as 
 the conditional distributions $w(r|H_0)$ and $w(r|H_1)$
+
     - $w(r|H_0)$ tells us how $r$ looks like in hypothesis $H_0$
     - $w(r|H_1)$ tells us how $r$ looks like in hypothesis $H_1$
     - the training set shows the same thing, without formulas, but via many examples
@@ -1514,12 +1591,14 @@ the conditional distributions $w(r|H_0)$ and $w(r|H_1)$
 The k-Neareast Neighbours algorithm (k-NN)
 
 - Input: 
+
     - a labelled training set of vectors $\vec{x}_1 ... \vec{x}_N$,
     from $L$ possible classes $C_1$...$C_L$
     - a test vector $\vec{r}$ we need to classify
     - a parameter $k$
 
 1. Compute distance from $\vec{r}$ to each training vector $\vec{x}_i$
+
     - can use same Euclidean distance we used for signal 
     detection with multiple samples
 
@@ -1537,6 +1616,18 @@ The k-Neareast Neighbours algorithm (k-NN)
 \maketiny{
 [1] image from "KNN Classification using Scikit-learn", Avinash Navlani, https://www.datacamp.com/community/tutorials/k-nearest-neighbor-classification-scikit-learn
 }
+
+### k-NN and ML decision
+
+- If the training set is very large, the k-NN algorithm is a kind of ML decision
+
+- The number of samples of a class in the vicinity of our point is proportional to $w(r|H_i)$
+
+- More neighbors of class A than B $\Leftrightarrow$ $w(r|H_A)$ > $w(r|H_B)$
+
+### k-NN and ML decision
+
+- Example: leaves and trees
 
 ### Exercise
 
@@ -1585,6 +1676,7 @@ using the k-NN algorithm, with $k=1$, $k=3$, $k=5$, $k=7$ and $k=9$
 \smallskip
     
 - **Cross-validation** = use a small testing set for checking what parameter value is best
+
     - this data set is known as **cross-validation set**
     - use $k=1$, test with cross-validation set and see how many vectors are classified correctly
     - repeat for $k=2, 3, ... max$
