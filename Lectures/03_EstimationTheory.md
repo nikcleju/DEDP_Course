@@ -1,7 +1,7 @@
 
 # Chapter III. Elements of Estimation Theory
 
-## II.1 Introduction
+## III.1 Introduction
 
 ### What means "Estimation"?
 
@@ -49,6 +49,7 @@
 - Estimation = Detection with an **infinite number** of options available
 
 - The statistical methods used are quite similar
+
     - In practice, distinction between Estimation and Detections is somewhat blurred
     - (e.g. when choosing between 1000 hypotheses, do we call it "Detection" or "Estimation"?)
 
@@ -60,7 +61,7 @@
     - it depends on the unknown parameter $\Theta$
     
 - We consider **N samples** from $r(t)$, taken at some sample times $t_i$
-$$\vec{r} = [r_1, r_2, ... r_N]$$
+	$$\vec{r} = [r_1, r_2, ... r_N]$$
 
 - The samples depend on the value of $\Theta$
 
@@ -76,6 +77,9 @@ that depends on $\Theta$ (and the noise)
 
     - It has a N-dimensional distribution that depends on $\Theta$
 	$$w(\vec{r}; \Theta)$$
+
+	- Equal to the product of all $w_i(r_i | \Theta)$
+	$$w(\vec{r} | \Theta) = w_1(r_1 | \Theta) \cdot w_2(r_2 | \Theta) \cdot ... \cdot w_N(r_N | \Theta)$$
 
   
 ### Two types of estimation
@@ -100,10 +104,9 @@ known as **Maximum Likelihood estimation (MLE)**
 
 - We define the **likelihood** of a parameter value $\Theta$, given
 the available observations $\vec{r}$ as:
+	$$L(\Theta | \vec{r}) = w(\Theta | \vec{r})$$
 
-	$$L(\Theta | r) = w(\Theta | \vec{r})$$
-
-- This is the likelihood function
+- $L(\Theta | \vec{r})$ is the likelihood function
 
 - Compare with formula in Chapter 2, slide 20
 
@@ -168,7 +171,7 @@ Solving procedure:
 
 1. Solve and find the value $\hat{\Theta}_{ML}$
 
-1. Check that second derivative at point $\hat{\Theta | \vec{r}}$ is negative, to check that point is a maximum
+1. Check that second derivative at point $\hat{\Theta}_{ML}$ is negative, to check that point is a maximum
 
    - because derivative = 0 for both maximum and minimum points
    - we'll sometimes skip this, for brevity
@@ -216,7 +219,8 @@ plt.close()
 
 ### General signal in AWGN
 
-* Consider that the true underlying signal is $s_\Theta(t)$- Consider **AWGN noise** $\mathcal{N}(\mu=0, \sigma^2)$.
+- Consider that the true underlying signal is $s_\Theta(t)$
+- Consider **AWGN noise** $\mathcal{N}(\mu=0, \sigma^2)$.
 - The samples $r_i$ are taken at sample moments $t_i$
 - The samples $r_i$ have normal distribution with average value $\mu = s_\Theta(t_i)$
 and variance $\sigma^2$
@@ -273,7 +277,7 @@ Procedure for ML estimation in AWGN noise:
 1. Solve and find the value $\hat{\Theta}_{ML}$
 
 1. Check that second derivative at point $\hat{\Theta}_{ML}$ is positive,
- to check that point is a minimal
+ to check that point is a minimum
 
    - we'll sometimes skip this, for brevity
 
@@ -381,12 +385,13 @@ we have $M$ derivatives
 
     1. Compute function $L(\bm{\Theta}^{(k)} | \vec{r})$
     
-    2. Compute derivative $\frac{\partial L}{\partial \Theta_i^{(k)}}$ for each $\Theta_i$ (**"gradient"**)
+    2. Compute derivatives $\frac{\partial L}{\partial \Theta_i^{(k)}}$ for each $\Theta_i$ (**"gradient"**)
     
     3. Update all values $\Theta_i$ by subtracting the derivative ("**descent**")
         $$\Theta_i^{(k+1)} = \Theta_i^{(k)} - \mu \frac{\partial L}{\partial \Theta_i^{(k)}}$$
        - or, in vector form:
         $$\bm{\Theta}^{(k+1)} = \bm{\Theta}^{k} - \mu \frac{\partial L}{\partial \bm{\Theta}^{(k)}}$$ 
+
 3. Until termination criterion (e.g. parameters don't change much)
 
 
