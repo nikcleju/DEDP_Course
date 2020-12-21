@@ -472,179 +472,243 @@ estimated values can be far from the true value
 
 ## II.3 Bayesian estimation
 
+### Bayesian estimation
 
-### Bayes rule
+- **Bayesian estimation** considers extra factors alongside $w(\vec{r} | \Theta$ in the estimation:
 
-- In general, we can use the Bayes rule
+   - a prior distribution $w(\Theta)$
+   - possibly some cost function 
 
-$$L(\Theta) = w(\Theta | \vec{r}) = \frac{w(\vec{r} | \Theta) \cdot w(\Theta)}{w(\vec{r})}$$
+
+- This makes it the estimation version of the MPE and MR decision criteria
+
+### Bayesian estimation
+
+- We define the **posterior** probability density of $\Theta$, 
+given the known observations $\vec{r}$, using the **Bayes rule**:
+	
+	$$w(\Theta | \vec{r}) = \frac{w(\vec{r} | \Theta) \cdot w(\Theta)}{w(\vec{r})}$$
 
 - Explanation of the terms:
+
   - $\Theta$ is the unknown parameter
   - $\vec{r}$ are the observations that we have
-  - $L(\Theta) = w(\Theta | \vec{r})$ is the likelihood of $\Theta$, given our current observations;
-  - $w(\vec{r} | \Theta)$ is the "normal" probability of $\vec{r}$ for a given $\Theta$, given by the noise distribution
-  - $w(\Theta)$ is the **prior** distribution of $\Theta$, i.e. what we know about $\Theta$ even in the absence of evidence
-  - $w(\vec{r})$ is the prior distribution of $\vec{r}$, it is assumed constant
+  - $w(\Theta | \vec{r})$ is the probability of a certain value $\Theta$ to be the correct one, given our current observations $\vec{r}$;
+  - $w(\vec{r} | \Theta)$ is the likelihood function
+  - $w(\Theta)$ is the **prior distribution** of $\Theta$, i.e. what we know about $\Theta$ even in the absence of evidence
+  - $w(\vec{r})$ is the prior distribution of $\vec{r}$; it is assumed constant
 
 
 ### Bayes rule
 
-- The previous relation is rather complex
-
-\smallskip
-
-- It shows that our estimation of $\Theta$ depends on two things:
+- The Bayes rule shows that the estimate of $\Theta$ depends on two things:
 
   1. The observations that we have, via the term $w(\vec{r} | \Theta)$
   2. The prior knowledge (or prior belief) about $\Theta$, via the term $w(\Theta)$
   
-\smallskip
-  
-(the third term $w(\vec{r})$ is considered a constant, and plays no significant role)
+  - (the third term $w(\vec{r})$ is considered a constant, and plays no role)
 
 
+- Known as "Bayesian estimation"
 
-### Bayesian estimation
-
-Bayesian estimation brings two new things to ML estimation:
-
-  1. Take into account a known prior distribution of $\Theta$, $w(\Theta)$
-  
-  2. Pick a value for the estimate $\hat{\Theta}$ depending on a certain cost function
-
-
-### Prior distribution
-- Suppose we know beforehand a distribution of $\Theta$, $w(\Theta)$
-   - we know beforehand how likely it is to have a certain value
-   - known as *a priori* distribution or *prior* distribution
-- The estimation must take it into account
-   - the estimate will be slightly "moved" towards more likely values
-    - Known as "Bayesian estimation"
    - Thomas Bayes = discovered the Bayes rule
    - Stuff related to Bayes rule are often named "Bayesian"
 
-### Cost function
-- The **estimation error** is the difference between the estimate $\hat{\Theta}$
+### The prior distribution
+- Suppose we know beforehand a distribution of $\Theta$, $w(\Theta)$
+
+   - we know beforehand how likely it is to have a certain value
+   - known as *a priori* distribution or *prior* distribution
+- The estimation must take it into account
+
+   - the estimate will be slightly "moved" towards more likely values
+
+
+### The MAP estimator
+
+- Suppose we know $w(\Theta | \vec{r})$. What is our estimate?
+
+- Let's pick the value with the highest probability
+
+- The **Maximum A Posteriori (MAP)** estimator:
+	$$\hat{\Theta}_{MAP} = \arg\max_\Theta w(\Theta | \vec{r}) = \arg\max\Theta w(\vec{r} | \Theta) \cdot w(\Theta)$$
+
+- The MAP estimator chooses $\Theta$ as the value where the posterior distribution $w(\Theta | \vec{r})$ is maximum
+
+- The MAP estimator maximizes the likelihood of the observed data 
+**but multiplied with the prior distribution $w(\Theta)$**
+
+### The MAP estimator 
+
+Image example here
+
+
+### Relation with Maximum Likelihood Estimator
+
+- The ML estimator: $$\arg\max w(\vec{r} | \Theta)$$
+
+- The MAP estimator: $$\arg\max w(\vec{r} | \Theta) \cdot w(\Theta)$$
+
+- The ML estimator is a particular case of MAP when $w(\Theta)$ is a constant
+   
+   - $w(\Theta)$ = constant means all values $\Theta$ are equally likely
+   - i.e. we don't have a clue where the real $\Theta$ might be
+
+
+### Relation with Detection
+
+- The MPE criterion $\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$
+
+- It can be rewritten as $w(r | H_1)\cdot P(H_1) \grtlessH w(r | H_0) P(H_0)$
+
+	- i.e. choose the hypothesis where $w(r | H_i)\cdot P(H_i)$ is maximum
+
+- **MPE decision criterion**: pick hypothesis which maximizes $w(r | H_i)\cdot P(H_i)$
+    
+	- out of the two possible hypotheses
+
+- **The MAP estimator**: pick value which maximizes $w(\vec{r} | \Theta) \cdot w(\Theta)$
+    
+	- out of all possible values of $\Theta$
+
+- Same principle!
+
+    ### Cost function
+
+- Let's find an equivalent for the Minimum Risk criterion
+
+- We need an equivalent for the costs $C_{ij}$
+
+- The **estimation error** = the difference between the estimate $\hat{\Theta}$
 and the true value $\Theta$
-$$\epsilon = \hat{\Theta} - \Theta$$
-- The **cost function $C(\epsilon)$** assigns a cost to each possible estimation error
+	$$\epsilon = \hat{\Theta} - \Theta$$
+- The **cost function $C(\epsilon)$** = assigns a cost to each possible estimation error
+
    - when $\epsilon = 0$, the cost $C(0) = 0$ 
    - small errors $\epsilon$ have small costs
    - large errors $\epsilon$ have large costs
-- Usual types of cost functions:
-   - Quadratic: $C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$
+
+### Cost function
+
+- Usual types of cost functions:
+
+   - Quadratic: 
+		$$C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$$
+   
    - Uniform ("hit or miss"): 
-    $C(\epsilon) = \begin{cases}
-    0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
-    1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
-    \end{cases}$
-   - Linear: $C(\epsilon) = |\epsilon| = | \hat{\Theta} - \Theta |$
-   - draw them at whiteboard
+		$$C(\epsilon) = \begin{cases}
+		0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
+		1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
+		\end{cases}$$
+		
+   - Linear: 
+		$$C(\epsilon) = |\epsilon| = | \hat{\Theta} - \Theta |$$
+   
+- Draw them at whiteboard
+
+### Cost function
+
+- The cost function $C(\epsilon)$ is the equivalent of the costs $C_{ij}$ at detection
+  
+    - for detection we only had 4 costs: $C_{00}$, $C_{01}$, $C_{10}$, $C_{11}$
+	- now we have a cost for all possible estimation errors $\epsilon$
+
+- The cost function guides which value to choose from $w(\Theta | \vec{r})$
+
+### The importance of the cost function
+
+- Consider the following posterior distribution
+
+![Unbalanced posterior distribution](img/UnbalancedPosterior.png){height=35%}
+
+- Which is the MAP estimate?
+
+- Supposing we have the following cost function:
+    
+	- if your estimate $\hat{\Theta}$ is < then the real $\Theta$, you pay 1000 \$
+	- if your estimate $\hat{\Theta}$ is > then the real $\Theta$, you pay 1 \$
+	- does your estimate change ? :)
 
 ### The Bayesian risk
-- The posterior distribution $w(\Theta | \vec{r})$ tells us how likely it is to have a certain value of $\Theta$
+- The posterior distribution $w(\Theta | \vec{r})$ tells us the probability of a certain value $\hat{\Theta}$ to be the correct one of $\Theta$
   
-  - it is a distribution
-- Picking a certain estimate value $\hat{\Theta}$ implies a certain error
-- The error implies a certain cost
-- Multiplying with $C(\epsilon$) and intergrating gives us the expected (average) cost:
+- Picking a certain estimate value $\hat{\Theta}$ implies a certain error $\epsilon$
+- The error implies a certain cost $C(\epsilon)$
+- The **risk** = the average cost = $C(\epsilon$) $\times$ the probability:
 
-$$C = \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
+	$$R = \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 
 ### The Bayes estimator
-- **Bayesian estimation** =  Pick $\hat{\Theta}$ which minimizes the expected cost 
+- We need to pick the value $\hat{\Theta}$ which **minimizes the expected cost $R$**
 
-$$\hat{\Theta} = \arg\min_\Theta \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
+	$$\hat{\Theta} = \arg\min_\Theta \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 - To find it, replace $C(\epsilon)$ with its definition and derivate over $\hat{\Theta}$
+   
    - Attention: derivate with respect to $\hat{\Theta}$, not $\Theta$!
+
 
 ### MMSE estimator
 - When the cost function is quadratic $C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$
-$$C = \int_{-\infty}^\infty (\hat{\Theta} - \Theta)^2 w(\Theta | \vec{r}) d\Theta$$
-- We want the $\hat{\Theta}$ that minimizes $C$, so we derivate
-$$\frac{dC}{d\hat{\Theta}} = 2 \int_{-\infty}^\infty (\hat{\Theta} - \Theta) w(\Theta | \vec{r}) d\Theta = 0$$
+	$$R = \int_{-\infty}^\infty (\hat{\Theta} - \Theta)^2 w(\Theta | \vec{r}) d\Theta$$
+- We want the $\hat{\Theta}$ that minimizes $R$, so we derivate
+	$$\frac{dR}{d\hat{\Theta}} = 2 \int_{-\infty}^\infty (\hat{\Theta} - \Theta) w(\Theta | \vec{r}) d\Theta = 0$$
 - Equivalent to
-$$\hat{\Theta} \underbrace{\int_{-\infty}^\infty w(\Theta | \vec{r})}_1 d\Theta = \int_{-\infty}^\infty \Theta w(\Theta | \vec{r}) d\Theta$$
+	$$\hat{\Theta} \underbrace{\int_{-\infty}^\infty w(\Theta | \vec{r})}_1 d\Theta = \int_{-\infty}^\infty \Theta w(\Theta | \vec{r}) d\Theta$$
 - The **Minimum Mean Squared Error (MMSE)** estimator is
-$$\hat{\Theta} = \int_{-\infty}^\infty \Theta \cdot w(\Theta | \vec{r}) d\Theta$$
+	$$\hat{\Theta}_{MMSE} = \int_{-\infty}^\infty \Theta \cdot w(\Theta | \vec{r}) d\Theta$$
 
 ### Interpretation
-- $w(\Theta | \vec{r})$ is the **posterior** ( or **a posteriori**) distribution 
-   - it is the distribution of $\Theta$ after we know the data we received
-   - the prior distribution $w(\Theta)$ is the one before knowing any data
-    
-\smallskip
-    - The MMSE estimation is the **average value** of the posterior distribution
+
+- **The MMSE estimator**: the estimator $\hat{\Theta}$ is the **average value** of the posterior distribution $w(\Theta | \vec{r})$
+
+	$$\hat{\Theta}_{MMSE} = \int_{-\infty}^\infty \Theta \cdot w(\Theta | \vec{r}) d\Theta$$
+
+    - MMSE = "Minimum Mean Squared Error"
+	- average value = sum (integral) of every $\Theta$ times its probability $w(\Theta | \vec{r})$
+- The MMSE estimator is obtained from the posterior distribution $w(\Theta | \vec{r})$ considering the
+quadratic cost function
 
 ### The MAP estimator
-- When the cost function is uniform $C(\epsilon) = \begin{cases}
+- When the cost function is uniform: 
+	$$C(\epsilon) = \begin{cases}
     0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
     1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
-    \end{cases}$
+    \end{cases}$$
 
-- Keep in mind that $\Theta = \hat{\Theta} - \epsilon$
+- Keep in mind that $\Theta = \hat{\Theta} - \epsilon$
 - We obtain
-$$\begin{split}
-I =& \int_{-\infty}^{\hat{\Theta}-E} w(\Theta | \vec{r}) d\Theta + \int_{\hat{Theta} + E}^\infty w(\Theta | \vec{r}) d\Theta \\
-I =& 1 - \int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta
-\end{split}$$
+	$$\begin{split}
+	I =& \int_{-\infty}^{\hat{\Theta}-E} w(\Theta | \vec{r}) d\Theta + \int_{\hat{Theta} + E}^\infty w(\Theta | \vec{r}) d\Theta \\
+	I =& 1 - \int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta
+	\end{split}$$
 
 ### The MAP estimator
 - To minimize $C$, we must maximize $\int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta$, the integral
 around point $\hat{\Theta}$
 - For $E$ a very small, the function $w(\Theta | \vec{r})$ is approximately constant, so we pick the point where the function is maximum
-- The **Maximum A Posteriori (MAP)** estimator is
-$$\hat{\Theta} = \arg\max w(\Theta | \vec{r})$$
-- $\arg\max$ = "the value which maximizes the function"
-   - $\max f(x)$ = the maximum value of a function
-   - $\arg\max f(x)$ = the $x$ for which the function reaches its maximum
+
+- **The Maximum A Posteriori (MAP) estimator** = the value $\hat{\Theta}$ which maximizes $w(\Theta | \vec{r})$
+	$$\hat{\Theta}_{MAP} = \arg\max_\Theta w(\Theta | \vec{r}) = \arg\max\Theta w(\vec{r} | \Theta) \cdot w(\Theta)$$
 
 ### Interpretation
-- The MAP estimator chooses $\Theta$ as the value where the posterior distribution is maximum
-- The MMSE estimator chooses $\Theta$ as average value of the posterior distribution
+
+- The MAP estimator chooses $\Theta$ as the value where the posterior distribution is maximum
+
+- The MMSE estimator chooses $\Theta$ as average value of the posterior distribution
 
 ![MAP vs MMSE estimators](img/MAPvsMMSE.png){#id .class width=60%}
 
 - [image from https://allenlu2007.wordpress.com]*
 
+### Relationship between MAP and MMSE
 
-### Finding the posterior distribution
-- That's cool, but how do we find this posterior distribution $w(\Theta | \vec{r})$?
-- Use the Bayes rule
-$$w(\Theta | \vec{r}) = \frac{w(\vec{r}; \Theta)}{w(\vec{r})} = \frac{w(\vec{r} | \Theta) \cdot w(\Theta)}{w(\vec{r})}$$
-- Since $w(\vec{r})$ is constant for a given $\vec{r}$ the MAP estimator is
-$$\hat{\Theta} = \arg\max w(\Theta | \vec{r}) = \arg\max w(\vec{r} | \Theta) w(\Theta)$$
-- The MAP estimator is the one which **maximizes** the likelihood of the observed data, 
-**but multiplying with the prior distribution $w(\Theta)$**
-- The MMSE estimator is the **average** of the same thing
+- The MAP estimator = minimizing the average cost, using the uniform cost function
 
-
-### Relation with Maximum Likelihood Estimator
-- The ML estimator was just $\arg\max w(\vec{r} | \Theta)$
-- The MAP estimator = like the ML estimator but multiplied with the prior distribution $w(\Theta)$
-- If $w(\Theta)$ is a constant, the MAP estimator reduces to ML
-   - $w(\Theta)$ = constant means all values $\Theta$ are equally likely
-   - i.e. we don't have a clue where the real $\Theta$ might be
-- The MMSE estimator = like MAP, but don't take the *argmax* of the function, but its average value
-
-### Relation with Detection
-- The minimum probability of error criterion $\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$
-- It can be rewritten as $w(r | H_1)\cdot P(H_1) \grtlessH w(r | H_0) P(H_0)$
-   - i.e. choose the hypothesis where $w(r | H)\cdot P(H)$ is maximum
-   - $w(r | H_1)$, $w(r | H_0)$ are the likelihood of observed data
-   - $P(H_1)$, $P(H_0)$ are the prior probabilities (known beforehand)
-- The MAP estimator is where $w(\vec{r} | \Theta) w(\Theta)$ is maximum
-   - $w(\vec{r} | \Theta)$ is the likelihood of observed data
-   - $w(\Theta)$ is the prior distribution (known beforehand)
-- Therefore it is the same principle, merely in a different context:
-   - in Detection we are restricted to a few predefined options
-   - in Estimation we are unrestricted => choose the maximizing value of the whole function
-
-
-### 2018-2019 Exam
-
-- Chapter ends here for 2018-2019 exam. Following slides not needed.
+	- similar with the MPE decision criteria = MR when all costs are same
+	
+- The MMSE estimator = minimizing the average cost, using the quadratic cost function
+ 
+    - similar to MR decision criteria, but more general
 
 ### Exercise
 
@@ -689,19 +753,23 @@ $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigm
 
 ### Interpretation
 - MAP estimator with Gaussian noise and Gaussian prior
-$$\hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigma^2}{\sigma_\Theta^2}}_\lambda \cdot d(\Theta, \mu_\Theta)^2$$
-- $\hat{\Theta}_{MAP}$ is close to its expected value $\mu_\Theta$ and it makes the true signal close to received data $\vec{r}$
+	$$\hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigma^2}{\sigma_\Theta^2}}_\lambda \cdot d(\Theta, \mu_\Theta)^2$$
+- $\hat{\Theta}_{MAP}$ is close to the expected value $\mu_\Theta$ **and** it makes the true signal close to received data $\vec{r}$
+
    - Example: "search for a house that is close to job and close to the Mall"
    - $\lambda$ controls the relative importance of the two terms
     - Particular cases
+
    - $\sigma_\Theta$ very small = the prior is very specific (narrow) = $\lambda$ large = second term very important = $\hat{\Theta}_{MAP}$ close to $\mu_\Theta$
    - $\sigma_\Theta$ very large = the prior is very unspecific = $\lambda$ small = first term very important = $\hat{\Theta}_{MAP}$ close to ML estimation
 
 ### Applications
 - In general, practical applications:
+
    - can use various prior distributions
    - estimate **multiple parameters** ( a vector of parameters)
 - Applications
+
    - denoising of signals
    - signal restoration
    - signal compression
