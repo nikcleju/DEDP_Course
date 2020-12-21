@@ -412,6 +412,63 @@ Deep Learning, etc.)
    - look up online courses, books
    - join the IASI AI Meetup
 
+    
+### Estimator bias and variance
+
+- How good is an estimator?
+    
+- An estimator $\hat{\Theta}$ is a **random variable**
+
+   - can have different values, because it is computed based on the received samples, which depend on noise
+   - example: in lab, try on multiple computers => slightly different results
+
+- As a random variable, it has:
+
+   - an average value (expected value): $E \left\{ \hat{\Theta} \right\}$
+   - a variance: $E \left\{ (\hat{\Theta} - \Theta)^2 \right\}$
+    
+### Estimator bias and variance
+
+![Estimator bias and variance](img/BiasVariance.png){width=65%}
+    
+### Estimator bias
+
+- The **bias** of an estimator $\hat{\Theta}$ = difference between the estimator's average value and the true value
+    $$Bias = E \left\{ \hat{\Theta} \right\} - \Theta$$
+
+- Estimator is **unbiased** = the average value of the estimator is the true value of $\Theta$
+    $$E \left\{ \hat{\Theta} \right\} = \Theta$$
+      
+- Estimator is **biased** = the average value of the estimator is different from the true value $\Theta$
+   - the difference $E \left\{ \hat{\Theta} \right\} - \Theta$ is **the bias** of the estimator
+
+
+### Estimator bias
+
+- Example: for constant signal A with AWGN noise (zero-mean), ML estimator is $\hat{A}_{ML} = \frac{1}{N}\sum_i r_i$
+
+- Then:
+$$\begin{split}
+E \left\{ \hat{A}_{ML} \right\} =& \frac{1}{N}E \left\{ \sum_i r_i \right\} \\
+=& \frac{1}{N} \sum_{i=1}^N E \left\{ r_i \right\} \\
+=& \frac{1}{N} \sum_{i=1}^N E \left\{ A + noise \right\} \\
+=& \frac{1}{N} \sum_{i=1}^N A \\
+=& A
+\end{split}$$
+
+- This estimator in unbiased
+
+### Estimator variance
+
+- The **variance** of an estimator measures the "spread" of the estimator around its average
+   
+   - that's the definition of variance
+
+- Unbiased estimators are good, but if the **variance** of the estimator is large, then
+estimated values can be far from the true value
+
+- We prefer estimators with **small variance**, even if maybe slightly biased
+
 
 ## II.3 Bayesian estimation
 
@@ -648,37 +705,3 @@ $$\hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigma
    - denoising of signals
    - signal restoration
    - signal compression
-    
-### Estimator bias
-- How good is an estimator?
-   - Many ways to characterize
-    - An estimator $\hat{\Theta}$ is a **random variable**
-   - can have different values, because it is computed based on the received samples, which depend on noise
-   - example: in lab, try on multiple computers => slightly different results
-- As a random variable, it has:
-   - an average value (expected value): $E \left\{ \hat{\Theta} \right\}$
-   - a variance: $E \left\{ (\hat{\Theta} - \Theta)^2 \right\}$
-    
-### Estimator bias
-- **Unbiased** estimator = if the average value of the estimator is the true value of $\Theta$
-$$E \left\{ \hat{\Theta} \right\} = \Theta$$
-      - **Biased** estimator = if the average value of the estimator is different from the true value $\Theta$
-   - the difference $E \left\{ \hat{\Theta} \right\} - \Theta$ is called **the bias** of the estimator
-
-
-### Estimator bias
-- Example: for constant signal A with AWGN noise (zero-mean), ML estimator is $\hat{A}_{ML} = \frac{1}{N}\sum_i r_i$
-- Then:
-$$\begin{split}
-E \left\{ \hat{A}_{ML} \right\} =& \frac{1}{N}E \left\{ \sum_i r_i \right\} \\
-=& \frac{1}{N} \sum_{i=1}^N E \left\{ r_i \right\} \\
-=& \frac{1}{N} \sum_{i=1}^N E \left\{ A + noise \right\} \\
-=& \frac{1}{N} \sum_{i=1}^N A \\
-=& A
-\end{split}$$
-- This estimator in unbiased
-
-### Estimator variance
-- Unbiased estimators are good, but if the **variance** of the estimator is large, then
-estimated values can be far from the true value
-- We prefer estimators with **small variance**, even if maybe slightly biased
