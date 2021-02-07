@@ -18,30 +18,33 @@ autumn semester at ETTI, TUIASI.
 
 ### Lectures
 
-All lecture slides are available as pdf in the Lectures folder:
+All lecture slides are available as pdf in the [Lectures](Lectures/) folder:
 
 - [Lectures\00_Introduction.pdf](Lectures/00_Introduction.pdf)
 - [Lectures\01_RandomSignals.pdf](Lectures/01_RandomSignals.pdf)
 - [Lectures\02_SignalDetectionTheory.pdf](Lectures/02_SignalDetectionTheory.pdf)
 - [Lectures\03_EstimationTheory.pdf](Lectures/03_EstimationTheory.pdf)
 
+The **annotated** lectures (written on during the classes) are available in the [Lectures/online/](Lectures/online) folder.
+The files are named as `<chapter>_annotated.pdf`.
+
 ### Laboratory
 
-All laboratories are available in the Labs folder
+All laboratories are available in the [Labs](Labs/) folder
 
 ### Seminars
 
-The exercises done in the seminars are available in the Seminars folder.
+The exercises done in the seminars are available in the [Seminars](Seminars/) folder.
 
 ## Evaluation
 
 ### Exam
 
-A sample exam sheet is here: [SampleExam\SampleExamSheet.pdf](SampleExam/SampleExamSheet.pdf)
+Sample exam sheets are available in the [SampleExam](SampleExam/) folder
 
 ### Grades
 
-Grades are available only on the Faculty's [e-learning site](https://edu.etti.tuiasi.ro)
+Grades are available only on the Faculty's [e-learning platform](https://edu.etti.tuiasi.ro)
 
 Have fun!
 
