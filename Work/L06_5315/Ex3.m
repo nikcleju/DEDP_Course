@@ -7,7 +7,7 @@ n = 0:299;               % 300 time moments
 s = 4*sin(2*pi*0.02*n);
 
 % Add noise
-r = s + sqrt(2)*randn(1, 300);   % add 300 samples of noise; sigma = sqrt(2)
+r = s + 10*sqrt(2)*randn(1, 300);   % add 300 samples of noise; sigma = sqrt(2)
 %plot( [s' r'] )                  % [s' r'] is a matrix with two columns
 
 %=========================================

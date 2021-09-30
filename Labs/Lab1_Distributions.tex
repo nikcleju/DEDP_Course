@@ -1,0 +1,324 @@
+% This LaTeX was auto-generated from MATLAB code.
+% To make changes, update the MATLAB code and export to LaTeX again.
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{epstopdf}
+\usepackage[table]{xcolor}
+\usepackage{matlab}
+
+\sloppy
+\epstopdfsetup{outdir=./}
+\graphicspath{ {./Lab1_Distributions_images/} }
+
+\begin{document}
+
+\matlabtitle{DEDP Lab 01 - Distributions of random variables. Histograms}
+
+\matlabheading{1. Objective}
+
+\begin{par}
+\begin{flushleft}
+Gain familiarity with the Matlab environment, and with the functions useful for working with random variables.
+\end{flushleft}
+\end{par}
+
+\matlabheading{2. Theoretical aspects     }
+
+\matlabheadingtwo{2.1. Random variables in Matlab}
+
+
+\matlabheadingthree{2.1.1 The normal distribution}
+
+\begin{par}
+\begin{flushleft}
+Generate a value according to standard normal distribution (mu=0, sigma\textasciicircum{}2 = 1):
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+Run the following line several times and observe the different values obtained.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+x = randn()
+\end{matlabcode}
+\begin{matlaboutput}
+x = 0.2233
+\end{matlaboutput}
+
+
+\begin{par}
+\begin{flushleft}
+Generate multiple random variables from the standard normal distribution):
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+x = randn(1, 50);   % A vector with 50 independent values, 
+                    % each one from the standatd normal distribution
+plot(x);     % What is the average value of these values?
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_0.png}
+\end{center}
+
+
+\begin{par}
+\begin{flushleft}
+Use a normal distribution with custom mean value and variance:
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+mean = 5;
+var = 0.1;
+x2 = mean + sqrt(var)*randn(1,50);
+plot(x2);     % What has changed?
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_1.png}
+\end{center}
+
+\begin{par}
+\begin{flushleft}
+       
+\end{flushleft}
+\end{par}
+
+
+\matlabheadingthree{2.1.2 The uniform distribution}
+
+\begin{par}
+\begin{flushleft}
+Generate values uniformly between (0,1):
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+y  = rand           % A single value
+\end{matlabcode}
+\begin{matlaboutput}
+y = 0.0896
+\end{matlaboutput}
+\begin{matlabcode}
+yv = rand(1, 100)   % 100 values arranged in a row vector
+\end{matlabcode}
+\begin{matlaboutput}
+yv = 1x100    
+    0.2772    0.3785    0.7846    0.1459    0.3928    0.9282    0.2489    0.7319    0.3067    0.4729    0.6585    0.6837    0.4373    0.0235    0.4108    0.8403    0.9163    0.5800    0.8416    0.3567    0.8515    0.8911    0.6282    0.3992    0.2510    0.9963    0.6373    0.7544    0.8798    0.4632    0.2745    0.4740    0.0299    0.2285    0.5404    0.3996    0.7555    0.8320    0.5600    0.5657    0.5985    0.5660    0.4777    0.3408    0.8117    0.7981    0.2822    0.2122    0.2505    0.2135
+
+\end{matlaboutput}
+
+
+\begin{par}
+\begin{flushleft}
+Generate values uniformly between (a,b):
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+a = 5;
+b = 7;
+yv2 = a + (b-a)*rand(1, 1000); % 1000 values arranged in a row vector
+plot(yv2)           % What is the range of the values>
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_2.png}
+\end{center}
+
+
+\vspace{1em}
+
+\matlabheadingtwo{2.2. Functions in Matlab}
+
+\begin{par}
+\begin{flushleft}
+Functions in Matlab are created in a separate file.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+Open a separate file and write the following. Uncomment all the line first.
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+% function y = my_function(a ,b, c)
+% 
+% % Do something here
+% y = a + b*2 + c^3;
+% 
+% end
+\end{matlabcode}
+
+\begin{par}
+\begin{flushleft}
+Save the file as \textbf{my\_function.m}
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+\textbf{Important: }Matlab identifies the function by the name of the file, not by the name written inside.
+\end{flushleft}
+\end{par}
+
+
+\begin{par}
+\begin{flushleft}
+Call the function from the Command Line as follows (uncomment first):
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+% Calls the function defined in my_function.m
+%rez = my_function(2, 4, 7);   
+\end{matlabcode}
+
+
+\vspace{1em}
+
+\matlabheadingtwo{2.3 Histogram plots}
+
+\begin{par}
+\begin{flushleft}
+Histogram plots illustrate how data is distributed. In matlab they are created with the \texttt{hist()} function.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+Example:
+\end{flushleft}
+\end{par}
+
+\begin{matlabcode}
+% Make a vector with zeros, ones, and some values from 2 to 10
+a = [zeros(1,30), 4*ones(1,40), 2:0.5:6]   % using concatenation with [ ]
+\end{matlabcode}
+\begin{matlaboutput}
+a = 1x79    
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     4     4     4     4     4     4     4     4     4     4     4     4     4     4     4     4     4     4     4     4
+
+\end{matlaboutput}
+\begin{matlabcode}
+hist(a)
+\end{matlabcode}
+\begin{center}
+\includegraphics[width=\maxwidth{56.196688409433015em}]{figure_3.png}
+\end{center}
+
+\begin{par}
+\begin{flushleft}
+The function splits the value range (0, 6) into 10 bins, and counts how many number fall in each bin, then displays these numbers as a bar graph.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+Read the documentation of \texttt{hist()} for more details (e.g. chaneg the number of bins).
+\end{flushleft}
+\end{par}
+
+
+\matlabheading{3. Exercises}
+
+\begin{par}
+\begin{flushleft}
+1. Generate a vector with 10000 values from the normal distribution $\mathcal{N}(\mu =2,\sigma^2 =2)$ and plot the values.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+2. Generate a vector with 10000 values from the uniform distribution $\mathcal{U}[-4,10]$ and plot the values
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+3. Plot the histogram of the data vectors using \texttt{hist()}.
+\end{flushleft}
+\end{par}
+
+\begin{par}
+\begin{flushleft}
+4. Create a Matlab function `myPDF()` that estimates the probability density function from a vector of data
+\end{flushleft}
+\end{par}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item{\begin{flushleft} the function requires three arguments and returns one value: \texttt{p = myPDF(v,x,epsilon)}` \end{flushleft}}
+   \item{\begin{flushleft} \texttt{v} is a vector, and \texttt{x}, \texttt{epsilon} and \texttt{p} are scalar numbers \end{flushleft}}
+   \item{\begin{flushleft} the function computes how many elements from \texttt{v} are in the interval $[x-\epsilon ,x+\epsilon ]$, divided to the total number of elements of \texttt{v}, and also divided to 2 times \texttt{epsilon} \end{flushleft}}
+   \item{\begin{flushleft} Question: given a long sequence \texttt{v}, what does the return value \texttt{p} mean? \end{flushleft}}
+\end{itemize}
+
+\begin{par}
+\begin{flushleft}
+5. Plot the probability density function estimated from a vector of data
+\end{flushleft}
+\end{par}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item{\begin{flushleft} generate a vector `n` of 50 values uniformly spread from -8 to 18 \end{flushleft}}
+   \item{\begin{flushleft} apply `\texttt{myPDF()}` to all values from the vector `n`, with both vectors `\texttt{v}` generated above. Use `\texttt{epsilon}` = 0.1. \end{flushleft}}
+   \item{\begin{flushleft} plot the results of the function against the values from `\texttt{n}` \end{flushleft}}
+\end{itemize}
+
+\matlabheading{4. Supplementary Exercises}
+
+
+\vspace{1em}
+\begin{par}
+\begin{flushleft}
+6. Create a Matlab function `\texttt{myCDF()}` that estimates the cumulative distribution function (CDF) from a vector of data
+\end{flushleft}
+\end{par}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item{\begin{flushleft} the function requires two arguments and returns one value: `\texttt{p = myCDF(v,x)}` \end{flushleft}}
+   \item{\begin{flushleft}  `v` is a vector, `x` and `p` are scalar numbers \end{flushleft}}
+   \item{\begin{flushleft} the function computes how many elements from `v` are smaller or equal than `x`, divided to the total number of elements of `v` \end{flushleft}}
+   \item{\begin{flushleft} question: given a long sequence `v`, what does the return value `p` mean? \end{flushleft}}
+\end{itemize}
+
+\begin{par}
+\begin{flushleft}
+7. Use the `myCDF()` function to compute the CDF of the normal / uniform distributions from the two vectors generated previously.
+\end{flushleft}
+\end{par}
+
+\begin{itemize}
+\setlength{\itemsep}{-1ex}
+   \item{\begin{flushleft} generate a vector n of 50 values uniformly spread between -8 to 18 \end{flushleft}}
+   \item{\begin{flushleft} apply `myCDF()` to all values from the vector n, for the two vectors generated previously \end{flushleft}}
+   \item{\begin{flushleft} plot the results of the function against the values of n \end{flushleft}}
+\end{itemize}
+
+
+\vspace{1em}
+\matlabheading{5. Final questions}
+
+\begin{par}
+\begin{flushleft}
+1. What should we modify in order to get \textbf{more accurate} results / plots of these functions?
+\end{flushleft}
+\end{par}
+
+\end{document}
