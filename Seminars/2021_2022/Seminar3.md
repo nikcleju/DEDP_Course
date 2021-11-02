@@ -25,4 +25,5 @@ The receiver takes one sample, at time $t_0 = 0.75$, and the obtained value is $
     e. Repeat a) and b) in case the noise has uniform distribution $\mathcal{U}[-4,4]$. Is there a problem with the decision?
     f. What is the maximum variance of a uniform noise, with zero-mean, in order to still be able to take a decision 
     with the ML criterion for $r = 3.5$?
+	g. Compute the probabilities for the four possible scenarios (correct rejection, false alarm, miss and correct detection)
 
