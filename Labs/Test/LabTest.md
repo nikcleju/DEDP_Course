@@ -1,15 +1,13 @@
 ---
 title: Laboratory Test
-subtitle: DEDP 2020-2021
+subtitle: DEDP 2021-2022
 documentclass: scrartcl
 fontsize: 12pt
 ---
 
 # Information
 
-- The test will last for 1 hour
-
-- You will upload the Matlab files on  Moodle (or send by email)
+- The test will be taken at the faculty, and will last for 1 hour
 
 - General Matlab stuff you need to know is listed in the **Syllabus** section
 
@@ -19,14 +17,26 @@ fontsize: 12pt
 
 # Syllabus
 
-Things to know in Matlab:
+General things to know in Matlab:
 
-- Load and save a `*.mat` file
+- Create and use vectors and matrices
+
+- Create and use simple cell arrays (see Lab 2)
+
+- General instructions: `if`, `for`, etc
+
+- Create functions in Matlab and use them
+
+- Load and save data from/to a `*.mat` file
 
 - Generate random numbers with Gaussian and uniform distributions
 
   - single numbers, vectors or matrices
-  - with various distribution parameters (mu, sigma, a, b)
+  - with specified parameters (mu and sigma, a, b)
+
+- Compute mean, average squared value, variance of vectors or columns
+
+- Compute correlation and autocorrelation of vectors or columns (using `xcorr()`, as in Lab 2)
 
 - Generate a random vector with 0's and 1's in variable proportions 
   (or some value A  instead of 1)
@@ -37,8 +47,6 @@ Things to know in Matlab:
 - Generate a vector with $N$ values equally spaced between a start and a stop value
   (e.g. `linspace()`)
 
-- Compute mean and variance of vectors or columns
-
 - Operate with columns (or rows) of a matrix:
 
   - extract one or more columns
@@ -48,7 +56,7 @@ Things to know in Matlab:
 - Count how many values of 1 are in a vector (or maybe how many values equal to $A$)
 
 - Count pair of values in two vectors 
-  (e.g. when there is a 0 in a vector and 1 in another vector, 
+  (e.g. count when there is a 0 in a vector and 1 in another vector, 
   like for false alarms, misses etc)
   
 - Compute Euclidean distance between vectors
@@ -61,20 +69,14 @@ Things to know in Matlab:
 
 - Plot a vector
 
-- Plot a vector as a function of another vector
+- Plot a vector as a function of another vector (i.e. `plot(x,y)`)
 
-- Create a histogram plot
-
-- Create and use a Matlab function
+- Plot a histogram plot
 
 - Display a message with `fprintf()`
-
-- Create and use simple cell arrays
  
-- General instructions: if, for, etc
-
 	
-# Template Subjects
+# Sample (template) subjects from each lab
 
 ## Lab 1
 
@@ -99,7 +101,7 @@ the probability density function from a vector of data.
 
 ## Lab 2
 
-1. Load the file `ElectionsData.mat`. It contains election data for the local elections in the city of Iasi held on 27.09.2020 (data taken from https://prezenta.roaep.ro). The file contains two variables:
+1. Load the file `ElectionsData.mat`. It contains election data for the local elections in the city of Iasi held on 27.09.2020.
 
   - names: a cell array with the names of the voting centers
   - values: a matrix with the voting numbers for each center
@@ -141,10 +143,15 @@ spaced between $0$ and $A$, and plotting the resulting vector `phit` against `pf
     - the function computes the Euclidean distance between `signal` and each vector from the training set
     - the output `class` is defined by the majority of the $k$ nearest neighbours of the signal
 
-2. Call the function ``myKNN`` for the first signal from the testing set and determine its class.
+2. Call the function `myKNN` for the first signal from the testing set and determine its class.
 Use different values for $k$: $k=1$, then $k=5$, then $k=15$.
 
 Note: the training set matrix can be loaded from the file `ECG_train.mat`, and the test set from `ECG_test.mat`
+
+## Lab 5
+
+We skip Lab 5 because one group hasn't done it (30th November)
+
 
 ## Lab 6
 
@@ -154,7 +161,7 @@ and add over it normal noise with distribution $\mathcal{N}(0, \sigma^2 = 0.5)$.
 Name the resulting vector `r`. Plot the `r` vector.
 
 2. Estimate the frequency $\hat{f}$ of the signal via Maximum Likelihood estimation from the `r` vector:
-    - Generate 1000 candidate frequencies $f_k$ equally spaced from 0 to 0.5
+    - Generate 10000 candidate frequencies $f_k$ equally spaced from 0 to 0.5
     - Compute the Euclidean distance between `r` and the sine signal with each candidate frequency
     - Maximum Likelihood: choose $\hat{f}_{ML}$ as the candidate frequency which minimizes the Euclidean distance
     - Display the estimate value $\hat{f}_ML$
