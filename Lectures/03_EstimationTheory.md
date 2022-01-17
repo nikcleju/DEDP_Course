@@ -773,3 +773,45 @@ $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigm
    - denoising of signals
    - signal restoration
    - signal compression
+
+
+### Sample applications
+
+1. Single object tracking with Kalman filtering
+
+  - estimating an object's position through successive noisy measurements (e.g. consecutive frames in a video)
+  
+  - ata every new measurement, we have two distributions of the position:
+     
+	  - one given by the measurement itself, $w(r | \Theta)$
+	  - one predicted based on position and speed from last moment
+	  - both are presumed Gaussian, described only through average value and variance
+ 
+   - the two are combined via the Bayes rule => a more precise distribution $w(\Theta | r)$, also Gaussian
+   - the exact position is estimated with MMSE (average value of $w(\Theta | r)$
+   - $w(\Theta | r)$ + speed is used to predict the position at the next time moment
+   
+  
+### Single object tracking
+
+### Single object tracking
+
+### Sample applications
+
+2. Constrained Least Squares (CLS) image restoration
+
+  - We have an image $I$ corrupted by noise (additive noise, missing pixels, blurring)
+  $$I_{noisy} = I_{true} + Z$$
+  
+  - We can estimate the original image by solving:
+  $$\hat{I_{true}} = argmin_{I} \|I - I_{zg}\|_2 + \lambda \cdot \|HighPass\lbrace I \rbrace\|_2$$
+
+  - Examples:
+
+    - [https://www.mathworks.com/help/images/deblurring-images-using-a-regularized-filter.html](https://www.mathworks.com/help/images/deblurring-images-using-a-regularized-filter.html)
+
+    - [https://demonstrations.wolfram.com/ImageRestorationForDegradedImages](https://demonstrations.wolfram.com/ImageRestorationForDegradedImages)
+	
+	- Google it
+	
+### Constrained Least Squares (CLS) image restoration
