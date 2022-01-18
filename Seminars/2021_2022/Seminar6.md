@@ -49,4 +49,19 @@ assuming the noise is $\mathcal{N}(0,\sigma^2=1)$
 
     \smallskip
     
-2. Repeat point a) for the previous exercise, assuming we have some prior knowledge if the speed, as a prior distribution $w(v) = \mathcal{N}(\mu=4.5, \sigma^2=1)$.
+
+1. A robot travels a linear road with a constant speed $V = 10$ cm/s.
+	
+	The robot measures its position every second with with a sensor affected by gaussian noise $\mathcal{N}(0,\sigma^2=0.5)$.
+
+	At time $t_0 = 0$, the robot's position is around $x_{0} = 20$, being a random variable with the distribution:
+		
+	  $$w(x_{0}) = \mathcal{N}(\mu = 20, \sigma = 0.5)$$
+	
+	a. Find the distribution $w(x_1)$ of the robot's position at time $t_1 = 1$, and predict the actual value with the MAP and MMSE estimators.
+	b. Suppose at this time $t_1 = 1$ we have a new measurement of the position, with value $r = 29.5$. 
+	
+		Take this into account with Bayesian estimation and find the new position using MAP and MMSE estimators, considering the predicted distribution in a) as the prior distribution. 	
+		
+	c. What happens if the speed is not known precisely. Suppose $V$ is a random variable $\mathcal{N}(\mu = 10 \textrm{ cm/s}, \sigma^2 = 0.3)$?
+	
