@@ -8,7 +8,7 @@ fontsize: 12pt
 ---
 
 
-1. Let $A$ be a continuous r.v. with distribution $\mathcal{U} \; [0, \pi]$
+1. Let $A$ be a continuous r.v. with distribution $\mathcal{U} \; [0, 6]$
     a. Draw the PDF of A
     a. Compute the probability that $A > 1$
     a. Compute the probability that $A \in (0,2)$
@@ -23,6 +23,11 @@ fontsize: 12pt
     a. What is the maximum value of $w_A(x)$ and for what $x$ is it reached?
 
 	\smallbreak
+
+3. Knowing that the IQ score follows a distribution $\mathcal{N} \; \left(\mu=100, \sigma=25\right)$, find:
+
+    a. The probability that a random person has IQ score > 130
+    b. If the total population is 8 billion, how many people have IQ smaller than 75
 
 1. Let $A$ be a **discrete** random variable with uniform distribution $\mathcal{U}\;[0,10]$
     a. How many different realizations of $A$ are possible?
