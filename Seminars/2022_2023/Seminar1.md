@@ -24,7 +24,7 @@ fontsize: 12pt
 
 	\smallbreak
 
-3. Knowing that the IQ score follows a distribution $\mathcal{N} \; \left(\mu=100, \sigma=25\right)$, find:
+3. Knowing that the IQ score follows a distribution $\mathcal{N} \; \left(\mu=100, \sigma=15\right)$, find:
 
     a. The probability that a random person has IQ score > 130
     b. If the total population is 8 billion, how many people have IQ smaller than 75
