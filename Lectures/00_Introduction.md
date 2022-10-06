@@ -1,4 +1,6 @@
-## Introduction
+---
+title: Introduction
+---
 
 ### Organization
 
@@ -29,7 +31,7 @@
         - final laboratory practical test in Matlab / Simulink (10%)
 
     - Seminar + Intermediate tests = 20% (half of Applications grade))
-        - 3 tests: in Week 5, Week 8 and Week 11
+        - 2 tests: in Week 5, Week 10 (approx)
         - test = one exercise, 30 minutes, during seminar
         - Tests grade = average of the three tests grades + presence at Seminar
 
