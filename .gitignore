@@ -1,2 +1,3 @@
 *.autosave.xopp
 *.xopp~
+/Lectures/.jupyter_cache/
