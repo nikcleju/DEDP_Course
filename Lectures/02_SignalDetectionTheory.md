@@ -29,6 +29,20 @@ signal is present from 2 or more possibilities
     - Receiver: **decides** what message $a_n$ has been transmitted
     - User receives the recovered messages
 
+### Problem formulation
+
+- There are two messages $a_0$ and $a_1$ (e.g. logical 0 and 1)
+
+- Messages are encoded as signals $s_0(t)$ and $s_1(t)$
+    - for $a_0$: send $s(t) = s_0(t)$
+    - for $a_1$: send $s(t) = s_1(t)$
+
+- The signal is affected by additive white noise $n(t)$
+
+- Receiver receives noisy signal $r(t) = s(t) + n(t)$
+
+- **Decision problem**: based on $r(t_0)$, decide which signal was received, $s_0(t)$ or $s_1(t)$?
+
 ### Practical scenarios
 
 - Data transmission with various binary modulations:
@@ -41,7 +55,7 @@ signal is present from 2 or more possibilities
     
     - OFDM modulation (Orthogonal Frequency Division Multiplexing): particular case of FSK
 
-    - The receiver gets some noisy signal, has to **decide** 
+    - The receiver gets some noisy signal, has to decide 
     when it is 0 and when it is 1
 
 ### Practical scenarios
@@ -68,25 +82,23 @@ signal is present from 2 or more possibilities
 
 ## II.2 Detection of signals based on 1 sample
 
-### Detection of a signal with 1 sample
 
-- Simplest case: detection (decision) using 1 sample
+### Problem formulation
 
-- Context:
+- There are two messages $a_0$ and $a_1$ (e.g. logical 0 and 1)
 
-    - there are two messages $a_0$ and $a_1$ (e.g. logical 0 and 1)
+- Messages are encoded as signals $s_0(t)$ and $s_1(t)$
+    - for $a_0$: send $s(t) = s_0(t)$
+    - for $a_1$: send $s(t) = s_1(t)$
 
-    - messages are encoded as signals $s_0(t)$ and $s_1(t)$
-        - for $a_0$: send $s(t) = s_0(t)$
-        - for $a_1$: send $s(t) = s_1(t)$
+- The signal is affected by additive white noise $n(t)$
 
-    - the signal is affected by additive white noise $n(t)$
+- Receiver receives noisy signal $r(t) = s(t) + n(t)$
 
-    - receiver receives noisy signal $r(t) = s(t) + n(t)$
+- **Decision problem**: based on $r(t_0)$, decide which signal was received, $s_0(t)$ or $s_1(t)$?
 
-    - receiver takes just 1 sample at time $t_0$, value is $r = r(t_0)$
+- Simplest case: receiver **takes just 1 sample** at time $t_0$, value is $r = r(t_0)$
 
-    - decision: based on $r(t_0)$, which signal was it?
 
 ### Hypotheses and decisions
 
@@ -569,16 +581,27 @@ or vice-versa
 TODO
 
 
-### The minimum error probability criterion
+### Minimum error probability criterion
 
 - Takes into account the probabilities $P(H_0)$ and $P(H_1)$
 
-- Goal is to **minimize the total probability of error $P_e = P_{fa} + P_m$**
-    - errors = false alarms and misses
+- **The minimum probability of error** criterion (MPE):
 
-- We need to find a new criterion (new decision regions $R_0$ and $R_1$)
+$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$$
 
-### Deducing the new criterion
+$$\frac{P(H_1) \cdot w(r | H_1)}{P(H_0) \cdot w(r | H_0)} \grtlessH 1$$
+
+### The minimum error probability criterion
+
+**Theorem:**
+
+  The MPE decision criterion **minimizes the total probability of errors $P_e = P_{fa} + P_m$**
+    
+  - errors = false alarms and misses
+
+### Minimum error probability criterion
+
+**Proof:**
 
 - The probability of false alarm is:
 $$\begin{split}
@@ -609,14 +632,10 @@ the term inside the integral is **negative**
 - So, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) < 0$ we have $r \in R_0$, i.e. decision $D_0$
 - Conversely, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) > 0$ we have $r \in R_1$, i.e. decision $D_1$
 
-- Therefore
-$$w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) \grtlessH 0$$
-$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$$
-
 ### Minimum probability of error
 
-- **The minimum probability of error** criterion (MPE):
-
+- Therefore
+$$w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) \grtlessH 0$$
 $$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$$
 
 
@@ -677,7 +696,6 @@ The receiver takes one sample $r$.
     a. Find the decision regions $R_0$ and $R_1$ according to the MPE criterion
     c. What are the probabilities of false alarm and of miss?
     b. Repeat a) and b) considering that $s_1(t)$ is affected by uniform noise $\mathcal{U}[-4,4]$
-
 
 
 ### Minimum risk criterion
@@ -819,33 +837,6 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
     b. What is the probability of correct detection, in this case?
 
 
-### Application: Differential vs single-ended signalling
-
-- Application: binary transmission with constant signals (e.g. constant voltage levels)
-
-- Two common possibilities:
-    - Single-ended signalling: one signal is 0, other is non-zero
-        - $s_0(t) = 0$, $s_1(t) = A$
-
-    - Differential signalling: use two non-zero levels with different sign, same absolute value
-        - $s_0(t) = -\frac{A}{2}$, $s_1(t) = \frac{A}{2}$
-
-- Find out which is better?
-
-### Differential vs single-ended signalling
-
-- Since difference between levels is the same, decision performance is the same
-
-- Average power of a signal = average squared value
-
-- For differential signal: $P = \left( \pm \frac{A}{2} \right)^2 = \frac{A^2}{4}$
-
-- For signal ended signal: $P = P(H_0) \cdot 0 + P(H_1) \left( A \right)^2 = \frac{A^2}{2}$
-
-    - assuming equal probabilities $P(H_0) = P(H_1) = \frac{1}{2}$
-
-- Differential uses half the power of single-ended (i.e. better), for same decision performance
-
 ### Summary of criteria
 
 - We have seen decision based on 1 sample $r$, between 2 signals (mostly)
@@ -863,10 +854,21 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
 - For gaussian noise, the boundary of the regions (threshold) is 
     $$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(K \right)$$
 
+### Comparing two decision problems
+
+- Suppose we have a decision problem with $s_0(t) = 0$, $s_1(t) = 10$, and noise $\mathcal{N}(\mu=0, \sigma^2 = 4)$
+
+- Suppose we have another totally different decision problem, with $s_0(t) = 10$, $s_1(t) = 16$, and noise $\mathcal{U}[-8, 8]$
+
+- Which one is preferrable? How can we compare them?
+
+- How to evaluate the overall performance in a decision problem?
+
+   - We need to compare the good probabilities ($P_{cd}$, $P_{cr}$) and the bad probabilities ($P_{fa}$, $P_m$)
 
 ### Receiver Operating Characteristic
 
-- The receiver performance is usually represented with **"Receiver Operating Characteristic" (ROC)** graph
+- A decision performance is usually represented with **"Receiver Operating Characteristic" (ROC)** graph
 
 - It is a graph of $P_d = P(D_1 | H_1)$ as a function of $P_{fa} = P(D_1 | H_0)$,
 
@@ -879,7 +881,7 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
 
 ### Receiver Operating Characteristic
 
-- It shows there is always a **tradeoff** between good $P_d$ and bad $P_{fa}$
+- ROC graph shows there is always a **tradeoff** between good $P_d$ and bad $P_{fa}$
 
   - to increase $P_d$ one must also increase $P_{fa}$
   - if we want to make sure we don't miss any real detections (increase P_d), we pay by increasing
@@ -887,12 +889,13 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
     
 - Different criteria = different likelihood thresholds $K$  = different points on the graph
  = different tradeoffs
- 
-  - but the tradeoff cannot be avoided
-     
+   
 - An overall performance measure is the total **Area Under the Curve** (AUC)
   
-  - overall performance of the detection method, irrespective of a certain threshold
+  - this doesn't depend on the choice of a particular threshold value
+  
+- We can compare two different decision situations (e.g. different signals, or different algorithms etc)
+by plotting their ROC and comparing their AUC
 
 ### The Precision-Recall curve
 
@@ -1752,14 +1755,14 @@ Video explanations of the k-Means algorithm:
 
 - Watch this, starting from time 6:28 to 7:08
 
-    [https://www.youtube.com/watch?v=4b5d3muPQmA](https://www.youtube.com/watch?v=4b5d3muPQmA)
+  [https://www.youtube.com/watch?v=4b5d3muPQmA](https://www.youtube.com/watch?v=4b5d3muPQmA)
 
 \smallskip
 
 - Watch this, starting from time 3:05 to end
 
-    [https://www.youtube.com/watch?v=IuRb3y8qKX4](https://www.youtube.com/watch?v=IuRb3y8qKX4)
-
+  [https: // www.youtube.com/watch?v=IuRb3y8qKX4](https://www.youtube.com/watch?v=IuRb3y8qKX4)
+  
 
 ### The k-Means algorithm
 
