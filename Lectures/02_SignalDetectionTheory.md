@@ -41,7 +41,7 @@ signal is present from 2 or more possibilities
 
 - Receiver receives noisy signal $r(t) = s(t) + n(t)$
 
-- **Decision problem**: based on $r(t_0)$, decide which signal was received, $s_0(t)$ or $s_1(t)$?
+- **Decision problem**: based on $r(t)$, decide which signal was received, $s_0(t)$ or $s_1(t)$?
 
 ### Practical scenarios
 
@@ -82,7 +82,6 @@ signal is present from 2 or more possibilities
 
 ## II.2 Detection of signals based on 1 sample
 
-
 ### Problem formulation
 
 - There are two messages $a_0$ and $a_1$ (e.g. logical 0 and 1)
@@ -95,7 +94,7 @@ signal is present from 2 or more possibilities
 
 - Receiver receives noisy signal $r(t) = s(t) + n(t)$
 
-- **Decision problem**: based on $r(t_0)$, decide which signal was received, $s_0(t)$ or $s_1(t)$?
+- **Decision problem**: based on $r(t)$, decide which signal was received, $s_0(t)$ or $s_1(t)$?
 
 - Simplest case: receiver **takes just 1 sample** at time $t_0$, value is $r = r(t_0)$
 
@@ -252,7 +251,9 @@ The problem of decision:
 
 ### Maximum Likelihood decision criterion
 
-- **Maximum Likelihood (ML) criterion**: choose the hypothesis that has the **highest likelihood** of having generated the observed sample value $r = r(t_0)$
+- **Maximum Likelihood (ML) criterion**: choose the hypothesis 
+that has the **highest likelihood** 
+of having generated the observed sample value $r = r(t_0)$
 
   - "pick the most likely hypothesis"
   - "pick the hypothesis with a higher likelihood"
@@ -305,7 +306,7 @@ Pick the tree with the **highest likelihood**:
     - if $A < B$, then $\log(A) < \log(B)$
 
 
-### Log-likelihood ratio test for ML
+### Gaussian noise (AWGN)
 
 - Applying natural logarithm to both sides leads to:
 $$-(r-s_1(t_0))^2 + (r-s_0(t_0))^2 \grtlessH 0$$
@@ -452,7 +453,7 @@ we call it **probability density function** (distribution)
 
 ### Multiple separate detection 
 
-- In a communications setup, each detection/decision reads 1 bit
+- In a binary communications setup, each detection/decision reads 1 bit
 
 - We have a different detection for the next bit, and so on
 
@@ -514,6 +515,19 @@ $$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
 
 - Ignore the text, just look at the nice colors
 - [image from hhttp://gru.stanford.edu/doku.php/tutorials/sdt]*
+
+### ML criterion optimality
+
+**Theorem:**
+
+  The ML criterion **minimizes the total conditioned probability of error $P(D_1 | H_0) + P(D_0 | H_1)$**
+    
+**Proof:**
+
+  Informal: on the previous pivture, if $T$ is moved either to the right or to the left,
+the sum of the two areas of false alarm + misses increases.
+
+  TODO: rigorous proof
 
 ### Probabilities of the 4 outcomes
 
@@ -595,7 +609,8 @@ $$\frac{P(H_1) \cdot w(r | H_1)}{P(H_0) \cdot w(r | H_0)} \grtlessH 1$$
 
 **Theorem:**
 
-  The MPE decision criterion **minimizes the total probability of errors $P_e = P_{fa} + P_m$**
+  The MPE decision criterion **minimizes the total probability of errors**: 
+  $$P_e = P_{fa} + P_m = P(D_1 \cap H_0) + P(D_0 \cap H_1)$$
     
   - errors = false alarms and misses
 
@@ -789,6 +804,22 @@ $$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_
     - what happens if cost $C_{10}$ increases, while the others are unchanged?
     - what happens if both costs $C_{01}$ and $C_{10}$ increase, while the others are unchanged?
 
+### Pascal's wager
+
+Reasoning of the French philosopher and mathematician Blaise Pascal (1623–1662):
+
+> God is, or God is not. Reason cannot decide between the two alternatives
+>
+> You must wager (it is not optional)
+>
+> If you gain, you gain all; if you lose, you lose nothing
+    
+> Wager, then, without hesitation that He is. There is here an infinity of an infinitely happy life to gain, against a finite number of chances of loss.[^PW]
+
+- A philosophical example of using the Minimum Risk criterion
+
+[^PW]: text source: Wikipedia
+
 ### General form of ML, MPE and MR criteria
 
 - ML, MPE and MR criteria all have the following form
@@ -860,11 +891,11 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
 
 - Suppose we have another totally different decision problem, with $s_0(t) = 10$, $s_1(t) = 16$, and noise $\mathcal{U}[-8, 8]$
 
-- Which one is preferrable? How can we compare them?
+- Which one is easier? How can we compare them?
 
 - How to evaluate the overall performance in a decision problem?
 
-   - We need to compare the good probabilities ($P_{cd}$, $P_{cr}$) and the bad probabilities ($P_{fa}$, $P_m$)
+   - We need to compare the "good" probabilities ($P_{cd}$, $P_{cr}$) and the "bad" probabilities ($P_{fa}$, $P_m$)
 
 ### Receiver Operating Characteristic
 
@@ -1755,7 +1786,7 @@ Video explanations of the k-Means algorithm:
 
 - Watch this, starting from time 6:28 to 7:08
 
-  [https://www.youtube.com/watch?v=4b5d3muPQmA](https://www.youtube.com/watch?v=4b5d3muPQmA)
+  [https: // www.youtube.com/watch?v=4b5d3muPQmA](https://www.youtube.com/watch?v=4b5d3muPQmA)
 
 \smallskip
 
