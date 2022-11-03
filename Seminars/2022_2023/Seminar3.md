@@ -20,10 +20,11 @@ The receiver takes one sample, at time $t_0 = 0.75$, and the obtained value is $
 
     a. Write the expressions of the two conditional distributions of the sample, and sketch them
     b. What is the decision taken with the Maximum Likelihood criterion?
+    g. Compute the conditional probabilities for the four possible scenarios (correct rejection, false alarm, miss and correct detection) for the ML criterion
     c. What is the **best** moment $t_0$ for sampling, in order to best discriminate between the signals? Justify.
     d. What is the **worst** moment $t_0$ for sampling, in order to discriminate between the signals? Justify.
     e. Repeat a) and b) in case the noise has uniform distribution $\mathcal{U}[-4,4]$. Is there a problem with the decision?
     f. What is the maximum variance of a uniform noise, with zero-mean, in order to still be able to take a decision 
     with the ML criterion for $r = 3.5$?
-	g. Compute the probabilities for the four possible scenarios (correct rejection, false alarm, miss and correct detection)
+	
 
