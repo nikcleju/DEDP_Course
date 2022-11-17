@@ -1340,6 +1340,17 @@ $$\langle a,b \rangle = \sum_i a_i b_i$$
 
 *[source: Fundamentals of Statistical Signal Processing, Steven Kay]*
 
+### Example: BPSK
+
+- BPSK demodulation: 
+
+![BPSK decision: naive implementation](img/BPSK_Decision_1.png)
+
+### Example: BPSK
+
+- BPSK demodulation: 
+
+![BKSP detection: usual implementation](img/BPSK_Decision_2.png)
 
 ### Matched filters
 
