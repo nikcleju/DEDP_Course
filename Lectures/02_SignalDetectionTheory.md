@@ -636,22 +636,17 @@ $$P_e = P(H_0) + \int_{R_0} [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)] dx$$
 
 ### Minimum probability of error
 
-- We want to minimize $P_e$, i.e. to minimize the integral
+- An integral is always minimal when you integrate the function on all the domain where it is negative
 
-- We can choose $R_0$ as we want for this purpose
+- The term $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)$ is negative whenever
 
-- We choose $R_0$ such that for all $r \in R_0$, 
-the term inside the integral is **negative**
-    - because integrating over all the interval where the function is negative ensures minimum value of integral
+  $$w(r|H_1) \cdot P(H_1) < w(r|H_0) \cdot P(H_0)$$
+  
+  i.e. when we take decision $D_0$, i.e. on region $R_0$
+  
+- Therefore the integral on $R_0$ is minimal, 
 
-- So, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) < 0$ we have $r \in R_0$, i.e. decision $D_0$
-- Conversely, when $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) > 0$ we have $r \in R_1$, i.e. decision $D_1$
-
-### Minimum probability of error
-
-- Therefore
-$$w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0) \grtlessH 0$$
-$$\frac{w(r | H_1)}{w(r | H_0)} \grtlessH \frac{P(H_0)}{P(H_1)}$$
+- $P(H_0)$ is a constant => $P_e$ is minimal
 
 
 ### Interpretation
