@@ -18,11 +18,10 @@ fontsize: 12pt
     a. Find the decision regions $R_0$ and $R_1$, with each criterion: ML, MPE, MR
     a. Find the decision taken based on a sample $r = 3.1$, with each criterion: ML, MPE, MR
     d. Find the probability of miss, if the threshold $T$ has value $T=3$
-    c. What if the noise is uniform $U[-3, 3]$?
 
 1. Repeat exercise above, but the noise is uniform $U[-3, 3]$.
 
-   Also consider the fourth criterion: Neyman-Pearson criterion with false-alarm probability $P_{fa} = 0.01$
+   Besides the ML / MPE / MR criteria, also consider the fourth criterion: Neyman-Pearson criterion with false alarm (conditioned) probability $P_{fa} = 0.01$
 
 2. A signal can have two values, $0$ (hypothesis $H_0$) or $6$ (hypothesis $H_1$). 
 
