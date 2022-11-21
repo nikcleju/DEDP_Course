@@ -1352,6 +1352,14 @@ $$\langle a,b \rangle = \sum_i a_i b_i$$
 
 ![BKSP detection: usual implementation](img/BPSK_Decision_2.png)
 
+### Example: QPSK
+
+![QPSK decision: naive implementation](img/QPSK_Decision_1.png){#id .class height=80%}
+
+### Example: QPSK
+
+![QKSP detection: usual implementation](img/QPSK_Decision_2.png)
+
 ### Matched filters
 
 - How to compute the inner product of two signals $r[n]$ and $s[n]$ of length $N$?
