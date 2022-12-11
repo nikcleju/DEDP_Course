@@ -103,13 +103,17 @@ based only on the `r` vector.
 4. Use `fminsearch()` function to estimate both `A` and `f` simultaneously.
 
 5. Use `fminsearch()` to fit a linear curve $y = a x + b$ through the following points:
-   
+
    ```matlab
    x = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
    y = 0.75*x + 3 + 0.1*randn(1,10);
    ```
 
-   The unknown parameters are $a$ and $b$ (the true values are 0.75 and 3, respectively).
+   1. Estimate the unknown parameters are $a$ and $b$ (the true values are 0.75 and 3, respectively).
+   2. Generate the vector `y_est` with the estimated parameters.
+   3. Plot `y_est` and `y` on the same image.
+
+
 
 
 **Not done**

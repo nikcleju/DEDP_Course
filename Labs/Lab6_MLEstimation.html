@@ -214,7 +214,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Use <code>fminsearch()</code> to fit a linear curve <span class="math inline">y = a x + b</span> through the following points:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span><span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">4</span><span class="op">,</span> <span class="fl">5</span><span class="op">,</span> <span class="fl">6</span><span class="op">,</span> <span class="fl">7</span><span class="op">,</span> <span class="fl">8</span><span class="op">,</span> <span class="fl">9</span><span class="op">,</span> <span class="fl">10</span>]<span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">y</span> <span class="op">=</span> <span class="fl">0.75</span><span class="op">*</span><span class="va">x</span> <span class="op">+</span> <span class="fl">3</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">*</span><span class="va">randn</span>(<span class="fl">1</span><span class="op">,</span><span class="fl">10</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The unknown parameters are <span class="math inline">a</span> and <span class="math inline">b</span> (the true values are 0.75 and 3, respectively).</p></li>
+<ol type="1">
+<li>Estimate the unknown parameters are <span class="math inline">a</span> and <span class="math inline">b</span> (the true values are 0.75 and 3, respectively).</li>
+<li>Generate the vector <code>y_est</code> with the estimated parameters.</li>
+<li>Plot <code>y_est</code> and <code>y</code> on the same image.</li>
+</ol></li>
 </ol>
 <p><strong>Not done</strong></p>
 <ol start="3" type="1">
