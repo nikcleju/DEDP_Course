@@ -474,7 +474,7 @@ estimated values can be far from the true value
 
 ### Bayesian estimation
 
-- **Bayesian estimation** considers extra factors alongside $w(\vec{r} | \Theta$ in the estimation:
+- **Bayesian estimation** considers extra factors alongside $w(\vec{r} | \Theta$) in the estimation:
 
    - a prior distribution $w(\Theta)$
    - possibly some cost function 
@@ -496,12 +496,12 @@ given the known observations $\vec{r}$, using the **Bayes rule**:
   - $w(\Theta | \vec{r})$ is the probability of a certain value $\Theta$ to be the correct one, given our current observations $\vec{r}$;
   - $w(\vec{r} | \Theta)$ is the likelihood function
   - $w(\Theta)$ is the **prior distribution** of $\Theta$, i.e. what we know about $\Theta$ even in the absence of evidence
-  - $w(\vec{r})$ is the prior distribution of $\vec{r}$; it is assumed constant
+  - $w(\vec{r})$ is a scaling constant, which makes the integral of the resulting function be 1 (like for any distribution)
 
 
 ### Bayes rule
 
-- The Bayes rule shows that the estimate of $\Theta$ depends on two things:
+- The Bayes rule shows that the probability of a value $\Theta$ depends on two things:
 
   1. The observations that we have, via the term $w(\vec{r} | \Theta)$
   2. The prior knowledge (or prior belief) about $\Theta$, via the term $w(\Theta)$
