@@ -92,21 +92,23 @@ that depends on $\Theta$ (and the noise)
 
 	2. **Bayesian Estimation**: Besides $\vec{r}$, we know a **prior** distribution $p(\Theta)$ for $\Theta$, 
 	which tells us the values of $\Theta$ that are more likely than others
-	 
-		- this is more general than BE
        
 
 ## II.2 Maximum Likelihood estimation
 
 ### Maximum Likelihood definition
-- When no distribution is known except $\vec{r}$, we use a method
+
+- When no distribution is known except $\vec{r}$, we use a method
 known as **Maximum Likelihood estimation (MLE)**
 
 - We define the **likelihood** of a parameter value $\Theta$, given
 the available observations $\vec{r}$ as:
-	$$L(\Theta | \vec{r}) = w(\Theta | \vec{r})$$
+	$$L(\Theta | \vec{r}) = w(\vec{r} | \Theta)$$
 
 - $L(\Theta | \vec{r})$ is the likelihood function
+
+- "The plausibility of a parameter value $\Theta$ given some measurements $\vec{r}$ = 
+  = the probability density of generating $\vec{r}$ if the true value would be $\Theta$"
 
 - Compare with formula in Chapter 2, slide 20
 
@@ -117,8 +119,9 @@ the available observations $\vec{r}$ as:
 ### Maximum Likelihood definition
 
 Maximum Likelihood (ML) Estimation: 
-- The estimate $\hat{\Theta}_{ML}$ is **the value
-that maximizes the likelihood, given the observed data**
+
+- The estimate $\hat{\Theta}_{ML}$ is **the value
+that maximizes the likelihood, given the observed data $\vec{r}$**
 
    - i.e. the value that maximizes $L(\Theta | \vec{r})$, i.e. maximize $w(\vec{r} | \Theta)$
     $$\hat{\Theta}_{ML} = \arg\max_{\Theta } L(\Theta | \vec{r}) = \arg\max_{\Theta} w(\vec{r} | \Theta)$$
@@ -152,12 +155,15 @@ the maximization only to that range.
 
 
 ### How to solve
-- How to solve the maximization problem?
+
+- How to solve the maximization problem?
    
    - i.e. how to find the estimate $\hat{\Theta}_{ML}$ which maximizes $L(\Theta | \vec{r})$
-- Find maximum by setting derivative to 0
+
+- Find maximum by setting derivative to 0
 	$$\frac{d L(\Theta | \vec{r})}{d\Theta} = 0$$
-- We can also maximize the **natural logarithm** of the likelihood function ("log-likelihood function")
+
+- We can also maximize the **natural logarithm** of the likelihood function ("log-likelihood function")
 	$$\frac{d \ln\left(L(\Theta)\right)}{d\Theta} = 0$$
 
 ### Solving procedure
@@ -179,10 +185,13 @@ Solving procedure:
 ### Examples:
 
 - Estimating a constant signal in gaussian noise:
-	Find the ML estimate of a constant value $s_\Theta(t) = A$ from 5 noisy measurements
+
+	Find the ML estimate of a constant value $s_\Theta(t) = A$ from 5 noisy measurements
 	$r_i = A + noise$ with values $[5, 7, 8, 6.1, 5.3]$. The noise is AWGN $\mathcal{N}(\mu=0, \sigma^2)$.
-- Solution: at whiteboard.
-- The estimate $\hat{A}_{ML}$ is the average value of the samples
+
+- Solution: at whiteboard.
+
+- The estimate $\hat{A}_{ML}$ is the average value of the samples
 
 	- not surprisingly, what other value would have been more likely?
 	- that's literally what "expected value" means
@@ -206,10 +215,12 @@ plt.close()
 ![](fig/03_NumericalSim_Constant.png){width=70% max-width=1000px}
 
 ### Curve fitting
-- **Estimation = curve fitting**
+
+- **Estimation = curve fitting**
 
     - we're finding the best fitting of $s_\Theta(t)$ through the data $\vec{r}$
-- From the previous graphical example:
+
+- From the previous graphical example:
 
    - we have some data $\vec{r}$ = some points
    
@@ -219,47 +230,58 @@ plt.close()
 
 ### General signal in AWGN
 
-- Consider that the true underlying signal is $s_\Theta(t)$
+- Consider that the true underlying signal is $s_\Theta(t)$
+
 - Consider **AWGN noise** $\mathcal{N}(\mu=0, \sigma^2)$.
-- The samples $r_i$ are taken at sample moments $t_i$
-- The samples $r_i$ have normal distribution with average value $\mu = s_\Theta(t_i)$
+
+- The samples $r_i$ are taken at sample moments $t_i$
+
+- The samples $r_i$ have normal distribution with average value $\mu = s_\Theta(t_i)$
 and variance $\sigma^2$
-- Overall likelihood function = product of likelihoods for each sample $r_i$
+
+- Overall likelihood function = product of likelihoods for each sample $r_i$
 	$$\begin{split}
 	L(\Theta | \vec{r}) = w(\vec{r} | \Theta) =& \prod_{i=1}^N \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{(r_i - s_\Theta(t_i))^2}{2 \sigma^2}} \\
 	=&  \left( \frac{1}{\sigma \sqrt{2 \pi}} \right)^N e^{- \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}}
 	\end{split}$$
 
 ### General signal in AWGN
-- The log-likelihood is 
+
+- The log-likelihood is 
 	$$\begin{split}
 	\ln\left(L(\Theta | \vec{r})\right) =& \underbrace{\ln\left(\frac{1}{\sigma \sqrt{2 \pi}}\right)}_{constant} - \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}
 	\end{split}$$
 
 ### General signal in AWGN
-- The maximum of the function = the minimum of the exponent
+
+- The maximum of the function = the minimum of the exponent
 	$$\hat{\Theta}_{ML} = \arg\max_{\Theta} L(\Theta | \vec{r}) = \arg\min \sum(r_i - s_\Theta(t_i))^2$$
-- The term $\sum(r_i - s_\Theta(t_i))^2$ is the **squared distance $d(\vec{r},s_\Theta)$**
+
+- The term $\sum(r_i - s_\Theta(t_i))^2$ is the **squared distance $d(\vec{r},s_\Theta)$**
 	$$d(\vec{r},s_\Theta) = \sqrt{\sum (r_i - s_\Theta(t_i))^2}$$
 	$$\left(d(\vec{r},s_\Theta)\right)^2 = \sum (r_i - s_\Theta(t_i))^2$$
 
 ### General signal in AWGN
-- ML estimation can be rewritten as:
+
+- ML estimation can be rewritten as:
 	$$\hat{\Theta}_{ML} = \arg\max_{\Theta} L(\Theta | \vec{r}) = \arg\min_\Theta d(\vec{r}, \vec{s}_\Theta)^2$$
-- ML estimate $\hat{\Theta}_{ML}$ = the value that makes $s_\Theta(t_i)$ 
+
+- ML estimate $\hat{\Theta}_{ML}$ = the value that makes $s_\Theta(t_i)$ 
 **closest to the received values $\vec{r}$**
  
    - closer = beter fit = more likely
    - closest = best fit = most likely = maximum likelihood
 
 ### General signal in AWGN
-- ML estimation in AWGN noise = **minimization of distance**
+
+- ML estimation in AWGN noise = **minimization of distance**
 
 - Hey, we had the same interpretation with ML decision!
   
 	- but for decision, we choose the minimum out of 2 options 
 	- here, we choose the minimum out of all possible options
-- Same interpretation applies for all kinds of vector spaces
+
+- Same interpretation applies for all kinds of vector spaces
  
    - vectors with N elements, continous signals, etc
    - just change the definition of the distance function
@@ -285,12 +307,14 @@ Procedure for ML estimation in AWGN noise:
 ### Numerical simulation
 
 Estimating the frequency $f$ of a cosine signal
-- Find the Maximum Likelihood estimate of the frequency $f$ 
+
+- Find the Maximum Likelihood estimate of the frequency $f$ 
 of a cosine signal $s_\Theta(t) = cos(2\pi f t_i)$, 
 from 10 noisy measurements 
 $r_i = cos(2\pi f t_i) + noise$ with values $[...]$. The noise is AWGN $\mathcal{N}(\mu=0, \sigma^2)$.
 The sample times $t_i = [0,1,2,3,4,5,6,7,8,9]$
-- Solution: at whiteboard.
+
+- Solution: at whiteboard.
 
 ### Numerical simulation
 
@@ -345,11 +369,13 @@ plt.close()
 
 
 ### Multiple parameters
-- What if we have more than one parameter?
+
+- What if we have more than one parameter?
 
    - e.g. unknown parameters are the amplitude, frequency and the initial phase of a cosine:
 	$$s_\vec{\Theta}(t) = A \cos(2 \pi f t + \phi)$$
-- We can consider the parameter $\Theta$ to be a vector:
+
+- We can consider the parameter $\Theta$ to be a vector:
 
 	$$\bm{\Theta} = [\Theta_1, \Theta_2, ... \Theta_M]$$
    
@@ -371,11 +397,14 @@ we have $M$ derivatives
 	- sometimes difficult to solve
 
 ### Gradient Descent 
-- How to estimate the parameters $\bm{\Theta}$ in complicated cases?
+
+- How to estimate the parameters $\bm{\Theta}$ in complicated cases?
    - e.g. in real life applications
    - usually there are many parameters ($\bm{\Theta}$ is a vector)
-- Typically it is impossible to get the optimal values directly by solving the system
-- Improve them iteratively with **Gradient Descent** algorithm or its variations
+
+- Typically it is impossible to get the optimal values directly by solving the system
+
+- Improve them iteratively with **Gradient Descent** algorithm or its variations
 
 ### Gradient Descent procedure
 
@@ -396,18 +425,22 @@ we have $M$ derivatives
 
 
 ### Gradient Descent explained
-- Explanations at blackboard
-- Simple example: logistic regression on 2D-data
+
+- Explanations at blackboard
+
+- Simple example: logistic regression on 2D-data
    - maybe do example at blackboard
 
 ### Neural Networks
-- The most prominent example is **Artificial Neural Networks** (a.k.a. Neural Networks, 
+
+- The most prominent example is **Artificial Neural Networks** (a.k.a. Neural Networks, 
 Deep Learning, etc.)
 
    - Can be regarded as ML estimation 
    - Use Gradient Descent to update parameters
    - State-of-the-art applications: image classification/recognition, automated driving etc.
- - More info on neural networks / machine learning: 
+ 
+- More info on neural networks / machine learning: 
    
    - look up online courses, books
    - join the IASI AI Meetup
@@ -469,7 +502,6 @@ estimated values can be far from the true value
 
 - We prefer estimators with **small variance**, even if maybe slightly biased
 
-
 ## II.3 Bayesian estimation
 
 ### Bayesian estimation
@@ -479,8 +511,14 @@ estimated values can be far from the true value
    - a prior distribution $w(\Theta)$
    - possibly some cost function 
 
-
 - This makes it the estimation version of the MPE and MR decision criteria
+
+### Bayesian estimation
+
+- Conceptually, Bayesian estimation consists of two major steps:
+
+  1. Finding the **posterior distribution** $w(\Theta | \vec{r})$
+  2. Estimating a value from the distribution, based on a **cost function**
 
 ### Bayesian estimation
 
@@ -497,6 +535,14 @@ given the known observations $\vec{r}$, using the **Bayes rule**:
   - $w(\vec{r} | \Theta)$ is the likelihood function
   - $w(\Theta)$ is the **prior distribution** of $\Theta$, i.e. what we know about $\Theta$ even in the absence of evidence
   - $w(\vec{r})$ is a scaling constant, which makes the integral of the resulting function be 1 (like for any distribution)
+
+### Bayesian estimation
+
+- With MLE estimation, we only have the term $w(\vec{r} | \Theta)$. 
+  When viewed as a function of $\Theta$, this is not a distribution of $\Theta$. 
+  It's just something we want to maximize.
+
+- Bayesian estimation, however, uses $w(\Theta | \vec{r})$, which **is** the actual probability distribution of the possible values of $\Theta$
 
 
 ### Bayes rule
@@ -515,14 +561,16 @@ given the known observations $\vec{r}$, using the **Bayes rule**:
    - Stuff related to Bayes rule are often named "Bayesian"
 
 ### The prior distribution
-- Suppose we know beforehand a distribution of $\Theta$, $w(\Theta)$
+
+- The role of the prior distribution $w(\Theta)$ 
+  is to express what we know beforehand about $\Theta$
 
    - we know beforehand how likely it is to have a certain value
    - known as *a priori* distribution or *prior* distribution
-- The estimation must take it into account
+
+- Bayesian estimation takes the prior information into account, alongside the measurements
 
    - the estimate will be slightly "moved" towards more likely values
-
 
 ### The MAP estimator
 
@@ -573,16 +621,16 @@ Image example here
 
 - Same principle!
 
-    ### Cost function
+    
+### Cost function
 
-- Let's find an equivalent for the Minimum Risk criterion
-
-- We need an equivalent for the costs $C_{ij}$
+- Let's find an equivalent for the Minimum Risk criterion. We need an equivalent for the costs $C_{ij}$
 
 - The **estimation error** = the difference between the estimate $\hat{\Theta}$
 and the true value $\Theta$
 	$$\epsilon = \hat{\Theta} - \Theta$$
-- The **cost function $C(\epsilon)$** = assigns a cost to each possible estimation error
+
+- The **cost function $C(\epsilon)$** = assigns a cost to each possible estimation error
 
    - when $\epsilon = 0$, the cost $C(0) = 0$ 
    - small errors $\epsilon$ have small costs
@@ -623,38 +671,55 @@ and the true value $\Theta$
 
 - Which is the MAP estimate?
 
-- Supposing we have the following cost function:
+- Supposing we have the following cost function, does your estimate change ?:
     
-	- if your estimate $\hat{\Theta}$ is < then the real $\Theta$, you pay 1000 \$
-	- if your estimate $\hat{\Theta}$ is > then the real $\Theta$, you pay 1 \$
-	- does your estimate change ? :)
+	- if your estimate $\hat{\Theta}$ is < then the real $\Theta$, you pay 1000\$
+	- if your estimate $\hat{\Theta}$ is > then the real $\Theta$, you pay 1\$
+
+### The importance of the cost function
+
+- Choosing one particular value $\hat{\Theta}$ from the distribution of possible values
+  is driven by the cost function
+
+- The most probable value is not always the best
+
+- The best value is the one which leads to the smallest average cost
 
 ### The Bayesian risk
-- The posterior distribution $w(\Theta | \vec{r})$ tells us the probability of a certain value $\hat{\Theta}$ to be the correct one of $\Theta$
+
+- The posterior distribution $w(\Theta | \vec{r})$ tells us the probability of a certain value $\hat{\Theta}$ to be the correct one of $\Theta$
   
 - Picking a certain estimate value $\hat{\Theta}$ implies a certain error $\epsilon$
-- The error implies a certain cost $C(\epsilon)$
-- The **risk** = the average cost = $C(\epsilon$) $\times$ the probability:
+
+- The error implies a certain cost $C(\epsilon)$
+
+- The **risk** = the average cost = $C(\epsilon$) $\times$ the probability:
 
 	$$R = \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 
 ### The Bayes estimator
-- We need to pick the value $\hat{\Theta}$ which **minimizes the expected cost $R$**
+
+- We need to pick the value $\hat{\Theta}$ which **minimizes the expected cost $R$**
 
 	$$\hat{\Theta} = \arg\min_\Theta \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
-- To find it, replace $C(\epsilon)$ with its definition and derivate over $\hat{\Theta}$
+
+- To find it, replace $C(\epsilon)$ with its definition and derivate over $\hat{\Theta}$
    
    - Attention: derivate with respect to $\hat{\Theta}$, not $\Theta$!
 
 
 ### MMSE estimator
-- When the cost function is quadratic $C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$
+
+- When the cost function is quadratic $C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$
 	$$R = \int_{-\infty}^\infty (\hat{\Theta} - \Theta)^2 w(\Theta | \vec{r}) d\Theta$$
-- We want the $\hat{\Theta}$ that minimizes $R$, so we derivate
+
+- We want the $\hat{\Theta}$ that minimizes $R$, so we derivate
 	$$\frac{dR}{d\hat{\Theta}} = 2 \int_{-\infty}^\infty (\hat{\Theta} - \Theta) w(\Theta | \vec{r}) d\Theta = 0$$
-- Equivalent to
+
+- Equivalent to
 	$$\hat{\Theta} \underbrace{\int_{-\infty}^\infty w(\Theta | \vec{r})}_1 d\Theta = \int_{-\infty}^\infty \Theta w(\Theta | \vec{r}) d\Theta$$
-- The **Minimum Mean Squared Error (MMSE)** estimator is
+
+- The **Minimum Mean Squared Error (MMSE)** estimator is
 	$$\hat{\Theta}_{MMSE} = \int_{-\infty}^\infty \Theta \cdot w(\Theta | \vec{r}) d\Theta$$
 
 ### Interpretation
@@ -665,27 +730,33 @@ and the true value $\Theta$
 
     - MMSE = "Minimum Mean Squared Error"
 	- average value = sum (integral) of every $\Theta$ times its probability $w(\Theta | \vec{r})$
-- The MMSE estimator is obtained from the posterior distribution $w(\Theta | \vec{r})$ considering the
-quadratic cost function
+
+- The MMSE estimator is obtained from the posterior distribution $w(\Theta | \vec{r})$ considering the
+quadratic cost function
+
 
 ### The MAP estimator
-- When the cost function is uniform: 
+
+- When the cost function is uniform: 
 	$$C(\epsilon) = \begin{cases}
     0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
     1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
     \end{cases}$$
 
 - Keep in mind that $\Theta = \hat{\Theta} - \epsilon$
-- We obtain
+
+- We obtain
 	$$\begin{split}
 	I =& \int_{-\infty}^{\hat{\Theta}-E} w(\Theta | \vec{r}) d\Theta + \int_{\hat{Theta} + E}^\infty w(\Theta | \vec{r}) d\Theta \\
 	I =& 1 - \int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta
 	\end{split}$$
 
 ### The MAP estimator
-- To minimize $C$, we must maximize $\int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta$, the integral
+
+- To minimize $C$, we must maximize $\int_{\hat{\Theta}-E}^{\hat{\Theta}+E} w(\Theta | \vec{r}) d\Theta$, the integral
 around point $\hat{\Theta}$
-- For $E$ a very small, the function $w(\Theta | \vec{r})$ is approximately constant, so we pick the point where the function is maximum
+
+- For $E$ a very small, the function $w(\Theta | \vec{r})$ is approximately constant, so we pick the point where the function is maximum
 
 - **The Maximum A Posteriori (MAP) estimator** = the value $\hat{\Theta}$ which maximizes $w(\Theta | \vec{r})$
 	$$\hat{\Theta}_{MAP} = \arg\max_\Theta w(\Theta | \vec{r}) = \arg\max\Theta w(\vec{r} | \Theta) \cdot w(\Theta)$$
@@ -713,62 +784,82 @@ around point $\hat{\Theta}$
 ### Exercise
 
 Exercise: constant value, 3 measurement, Gaussian same $\sigma$
-- We want to estimate today's temperature in Sahara- Our thermometer reads 40 degrees, but the value was affected by Gaussian noise $\mathcal{N}(0, \sigma^2=2)$ (crappy thermometer)- We know that this time of the year, the temperature is around 35 degrees, with a Gaussian distribution $\mathcal{N}(35, \sigma^2 = 2)$.- Estimate the true temperature using ML, MAP and MMSE estimators
+
+- We want to estimate today's temperature in Sahara
+- Our thermometer reads 40 degrees, but the value was affected by Gaussian noise $\mathcal{N}(0, \sigma^2=2)$ (crappy thermometer)
+- We know that this time of the year, the temperature is around 35 degrees, with a Gaussian distribution $\mathcal{N}(35, \sigma^2 = 2)$.
+- Estimate the true temperature using ML, MAP and MMSE estimators
 
 
 ### Exercise
 
 Exercise: constant value, 3 measurements, Gaussian same $\sigma$
-- What if he have three thermometers, showing 40, 38, 41 degrees
+
+- What if he have three thermometers, showing 40, 38, 41 degrees
 
 Exercise: constant value, 3 measurements, Gaussian different $\sigma$
-- What if the temperature this time of the year has Gaussian distribution $\mathcal{N}(35, \sigma_2^2 = 3)$
+
+- What if the temperature this time of the year has Gaussian distribution $\mathcal{N}(35, \sigma_2^2 = 3)$
    - different variance, $\sigma_2 \neq \sigma$
 
 ### General signal in AWGN
-- Consider that the true underlying signal is $s_\Theta(t)$- Consider AWGN noise $\mathcal{N}(\mu=0, \sigma^2)$.
-- As in Maximum Likelihood function, overall likelihood function
+
+- Consider that the true underlying signal is $s_\Theta(t)$
+- Consider AWGN noise $\mathcal{N}(\mu=0, \sigma^2)$.
+
+- As in Maximum Likelihood function, overall likelihood function
 $$\begin{split}
 w(\vec{r} | \Theta) =&  \frac{1}{\sigma \sqrt{2 \pi}} e^{- \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}}
 \end{split}$$
-- But now this function is also **multiplied with $w(\Theta)$**
+
+- But now this function is also **multiplied with $w(\Theta)$**
 $$w(\vec{r} | \Theta) \cdot w(\Theta)$$
 
 ### General signal in AWGN
-- MAP estimator is the argument that maximizes this product
+
+- MAP estimator is the argument that maximizes this product
 $$\hat{\Theta}_{MAP} = \arg\max w(\vec{r} | \Theta) w(\Theta)$$
-- Taking logarithm
+
+- Taking logarithm
 $$\begin{split}
 \hat{\Theta}_{MAP} =& \arg\max \ln \left( w(\vec{r} | \Theta) \right) + \ln \left( w(\Theta) \right) \\
 =& \arg\max - \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2} + \ln \left(w(\Theta)\right)
 \end{split}$$
 
 ### Gaussian prior
-- If the prior distribution is also Gaussian $\mathcal{N}(\mu_\Theta, \sigma_\Theta^2)$
+
+- If the prior distribution is also Gaussian $\mathcal{N}(\mu_\Theta, \sigma_\Theta^2)$
 $$ \ln \left(w(\Theta)\right) = - \frac{\sum(\Theta - \mu_\Theta)^2}{2 \sigma_\Theta^2}$$
-- MAP estimation becomes
+
+- MAP estimation becomes
 $$ \hat{\Theta}_{MAP} = \arg\min \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2} + \frac{\sum(\Theta - \mu_\Theta)^2}{2 \sigma_\Theta^2}$$
-- Can be rewritten as
+
+- Can be rewritten as
 $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigma^2}{\sigma_\Theta^2}}_\lambda \cdot d(\Theta, \mu_\Theta)^2$$
 
 ### Interpretation
-- MAP estimator with Gaussian noise and Gaussian prior
+
+- MAP estimator with Gaussian noise and Gaussian prior
 	$$\hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigma^2}{\sigma_\Theta^2}}_\lambda \cdot d(\Theta, \mu_\Theta)^2$$
-- $\hat{\Theta}_{MAP}$ is close to the expected value $\mu_\Theta$ **and** it makes the true signal close to received data $\vec{r}$
+
+- $\hat{\Theta}_{MAP}$ is close to the expected value $\mu_\Theta$ **and** it makes the true signal close to received data $\vec{r}$
 
    - Example: "search for a house that is close to job and close to the Mall"
    - $\lambda$ controls the relative importance of the two terms
-    - Particular cases
+    
+- Particular cases
 
    - $\sigma_\Theta$ very small = the prior is very specific (narrow) = $\lambda$ large = second term very important = $\hat{\Theta}_{MAP}$ close to $\mu_\Theta$
    - $\sigma_\Theta$ very large = the prior is very unspecific = $\lambda$ small = first term very important = $\hat{\Theta}_{MAP}$ close to ML estimation
 
 ### Applications
-- In general, practical applications:
+
+- In general, practical applications:
 
    - can use various prior distributions
    - estimate **multiple parameters** ( a vector of parameters)
-- Applications
+
+- Applications
 
    - denoising of signals
    - signal restoration
