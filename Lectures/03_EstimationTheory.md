@@ -579,7 +579,7 @@ given the known observations $\vec{r}$, using the **Bayes rule**:
 - Let's pick the value with the highest probability
 
 - The **Maximum A Posteriori (MAP)** estimator:
-	$$\hat{\Theta}_{MAP} = \arg\max_\Theta w(\Theta | \vec{r}) = \arg\max\Theta w(\vec{r} | \Theta) \cdot w(\Theta)$$
+	$$\hat{\Theta}_{MAP} = \arg\max_\Theta w(\Theta | \vec{r}) = \arg\max_\Theta \lbrace w(\vec{r} | \Theta) \cdot w(\Theta) \rbrace$$
 
 - The MAP estimator chooses $\Theta$ as the value where the posterior distribution $w(\Theta | \vec{r})$ is maximum
 
@@ -595,7 +595,7 @@ Image example here
 
 - The ML estimator: $$\arg\max w(\vec{r} | \Theta)$$
 
-- The MAP estimator: $$\arg\max w(\vec{r} | \Theta) \cdot w(\Theta)$$
+- The MAP estimator: $$\arg\max \lbrace w(\vec{r} | \Theta) \cdot w(\Theta) \rbrace$$
 
 - The ML estimator is a particular case of MAP when $w(\Theta)$ is a constant
    
@@ -872,7 +872,7 @@ $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigm
 
   - estimating an object's position through successive noisy measurements (e.g. consecutive frames in a video)
   
-  - ata every new measurement, we have two distributions of the position:
+  - at every new measurement, we have two distributions of the position:
      
 	  - one given by the measurement itself, $w(r | \Theta)$
 	  - one predicted based on position and speed from last moment
