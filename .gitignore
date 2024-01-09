@@ -1,3 +1,4 @@
 *.autosave.xopp
 *.xopp~
 /Lectures/.jupyter_cache/
+/Labs/Lab3_Decision_files/*
