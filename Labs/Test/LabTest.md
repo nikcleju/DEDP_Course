@@ -1,13 +1,12 @@
 ---
-title: Laboratory Test
-subtitle: DEDP 2022-2023
+title: Laboratory Test DEDP 2023-2024
 documentclass: scrartcl
 fontsize: 12pt
 ---
 
 ## Information
 
-- The test will be taken during the lab, and will last for 1 hour
+- The test will be taken during the lab, and will last for ~~1 hour~~ up to 2 hours
 
 - General Matlab stuff you need to know is listed in the **Syllabus** section
 
