@@ -1,7 +1,6 @@
 # Decision and Estimation in Data Processing Course
 
-Here you will find all the materials for the class of Decision and Estimation in Data Processing taught during 2020-2021
-autumn semester at ETTI, TUIASI.
+Here you will find all the materials for the class of Decision and Estimation in Data Processing taught during 3rd year undergraduate studies at ETTI, TUIASI.
 
 <!--
 ## Notes for 2018-2019 exam
@@ -16,16 +15,24 @@ autumn semester at ETTI, TUIASI.
 
 ## Course contents
 
+### Lecture textbook
+
+A draft version of a lecture textbook, in web format, but only in Romanian for now, is available here: [DEPI Lecture Notes](https://nikcleju.github.io/DEPI_LectureNotes/).
+
+For now it contains the solved exercises and a draft version of the theory material.
+
 ### Lectures
 
 All lecture slides are available as pdf in the [Lectures](Lectures/) folder:
 
+<!--
 - [Lectures\00_Introduction.pdf](Lectures/00_Introduction.pdf)
 - [Lectures\01_RandomSignals.pdf](Lectures/01_RandomSignals.pdf)
 - [Lectures\02_SignalDetectionTheory.pdf](Lectures/02_SignalDetectionTheory.pdf)
 - [Lectures\03_EstimationTheory.pdf](Lectures/03_EstimationTheory.pdf)
+-->
 
-The **annotated** lectures (written on during the classes) are available in the [Lectures/online/](Lectures/online) folder.
+The **annotated** lectures (written on during online classes, if any) are available in the [Lectures/online/](Lectures/online) folder.
 The files are named as `<chapter>_annotated.pdf`.
 
 ### Laboratory
