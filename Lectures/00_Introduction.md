@@ -7,7 +7,7 @@ title: Introduction
 - 4 credits
 - Professors
     - Lectures: Nicolae Cleju
-    - Laboratories / Seminar: Nicolae Cleju
+    - Laboratories & Seminar: Irina Pavel
 
 - Time schedule
     - 14 weeks of lectures (2h each)
@@ -23,14 +23,16 @@ title: Introduction
     - 60% of final grade
     - Exercises and Theory
     - Similar to Information Theory exam
-    
+
 - Applications = 40%
-    - Laboratory = 20% (half of Applications grade)
+    - Applications grade = (Laboratory grade + Seminar grade) / 2
+
+    - Laboratory:
         - in Matlab / Simulink
         - activity throughout semester (10%)
         - final laboratory practical test in Matlab / Simulink (10%)
 
-    - Seminar + Intermediate tests = 20% (half of Applications grade))
+    - Seminar + Intermediate tests
         - 2 tests: in Week 5, Week 10 (approx)
         - test = one exercise, 30 minutes, during seminar
         - Tests grade = average of the three tests grades + presence at Seminar
@@ -39,6 +41,7 @@ title: Introduction
 
 
 ### Course structure
+
 1. Chapter I:   Random signals
 2. Chapter II:  Statistical decision theory
 3. Chapter III: Statistical estimation
