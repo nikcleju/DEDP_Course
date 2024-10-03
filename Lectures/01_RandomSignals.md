@@ -589,6 +589,18 @@ in eliiptical shapes (symmetrically)
 
 ![](img/2DNormal-ellips.jpg){.id width=75%}
 
+### Example: trajectory parameters
+
+The distribution of (length, duration, angular change) for car trajectories in Podu Roș
+
+![](img/ScreenshotTrajs.png){.id width=75%}
+
+### Example: trajectory parameters
+
+The distribution of (length, duration, angular change) for car trajectories in Podu Roș
+
+![](img/outliers_In_PoduRos_Out_Palat_3D.png){.id width=75%}
+
 ### Statistical averages
 
 * R.v. are described by statistical averages ("*moments*")
