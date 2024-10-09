@@ -589,17 +589,38 @@ in eliiptical shapes (symmetrically)
 
 ![](img/2DNormal-ellips.jpg){.id width=75%}
 
-### Example: trajectory parameters
+### Example: car trajectories
 
-The distribution of (length, duration, angular change) for car trajectories in Podu Roș
+Trajectories of cars in the Podu Ros intersection
 
-![](img/ScreenshotTrajs.png){.id width=75%}
+![Trajectories of vehicles, In Podu Ros -> Out Palat](img/ScreenshotTrajs.png)
 
-### Example: trajectory parameters
+### Example: car trajectories
 
-The distribution of (length, duration, angular change) for car trajectories in Podu Roș
+Distribution of trajectory durations
 
-![](img/outliers_In_PoduRos_Out_Palat_3D.png){.id width=75%}
+- a. In Splai -> Out Palat
+- b. In Splai -> Out Podu Ros
+
+![](img/outliers_1D_In_Splai_Out_Palat.png){.id width=49%} ![](img/outliers_1D_In_Splai_Out_PoduRos.png){.id width=49%}
+
+### Example: car trajectories
+
+Distribution of trajectory (length, duration)
+
+- a. In Podu Ros -> Out Splai
+- b. In Splai -> Out Podu Ros
+
+![](img/outliers_2D_In_PoduRos_Out_Splai.png){.id width=49%} ![](img/outliers_2D_In_Splai_Out_Palat.png){.id width=49%}
+
+### Example: car trajectories
+
+Distribution of trajectory (length, duration, curvature)
+
+a. In Podu Ros -> Out Palat
+b. In Splai -> Out Podu Ros
+
+![](img/outliers_3D_In_PoduRos_Out_Palat.png){.id width=49%}  ![](img/outliers_3D_In_Splai_Out_PoduRos.png){.id width=49%}
 
 ### Statistical averages
 
