@@ -1665,15 +1665,15 @@ The k-Neareast Neighbours algorithm (k-NN)
 [1] image from "KNN Classification using Scikit-learn", Avinash Navlani, https://www.datacamp.com/community/tutorials/k-nearest-neighbor-classification-scikit-learn
 }
 
-### k-NN and ML decision
+### k-NN and MPE decision
 
-- If the training set is very large, the k-NN algorithm is a kind of ML decision
+- If the training set is very large, the k-NN algorithm becomes similar to MPE decision
 
-- The number of samples of a class in the vicinity of our point is proportional to $w(r|H_i)$
+- The number of samples of a class in the vicinity of our point is proportional to $w(r|H_i) P(H_i)$
 
-- More neighbors of class A than B $\Leftrightarrow$ $w(r|H_A)$ > $w(r|H_B)$
+- More neighbors of class A than B $\Leftrightarrow$ $w(r|H_A) P(H_A)$ > $w(r|H_B) P(H_B)$
 
-### k-NN and ML decision
+### k-NN and MPE decision
 
 - Example: leaves and trees
 
