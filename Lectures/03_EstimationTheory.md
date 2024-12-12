@@ -7,7 +7,7 @@
 
 - A sender transmits a signal $s_\Theta(t)$ which depends on an **unknown** parameter $\Theta$
 
-- The signal is affected by noise, we receive $r(t) = s_\Theta(t) + noise$ 
+- The signal is affected by noise, we receive $r(t) = s_\Theta(t) + noise$
 
 - We want to **find out** the correct value of the parameter
     - based on samples from the received signal, or the full continuous signal
@@ -15,7 +15,7 @@
 
 - The found value is $\hat{\Theta}$, **the estimate** of $\Theta$ ("estimatul", rom)
     - there will always be some estimation error $\epsilon = \hat{\Theta} - \Theta$
-    
+
 
 ### What means "Estimation"?
 
@@ -24,10 +24,10 @@
     - Unknown amplitude of constant signal: $r(t) = A + noise$, estimate $A$
     - Unknown phase of sine signal: $r(t) = \cos(2 \pi f t + \phi)$, estimate $\phi$
 	- Even complicated problems:
-	
+
 	    - Record speech signal, estimate/decide what word is pronounced
-	
-		
+
+
 ### Estimation vs Decision
 
 - Consider the following estimation problem:
@@ -35,11 +35,11 @@
 	We receive a signal $r(t) = A + noise$, estimate $A$
 
 - For detection, we have to choose between **two known values** of $A$:
-    
+
     - i.e. $A$ can be 0 or 5 (hypotheses $H_0$ and $H_1$)
-    
+
 - For estimation, $A$ can be anything => we choose between **infinite number of options** for $A$:
-    
+
     - $A$ might be any value in $\mathbb{R}$, in general
 
 ### Estimation vs Decision
@@ -59,7 +59,7 @@
 
     - it is affected by noise
     - it depends on the unknown parameter $\Theta$
-    
+
 - We consider **N samples** from $r(t)$, taken at some sample times $t_i$
 	$$\vec{r} = [r_1, r_2, ... r_N]$$
 
@@ -81,18 +81,18 @@ that depends on $\Theta$ (and the noise)
 	- Equal to the product of all $w_i(r_i | \Theta)$
 	$$w(\vec{r} | \Theta) = w_1(r_1 | \Theta) \cdot w_2(r_2 | \Theta) \cdot ... \cdot w_N(r_N | \Theta)$$
 
-  
+
 ### Two types of estimation
 
 - We consider two types of estimation:
-    
-	1. **Maximum Likelihood Estimation (MLE)**: Besides $\vec{r}$, nothing else is known about the parameter 
-	$\Theta$, except maybe some allowed range (e.g. $\Theta > 0$)
-	
 
-	2. **Bayesian Estimation**: Besides $\vec{r}$, we know a **prior** distribution $p(\Theta)$ for $\Theta$, 
+	1. **Maximum Likelihood Estimation (MLE)**: Besides $\vec{r}$, nothing else is known about the parameter
+	$\Theta$, except maybe some allowed range (e.g. $\Theta > 0$)
+
+
+	2. **Bayesian Estimation**: Besides $\vec{r}$, we know a **prior** distribution $p(\Theta)$ for $\Theta$,
 	which tells us the values of $\Theta$ that are more likely than others
-       
+
 
 ## II.2 Maximum Likelihood estimation
 
@@ -107,7 +107,7 @@ the available observations $\vec{r}$ as:
 
 - $L(\Theta | \vec{r})$ is the likelihood function
 
-- "The plausibility of a parameter value $\Theta$ given some measurements $\vec{r}$ = 
+- "The plausibility of a parameter value $\Theta$ given some measurements $\vec{r}$ =
   = the probability density of generating $\vec{r}$ if the true value would be $\Theta$"
 
 - Compare with formula in Chapter 2, slide 20
@@ -118,7 +118,7 @@ the available observations $\vec{r}$ as:
 
 ### Maximum Likelihood definition
 
-Maximum Likelihood (ML) Estimation: 
+Maximum Likelihood (ML) Estimation:
 
 - The estimate $\hat{\Theta}_{ML}$ is **the value
 that maximizes the likelihood, given the observed data $\vec{r}$**
@@ -134,7 +134,7 @@ the maximization only to that range.
 - General mathematical notations:
 
 	- $\arg\max_{x} f(x)$ = "the value $x$ which maximizes the function f(x)"
-	
+
 	- $\max_{x} f(x)$ = "the maximum value of the function f(x)"
 
 ### Maximum Likelihood estimation vs decision
@@ -148,16 +148,16 @@ the maximization only to that range.
 		$$\frac{L(H_1 | r)}{L(H_0 | r)} = \frac{w(r|H_1)}{w(r|H_0)} \grtlessH 1$$
 
 - ML estimation
-  
+
     - "pick the value which maximizes the likelihood"
-    
+
 		$$\hat{\Theta}_{ML} = \arg\max_{\Theta } L(\Theta | \vec{r}) = \arg\max_{\Theta} w(\vec{r} | \Theta)$$
 
 
 ### How to solve
 
 - How to solve the maximization problem?
-   
+
    - i.e. how to find the estimate $\hat{\Theta}_{ML}$ which maximizes $L(\Theta | \vec{r})$
 
 - Find maximum by setting derivative to 0
@@ -223,9 +223,9 @@ plt.close()
 - From the previous graphical example:
 
    - we have some data $\vec{r}$ = some points
-   
+
    - we know the shape of the signal = a line (constant A)
-   
+
    - we're fitting the best line through the data
 
 ### General signal in AWGN
@@ -247,7 +247,7 @@ and variance $\sigma^2$
 
 ### General signal in AWGN
 
-- The log-likelihood is 
+- The log-likelihood is
 	$$\begin{split}
 	\ln\left(L(\Theta | \vec{r})\right) =& \underbrace{\ln\left(\frac{1}{\sigma \sqrt{2 \pi}}\right)}_{constant} - \frac{\sum(r_i - s_\Theta(t_i))^2}{2 \sigma^2}
 	\end{split}$$
@@ -266,9 +266,9 @@ and variance $\sigma^2$
 - ML estimation can be rewritten as:
 	$$\hat{\Theta}_{ML} = \arg\max_{\Theta} L(\Theta | \vec{r}) = \arg\min_\Theta d(\vec{r}, \vec{s}_\Theta)^2$$
 
-- ML estimate $\hat{\Theta}_{ML}$ = the value that makes $s_\Theta(t_i)$ 
+- ML estimate $\hat{\Theta}_{ML}$ = the value that makes $s_\Theta(t_i)$
 **closest to the received values $\vec{r}$**
- 
+
    - closer = beter fit = more likely
    - closest = best fit = most likely = maximum likelihood
 
@@ -277,12 +277,12 @@ and variance $\sigma^2$
 - ML estimation in AWGN noise = **minimization of distance**
 
 - Hey, we had the same interpretation with ML decision!
-  
-	- but for decision, we choose the minimum out of 2 options 
+
+	- but for decision, we choose the minimum out of 2 options
 	- here, we choose the minimum out of all possible options
 
 - Same interpretation applies for all kinds of vector spaces
- 
+
    - vectors with N elements, continous signals, etc
    - just change the definition of the distance function
 
@@ -308,9 +308,9 @@ Procedure for ML estimation in AWGN noise:
 
 Estimating the frequency $f$ of a cosine signal
 
-- Find the Maximum Likelihood estimate of the frequency $f$ 
-of a cosine signal $s_\Theta(t) = cos(2\pi f t_i)$, 
-from 10 noisy measurements 
+- Find the Maximum Likelihood estimate of the frequency $f$
+of a cosine signal $s_\Theta(t) = cos(2\pi f t_i)$,
+from 10 noisy measurements
 $r_i = cos(2\pi f t_i) + noise$ with values $[...]$. The noise is AWGN $\mathcal{N}(\mu=0, \sigma^2)$.
 The sample times $t_i = [0,1,2,3,4,5,6,7,8,9]$
 
@@ -329,7 +329,7 @@ ftrue = 0.07;
 n = np.arange(0,20)
 r = np.cos(2 * math.pi * ftrue * n) + sigma*np.random.randn(20)
 
-# Log-likelihood function 
+# Log-likelihood function
 fvalues = np.linspace(0.04, 0.1, 100);
 L = np.zeros((1,500))
 L = [np.log(1./(sigma*math.sqrt(2*math.pi))) - (sum(r - np.cos(2 * math.pi * fvalue * n))**2)/2*sigma*sigma for fvalue in fvalues]
@@ -352,7 +352,7 @@ ftrue = 0.07;
 n = np.arange(0,20)
 r = np.cos(2 * math.pi * ftrue * n) + sigma*np.random.randn(20)
 
-# Log-likelihood function 
+# Log-likelihood function
 fvalues = np.linspace(0.04, 1/10, 100);
 L = np.zeros((1,500))
 L = [np.log(1./(sigma*math.sqrt(2*math.pi))) - (sum(r - np.cos(2 * math.pi * fvalue * n))**2)/2*sigma*sigma for fvalue in fvalues]
@@ -368,6 +368,81 @@ plt.close()
 ![](fig/03_NumericalSim_CosineFreq.png){width=70% max-width=1000px}
 
 
+### Estimating parameters for certain distributions
+
+- ML estimation can be used to estimate parameters of distributions
+
+- Suppose we have a set of values $r_i$, which we model as samples coming from a distribution.
+  How do we find the parameters of that distribution?
+
+- For now, we consider only one unknown parameter
+
+### Estimating the parameters of the normal distribution
+
+- Assume $r_i$ are samples coming from a normal distribution $\mathcal{N}(\mu, \sigma^2)$
+- The distribution has two parameters: mean $\mu$ and standard deviation $\sigma$ (or variance $\sigma^2$)
+
+- Estimating $\mu$:
+
+  Just like estimating a constant signal in AWGN noise of mean 0:
+  $$\hat{\mu}_{ML} = \frac{1}{N} \sum_{i=1}^N r_i$$
+
+- Estimating $\sigma^2$:
+
+  Can't be formulated as estimating a signal added with AWGN noise, but can still use ML:
+
+  $$\hat{\sigma}_{ML} = \arg\max_{\sigma} w(\vec{r} | \sigma)$$
+
+### Estimating the parameters of the normal distribution
+
+$$\begin{aligned}
+\hat{\sigma}_{ML} &= \arg\max_{\sigma} w(\vec{r} | \sigma) \\
+=& \arg\max_{\sigma} \left( \frac{1}{\sigma \sqrt{2 \pi}} \right)^N e^{- \frac{\sum(r_i - \mu)^2}{2 \sigma^2}}   \quad \textrm{( apply ln() )}\\
+=& \arg\max_{\sigma} \left( -N \ln(\sigma \sqrt{2 \pi}) - \frac{\sum(r_i - \mu)^2}{2 \sigma^2} \right)\\
+\end{aligned}$$
+
+Derivate and set to 0 to obtain the minimum:
+
+$$\begin{split}
+-N \frac{1}{\sigma \sqrt{2 \pi}} \sqrt{2 \pi} - \frac{\sum(r_i - \mu)^2}{2} (-2) \sigma^{-3} &= 0 \\
+-\frac{N}{\sigma} + \frac{\sum(r_i - \mu)^2}{\sigma^3} &= 0 \\
+\sigma^2 &= \frac{\sum(r_i - \mu)^2}{N} \\
+\end{split}$$
+
+### Estimating the parameters of the normal distribution
+
+- Estimated parameters of the normal distribution are identical to the definitions of the mean and variance:
+
+  $$\begin{aligned}
+  \hat{\mu}_{ML} &= \frac{1}{N} \sum_{i=1}^N r_i \\
+  \hat{\sigma}_{ML} &= \sqrt{\frac{\sum_{i=1}^N (r_i - \mu)^2}{N}}
+  \end{aligned}$$
+
+- Note: estimating $\sigma$ requires the value of $\mu$
+
+  - If $\mu$ is known, everything is fine
+  - If $\mu$ is unknown, we can use $\hat{\mu}_{ML}$ beforehand, but then we're estimating based on another estimate, which is problematic (the estimator is biased, we'll see)
+
+### Estimating the parameters of the uniform distribution
+
+- Assume $r_i$ are samples from a uniform distribution $\mathcal{U}[a, b]$
+- The distribution has two parameters: the limits $a$ și $b$
+- Estimating $a$ and $b$:
+
+  $$\begin{aligned}
+  \hat{a}_{ML} &= \arg\max_{a} w(\vec{r} | a)\\
+  \hat{b}_{ML} &= \arg\max_{b} w(\vec{r} | b)
+  \end{aligned}$$
+
+  Which means:
+  $$\begin{aligned}
+  \hat{a}_{ML} &= \min(r_i) \\
+  \hat{b}_{ML} &= \max(r_i)
+  \end{aligned}$$
+
+- The interval must contain all the values $r_i$ (otherwise, the likelihood would be 0)
+  but should not extend more than necessary (otherwise, the probability would decrease)
+
 ### Multiple parameters
 
 - What if we have more than one parameter?
@@ -378,25 +453,25 @@ plt.close()
 - We can consider the parameter $\Theta$ to be a vector:
 
 	$$\bm{\Theta} = [\Theta_1, \Theta_2, ... \Theta_M]$$
-   
+
    - e.g. $\bm{\Theta} = [\Theta_1, \Theta_2, \Theta_3] =[A, f, \phi]$
 
 ### Multiple parameters
 
-- We solve with the same procedure, but instead of one derivative, 
+- We solve with the same procedure, but instead of one derivative,
 we have $M$ derivatives
 
 - We solve the system:
-	$$\begin{cases} 
-	\frac{\partial L}{\partial \Theta_1} = 0 \\ 
-	\frac{\partial L}{\partial \Theta_2} = 0 \\ 
+	$$\begin{cases}
+	\frac{\partial L}{\partial \Theta_1} = 0 \\
+	\frac{\partial L}{\partial \Theta_2} = 0 \\
 	\dots \\
-	\frac{\partial L}{\partial \Theta_M} = 0 \\ 
+	\frac{\partial L}{\partial \Theta_M} = 0 \\
 	\end{cases}$$
 
 	- sometimes difficult to solve
 
-### Gradient Descent 
+### Gradient Descent
 
 - How to estimate the parameters $\bm{\Theta}$ in complicated cases?
    - e.g. in real life applications
@@ -406,6 +481,14 @@ we have $M$ derivatives
 
 - Improve them iteratively with **Gradient Descent** algorithm or its variations
 
+- Gradient Descent is a general method of finding the minimum or maximum of a function
+
+### Coborâre după gradient (Gradient Descent)
+
+![Coborâre după gradient[^GD]](img/GradientDescent.jpg){width=70%}
+
+[^GD]: Imagine: [Quick Guide to Gradient Descent and Its Variants, Sahdev Kansal, Towards Data Science, 2020](https://towardsdatascience.com/quick-guide-to-gradient-descent-and-its-variants-97a7afb33add)
+
 ### Gradient Descent procedure
 
 1. Start with some random parameter values $\bm{\Theta}^{(0)}$
@@ -413,43 +496,55 @@ we have $M$ derivatives
 2. Repeat for each iteration $k$:
 
     1. Compute function $L(\bm{\Theta}^{(k)} | \vec{r})$
-    
+
     2. Compute derivatives $\frac{\partial L}{\partial \Theta_i^{(k)}}$ for each $\Theta_i$ (**"gradient"**)
-    
+
     3. Update all values $\Theta_i$ by subtracting the derivative ("**descent**")
         $$\Theta_i^{(k+1)} = \Theta_i^{(k)} - \mu \frac{\partial L}{\partial \Theta_i^{(k)}}$$
        - or, in vector form:
-        $$\bm{\Theta}^{(k+1)} = \bm{\Theta}^{k} - \mu \frac{\partial L}{\partial \bm{\Theta}^{(k)}}$$ 
+        $$\bm{\Theta}^{(k+1)} = \bm{\Theta}^{k} - \mu \frac{\partial L}{\partial \bm{\Theta}^{(k)}}$$
 
 3. Until termination criterion (e.g. parameters don't change much)
 
-
 ### Gradient Descent explained
 
-- Explanations at blackboard
+- The derivative always tells in which direction to advance
 
-- Simple example: logistic regression on 2D-data
-   - maybe do example at blackboard
+- To find the minimum of a function, subtract the derivative (gradient descent)
+  $$\Theta^{(k+1)} = \Theta^{(k)} - \mu \frac{\partial L}{\partial \Theta^{(k)}}$$
+
+- TO find the maximum of a function, add the derivative (gradient ascent)
+  $$\Theta^{(k+1)} = \Theta^{(k)} + \mu \frac{\partial L}{\partial \Theta^{(k)}}$$
+
+- The parameter $\mu$ is the **learning rate** and is empirically chosen, has a small value
+
+- GD is sensitive to initial starting point, and can get trapped in local minima
+
+- Other explanations: at whiteboard
+
+- Exemplu practic: regresia logistică cu valori 2D
+
+- Practical example: logistic regression on 2D-data
 
 ### Neural Networks
 
-- The most prominent example is **Artificial Neural Networks** (a.k.a. Neural Networks, 
+- The most prominent example is **Artificial Neural Networks** (a.k.a. Neural Networks,
 Deep Learning, etc.)
 
-   - Can be regarded as ML estimation 
+   - Can be regarded as ML estimation
    - Use Gradient Descent to update parameters
    - State-of-the-art applications: image classification/recognition, automated driving etc.
- 
-- More info on neural networks / machine learning: 
-   
+
+- More info on neural networks / machine learning:
+
    - look up online courses, books
    - join the IASI AI Meetup
 
-    
+
 ### Estimator bias and variance
 
 - How good is an estimator?
-    
+
 - An estimator $\hat{\Theta}$ is a **random variable**
 
    - can have different values, because it is computed based on the received samples, which depend on noise
@@ -459,11 +554,11 @@ Deep Learning, etc.)
 
    - an average value (expected value): $E \left\{ \hat{\Theta} \right\}$
    - a variance: $E \left\{ (\hat{\Theta} - \Theta)^2 \right\}$
-    
+
 ### Estimator bias and variance
 
 ![Estimator bias and variance](img/BiasVariance.png){width=65%}
-    
+
 ### Estimator bias
 
 - The **bias** of an estimator $\hat{\Theta}$ = difference between the estimator's average value and the true value
@@ -471,7 +566,7 @@ Deep Learning, etc.)
 
 - Estimator is **unbiased** = the average value of the estimator is the true value of $\Theta$
     $$E \left\{ \hat{\Theta} \right\} = \Theta$$
-      
+
 - Estimator is **biased** = the average value of the estimator is different from the true value $\Theta$
    - the difference $E \left\{ \hat{\Theta} \right\} - \Theta$ is **the bias** of the estimator
 
@@ -491,10 +586,40 @@ E \left\{ \hat{A}_{ML} \right\} =& \frac{1}{N}E \left\{ \sum_i r_i \right\} \\
 
 - This estimator in unbiased
 
+
+### Estimator bias
+
+- Example: the estimator of the variance of a normal distribution, using the estimated mean $\hat{\mu}_{ML}$:
+  $$\begin{split}
+  \hat{\sigma}_{ML}^2 &= \frac{\sum_{i=1}^N (r_i - \hat{\mu}_{ML})^2}{N} \\
+  \end{split}$$
+
+- This estimator is **biased**:
+  $$\begin{split}
+  E \left\{ \hat{\sigma}_{ML}^2 \right\} &= E \left\{ \frac{\sum_{i=1}^N (r_i - \hat{\mu}_{ML})^2}{N} \right\} \\
+  &= \dots \\
+  &= \frac{N-1}{N} \sigma^2
+  \end{split}$$
+  where $\sigma^2$ is the real variance of the distribution
+
+- Demonstrație: [*Wikipedia*](https://en.wikipedia.org/wiki/Variance#Sample_variance)
+  or ["*Maximum Likelihood Estimator for Variance is Biased: Proof*", Dawen Liang, Carnegie Mellon University](https://dawenl.github.io/files/mle_biased.pdf)
+
+### The unbiased variance estimator
+
+- The ML estimator of variance is biased, as it **underestimates** the real variance of the distribution by a factor (N-1)/N
+
+- To obtain an unbiased estimator of the variance, we use:
+  $$\hat{\sigma}_{ML}^2 = \frac{1}{N-1} \sum_{i=1}^N (r_i - \hat{\mu}_{ML})^2$$
+
+- The difference: divide to $N-1$ instead of $N$
+
+- Intuition: at whiteboard, with 2 point only; medie este la mijloc; the average is in middle, variance is minimized, so it underestimates the real one
+
 ### Estimator variance
 
 - The **variance** of an estimator measures the "spread" of the estimator around its average
-   
+
    - that's the definition of variance
 
 - Unbiased estimators are good, but if the **variance** of the estimator is large, then
@@ -509,7 +634,7 @@ estimated values can be far from the true value
 - **Bayesian estimation** considers extra factors alongside $w(\vec{r} | \Theta$) in the estimation:
 
    - a prior distribution $w(\Theta)$
-   - possibly some cost function 
+   - possibly some cost function
 
 - This makes it the estimation version of the MPE and MR decision criteria
 
@@ -522,9 +647,9 @@ estimated values can be far from the true value
 
 ### Bayesian estimation
 
-- We define the **posterior** probability density of $\Theta$, 
+- We define the **posterior** probability density of $\Theta$,
 given the known observations $\vec{r}$, using the **Bayes rule**:
-	
+
 	$$w(\Theta | \vec{r}) = \frac{w(\vec{r} | \Theta) \cdot w(\Theta)}{w(\vec{r})}$$
 
 - Explanation of the terms:
@@ -538,8 +663,8 @@ given the known observations $\vec{r}$, using the **Bayes rule**:
 
 ### Bayesian estimation
 
-- With MLE estimation, we only have the term $w(\vec{r} | \Theta)$. 
-  When viewed as a function of $\Theta$, this is not a distribution of $\Theta$. 
+- With MLE estimation, we only have the term $w(\vec{r} | \Theta)$.
+  When viewed as a function of $\Theta$, this is not a distribution of $\Theta$.
   It's just something we want to maximize.
 
 - Bayesian estimation, however, uses $w(\Theta | \vec{r})$, which **is** the actual probability distribution of the possible values of $\Theta$
@@ -551,9 +676,8 @@ given the known observations $\vec{r}$, using the **Bayes rule**:
 
   1. The observations that we have, via the term $w(\vec{r} | \Theta)$
   2. The prior knowledge (or prior belief) about $\Theta$, via the term $w(\Theta)$
-  
-  - (the third term $w(\vec{r})$ is considered a constant, and plays no role)
 
+  - (the third term $w(\vec{r})$ is considered a constant, and plays no role)
 
 - Known as "Bayesian estimation"
 
@@ -562,7 +686,7 @@ given the known observations $\vec{r}$, using the **Bayes rule**:
 
 ### The prior distribution
 
-- The role of the prior distribution $w(\Theta)$ 
+- The role of the prior distribution $w(\Theta)$
   is to express what we know beforehand about $\Theta$
 
    - we know beforehand how likely it is to have a certain value
@@ -583,10 +707,10 @@ given the known observations $\vec{r}$, using the **Bayes rule**:
 
 - The MAP estimator chooses $\Theta$ as the value where the posterior distribution $w(\Theta | \vec{r})$ is maximum
 
-- The MAP estimator maximizes the likelihood of the observed data 
+- The MAP estimator maximizes the likelihood of the observed data
 **but multiplied with the prior distribution $w(\Theta)$**
 
-### The MAP estimator 
+### The MAP estimator
 
 Image example here
 
@@ -598,7 +722,7 @@ Image example here
 - The MAP estimator: $$\arg\max \lbrace w(\vec{r} | \Theta) \cdot w(\Theta) \rbrace$$
 
 - The ML estimator is a particular case of MAP when $w(\Theta)$ is a constant
-   
+
    - $w(\Theta)$ = constant means all values $\Theta$ are equally likely
    - i.e. we don't have a clue where the real $\Theta$ might be
 
@@ -612,16 +736,16 @@ Image example here
 	- i.e. choose the hypothesis where $w(r | H_i)\cdot P(H_i)$ is maximum
 
 - **MPE decision criterion**: pick hypothesis which maximizes $w(r | H_i)\cdot P(H_i)$
-    
+
 	- out of the two possible hypotheses
 
 - **The MAP estimator**: pick value which maximizes $w(\vec{r} | \Theta) \cdot w(\Theta)$
-    
+
 	- out of all possible values of $\Theta$
 
 - Same principle!
 
-    
+
 ### Cost function
 
 - Let's find an equivalent for the Minimum Risk criterion. We need an equivalent for the costs $C_{ij}$
@@ -632,7 +756,7 @@ and the true value $\Theta$
 
 - The **cost function $C(\epsilon)$** = assigns a cost to each possible estimation error
 
-   - when $\epsilon = 0$, the cost $C(0) = 0$ 
+   - when $\epsilon = 0$, the cost $C(0) = 0$
    - small errors $\epsilon$ have small costs
    - large errors $\epsilon$ have large costs
 
@@ -640,24 +764,24 @@ and the true value $\Theta$
 
 - Usual types of cost functions:
 
-   - Quadratic: 
+   - Quadratic:
 		$$C(\epsilon) = \epsilon^2 = \left( \hat{\Theta} - \Theta \right)^2$$
-   
-   - Uniform ("hit or miss"): 
+
+   - Uniform ("hit or miss"):
 		$$C(\epsilon) = \begin{cases}
 		0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
 		1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
 		\end{cases}$$
-		
-   - Linear: 
+
+   - Linear:
 		$$C(\epsilon) = |\epsilon| = | \hat{\Theta} - \Theta |$$
-   
+
 - Draw them at whiteboard
 
 ### Cost function
 
 - The cost function $C(\epsilon)$ is the equivalent of the costs $C_{ij}$ at detection
-  
+
     - for detection we only had 4 costs: $C_{00}$, $C_{01}$, $C_{10}$, $C_{11}$
 	- now we have a cost for all possible estimation errors $\epsilon$
 
@@ -672,7 +796,7 @@ and the true value $\Theta$
 - Which is the MAP estimate?
 
 - Supposing we have the following cost function, does your estimate change ?:
-    
+
 	- if your estimate $\hat{\Theta}$ is < then the real $\Theta$, you pay 1000\$
 	- if your estimate $\hat{\Theta}$ is > then the real $\Theta$, you pay 1\$
 
@@ -688,7 +812,7 @@ and the true value $\Theta$
 ### The Bayesian risk
 
 - The posterior distribution $w(\Theta | \vec{r})$ tells us the probability of a certain value $\hat{\Theta}$ to be the correct one of $\Theta$
-  
+
 - Picking a certain estimate value $\hat{\Theta}$ implies a certain error $\epsilon$
 
 - The error implies a certain cost $C(\epsilon)$
@@ -704,7 +828,7 @@ and the true value $\Theta$
 	$$\hat{\Theta} = \arg\min_\Theta \int_{-\infty}^\infty C(\epsilon) w(\Theta | \vec{r}) d\Theta$$
 
 - To find it, replace $C(\epsilon)$ with its definition and derivate over $\hat{\Theta}$
-   
+
    - Attention: derivate with respect to $\hat{\Theta}$, not $\Theta$!
 
 
@@ -737,7 +861,7 @@ quadratic cost function
 
 ### The MAP estimator
 
-- When the cost function is uniform: 
+- When the cost function is uniform:
 	$$C(\epsilon) = \begin{cases}
     0, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | \leq E \\
     1, \text{ if } |\epsilon| = |\hat{\Theta} - \Theta | > E \\
@@ -776,9 +900,9 @@ around point $\hat{\Theta}$
 - The MAP estimator = minimizing the average cost, using the uniform cost function
 
 	- similar with the MPE decision criteria = MR when all costs are same
-	
+
 - The MMSE estimator = minimizing the average cost, using the quadratic cost function
- 
+
     - similar to MR decision criteria, but more general
 
 ### Exercise
@@ -846,7 +970,7 @@ $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigm
 
    - Example: "search for a house that is close to job and close to the Mall"
    - $\lambda$ controls the relative importance of the two terms
-    
+
 - Particular cases
 
    - $\sigma_\Theta$ very small = the prior is very specific (narrow) = $\lambda$ large = second term very important = $\hat{\Theta}_{MAP}$ close to $\mu_\Theta$
@@ -871,18 +995,18 @@ $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigm
 1. Single object tracking with Kalman filtering
 
   - estimating an object's position through successive noisy measurements (e.g. consecutive frames in a video)
-  
+
   - at every new measurement, we have two distributions of the position:
-     
+
 	  - one given by the measurement itself, $w(r | \Theta)$
 	  - one predicted based on position and speed from last moment
 	  - both are presumed Gaussian, described only through average value and variance
- 
+
    - the two are combined via the Bayes rule => a more precise distribution $w(\Theta | r)$, also Gaussian
    - the exact position is estimated with MMSE (average value of $w(\Theta | r)$
    - $w(\Theta | r)$ + speed is used to predict the position at the next time moment
-   
-  
+
+
 ### Single object tracking
 
 ### Single object tracking
@@ -893,7 +1017,7 @@ $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigm
 
   - We have an image $I$ corrupted by noise (additive noise, missing pixels, blurring)
   $$I_{noisy} = I_{true} + Z$$
-  
+
   - We can estimate the original image by solving:
   $$\hat{I_{true}} = argmin_{I} \|I - I_{zg}\|_2 + \lambda \cdot \|HighPass\lbrace I \rbrace\|_2$$
 
@@ -902,7 +1026,7 @@ $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigm
     - [https://www.mathworks.com/help/images/deblurring-images-using-a-regularized-filter.html](https://www.mathworks.com/help/images/deblurring-images-using-a-regularized-filter.html)
 
     - [https://demonstrations.wolfram.com/ImageRestorationForDegradedImages](https://demonstrations.wolfram.com/ImageRestorationForDegradedImages)
-	
+
 	- Google it
-	
+
 ### Constrained Least Squares (CLS) image restoration
