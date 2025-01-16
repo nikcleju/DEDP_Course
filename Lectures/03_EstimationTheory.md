@@ -905,7 +905,7 @@ around point $\hat{\Theta}$
 
     - similar to MR decision criteria, but more general
 
-### Exercise
+<!-- ### Exercise
 
 Exercise: constant value, 3 measurement, Gaussian same $\sigma$
 
@@ -988,45 +988,62 @@ $$ \hat{\Theta}_{MAP} = \arg\min d(\vec{r},s_\Theta)^2 + \underbrace{\frac{\sigm
    - denoising of signals
    - signal restoration
    - signal compression
-
-
-### Sample applications
-
-1. Single object tracking with Kalman filtering
-
-  - estimating an object's position through successive noisy measurements (e.g. consecutive frames in a video)
-
-  - at every new measurement, we have two distributions of the position:
-
-	  - one given by the measurement itself, $w(r | \Theta)$
-	  - one predicted based on position and speed from last moment
-	  - both are presumed Gaussian, described only through average value and variance
-
-   - the two are combined via the Bayes rule => a more precise distribution $w(\Theta | r)$, also Gaussian
-   - the exact position is estimated with MMSE (average value of $w(\Theta | r)$
-   - $w(\Theta | r)$ + speed is used to predict the position at the next time moment
-
-
-### Single object tracking
-
-### Single object tracking
+-->
 
 ### Sample applications
 
-2. Constrained Least Squares (CLS) image restoration
+1. Kalman filter: estimate position of moving object
 
-  - We have an image $I$ corrupted by noise (additive noise, missing pixels, blurring)
-  $$I_{noisy} = I_{true} + Z$$
+  - Initial position and speed are known
+  - Take successive noisy measurements of the objects' position
+  - Estimate objects' position after every new measurement
 
-  - We can estimate the original image by solving:
-  $$\hat{I_{true}} = argmin_{I} \|I - I_{zg}\|_2 + \lambda \cdot \|HighPass\lbrace I \rbrace\|_2$$
+For every new measurement, we have two distributions:
 
-  - Examples:
+  - from the measurement $w(r | \Theta)$ ("likelihood")
+  - the **prediction**, based on previous position and speed, $w(\Theta)$ ("prior")
+  - both assumed Gaussian, (characterized only by mean and variance)
 
-    - [https://www.mathworks.com/help/images/deblurring-images-using-a-regularized-filter.html](https://www.mathworks.com/help/images/deblurring-images-using-a-regularized-filter.html)
+Combine them with Bayes rule  => a more precise distribution $w(\Theta | r)$, also Gaussian ("posterior")
 
-    - [https://demonstrations.wolfram.com/ImageRestorationForDegradedImages](https://demonstrations.wolfram.com/ImageRestorationForDegradedImages)
+  - use MMSE to estimate the exact position (mean of $w(\Theta | r)$)
+  - $w(\Theta | r)$ is used to predict the next position
 
-	- Google it
+### Kalman filter for estimating position of a moving object
 
-### Constrained Least Squares (CLS) image restoration
+![Position estimation with Kalman filter [^1]](img/Kalman_example_1.png){width=80%}
+
+[^1]: Image source: https://www.lancaster.ac.uk/stor-i-student-sites/jack-trainer/how-nasa-used-the-kalman-filter-in-the-apollo-program/
+
+### Kalman filter for estimating position of a moving object
+
+- Speed must be known, in order to predict next position of object
+- In the previous example, speed is known (constant value, or known distribution)
+- In general, Kalman filter also estimate **speed** of a moving object, based only on position measurements
+
+### Kalman filter for estimating position of a moving object
+
+Kalman filter for joint position and speed estimation (moving along one axis only)
+
+- Both the position and speed are estimated, i.e. the objects' **state**:
+  $\mathbf{s} = \begin{bmatrix} x \\ v \end{bmatrix}$
+- Work with 2D Gaussian distributions (position, speed) (movement along one axis only)
+
+Steps:
+
+  1. At step $k$, we know the distribution of state $s^k$
+  2. Predict the distribution of the state at step $k+1$ ("prior distribution")
+  3. Take a measurement of position $z^{k+1}$ ("likelihood")
+  4. Compute new distribution of the state ("posterior distibution") using the Bayes rule, by multiplication of the prior and likelihood
+  5. The mean of this distribution is the state estimate (position and speed) at step $k+1$ (MMSE estimation)
+
+### Kalman filter for estimating position of a moving object
+
+Illustrations:
+
+1. [https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/](https://www.bzarg.com/p/how-a-kalman-filter-works-in-pictures/)
+2. [https://towardsdatascience.com/what-i-was-missing-while-using-the-kalman-filter-for-object-tracking-8e4c29f6b795](https://towardsdatascience.com/what-i-was-missing-while-using-the-kalman-filter-for-object-tracking-8e4c29f6b795)
+
+Application:
+
+- Trajectory smoothing: TrafAlert project
