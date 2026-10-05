@@ -273,13 +273,10 @@ relative dataset paths work.
 # Final questions
 
 1. Randomly reorder the samples of an ECG signal. What happens to its mean
-   and variance? Could you still recognize the signal from these two values?
-2. A signal has mean zero. Does this mean its average power is zero?
-   Define average power as `mean(s.^2)` and find its relation to `var(s,1)`
-   and `mean(s)`.
-3. Split one voting centre into two identical halves, dividing both its votes
+   and variance? Do they change or not?
+2. Split one voting centre into two identical halves, dividing both its votes
    and registered voters equally. Can the mean centre turnout change even
    though nobody's vote has changed? What happens to the city turnout?
-4. Independently shift each ECG signal by a different number of samples,
+3. Independently shift each ECG signal by a different number of samples,
    wrapping samples around the ends. Each signal keeps its mean and variance.
    Does the mean signal across records stay the same?
