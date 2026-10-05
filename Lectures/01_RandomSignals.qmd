@@ -20,7 +20,7 @@ by a (partially) random phenomenon
 
 * *"i.e."* = *id est* = "that is" = "adică"
 
-* *"e.g."* = *exampli gratia* = "for example" = "de exemplu"
+* *"e.g."* = *exempli gratia* = "for example" = "de exemplu"
 
 ### Realizations
 
@@ -42,7 +42,7 @@ by a (partially) random phenomenon
 * **Continuous** random variable: takes values from a continuous domain
   * Example: a voltage value
 
-### Rolling a die
+### Throwing a coin
 
 - Random variable X = "the face obtained by throwing a coin"
 
@@ -59,7 +59,8 @@ by a (partially) random phenomenon
 - Examples:
   - Measure a voltage in a circuit
   - Measure several times, the value is never precisely the same.
-The values always *varies* a little.
+
+The value always *varies* a little.
   - i.e. it is affected by noise
 
 ### Probability Mass Function
@@ -154,7 +155,7 @@ $$P\left\{ a \leq A \leq b\right\} = F_A(b) - F_A(a)$$
 
 ### Relation between PDF and CDF
 
-- CDF is **the integral** of PMF
+- CDF is **the integral** of PDF
 - PDF is **the derivative** of CDF
 
 $$F_A(x) = \int_{-\infty}^x w_A(u) \mathrm{d}u$$
@@ -182,7 +183,7 @@ w_A(x) &= \frac{\mathrm{d}F_A(x)}{\mathrm{d}x} \\
 
 ### Discrete vs continuous r.v.
 
-Comparison of discrete vs continous random variables:
+Comparison of discrete vs continuous random variables:
 
 - The CDF $F_A(x)$ is defined identically, means same thing
 - The PDF/PMF $w_A(x)$ is the derivative of CDF
@@ -202,7 +203,7 @@ CDF:
 - The CDF starts from 0 and goes up to 1
 $$F_A(-\infty) = 0 \;\;\;\; F_A(\infty) = 1$$
 
-PDF/PFM:
+PDF/PMF:
 
 - The PDF/PMF are always $\geq 0$
 - Integral/sum over all of the PDF/PMF = 1
@@ -223,7 +224,7 @@ plt.plot(x,s);
 plt.ylim(-3,3)
 plt.xlabel('t');
 plt.ylabel('sin(x)');
-plt.title('Sinusiodal signal');
+plt.title('Sinusoidal signal');
 plt.savefig('fig/01_RandomSignals_Sine.png', transparent=True, bbox_inches='tight', dpi=300)
 plt.close()
 ```
@@ -243,7 +244,7 @@ plt.plot(x,s, x, sn);
 plt.ylim(-3,3)
 plt.xlabel('t');
 plt.ylabel('sin(x)');
-plt.title('Sinusiodal signal + random noise');
+plt.title('Sinusoidal signal + random noise');
 plt.savefig('fig/01_RandomSignals_SinePlusRandn.png', transparent=True, bbox_inches='tight', dpi=300)
 plt.close()
 ```
@@ -265,7 +266,7 @@ plt.plot(x,s,x,sn);
 plt.ylim(-3,3)
 plt.xlabel('t');
 plt.ylabel('sin(x)');
-plt.title('Sinusiodal signal  + random noise');
+plt.title('Sinusoidal signal  + random noise');
 plt.savefig('fig/01_RandomSignals_SinePlusRand.png', transparent=True, bbox_inches='tight', dpi=300)
 plt.close()
 ```
@@ -531,10 +532,10 @@ Example:
 
 - A function applied to a r.v. produces another r.v.
 
-- Examples: if $B$ is a r.v. with distribution $\mathcal{U}\;[0,10]$, then
-    - $C = 5 + A$ is another r.v., with distribution $\mathcal{U}\;[5,15]$
-    - $D = A^2$ is also another r.v.
-    - $E = cos(A)$ is also another r.v.
+- Examples: if $A$ is a r.v. with distribution $\mathcal{U}\;[0,10]$, then
+    - $B = 5 + A$ is another r.v., with distribution $\mathcal{U}\;[5,15]$
+    - $C = A^2$ is also another r.v.
+    - $D = cos(A)$ is also another r.v.
 
 - Reason: since $A$ is random, the values $B$, $C$, $D$ are also random
 
@@ -550,7 +551,7 @@ around $(x, y)$?
 
 - Distribution of the values of $(A,B)$ is described by:
     - joint probability density function $w_{AB}(x,y)$
-    - joint cumulative density function $F_{AB}(x,y)$
+    - joint cumulative distribution function $F_{AB}(x,y)$
 
 ### Multiple random variables
 
@@ -558,7 +559,7 @@ around $(x, y)$?
 $$F_{AB}(x, y) = P\left\{ A \leq x \cap B \leq y \right\}$$
 
 - Joint probability density function:
-$$w_{AB}(x,y) = \frac{\partial^2 P_{AB}(x,y)}{\partial x \partial y}$$
+$$w_{AB}(x,y) = \frac{\partial^2 F_{AB}(x,y)}{\partial x \partial y}$$
 
 - The joint PDF gives the probability that the value of the pair $(A,B)$
 is in a vicinity of $(x,y)$
@@ -568,7 +569,7 @@ $$w_{AB}(x,y) = P\left\{ A = x \cap B = y \right\}$$
 
 ### Independent random variables
 
-- Two v.a. $A$ and $B$ are **independent** if the value of one of them
+- Two r.v. $A$ and $B$ are **independent** if the value of one of them
 does not influence in any way the value of the other
 
 - For independent r.v., the probability that $A$ is around $x$
@@ -606,14 +607,14 @@ Exercise:
 - View from top
 - Here, $\mu = (0,0)$
 - Probability density decreases as distance from center increases,
-in eliiptical shapes (symmetrically)
+in elliptical shapes (symmetrically)
 
 ![](img/2DNormal-TopView.png){.id width=50%}
 
 ### Another 2D normal distribution
 
 - View from top
-- The ellipsiodal shape (orientation, elongation) is given by the covariance matrix
+- The ellipsoidal shape (orientation, elongation) is given by the covariance matrix
 
 ![](img/2DNormal-ellips.jpg){.id width=75%}
 
@@ -869,7 +870,7 @@ Edited by Tadeusz J. Ulrych, Mauricio D. Sacchi, Volume 36,
 * A set of $n$ random variables $f(t_1), ...f(t_n)$ from the random process $f(t)$
     * are described by **distribution of order n**
     * have joint CDF $F_n(x_1,... x_n; t_1,... t_n)$
-    * have joint PDF $w_n(x_1,... x_n; t_1,... t_n) = \frac{\partial^2 F_n(x_1,... x_n;t_1,... t_n)}{\partial x_1 ... \partial x_n}$
+    * have joint PDF $w_n(x_1,... x_n; t_1,... t_n) = \frac{\partial^n F_n(x_1,... x_n;t_1,... t_n)}{\partial x_1 ... \partial x_n}$
     * depend on time moments $t_1$, $t_2$, ... $t_n$
 * These functions specify how the whole set of $n$ values is distributed
 
@@ -890,7 +891,7 @@ $$\overline{f^2(t_1)} = \int_{-\infty}^{\infty} x^2 \cdot w_1(x; t_1) dx$$
 
 ### Statistical averages - variance
 3. **Variance** ("varianța")
-$$\sigma^2(t_1) = \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} = \int_{-\infty}^{\infty} (x-\mu(t_1)^2 \cdot w_1(x; t_1) dx$$
+$$\sigma^2(t_1) = \overline{\left\{ f(t_1) - \mu(t_1) \right\}^2} = \int_{-\infty}^{\infty} (x-\mu(t_1))^2 \cdot w_1(x; t_1) dx$$
 
 - Relation between these three:
     $$\begin{split}
@@ -915,7 +916,7 @@ $$R_{ff}(t_1,t_2) = \overline{f(t_1) f(t_2)} = \int_{-\infty}^\infty \int_{-\inf
 $$R_{fg}(t_1,t_2) = \overline{f(t_1) g(t_2)} = \int_{-\infty}^\infty \int_{-\infty}^\infty x_1 y_2 w_2(x_1, y_2; t_1, t_2) dx_1 dy_2$$
 
 * Note:
-    * these functions may have different values for a different pair of sampels at times ($t_1$,$t_2$)
+    * these functions may have different values for a different pair of samples at times ($t_1$,$t_2$)
 
 ### Discrete random processes
 
@@ -925,11 +926,11 @@ For **discrete random processes**: integral becomes sum, notation $f(t)$ becomes
 
 2. $\overline{f^2[t_1]} = \sum_{x=-\infty}^{\infty} x^2 \cdot w_1(x; t_1)$
 
-3. $\sigma^2(t_1) = \overline{\left\{ f[t_1] - \mu(t_1) \right\}^2} = \sum_{x=-\infty}^{\infty} (x-\mu(t_1)^2 \cdot w_1(x; t_1)$
+3. $\sigma^2(t_1) = \overline{\left\{ f[t_1] - \mu(t_1) \right\}^2} = \sum_{x=-\infty}^{\infty} (x-\mu(t_1))^2 \cdot w_1(x; t_1)$
 
 4. $R_{ff}(t_1,t_2) = \overline{f[t_1] f[t_2]} = \sum_{x_1=-\infty}^\infty \sum_{x_2=-\infty}^\infty x_1 x_2 w_2(x_1, x_2; t_1, t_2)$
 
-5. $R_{fg}(t_1,t_2) = \overline{f[t_1] g[t_2]} = \sum_{x_1=-\infty}^\infty \sum_{x_2=-\infty}^\infty x_1 y_2 w_2(x_1, y_2; t_1, t_2)$
+5. $R_{fg}(t_1,t_2) = \overline{f[t_1] g[t_2]} = \sum_{x_1=-\infty}^\infty \sum_{y_2=-\infty}^\infty x_1 y_2 w_2(x_1, y_2; t_1, t_2)$
 
 
 ### Temporal averages
@@ -1258,7 +1259,7 @@ all possible realizations
 
 - In real life, power spectral density goes to 0 at very high frequencies
 
-    - because total power $P = \int_{-\infty}^{\infty} S_{ff}{\omega}$ cannot be infinite
+    - because total power $P = \int_{-\infty}^{\infty} S_{ff}{\omega} d\omega$ cannot be infinite
 
     - known as "**band-limited white noise**"
 
@@ -1355,7 +1356,7 @@ $$
 $$\begin{split}
 S_{yy}(\omega) =& \sum_{u=-\infty}^{\infty} \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[u] e^{- j \omega (u + k_1 + k_2)}\\
 =& \sum_{u=-\infty}^{\infty} R_{xx}[u] e^{- j \omega u} \sum_{k_1=-\infty}^\infty h[k_1] e^{- j \omega k_1} \sum_{k_2=-\infty}^\infty h[k_2]  e^{ j \omega k_2}\\
-=& S_{xx}(\omega) \cdot H(\omega) \cdot H*^(\omega)\\
+=& S_{xx}(\omega) \cdot H(\omega) \cdot H^*(\omega)\\
 =& S_{xx}(\omega) \cdot |H(\omega)|^2\\
 \end{split}$$
 
