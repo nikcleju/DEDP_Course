@@ -28,7 +28,7 @@ by a (partially) random phenomenon
   * e.g. the value 3 of a dice
   * at different times, one may get different realizations
 
-* **Sample space** $\Omega$ = the set of all values that can be taken by a random variable $X$
+* Sample space $\Omega$ = the set of all values that can be taken by a random variable $X$
   * i.e. the set of all possible realizations
 
 * Example: rolling a dice
@@ -157,7 +157,7 @@ $$P\left\{ a \leq A \leq b\right\} = F_A(b) - F_A(a)$$
 - CDF is **the integral** of PMF
 - PDF is **the derivative** of CDF
 
-$$F_A(x) = \int_{-\infty}^x w_A(x) \mathrm{d}x$$
+$$F_A(x) = \int_{-\infty}^x w_A(u) \mathrm{d}u$$
 
 $$\begin{split}
 w_A(x) &= \frac{\mathrm{d}F_A(x)}{\mathrm{d}x} \\
@@ -177,7 +177,7 @@ w_A(x) &= \frac{\mathrm{d}F_A(x)}{\mathrm{d}x} \\
 
 ![](img/RandomVariable_AreaPDFProb.png){.id width=50%}
 
-(image from "https://intellipaat.com/blog/tutorial/statistics-and-probability-tutorial/probability-distributions-of-continuous-variables/*)
+[image from here](https://intellipaat.com/blog/tutorial/statistics-and-probability-tutorial/probability-distributions-of-continuous-variables)
 
 
 ### Discrete vs continuous r.v.
@@ -697,7 +697,7 @@ the average value is always the middle value
 * Computing the average value is a **linear** operation
     * because the underlying integral / sum is a linear operation
 
-* If A and B are two (independent) random variables:
+* If A and B are two random variables:
 
 * Linearity
 $$E\{c_1A + c_2B\} = c_1E\{A\} + c_2E\{B\}$$
@@ -748,9 +748,9 @@ $$\begin{split}
 
 ### Sum of random variables
 
-* Sum of two or more **independent** r.v. is also a r.v.
+- Sum of two or more r.v. is also a r.v.
 
-* Its distribution = the **convolution** of the distributions of the two r.v.
+- If the variables are **independent**, the distribution of their sum = the **convolution** of the distributions of the two r.v.
 
 * If $C = A + B$
 $$w_C(x) = w_A(x) \star w_B(x)$$
