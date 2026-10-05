@@ -37,9 +37,9 @@ by a (partially) random phenomenon
   * But we could have got any value from the sample space
     $$\Omega = \left\{1, 2, 3, 4, 5, 6\right\}$$
 
-* **Discrete** random variable: if $\Omega$ is a discrete set
+* **Discrete** random variable: takes values from a discrete set
   * Example: value of a dice
-* **Continuous** random variable: if $\Omega$ is a continuous set
+* **Continuous** random variable: takes values from a continuous domain
   * Example: a voltage value
 
 ### Rolling a die
@@ -213,7 +213,8 @@ $$\sum_{x = -\infty}^\infty w_A(x) = 1$$
 
 * Normal sine signal
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math;
 x = np.linspace(0, 99, 100);
 s = np.sin(2*math.pi*0.02*x)
@@ -232,7 +233,8 @@ plt.close()
 
 * Sine + noise 1 (normal, $\mu = 0, \sigma^2 = 1$)
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math;
 x = np.linspace(0, 99, 100);
 s = np.sin(2*math.pi*0.02*x)
@@ -253,7 +255,8 @@ plt.close()
 
 * What's different? The distribution type
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math;
 x = np.linspace(0, 99, 100);
 s = np.sin(2*math.pi*0.02*x)
@@ -273,7 +276,8 @@ plt.close()
 
 * Clean Image
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math, PIL;
 from PIL import Image
 myImage = Image.open("img/TestImageGirl.gif").convert("L");
@@ -288,7 +292,8 @@ plt.close()
 
 * Image + noise (normal, $\mu = 0, \sigma^2 = 1$)
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math, PIL;
 from PIL import Image
 myImage = Image.open("img/TestImageGirl.gif").convert("L");
@@ -305,7 +310,8 @@ plt.close()
 
 * Image + larger noise (normal, $\mu = 0, \sigma^2 = 10$)
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math, PIL;
 from PIL import Image
 myImage = Image.open("img/TestImageGirl.gif").convert("L");
@@ -322,7 +328,8 @@ plt.close()
 
 * Image + noise (uniform, $\mathcal{U} [-5, 5]$)
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math, PIL;
 from PIL import Image
 myImage = Image.open("img/TestImageGirl.gif").convert("L");
@@ -341,7 +348,8 @@ plt.close()
 
 $$w_A(x) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}$$
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math;
 mu = 3;
 sigma = 1;
@@ -385,7 +393,8 @@ with decreasing preference when getting farther from $\mu$
 
 ### Example of values from the normal distribution (mu=0, sigma=1)
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math;
 mu = 0;
 sigma = 1;
@@ -402,7 +411,8 @@ plt.close()
 
 ### Example of values from the normal distribution (mu=2, sigma=4)
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math;
 mu = 2;
 sigma = 4;
@@ -427,7 +437,8 @@ $$w_A(x) =
  0, &elsewhere
 \end{cases}$$
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np, math
 a = -1
 b = 3
@@ -1354,7 +1365,8 @@ $$S_{yy}(\omega) = S_{xx}(\omega) \cdot |H(\omega)|^2$$
 
 ### The signal to look for
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np
 x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
 x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))
@@ -1371,7 +1383,8 @@ plt.close()
 
 ### The complete signal
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np
 x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
 x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))
@@ -1386,7 +1399,8 @@ plt.close()
 
 ### Correlation result
 
-```{.python .cb.run session=plot}
+```{python}
+#| code-fold: true
 import matplotlib.pyplot as plt, numpy as np
 x1 = np.array([1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1, 1, -1])
 x2 = np.hstack((np.random.randn(800), x1, np.random.randn(300)))

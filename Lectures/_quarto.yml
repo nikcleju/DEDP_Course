@@ -1,18 +1,51 @@
 project:
-  title: "DEDP Lectures"
-  render:
-    - 00_Introduction.md
-    - 01_RandomSignals.qmd
+  type: default
+  # title: "DEDP Lectures"
+  # render:
+  #   - 00_Introduction.md
+  #   - 01_RandomSignals.qmd
+  #   - 02_SignalDetectionTheory.qmd
+  #   - 03_EstimationTheory.qmd
+
+jupyter: python3
+execute-dir: project
+
+execute:
+  echo: false
+  output: true
+  error: false
+  cache: false
+
 format:
+
   beamer:
+    slide-level: 3
+    pdf-engine: pdflatex
+    include-in-header: beamer-header.tex
     code-fold: true
-    theme: Madrid
-    outertheme: default
-    number-sections: false
-    #section-titles: false
-    include-in-header: macros.md
-execute: 
-  cache: true
+
+#     theme: Madrid
+#     outertheme: default
+#     number-sections: false
+
+  # revealjs:
+  #   slide-level: 3
+  # dtslides-revealjs:
+  #   slide-number: true
+  #   transition: fade
+  #   slide-level: 3
+  # illinois-revealjs:
+  #   slide-level: 3
+
+
+
+# format:
+#   beamer:
+#     code-fold: true
+#     #section-titles: false
+#     include-in-header: macros.md
+# execute:
+#   cache: true
 
 
 
