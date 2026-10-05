@@ -44,6 +44,12 @@ Supplementary exercises are optional, not a required section.
   structure-field access, and the possibility of overwriting Workspace variables.
 - Include only theory needed for the tasks; avoid repeating the lecture.
 
+## Romanian translations
+
+- Translate **standard deviation** as **deviația standard**, not „abaterea standard”.
+- Translate **variance** as **varianță**, not „dispersie”. Inflect these terms
+  appropriately in context (e.g. „varianța”, „deviațiile standard”).
+
 ## Exercise style
 
 - Be concise and direct: “Generate”, “Compute”, “Plot”, “Compare”, “Verify”.
