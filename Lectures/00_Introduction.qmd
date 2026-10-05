@@ -37,10 +37,11 @@ title: Introduction
 
 ### Bibliography (TBD)
 
-1. ***Elements of Information Theory*, Valeriu Munteanu, Daniela Tarniceriu, Ed. CERMI 2007**
-1. *Elements of Information Theory*, Thomas M. Cover, Joy A. Thomas, 2nd Edition, Wiley 2006
-1. *Transmisia si codarea informatiei*, lectures at ETTI (Romanian)
-1. *Information and Coding Theory*, Gareth A. Jones, J. Mary Jones, Springer 2000
+1. Brown, R. G., Hwang, P. Y. C., Intoduction to random signals and applied Kalman filtering, John Wiley and Sons, Inc., Second Edition, 1992.
+1. Garcia, A. L., Probability and random processes for electrical engineering, Addison-Wesley Publishing Company, 1989
+1. Munteanu V. Detectie si estimare, Editura "Gh. Asachi" Iasi, 1997.
+1. Borda M. E. Teoria transmisiunii informatiei, Partea I-a, Teoria informatiei si codarii (fundamente si aplicatii), Universitatea Tehnica Cluj - Napoca, 1993.
+1. Munteanu, V., Teoria transmiterii informatiei, Editura "Gh. Asachi" Iasi, 2001.
 
 ### Online access
 
