@@ -7,7 +7,7 @@
 
 ## Layout (only boundaries that matter)
 
-- `Lectures/` slides, `_quarto.yml`, Codebraid/Pandoc makefile
+- `Lectures/` Quarto slide sources and `_quarto.yml`; the makefile is legacy
 - `Labs/` lab sheets, `.mat`/image datasets, Pandoc makefile
 - `Seminars/<year_year>/` one folder per academic year
 - `SampleExam/` sample exam sheets
@@ -16,10 +16,16 @@
 ## Source authority
 
 - Each makefile maps the local `.md` files to `.pdf`/`.odt`/`.tex`. Treat those outputs as generated.
+- Current lecture sources are `.qmd` files rendered with Quarto; do not use the legacy lecture makefile for them.
 - `.html` files with Quarto metadata (e.g. `Labs/Lab*.html`) are renders of the sibling `.qmd`.
 - When `.qmd` and `.ipynb` coexist (Labs), repo config does not establish a global authoritative source. Inspect the specific document before editing either, and say which one you chose.
 - `.mlx`, standalone `.tex`, `.pdf`, `.ipynb` outside these patterns have unresolved provenance. Do not assume they are generated.
 - Datasets/assets (`.mat`, `.bmp`, `.jpg`, `.tiff`, `.csv`, video) are source material. Never regenerate, convert, or "optimize" them.
+
+## Lab authoring
+
+- Before creating or revising labs, read `Labs/AUTHORING.md`.
+- Leave `LabsOld/` unchanged unless explicitly asked; it is historical reference material.
 
 ## Seminars
 
@@ -27,26 +33,25 @@
 - No `2025_2026` or `2026_2027` seminar folder exists; do not invent one.
 - Do not propagate edits across year folders unless explicitly requested.
 
-## Verified commands (run only the one matching the file you changed)
+## Focused rendering commands (run only the one matching the file you changed)
 
 ```bash
-make -n -B -C Lectures 00_Introduction.pdf      # dry-run preview, use first
-make -C Lectures 00_Introduction.pdf
+cd Lectures && quarto render 00_Introduction.qmd --to beamer
 make -C Labs Lab7.pdf
 make -C SampleExam SampleExamSheet.pdf
 make -C Seminars/2024_2025 Seminar1.pdf
 ```
 
-- Lecture make uses Codebraid + Pandoc, prepending `slides_header.md` and `--include-in-header macros.md`. The others use plain Pandoc.
+- Lectures use Quarto. `Lectures/_quarto.yml` configures Beamer with `pdflatex` and `beamer-header.tex`; inspect document-level settings before rendering. The listed make commands for legacy labs, sample exams, and seminars use plain Pandoc.
 - Avoid bare `make`/`make all`: rebuilds every document in that directory.
 
 ## Hazards
 
 - `make clean` deletes the generated PDF/ODT/TEX outputs, many of which are committed to git. Never use it for routine verification.
-- `Lectures/_quarto.yml` lists `01_RandomSignals.qmd`, but only `01_RandomSignals.md` exists. Do not run a project-wide Quarto render of `Lectures/` until the config is intentionally reconciled.
-- Lab QMD behavior: all five top-level `Labs/*.qmd` set `jupyter: python3`, `freeze: true`, `eval: false`, yet the examples are Matlab. Rendering them does not execute or validate any Matlab code. A focused render like `quarto render Labs/Lab3_Decision.qmd` is acceptable only after deciding that document's authoritative source.
+- Avoid project-wide Quarto renders for routine verification; render only the lecture being edited.
+- Lab QMD behavior: inspect the document's execution settings. The rewritten labs use `jupyter: python3`, `freeze: true`, `eval: false`, yet the examples are Matlab. Rendering them does not execute or validate any Matlab code. A focused render is acceptable only after deciding that document's authoritative source.
 
 ## Verification expectations
 
-- After editing a document, render only that document (commands above) and inspect the resulting diff.
+- After editing a document, render only that document (commands above) and inspect the resulting diff, unless the user asks to handle rendering themselves. For the current lab rewrite, edit the QMD only and leave rendering to the user unless asked otherwise. Repository guidance files do not need rendering.
 - For Matlab scripts (`.m`, `.mlx`), run them from their containing directory: they load colocated `.mat`/image files by relative path, so running from elsewhere breaks the loads.
