@@ -1,0 +1,260 @@
+---
+title: "The normal distribution"
+subtitle: "Laboratory 3, DEDP"
+
+format:
+  html:
+    html-math-method: katex
+  pdf: default
+  ipynb: default
+
+toc: true
+number-depth: 2
+number-sections: true
+
+jupyter: python3
+execute:
+  freeze: true
+  eval: false
+
+---
+
+# Objective
+
+Generate normal samples for different $\mu$ and $\sigma$. Compare their
+histograms and sample statistics with theory. Compute normal probabilities
+using `erf()` and estimate them from samples.
+
+# Theoretical aspects
+
+## The normal distribution
+
+### Definition and parameters
+
+The normal distribution describes a random variable that is more likely to take values near its mean $\mu$ than far from it,
+according to a bell-shaped PDF (``Gaussian hat'').
+
+A normal variable is written as:
+
+$$X \sim \mathcal{N}(\mu,\sigma^2), \qquad \sigma > 0.$$
+
+Its probability density function is
+
+$$
+w_X(x) = \frac{1}{\sigma\sqrt{2\pi}}
+\exp\left[-\frac{(x-\mu)^2}{2\sigma^2}\right].
+$$
+
+![Different normal distributions](figures/Lab2_normal_pdf.png){width=80% fig-align="center"}
+
+The normal distribution has two parameters:
+
+- $\mu$, the **mean** (the "center"), which controls where the peak of the PDF is located;
+
+- $\sigma$, the **standard deviation**, which controls the width of the lobe.
+
+- Sometimes we provide the value of $\sigma^2$, the **variance**, instead of $\sigma$.
+
+Changing $\mu$ shifts the PDF. Larger $\sigma$ means the function is wider and flatter, smaller $\sigma$ means narrower and taller.
+
+The **standard normal distribution** is the normal distribution with $\mu=0$ and $\sigma=1$:
+
+$$Z \sim \mathcal{N}(\mu=0,\sigma^2=1).$$
+
+### Generating normal samples in Matlab
+
+`randn()` generates values from the standard normal distribution $\mathcal{N}(\mu=0,\sigma^2=1)$:
+
+```matlab
+z = randn()          % one value from N(0,1)
+
+z = randn(1, 10)     % 10 independent values from N(0,1)
+```
+
+For arbitrary $\mu$ and $\sigma$, scale with $\sigma$ and shift with $\mu$:
+
+$$B = \mu + \sigma A, \qquad \text{ where } A \sim \mathcal{N}(\mu=0,\sigma^2=1).$$
+
+```matlab
+mu = 5;
+sigma = 2;
+N = 1000;
+
+x_normal = mu + sigma*randn(1, N);
+```
+
+Note: multiply by the standard deviation $\sigma$, not the variance $\sigma^2$.
+
+
+### Computing probabilities from the normal distribution
+
+The normal CDF cannot be expressed using elementary functions.
+Use Matlab's `erf()` function to evaluate it.
+
+For a normal variable $A \sim \mathcal{N}(\mu,\sigma^2)$, the probability that $A$ is in the interval $[a,b]$ is:
+
+$$P(a \le A \le b) = F_A(b) - F_A(a),$$
+
+where $F_A(x)$ is the cumulative distribution function (CDF) of $A$ and is computed using the error function `erf()`:
+
+$$
+F_A(x) = P(A \le x) = \frac{1}{2}\left[1 + \operatorname{erf}\left(\frac{x-\mu}{\sigma\sqrt{2}}\right)\right].
+$$
+
+In Matlab:
+
+```{=latex}
+\begin{samepage}
+```
+
+Example: $A \sim \mathcal{N}(\mu=10,\sigma^2=4)$ and $P(8 \le A \le 12)$:
+
+```matlab
+mu = 10;
+sigma = 2;
+a = 8;
+b = 12;
+
+F_a = 0.5*(1 + erf((a-mu)/(sigma*sqrt(2))));
+F_b = 0.5*(1 + erf((b-mu)/(sigma*sqrt(2))));
+p_normal_theory = F_b - F_a
+```
+
+The result is approximately 0.6827. We can also estimate it from samples using the method introduced in Lab 2:
+
+```matlab
+N = 10000;
+x_normal = mu + sigma*randn(1, N);
+p_normal_estimated = sum(x_normal >= a & x_normal <= b)/N;
+```
+
+```{=latex}
+\end{samepage}
+```
+
+## Computing statistics from data samples
+
+Given a vector of samples, we can:
+
+- use `mean()`, `std()`, and `var()` to compute statistics from the data.
+They estimate the theoretical values $\mu$, $\sigma$, and $\sigma^2$,
+but the precision depends on the number of samples used.
+
+- use the normalized histogram introduced in Lab 2 to compare with a theoretical density:
+
+  ```matlab
+  histogram(x, 35, 'Normalization', 'pdf')
+  xlabel('Value')
+  ylabel('Estimated probability density')
+  grid on
+   ```
+
+- estimate any probability by counting the samples satisfying the condition and dividing by `numel()`:
+
+  ```matlab
+  p_estimated = sum(x >= a & x <= b)/numel(x);
+  ```
+
+
+## Summary: functions and notation you should know
+
+<style>
+table td, table th { border-bottom: 1px solid #ddd; }
+</style>
+
+| Signature or notation | Example | Description |
+|---|---|---|
+| $A\sim\mathcal{N}(\mu,\sigma^2)$ | $A\sim\mathcal{N}(2,2)$ | Normal distribution: mean $\mu$, variance $\sigma^2$ |
+| $\sigma=\sqrt{\sigma^2}$ | $\sigma=\sqrt{2}$ | Standard deviation, used to scale `randn()` |
+| `randn(m,n)` | `randn(1,1000)` | $m\times n$ samples from $\mathcal{N}(0,1)$ |
+| `mu + sigma*randn(m,n)` | `2 + sqrt(2)*randn(1,1000)` | Samples from $\mathcal{N}(\mu,\sigma^2)$ |
+| `mean(x)`, `std(x)`, `var(x)` | `std(x)` | Sample mean, standard deviation and variance |
+| `histogram(x,n)` | `histogram(x,35)` | Histogram with `n` bins; add `'Normalization','pdf'` for unit area |
+| `erf(x)` | `0.5*(1+erf((x-mu)/(sigma*sqrt(2))))` | Error function used to evaluate the normal CDF |
+| $F_A(b)-F_A(a)$ | $P(a\le A\le b)$ | Interval probability from the CDF |
+| `sum(condition)/numel(x)` | `sum(x > 5)/numel(x)` | Empirical probability |
+
+```{=latex}
+\newpage
+```
+
+# Theoretical exercises
+
+1. Let $A$ be a continuous random variable with the normal distribution $\mathcal{N}(\mu = 1, \sigma^2 = 20)$.
+
+   a. Calculate the probability $P(A \in [2, \; 4])$.
+   b. What is the distribution of the random variable $B$ defined as $B = A - 2$?
+   c. What is the maximum value of the distribution $w_A(x)$, and for what value $x$ is it attained?
+   d. What is the distribution of the random variable $C$ defined as $C = 3*A$?
+
+      (Hint: Start from $\mu_C = \overline{C}$ and $\sigma_C^2 = \overline{(C-\mu_C)^2}$, and replace $C$.)
+
+
+# Exercises
+
+Write all commands yourself in a script or live script. Label figures and answer
+interpretation questions in comments.
+
+1. Normal random samples:
+
+   a. Generate 10000 samples from $\mathcal{N}(\mu=2,\sigma^2=2)$ and store them
+      in `x_normal_1`. The second parameter is the variance.
+   b. Plot the first 100 values against sample index.
+   c. Plot a 35-bin PDF-normalized histogram.
+   d. Compute the sample mean, standard deviation, and variance. Compare them
+      with $2$, $\sqrt{2}$, and $2$.
+   e. Generate the vector again. Which results change?
+
+2. The effect of the normal-distribution parameters:
+
+   a. Generate 10000 samples from $\mathcal{N}(\mu=-3,\sigma^2=2)$.
+      Compare its PDF-normalized histogram with the one from Exercise 1.
+   b. Keep $\mu=2$, but set $\sigma=0.5$. Generate 10000 samples and compare again.
+   c. Describe the changes in location, width, and height in each comparison.
+   d. Compute the sample mean and standard deviation for the two new vectors.
+      Compare them with their theoretical values.
+
+3. Probabilities for a normal variable:
+
+   Let $A\sim\mathcal{N}(\mu=2,\sigma^2=2)$.
+
+   a. Use `erf()` to compute $P(A\le 3)$, $P(0\le A\le 4)$, and $P(A>5)$.
+   b. Estimate all three probabilities from `x_normal_1`.
+   c. Repeat the estimates with 100000 samples. Compare with theory.
+   d. Compute the expected number of samples greater than 5 for $N=10000$.
+      Compare it with the observed count in `x_normal_1`.
+
+4. Same mean and variance, different distributions:
+
+   a. Generate 10000 uniform samples from $[2-\sqrt{6},2+\sqrt{6}]$.
+   b. Use the uniform-distribution formulas from Lab 2 to verify that its
+      theoretical mean and variance are both 2.
+   c. Compare its PDF-normalized histogram with that of `x_normal_1`.
+   d. Compare their sample means and variances. Can these two quantities alone
+      distinguish the distributions?
+   e. Estimate $P(1\le A\le 3)$ for each vector. Are the probabilities similar?
+
+## Supplementary exercise
+
+5. Estimate a PDF directly from samples:
+
+   Write `p = myPDF(v, x, epsilon)` using
+
+   $$\widehat{w}_A(x)=\frac{\text{number of samples in }[x-\varepsilon,x+\varepsilon]}
+   {2\varepsilon N},\qquad N=\operatorname{numel}(v).$$
+
+   a. Evaluate it at 100 points from $-4$ to $8$ using `x_normal_1`.
+   b. Plot the estimate together with the theoretical normal PDF. Use
+      element-wise operations when evaluating the PDF on a vector.
+   c. Repeat with $\varepsilon=0.1$, $0.3$, and $0.8$. Compare smoothness and detail.
+
+# Final questions
+
+1. A generated normal vector has minimum and maximum values. Why should you
+   not use them as fixed limits for future samples from the same distribution?
+2. Could an experiment contain no samples above a threshold even when its
+   theoretical exceedance probability is positive?
+3. Why can two distributions with the same mean and variance give different
+   probabilities for the same interval?
+4. A histogram looks bell-shaped. Is that enough to conclude that the data
+   follow a normal distribution? What additional comparisons could you make?
