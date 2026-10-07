@@ -35,11 +35,12 @@ than a particular measured sequence.
 For a continuous random variable $A$ with
 probability density $w_A(x)$, its **statistical mean** is
 
-$$\mu_A=\mathrm{E}\{A\}=\int_{-\infty}^{\infty}x\,w_A(x)\,dx.$$
+$$\mu_A=\mathrm{E}\{A\}=\overline{A}=\int_{-\infty}^{\infty}x\,w_A(x)\,dx.$$
 
 Its **statistical variance** is:
 
 $$\sigma_A^2=\mathrm{E}\{(A-\mu_A)^2\}
+= \overline{(A-\mu_A)^2}
 =\int_{-\infty}^{\infty}(x-\mu_A)^2w_A(x)\,dx.$$
 
 The **standard deviation** is the square root of variance:
@@ -60,28 +61,28 @@ If we have a property called *ergodicity*, temporal averages will converge to th
 Temporal averages are what we compute in practice, e.g. in Matlab,
 when we have a finite vector of samples.
 
-For a finite vector $x[1],\ldots,x[N]$, its **temporal mean** is
+For a finite vector $x[1],\ldots,x[N]$, its **temporal mean**, also known as the **sample mean**, is
 
 $$m = \bar{X} =\frac{1}{N}\sum_{n=1}^{N}x[n].$$
 
-The **temporal variance** is:
+The **temporal variance**, also known as the **sample variance**, is:
 
 $$v = \frac{1}{N-1}\sum_{n=1}^{N}(x[n]-\bar{X})^2$$
 
 or:
 
-$$v = \frac{1}{N}\sum_{n=1}^{N}(x[n]-\bar{X})^2$$
+$$v = \frac{1}{N}\sum_{n=1}^{N}(x[n]-\mu_X)^2$$
 
-The difference is in the first term,
+The difference between is the two expressions in the first term,
 known as the **normalization factor**,
 which is either $\frac{1}{N-1}$ or $\frac{1}{N}$.
-The choice depends on whether the mean $\bar{X}$ is estimated from the same data or is known *a priori*:
+The choice depends on whether the mean $\mu_X$ is estimated from the same data or is known *a priori*:
 
-- use $\frac{1}{N-1}$ when the mean $\bar{X}$ is estimated from the same data;
+- use $\frac{1}{N-1}$ when the mean $\mu_X$ is estimated from the same data;
 
-- use $\frac{1}{N}$ when the mean $\bar{X}$ is the true mean, and is known *a priori*.
+- use $\frac{1}{N}$ when the mean $\mu_X$ is the true mean, and is known *a priori*.
 
-The **temporal standard deviation** is the square root of variance:
+The **temporal (or sample)standard deviation** is the square root of variance:
 
 $$s = \sqrt{v}.$$
 
@@ -178,7 +179,7 @@ relative dataset paths work.
    a. Generate a vector `x` of $N=1000$ random values from
       $\mathcal{N}(\mu=3,\sigma^2=4)$, using `randn()` and the scaling and
       shifting learned in Lab 3.
-   b. Compute mean, standard deviation and variance ftom the vector,
+   b. Compute mean, standard deviation and variance from the vector,
       and compare them with the theoretical mean, standard deviation, and variance.
       Why are they not exactly equal?
    c. Run everything again (re-generate the vector, recompute the statistics,

@@ -176,9 +176,10 @@ window.Quarto = {
 <h2 data-number="2.1" class="anchored" data-anchor-id="statistical-mean-variance-and-standard-deviation"><span class="header-section-number">2.1</span> Statistical mean, variance, and standard deviation</h2>
 <p>Statistical averages are defined using the probability distribution, rather than a particular measured sequence.</p>
 <p>For a continuous random variable <span class="math inline">A</span> with probability density <span class="math inline">w_A(x)</span>, its <strong>statistical mean</strong> is</p>
-<p><span class="math display">\mu_A=\mathrm{E}\{A\}=\int_{-\infty}^{\infty}x\,w_A(x)\,dx.</span></p>
+<p><span class="math display">\mu_A=\mathrm{E}\{A\}=\overline{A}=\int_{-\infty}^{\infty}x\,w_A(x)\,dx.</span></p>
 <p>Its <strong>statistical variance</strong> is:</p>
 <p><span class="math display">\sigma_A^2=\mathrm{E}\{(A-\mu_A)^2\}
+= \overline{(A-\mu_A)^2}
 =\int_{-\infty}^{\infty}(x-\mu_A)^2w_A(x)\,dx.</span></p>
 <p>The <strong>standard deviation</strong> is the square root of variance:</p>
 <p><span class="math display">\sigma_A=\sqrt{\sigma_A^2}.</span></p>
@@ -188,18 +189,18 @@ window.Quarto = {
 <section id="temporal-mean-variance-and-standard-deviation" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="temporal-mean-variance-and-standard-deviation"><span class="header-section-number">2.2</span> Temporal mean, variance, and standard deviation</h2>
 <p>Temporal averages are what we compute in practice, e.g.&nbsp;in Matlab, when we have a finite vector of samples.</p>
-<p>For a finite vector <span class="math inline">x[1],\ldots,x[N]</span>, its <strong>temporal mean</strong> is</p>
+<p>For a finite vector <span class="math inline">x[1],\ldots,x[N]</span>, its <strong>temporal mean</strong>, also known as the <strong>sample mean</strong>, is</p>
 <p><span class="math display">m = \bar{X} =\frac{1}{N}\sum_{n=1}^{N}x[n].</span></p>
-<p>The <strong>temporal variance</strong> is:</p>
+<p>The <strong>temporal variance</strong>, also known as the <strong>sample variance</strong>, is:</p>
 <p><span class="math display">v = \frac{1}{N-1}\sum_{n=1}^{N}(x[n]-\bar{X})^2</span></p>
 <p>or:</p>
-<p><span class="math display">v = \frac{1}{N}\sum_{n=1}^{N}(x[n]-\bar{X})^2</span></p>
-<p>The difference is in the first term, known as the <strong>normalization factor</strong>, which is either <span class="math inline">\frac{1}{N-1}</span> or <span class="math inline">\frac{1}{N}</span>. The choice depends on whether the mean <span class="math inline">\bar{X}</span> is estimated from the same data or is known <em>a priori</em>:</p>
+<p><span class="math display">v = \frac{1}{N}\sum_{n=1}^{N}(x[n]-\mu_X)^2</span></p>
+<p>The difference between is the two expressions in the first term, known as the <strong>normalization factor</strong>, which is either <span class="math inline">\frac{1}{N-1}</span> or <span class="math inline">\frac{1}{N}</span>. The choice depends on whether the mean <span class="math inline">\mu_X</span> is estimated from the same data or is known <em>a priori</em>:</p>
 <ul>
-<li><p>use <span class="math inline">\frac{1}{N-1}</span> when the mean <span class="math inline">\bar{X}</span> is estimated from the same data;</p></li>
-<li><p>use <span class="math inline">\frac{1}{N}</span> when the mean <span class="math inline">\bar{X}</span> is the true mean, and is known <em>a priori</em>.</p></li>
+<li><p>use <span class="math inline">\frac{1}{N-1}</span> when the mean <span class="math inline">\mu_X</span> is estimated from the same data;</p></li>
+<li><p>use <span class="math inline">\frac{1}{N}</span> when the mean <span class="math inline">\mu_X</span> is the true mean, and is known <em>a priori</em>.</p></li>
 </ul>
-<p>The <strong>temporal standard deviation</strong> is the square root of variance:</p>
+<p>The <strong>temporal (or sample)standard deviation</strong> is the square root of variance:</p>
 <p><span class="math display">s = \sqrt{v}.</span></p>
 <p>For an infinite-length sequence, the temporal averages are defined as a limit of averages over increasingly long intervals.</p>
 </section>
@@ -318,7 +319,7 @@ table td, table th { border-bottom: 1px solid #ddd; }
 <li><p>Mean, standard deviation, and variance:</p>
 <ol type="a">
 <li>Generate a vector <code>x</code> of <span class="math inline">N=1000</span> random values from <span class="math inline">\mathcal{N}(\mu=3,\sigma^2=4)</span>, using <code>randn()</code> and the scaling and shifting learned in Lab 3.</li>
-<li>Compute mean, standard deviation and variance ftom the vector, and compare them with the theoretical mean, standard deviation, and variance. Why are they not exactly equal?</li>
+<li>Compute mean, standard deviation and variance from the vector, and compare them with the theoretical mean, standard deviation, and variance. Why are they not exactly equal?</li>
 <li>Run everything again (re-generate the vector, recompute the statistics, and compare the results). Do the results change? Why?</li>
 <li>Compute the mean manually using <code>sum()</code> and <code>numel()</code>, then compare with <code>mean()</code>.</li>
 <li>Check that <code>std(x)^2</code> agrees with <code>var(x)</code> to numerical precision.</li>
