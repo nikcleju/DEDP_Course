@@ -1,6 +1,6 @@
 ---
 title: "Distributions of random variables"
-subtitle: "Laboratory 2, DEDP"
+subtitle: "Laboratory 2 (old), DEDP"
 
 format:
   html:

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Distributions of random variables</title>
+<title>The uniform distribution</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -64,17 +64,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="Lab2_Distributions_files/libs/clipboard/clipboard.min.js"></script>
-<script src="Lab2_Distributions_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="Lab2_Distributions_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="Lab2_Distributions_files/libs/quarto-html/popper.min.js"></script>
-<script src="Lab2_Distributions_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="Lab2_Distributions_files/libs/quarto-html/anchor.min.js"></script>
-<link href="Lab2_Distributions_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Lab2_Distributions_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="Lab2_Distributions_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="Lab2_Distributions_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Lab2_Distributions_files/libs/bootstrap/bootstrap-7c6a896853115d4253cd2a0127942323.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="Lab2_UniformDistribution_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab2_UniformDistribution_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Lab2_UniformDistribution_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Lab2_UniformDistribution_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab2_UniformDistribution_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Lab2_UniformDistribution_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Lab2_UniformDistribution_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab2_UniformDistribution_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Lab2_UniformDistribution_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Lab2_UniformDistribution_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Lab2_UniformDistribution_files/libs/bootstrap/bootstrap-7c6a896853115d4253cd2a0127942323.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
   <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
   <script>document.addEventListener("DOMContentLoaded", function () {
@@ -143,28 +143,24 @@ window.Quarto = {
   <li><a href="#generating-uniform-samples-in-matlab" id="toc-generating-uniform-samples-in-matlab" class="nav-link" data-scroll-target="#generating-uniform-samples-in-matlab">Generating uniform samples in Matlab</a></li>
   <li><a href="#probabilities-for-the-uniform-distribution" id="toc-probabilities-for-the-uniform-distribution" class="nav-link" data-scroll-target="#probabilities-for-the-uniform-distribution">Probabilities for the uniform distribution</a></li>
   </ul></li>
-  <li><a href="#the-normal-distribution" id="toc-the-normal-distribution" class="nav-link" data-scroll-target="#the-normal-distribution"><span class="header-section-number">2.3</span> The normal distribution</a>
-  <ul class="collapse">
-  <li><a href="#definition-and-parameters-1" id="toc-definition-and-parameters-1" class="nav-link" data-scroll-target="#definition-and-parameters-1">Definition and parameters</a></li>
-  <li><a href="#generating-normal-samples-in-matlab" id="toc-generating-normal-samples-in-matlab" class="nav-link" data-scroll-target="#generating-normal-samples-in-matlab">Generating normal samples in Matlab</a></li>
-  <li><a href="#computing-probabilities-from-the-normal-distribution" id="toc-computing-probabilities-from-the-normal-distribution" class="nav-link" data-scroll-target="#computing-probabilities-from-the-normal-distribution">Computing probabilities from the normal distribution</a></li>
-  </ul></li>
-  <li><a href="#histograms-as-a-visualization-of-distributions" id="toc-histograms-as-a-visualization-of-distributions" class="nav-link" data-scroll-target="#histograms-as-a-visualization-of-distributions"><span class="header-section-number">2.4</span> Histograms as a visualization of distributions</a></li>
+  <li><a href="#histograms-as-a-visualization-of-distributions" id="toc-histograms-as-a-visualization-of-distributions" class="nav-link" data-scroll-target="#histograms-as-a-visualization-of-distributions"><span class="header-section-number">2.3</span> Histograms as a visualization of distributions</a></li>
+  <li><a href="#estimating-probabilities-from-samples" id="toc-estimating-probabilities-from-samples" class="nav-link" data-scroll-target="#estimating-probabilities-from-samples"><span class="header-section-number">2.4</span> Estimating probabilities from samples</a></li>
   <li><a href="#summary-functions-and-notation-you-should-know" id="toc-summary-functions-and-notation-you-should-know" class="nav-link" data-scroll-target="#summary-functions-and-notation-you-should-know"><span class="header-section-number">2.5</span> Summary: functions and notation you should know</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3</span> Exercises</a>
+  <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link" data-scroll-target="#theoretical-exercises"><span class="header-section-number">3</span> Theoretical exercises</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">4</span> Exercises</a>
   <ul class="collapse">
-  <li><a href="#supplementary-exercises" id="toc-supplementary-exercises" class="nav-link" data-scroll-target="#supplementary-exercises"><span class="header-section-number">3.1</span> Supplementary exercises</a></li>
+  <li><a href="#supplementary-exercise" id="toc-supplementary-exercise" class="nav-link" data-scroll-target="#supplementary-exercise"><span class="header-section-number">4.1</span> Supplementary exercise</a></li>
   </ul></li>
-  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions"><span class="header-section-number">4</span> Final questions</a></li>
+  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions"><span class="header-section-number">5</span> Final questions</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab2_Distributions.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="Lab2_Distributions.ipynb" download="Lab2_Distributions.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab2_UniformDistribution.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="Lab2_UniformDistribution.ipynb" download="Lab2_UniformDistribution.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
 </div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Distributions of random variables</h1>
+<h1 class="title">The uniform distribution</h1>
 <p class="subtitle lead">Laboratory 2, DEDP</p>
 </div>
 
@@ -184,14 +180,14 @@ window.Quarto = {
 
 <section id="objective" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Objective</h1>
-<p>Generate uniform and normal samples in Matlab for different <span class="math inline">a</span>, <span class="math inline">b</span>, <span class="math inline">\mu</span> and <span class="math inline">\sigma</span>. Compare histograms and sample statistics with theory, and compute probabilities from data and from CDFs. Use <code>erf()</code> for the normal CDF.</p>
+<p>Generate uniform samples in Matlab, visualize them with histograms, and study how the interval changes their distribution. Compute theoretical probabilities and compare them with estimates from samples.</p>
 </section>
 <section id="theoretical-aspects" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Theoretical aspects</h1>
 <section id="probability-density-function" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="probability-density-function"><span class="header-section-number">2.1</span> Probability density function</h2>
 <p>In this lab we consider <strong>continuous random variables</strong>.</p>
-<p>A continuous random variable <span class="math inline">A</span> is described by a <strong>probability density function</strong> (PDF) <span class="math inline">w_A(x)</span>, which indicates how likely is that <span class="math inline">A</span> takes a value <span class="math inline">x</span>. The PDF is also known as the <strong>distribution</strong> of <span class="math inline">A</span>.</p>
+<p>A continuous random variable <span class="math inline">A</span> is described by a <strong>probability density function</strong> (PDF) <span class="math inline">w_A(x)</span>, which describes how probability is distributed over possible values. The probability of an interval is obtained by integrating the PDF, not by evaluating it at a single point.</p>
 <p>The probability of <span class="math inline">A</span> being in the interval <span class="math inline">[a,b]</span> is the <strong>area under the PDF</strong> in that interval, i.e.&nbsp;the integral of the PDF from <span class="math inline">a</span> to <span class="math inline">b</span>:</p>
 <p><span class="math display">P(a&lt;A\le b)=\int_a^b w_A(x)\,dx,</span></p>
 <p>Only intervals have nonzero probability. The probability of <span class="math inline">A</span> being exactly equal to a certain value is always zero.</p>
@@ -217,14 +213,14 @@ w_A(x)=\frac{dF_A(x)}{dx} \qquad \qquad F_A(x)=\int_{-\infty}^{x} w_A(t)\,dt.
 </span></p>
 <section id="random-samples" class="level3">
 <h3 class="anchored" data-anchor-id="random-samples">Random samples</h3>
-<p>One value, or a vector of <span class="math inline">N</span> generated values from a certain , is a <strong>random sample</strong>:</p>
+<p>A vector of <span class="math inline">N</span> values generated from a distribution is a <strong>random sample</strong>:</p>
 <p><span class="math display">x = [x_1, x_2, \ldots, x_N].</span></p>
 <p>Values change at every run, but their statistical behavior should remain the same.</p>
 <p>The mean and the variance (or standard deviation) computed from a given vector of samples are known as <strong>sample mean</strong> and <strong>sample variance</strong> (or standard deviation).</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Sample mean, standard deviation and variance from data</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sample_mean</span> <span class="op">=</span> <span class="va">mean</span>(<span class="va">x_normal</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="va">sample_std</span> <span class="op">=</span> <span class="va">std</span>(<span class="va">x_normal</span>)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">sample_var</span> <span class="op">=</span> <span class="va">var</span>(<span class="va">x_normal</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sample_mean</span> <span class="op">=</span> <span class="va">mean</span>(<span class="va">x</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="va">sample_std</span> <span class="op">=</span> <span class="va">std</span>(<span class="va">x</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">sample_var</span> <span class="op">=</span> <span class="va">var</span>(<span class="va">x</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The sample mean and sample variance are close to, but not exactly equal to, the theoretical mean and variance of the distribution (they are “estimates” of these theoretical values).</p>
 </section>
 </section>
@@ -237,7 +233,7 @@ w_A(x)=\frac{dF_A(x)}{dx} \qquad \qquad F_A(x)=\int_{-\infty}^{x} w_A(t)\,dt.
 <p><span class="math display">A \sim \mathcal{U}[a,b], \qquad \textrm{  with  } a &lt; b.</span></p>
 <p>Its probability density function (PDF) is defined as:</p>
 <p><span class="math display">
-f_A(x) =
+w_A(x) =
 \begin{cases}
 \dfrac{1}{b-a}, &amp; a \le x \le b, \\
 0, &amp; \text{otherwise}.
@@ -279,97 +275,28 @@ f_A(x) =
 <p>Example: for <span class="math inline">X \sim \mathcal{U}[2, 10]</span>, the probability that <span class="math inline">X</span> is between 3 and 5 is <span class="math inline">\frac{2}{8} = 0.25</span>.</p>
 </section>
 </section>
-<section id="the-normal-distribution" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="the-normal-distribution"><span class="header-section-number">2.3</span> The normal distribution</h2>
-<section id="definition-and-parameters-1" class="level3">
-<h3 class="anchored" data-anchor-id="definition-and-parameters-1">Definition and parameters</h3>
-<p>The normal distribution describes a random variable that is more likely to take values near its mean <span class="math inline">\mu</span> than far from it, according to a bell-shaped PDF (``Gaussian hat’’).</p>
-<p>A normal variable is written as:</p>
-<p><span class="math display">X \sim \mathcal{N}(\mu,\sigma^2), \qquad \sigma &gt; 0.</span></p>
-<p>Its probability density function is</p>
-<p><span class="math display">
-f_X(x) = \frac{1}{\sigma\sqrt{2\pi}}
-\exp\left[-\frac{(x-\mu)^2}{2\sigma^2}\right].
-</span></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="figures/Lab2_normal_pdf.png" class="img-fluid figure-img" style="width:72.0%"></p>
-<figcaption>Changing <span class="math inline">\mu</span> shifts a normal PDF; increasing <span class="math inline">\sigma</span> makes it wider and flatter.</figcaption>
-</figure>
-</div>
-<p>The parameters:</p>
-<ul>
-<li><span class="math inline">\mu</span>: mean (the center);</li>
-<li><span class="math inline">\sigma^2</span>: variance;</li>
-<li><span class="math inline">\sigma = \sqrt{\sigma^2}</span>: standard deviation.</li>
-</ul>
-<p>Changing <span class="math inline">\mu</span> shifts the PDF. Larger <span class="math inline">\sigma</span> means the function is wider and flatter, smaller <span class="math inline">\sigma</span> means narrower and taller.</p>
-<p>The <strong>standard normal distribution</strong> is the normal distribution with <span class="math inline">\mu=0</span> and <span class="math inline">\sigma=1</span>:</p>
-<p><span class="math display">Z \sim \mathcal{N}(\mu=0,\sigma^2=1).</span></p>
+<section id="histograms-as-a-visualization-of-distributions" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="histograms-as-a-visualization-of-distributions"><span class="header-section-number">2.3</span> Histograms as a visualization of distributions</h2>
+<p>A <strong>histogram</strong> groups sample values into intervals called <strong>bins</strong>. The height of each bar is the number of samples in that bin:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="op">-</span><span class="fl">4</span> <span class="op">+</span> <span class="fl">14</span><span class="op">*</span><span class="va">rand</span>(<span class="fl">1</span><span class="op">,</span> <span class="fl">10000</span>)<span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">x</span><span class="op">,</span> <span class="fl">30</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Value'</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Number of samples'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="va">grid</span> <span class="va">on</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use <code>figure</code> to open a new figure window before plotting another histogram. The bin count controls the level of detail: many bins give more detail, but fewer samples per bin and more irregular bar heights.</p>
+<p>For comparison with a PDF, use <code>'Normalization','pdf'</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">x</span><span class="op">,</span> <span class="fl">30</span><span class="op">,</span> <span class="ss">'Normalization'</span><span class="op">,</span> <span class="ss">'pdf'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Value'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Estimated probability density'</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="va">grid</span> <span class="va">on</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each bar height is the bin count divided by the total sample count and the bin width. The <strong>total bar area</strong>, not the sum of the heights, is 1. For a large uniform sample, the bar heights should be close to <span class="math inline">1/(b-a)</span>.</p>
 </section>
-<section id="generating-normal-samples-in-matlab" class="level3">
-<h3 class="anchored" data-anchor-id="generating-normal-samples-in-matlab">Generating normal samples in Matlab</h3>
-<p><code>randn()</code> generates values from the standard normal distribution <span class="math inline">\mathcal{N}(\mu=0,\sigma^2=1)</span>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">z</span> <span class="op">=</span> <span class="va">randn</span>()          <span class="co">% one value from N(0,1)</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">z</span> <span class="op">=</span> <span class="va">randn</span>(<span class="fl">1</span><span class="op">,</span> <span class="fl">10</span>)     <span class="co">% 10 independent values from N(0,1)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>For arbitrary <span class="math inline">\mu</span> and <span class="math inline">\sigma</span>, scale with <span class="math inline">\sigma</span> and shift with <span class="math inline">\mu</span>:</p>
-<p><span class="math display">B = \mu + \sigma A, \qquad \text{ where } A \sim \mathcal{N}(\mu=0,\sigma^2=1).</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">mu</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">sigma</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="va">x_normal</span> <span class="op">=</span> <span class="va">mu</span> <span class="op">+</span> <span class="va">sigma</span><span class="op">*</span><span class="va">randn</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">N</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Note: multiply by the standard deviation <span class="math inline">\sigma</span>, not the variance <span class="math inline">\sigma^2</span>.</p>
-</section>
-<section id="computing-probabilities-from-the-normal-distribution" class="level3">
-<h3 class="anchored" data-anchor-id="computing-probabilities-from-the-normal-distribution">Computing probabilities from the normal distribution</h3>
-<p>The integral of the normal PDF does not have a closed form, so it cannot be computed analytically. Instead, we rely on the precomputed <code>erf()</code> function in Matlab to compute probabilities.</p>
-<p>For a normal variable <span class="math inline">A \sim \mathcal{N}(\mu,\sigma^2)</span>, the probability that <span class="math inline">A</span> is in the interval <span class="math inline">[a,b]</span> is:</p>
-<p><span class="math display">P(a \le A \le b) = F_A(b) - F_A(a),</span></p>
-<p>where <span class="math inline">F_A(x)</span> is the cumulative distribution function (CDF) of <span class="math inline">A</span> and is computed using the error function <code>erf()</code>:</p>
-<p><span class="math display">
-F_A(x) = P(A \le x) = \frac{1}{2}\left[1 + \operatorname{erf}\left(\frac{x-\mu}{\sigma\sqrt{2}}\right)\right].
-</span></p>
-<p>In Matlab:</p>
-<p>Example: <span class="math inline">A \sim \mathcal{N}(\mu=10,\sigma^2=4)</span> and <span class="math inline">P(8 \le X \le 12)</span>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">mu</span> <span class="op">=</span> <span class="fl">10</span><span class="op">;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">sigma</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">a</span> <span class="op">=</span> <span class="fl">8</span><span class="op">;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">b</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="va">F_a</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span>(<span class="fl">1</span> <span class="op">+</span> <span class="va">erf</span>((<span class="va">a</span><span class="op">-</span><span class="va">mu</span>)<span class="op">/</span>(<span class="va">sigma</span><span class="op">*</span><span class="va">sqrt</span>(<span class="fl">2</span>))))<span class="op">;</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="va">F_b</span> <span class="op">=</span> <span class="fl">0.5</span><span class="op">*</span>(<span class="fl">1</span> <span class="op">+</span> <span class="va">erf</span>((<span class="va">b</span><span class="op">-</span><span class="va">mu</span>)<span class="op">/</span>(<span class="va">sigma</span><span class="op">*</span><span class="va">sqrt</span>(<span class="fl">2</span>))))<span class="op">;</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="va">p_normal_theory</span> <span class="op">=</span> <span class="va">F_b</span> <span class="op">-</span> <span class="va">F_a</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The result is approximately 0.6827. We can also estimate it from samples as before:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> <span class="fl">10000</span><span class="op">;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">x_normal</span> <span class="op">=</span> <span class="va">mu</span> <span class="op">+</span> <span class="va">sigma</span><span class="op">*</span><span class="va">randn</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">N</span>)<span class="op">;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">p_normal_estimated</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">x_normal</span> <span class="op">&gt;=</span> <span class="va">a</span> <span class="op">&amp;</span> <span class="va">x_normal</span> <span class="op">&lt;=</span> <span class="va">b</span>)<span class="op">/</span><span class="va">N</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-</section>
-<section id="histograms-as-a-visualization-of-distributions" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="histograms-as-a-visualization-of-distributions"><span class="header-section-number">2.4</span> Histograms as a visualization of distributions</h2>
-<p>A <strong>histogram</strong> is a bar graph that displays the distribution of samples by counting them in intervals called <strong>bins</strong>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Generate 10000 samples from a uniform distribution on [-4, 10]</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">x_uniform</span> <span class="op">=</span> <span class="op">-</span><span class="fl">4</span> <span class="op">+</span> <span class="fl">14</span><span class="op">*</span><span class="va">rand</span>(<span class="fl">1</span><span class="op">,</span> <span class="fl">10000</span>)<span class="op">;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">% Show a histogram with 30 bins</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">x_uniform</span><span class="op">,</span> <span class="fl">30</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Value'</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Number of samples'</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="va">title</span>(<span class="ss">'Uniform samples'</span>)</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="va">grid</span> <span class="va">on</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>To get a PDF comparison, we need to normalize its area to 1, using the <code>'Normalization','pdf'</code> option:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Generate 10000 samples from a normal distribution with mean 5 and standard deviation 2</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">x_normal</span> <span class="op">=</span> <span class="fl">5</span> <span class="op">+</span> <span class="fl">2</span><span class="op">*</span><span class="va">randn</span>(<span class="fl">1</span><span class="op">,</span> <span class="fl">10000</span>)<span class="op">;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">% Show a PDF-normalized histogram with 35 bins</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">x_normal</span><span class="op">,</span> <span class="fl">35</span><span class="op">,</span> <span class="ss">'Normalization'</span><span class="op">,</span> <span class="ss">'pdf'</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Value'</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Estimated probability density'</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="va">title</span>(<span class="ss">'Normal samples'</span>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="va">grid</span> <span class="va">on</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Histograms are a practical way to visualize the distribution of samples (values, pixels etc) in order to understand your data.</p>
+<section id="estimating-probabilities-from-samples" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="estimating-probabilities-from-samples"><span class="header-section-number">2.4</span> Estimating probabilities from samples</h2>
+<p>Estimate a probability by counting the samples that satisfy a condition and dividing by the total number of samples:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">p_estimated</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">x</span> <span class="op">&gt;=</span> <span class="op">-</span><span class="fl">1</span> <span class="op">&amp;</span> <span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">3</span>)<span class="op">/</span><span class="va">numel</span>(<span class="va">x</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The comparisons produce logical vectors; <code>&amp;</code> combines the two conditions. <code>sum()</code> counts the true entries, and <code>numel()</code> gives the number of samples. Different generated samples give different estimates. Larger samples generally give more accurate estimates, but an improvement is not guaranteed at every run.</p>
 </section>
 <section id="summary-functions-and-notation-you-should-know" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="summary-functions-and-notation-you-should-know"><span class="header-section-number">2.5</span> Summary: functions and notation you should know</h2>
@@ -391,126 +318,121 @@ table td, table th { border-bottom: 1px solid #ddd; }
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">X \sim \mathcal{U}[a,b]</span></td>
-<td><span class="math inline">X \sim \mathcal{U}[-4,10]</span></td>
+<td><span class="math inline">w_A(x)</span></td>
+<td><span class="math inline">P(c&lt;A\le d)=\int_c^d w_A(x)\,dx</span></td>
+<td>Probability density; interval probability is an area</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">F_A(x)</span></td>
+<td><span class="math inline">F_A(x)=P(A\le x)</span></td>
+<td>Cumulative distribution function</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">A\sim\mathcal{U}[a,b]</span></td>
+<td><span class="math inline">A\sim\mathcal{U}[-4,10]</span></td>
 <td>Uniform distribution on <span class="math inline">[a,b]</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">X \sim \mathcal{N}(\mu,\sigma^2)</span></td>
-<td><span class="math inline">X \sim \mathcal{N}(5,2^2)</span></td>
-<td>Normal distribution: mean <span class="math inline">\mu</span>, variance <span class="math inline">\sigma^2</span></td>
-</tr>
-<tr class="odd">
 <td><code>rand(m,n)</code></td>
 <td><code>rand(1,1000)</code></td>
-<td><span class="math inline">m \times n</span> samples from <span class="math inline">\mathcal{U}[0,1]</span></td>
+<td><span class="math inline">m\times n</span> uniform samples on <span class="math inline">[0,1]</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>a + (b-a)*rand(m,n)</code></td>
 <td><code>-4 + 14*rand(1,1000)</code></td>
-<td>Samples from <span class="math inline">\mathcal{U}[a,b]</span></td>
-</tr>
-<tr class="odd">
-<td><code>randn(m,n)</code></td>
-<td><code>randn(1,1000)</code></td>
-<td><span class="math inline">m \times n</span> samples from <span class="math inline">\mathcal{N}(0,1)</span></td>
+<td>Uniform samples on <span class="math inline">[a,b]</span></td>
 </tr>
 <tr class="even">
-<td><code>mu + sigma*randn(m,n)</code></td>
-<td><code>5 + 2*randn(1,1000)</code></td>
-<td>Samples from <span class="math inline">\mathcal{N}(\mu,\sigma^2)</span></td>
-</tr>
-<tr class="odd">
 <td><code>mean(x)</code>, <code>std(x)</code>, <code>var(x)</code></td>
-<td><code>mean(x)</code>, <code>std(x)</code>, <code>var(x)</code></td>
+<td><code>mean(x)</code></td>
 <td>Sample mean, standard deviation and variance</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>histogram(x,n)</code></td>
 <td><code>histogram(x,30)</code></td>
 <td>Histogram with <code>n</code> bins; add <code>'Normalization','pdf'</code> for unit area</td>
 </tr>
-<tr class="odd">
-<td><code>erf(x)</code></td>
-<td><code>erf(1/sqrt(2))</code></td>
-<td>Error function used in the normal CDF</td>
-</tr>
 <tr class="even">
-<td><code>sum(condition)/N</code></td>
-<td><code>sum(x &gt;= a &amp; x &lt;= b)/N</code></td>
+<td><code>figure</code></td>
+<td><code>figure</code></td>
+<td>Open a new figure window</td>
+</tr>
+<tr class="odd">
+<td><code>sum(condition)/numel(x)</code></td>
+<td><code>sum(x &gt; 7)/numel(x)</code></td>
 <td>Empirical probability</td>
 </tr>
 </tbody>
 </table>
 </section>
 </section>
-<section id="exercises" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Exercises</h1>
+<section id="theoretical-exercises" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Theoretical exercises</h1>
+<ol type="1">
+<li><p>Let <span class="math inline">A</span> be a continuous random variable with the uniform distribution <span class="math inline">\mathcal{U}[0, \; 6]</span></p>
+<ol type="a">
+<li>Draw the probability density function of <span class="math inline">A</span>.</li>
+<li>Calculate the probability <span class="math inline">P(A &gt; 2.7)</span>.</li>
+<li>Calculate the probability <span class="math inline">P(A \in (0, \; 2.3))</span>.</li>
+<li>Draw the cumulative distribution function <span class="math inline">F_A(x)</span> and write its mathematical expression.</li>
+<li>What is the distribution of the random variable <span class="math inline">B</span> defined as <span class="math inline">B = A - 2</span>?</li>
+<li>What is the distribution of the random variable <span class="math inline">C</span> defined as <span class="math inline">C = 3*A</span>?</li>
+</ol></li>
+</ol>
+</section>
+<section id="exercises" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Exercises</h1>
 <p>Write all commands yourself in a script or live script. Label figures and answer interpretation questions in comments.</p>
 <ol type="1">
 <li><p>Uniform random samples:</p>
 <ol type="a">
-<li>Generate <span class="math inline">N=10000</span> samples from <span class="math inline">\mathcal{U}[-4,10]</span>.</li>
-<li>Display the min and max values of the vector. Why are the endpoints absent? and why does this not change the theoretical distribution?</li>
-<li>Compare <code>mean()</code> with <span class="math inline">(a+b)/2</span>.</li>
-<li>Plot the first 100 generated values with <code>plot()</code>.</li>
-<li>Plot a 30-bin PDF-normalized histogram. What is its theoretical height?</li>
+<li>Generate <span class="math inline">N=10000</span> samples from <span class="math inline">\mathcal{U}[-4,10]</span> and store them in <code>x_uniform</code>.</li>
+<li>Display the minimum and maximum. Do they equal the interval endpoints?</li>
+<li>Compute the sample mean and compare it with <span class="math inline">(a+b)/2</span>.</li>
+<li>Plot the first 100 values. Use sample index on the horizontal axis.</li>
 </ol></li>
-<li><p>The effect of the uniform-distribution parameters:</p>
+<li><p>Histograms:</p>
 <ol type="a">
-<li>Generate 10000 samples each from <span class="math inline">\mathcal{U}[0,1]</span> and <span class="math inline">\mathcal{U}[5,7]</span>.</li>
-<li>Plot PDF-normalized histograms with equal bin counts in separate windows (<code>figure</code>).</li>
-<li>Describe the changes in PDF location, width and height.</li>
+<li>Plot a histogram of <code>x_uniform</code> with 30 bins.</li>
+<li>In a new figure, plot a 30-bin PDF-normalized histogram. Compare the bar heights with the theoretical density <span class="math inline">1/(b-a)</span>.</li>
+<li>Repeat with 10 and 100 bins. What changes? Which histogram is more irregular?</li>
+<li>Generate a new vector with <span class="math inline">N=100</span> and repeat the 30-bin PDF-normalized histogram. Compare it with the one for <span class="math inline">N=10000</span>.</li>
 </ol></li>
-<li><p>Normal random samples:</p>
+<li><p>The effect of the interval:</p>
 <ol type="a">
-<li>Set <code>mu1 = 2</code>, <code>sigma1 = sqrt(2)</code>, and generate 10000 samples from <span class="math inline">\mathcal{N}(\mu=2,\sigma^2=2)</span> as <code>x_normal_1</code>. The second parameter is the variance.</li>
-<li>Plot the first 100 values in the vector.</li>
-<li>Plot the histogram of all values.</li>
-<li>Compute the sample mean and standard deviation with <code>mean()</code> and <code>std()</code>, and compare with <span class="math inline">2</span> and <span class="math inline">\sqrt{2}</span>. Why are they not exactly equal?</li>
-<li>Keep <code>sigma1</code>, change <span class="math inline">\mu</span> to <span class="math inline">-3</span>, and compare histograms. What changes?</li>
-<li>Keep <code>mu1</code>, change <span class="math inline">\sigma</span> to <span class="math inline">0.5</span>, and compare again.</li>
+<li>Generate 10000 samples each from <span class="math inline">\mathcal{U}[0,1]</span>, <span class="math inline">\mathcal{U}[5,6]</span>, and <span class="math inline">\mathcal{U}[5,7]</span>.</li>
+<li>Plot PDF-normalized histograms with 30 bins in separate figures.</li>
+<li>Compare location, width, and height. Which pair differs only by a shift?</li>
+<li>Compute each sample mean and compare it with its theoretical value.</li>
 </ol></li>
 <li><p>Probabilities for a uniform variable:</p>
-<p>Let <span class="math inline">X \sim \mathcal{U}[-4,10]</span>.</p>
+<p>Let <span class="math inline">A\sim\mathcal{U}[-4,10]</span>.</p>
 <ol type="a">
-<li>Compute theoretically <span class="math inline">P(-1 \le X \le 3)</span>.</li>
-<li>Estimate it from Exercise 1 using logical comparisons and <code>sum()</code>.</li>
-<li>Compute and estimate <span class="math inline">P(X&gt;7)</span>.</li>
-<li>Repeat for <span class="math inline">N=100</span>, <span class="math inline">1000</span>, and <span class="math inline">100000</span>. How does error tend to change? Must it decrease at every run?</li>
-</ol></li>
-<li><p>Probabilities for a normal variable using <code>erf()</code>:</p>
-<p>Let <span class="math inline">X \sim \mathcal{N}(\mu=2,\sigma^2=2)</span>.</p>
-<ol type="a">
-<li>Use <code>erf()</code> to compute the theoretical values of <span class="math inline">P(X \le 3)</span>, then <span class="math inline">P(0 \le X \le 4)</span>, then <span class="math inline">P(X&gt;5)</span>.</li>
-<li>Estimate all three from <code>x_normal_1</code>.</li>
-<li>Use <code>normcdf()</code> function to compute the same probabilities (read the documentation about how to use it).</li>
+<li>Compute theoretically <span class="math inline">P(-1\le A\le 3)</span> and <span class="math inline">P(A&gt;7)</span>.</li>
+<li>Estimate both probabilities from <code>x_uniform</code> using logical comparisons and <code>sum()</code>.</li>
+<li>Repeat with <span class="math inline">N=100</span>, <span class="math inline">1000</span>, and <span class="math inline">100000</span>. Compare estimates with theory.</li>
+<li>Repeat the experiment. Does the largest sample always give the closest estimate?</li>
 </ol></li>
 </ol>
-<section id="supplementary-exercises" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="supplementary-exercises"><span class="header-section-number">3.1</span> Supplementary exercises</h2>
-<ol start="6" type="1">
-<li><p>Write <code>p = myCDF(v, x)</code> to estimate <span class="math inline">P(V \le x)</span>:</p>
-<p><span class="math display">\widehat{F}_V(x) = \frac{\text{number of elements of }v\text{ that are}\le x}
-{\text{total number of elements of }v}.</span></p>
-<p>Evaluate it at 100 points using a <code>for</code> loop. Plot uniform and normal estimates against their theoretical CDFs.</p></li>
-<li><p>Write <code>p = myPDF(v, x, epsilon)</code> to estimate the PDF around <code>x</code> from samples in <span class="math inline">[x-\varepsilon,x+\varepsilon]</span>:</p>
-<p><span class="math display">
-\widehat{f}_V(x) =
-\frac{\text{number of samples in }[x-\varepsilon,x+\varepsilon]}
-{2\varepsilon\,N}.
-</span></p>
-<p>Try several <span class="math inline">\varepsilon</span> values. Explain the smoothness-detail trade-off.</p></li>
+<section id="supplementary-exercise" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="supplementary-exercise"><span class="header-section-number">4.1</span> Supplementary exercise</h2>
+<ol start="5" type="1">
+<li><p>Write <code>p = myCDF(v, x)</code> to estimate <span class="math inline">P(V\le x)</span> as the fraction of values in <code>v</code> that are less than or equal to <code>x</code>.</p>
+<ol type="a">
+<li>For <span class="math inline">A\sim\mathcal{U}[-4,10]</span>, write the theoretical CDF inside and outside the interval.</li>
+<li>Generate 10000 samples. Evaluate <code>myCDF</code> at 100 points from <span class="math inline">-6</span> to <span class="math inline">12</span> using a <code>for</code> loop.</li>
+<li>Plot the estimated and theoretical CDFs together.</li>
+</ol></li>
 </ol>
 </section>
 </section>
-<section id="final-questions" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Final questions</h1>
+<section id="final-questions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Final questions</h1>
 <ol type="1">
-<li>Can a PDF be greater than 1? Why can probabilities still not exceed 1?</li>
-<li>Why can an estimate from <span class="math inline">N=1000</span> samples be worse than one from <span class="math inline">N=100</span>?</li>
-<li>Two datasets have the same mean and variance. Must they have the same distribution?</li>
-<li>How could you decide whether measured data are better modelled by a uniform or normal distribution?</li>
+<li>A uniform PDF on a short interval can be greater than 1. Why does this not imply a probability greater than 1?</li>
+<li>Can an empty histogram bin prove that the underlying probability of that interval is zero?</li>
+<li>If you double the sample count but keep the same bin edges, what should happen to a count histogram? To a PDF-normalized histogram?</li>
+<li>Can two histograms of the same vector look substantially different? What would you check before concluding that their distributions differ?</li>
 </ol>
 </section>
 

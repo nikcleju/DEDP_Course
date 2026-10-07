@@ -1,6 +1,6 @@
 ---
 title: "Working with temporal and statistical averages"
-subtitle: "Laboratory 3, DEDP"
+subtitle: "Laboratory 4, DEDP"
 
 format:
   html:
@@ -177,7 +177,7 @@ relative dataset paths work.
 
    a. Generate a vector `x` of $N=1000$ random values from
       $\mathcal{N}(\mu=3,\sigma^2=4)$, using `randn()` and the scaling and
-      shifting learned in Lab 2.
+      shifting learned in Lab 3.
    b. Compute mean, standard deviation and variance ftom the vector,
       and compare them with the theoretical mean, standard deviation, and variance.
       Why are they not exactly equal?

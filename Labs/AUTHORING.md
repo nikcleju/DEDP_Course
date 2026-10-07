@@ -1,11 +1,17 @@
 # Writing and revising labs
 
-These conventions capture the preferences established while rewriting Labs 1–3.
+These conventions capture the preferences established while rewriting Labs 1–4.
 Explicit instructions for a particular lab take precedence.
 
 ## Before writing
 
-- Read `Lab1_IntroMatlab.qmd` and `Lab2_Distributions.qmd` for structure and tone,
+- Consult `../../COURSES.md` (relative to `Labs/`) for the local course-folder
+  map, including the private Romanian and English labs directories. This file
+  lives outside the public repository. Refer to external destinations by role;
+  do not embed local absolute paths in public guides or glossaries.
+
+- Read `Lab1_IntroMatlab.qmd`, `Lab2_UniformDistribution.qmd`, and
+  `Lab3_NormalDistribution.qmd` for structure and tone,
   and the preceding lab for assumed knowledge.
 - Consult `../LabsOld/ListOfNewLabs.txt` for the planned sequence and the relevant
   old lab for reusable material. Leave historical files unchanged.
@@ -14,7 +20,10 @@ Explicit instructions for a particular lab take precedence.
 - For a new rewritten lab, use its `.qmd` as the authoritative source and state
   that choice. For an existing document, inspect its provenance first.
 - Aim for a two-hour session. Keep later applications in their planned labs;
-  for example, Lab 3 introduces averages, not the later 3-sigma and Otsu labs.
+  for example, Lab 4 introduces averages, not the later 3-sigma and Otsu labs.
+- The distribution labs are split: Lab 2 introduces uniform samples and
+  histograms; Lab 3 introduces normal samples and reuses histograms.
+  `Lab2old_Distributions.qmd` is the preserved pre-split reference.
 
 ## Document structure
 
@@ -46,6 +55,18 @@ Supplementary exercises are optional, not a required section.
 
 ## Romanian translations
 
+- Consult [GLOSAR_RO.md](GLOSAR_RO.md) for terminology, translation style, and examples from the instructor’s manual edits.
+
+- Translate descriptive filename components, but keep the markers `quiz` and `READABLE` unchanged.
+
+- Write the **Objective** section impersonally in Romanian (e.g. „Generarea de eșantioane…”), not in the second person (e.g. „Generați…”).
+
+- Translate the course abbreviation **DEDP → DEPI**, including titles,
+  subtitles, and quiz category names.
+- Translate **probability density function (PDF)** as **funcția densitate de
+  probabilitate**; do not retain the English abbreviation PDF for this concept.
+- Translate **cumulative distribution function (CDF)** as **funcția de
+  repartiție (FR)**; use FR instead of CDF.
 - Translate **standard deviation** as **deviația standard**, not „abaterea standard”.
 - Translate **variance** as **varianță**, not „dispersie”. Inflect these terms
   appropriately in context (e.g. „varianța”, „deviațiile standard”).
@@ -57,7 +78,7 @@ Supplementary exercises are optional, not a required section.
 - Give each task a clear action and expected result: vector length, matrix
   dimension, plot axes, units, or quantity to compare, where relevant.
 - Build on earlier labs. For normal samples, have students use `randn()` with
-  scaling and shifting learned in Lab 2 rather than supplying the full solution.
+  scaling and shifting learned in Lab 3 rather than supplying the full solution.
 - Provide minimal setup code when necessary to load or access data. Do not turn
   the lab sheet into a worked solution; use short hints for unfamiliar steps.
 - Where useful, ask for a prediction before checking it numerically.
@@ -85,9 +106,20 @@ Supplementary exercises are optional, not a required section.
 - Prefer about four strong questions over a longer repetitive list.
 - Ask about counterexamples, invariances, information lost by a statistic, or
   changes in the meaning of an average—not simple recall of definitions.
-- Examples from Lab 3: shuffling samples without changing mean/variance; zero DC
+- Examples from Lab 4: shuffling samples without changing mean/variance; zero DC
   component versus nonzero average power; splitting a voting centre and changing
   an unweighted mean; shifting records and changing their ensemble mean signal.
+
+## Lab quizzes
+
+- Every quiz question must assess a concept or task explicitly encountered in
+  the current lab or a previous lab. Check the lab sources before including it;
+  do not assume that related material or an unstated extension has been covered.
+- Numerical variants may change the data, but must not introduce new methods
+  or properties that students have not explicitly encountered.
+- Use different numerical inputs from the lab examples (e.g. distribution
+  intervals, parameter sets, sample data, and histogram bin counts), so quizzes
+  test applying the method rather than copying a worked answer.
 
 ## Editing and verification
 

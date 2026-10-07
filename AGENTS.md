@@ -8,14 +8,14 @@
 ## Layout (only boundaries that matter)
 
 - `Lectures/` Quarto slide sources and `_quarto.yml`; the makefile is legacy
-- `Labs/` lab sheets, `.mat`/image datasets, Pandoc makefile
+- `Labs/` lab sheets, `.mat`/image datasets, incremental Quarto `Makefile`
 - `Seminars/<year_year>/` one folder per academic year
 - `SampleExam/` sample exam sheets
 - `Work/` student-work drop folders; leave alone unless asked
 
 ## Source authority
 
-- Each makefile maps the local `.md` files to `.pdf`/`.odt`/`.tex`. Treat those outputs as generated.
+- Legacy makefiles map local `.md` files to `.pdf`/`.odt`/`.tex`. Treat those outputs as generated. `Labs/Makefile` renders current `.qmd` sources with Quarto.
 - Current lecture sources are `.qmd` files rendered with Quarto; do not use the legacy lecture makefile for them.
 - `.html` files with Quarto metadata (e.g. `Labs/Lab*.html`) are renders of the sibling `.qmd`.
 - When `.qmd` and `.ipynb` coexist (Labs), repo config does not establish a global authoritative source. Inspect the specific document before editing either, and say which one you chose.
@@ -23,6 +23,13 @@
 - Datasets/assets (`.mat`, `.bmp`, `.jpg`, `.tiff`, `.csv`, video) are source material. Never regenerate, convert, or "optimize" them.
 
 ## Lab authoring
+
+- Consult `../COURSES.md` (relative to the repository root) for the local
+  course-folder map and private material destinations. It lives outside this
+  public repository; do not copy its local paths into tracked guides.
+- Use repo-relative paths for repository files and describe external locations
+  by their role, resolved through `COURSES.md`. If the map is unavailable,
+  request the location rather than guessing a destination.
 
 - Before creating or revising labs, read `Labs/AUTHORING.md`.
 - Leave `LabsOld/` unchanged unless explicitly asked; it is historical reference material.
@@ -37,13 +44,14 @@
 
 ```bash
 cd Lectures && quarto render 00_Introduction.qmd --to beamer
-make -C Labs Lab7.pdf
+make -C Labs SOURCES=Lab3_NormalDistribution.qmd TO=pdf
 make -C SampleExam SampleExamSheet.pdf
 make -C Seminars/2024_2025 Seminar1.pdf
 ```
 
-- Lectures use Quarto. `Lectures/_quarto.yml` configures Beamer with `pdflatex` and `beamer-header.tex`; inspect document-level settings before rendering. The listed make commands for legacy labs, sample exams, and seminars use plain Pandoc.
-- Avoid bare `make`/`make all`: rebuilds every document in that directory.
+- Lectures use Quarto. `Lectures/_quarto.yml` configures Beamer with `pdflatex` and `beamer-header.tex`; inspect document-level settings before rendering. Current labs also use Quarto; sample exams and seminars use plain Pandoc.
+- `Labs/Makefile` uses actual output timestamps: missing or outdated outputs trigger rendering. `TO=pdf` selects PDF only; the default `TO=all` groups the current HTML/PDF/notebook outputs into one render per source (GNU Make 4.3+). Asset changes require `make -B`; prefer `SOURCES=filename.qmd` to limit that force-render. If a document changes its declared formats or output filename, update the targets accordingly.
+- Avoid bare `make`/`make all` for routine verification: legacy directories rebuild every document; Labs may render multiple sources whose outputs are missing or outdated.
 
 ## Hazards
 
