@@ -32,6 +32,9 @@
   request the location rather than guessing a destination.
 
 - Before creating or revising labs, read `Labs/AUTHORING.md`.
+- For Romanian translations, also read `Labs/GLOSAR_RO.md`. Save translated
+  QMDs in the Romanian course’s labs folder and quiz XML/READABLE pairs in
+  its private labs folder, as mapped by `COURSES.md`; do not default to `Labs/Ro/`.
 - Leave `LabsOld/` unchanged unless explicitly asked; it is historical reference material.
 
 ## Seminars

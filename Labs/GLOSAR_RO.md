@@ -52,6 +52,16 @@ markerii **`quiz`** și **`READABLE`**:
 
 Actualizați și referințele interne la fișiere când acestea sunt redenumite.
 
+## Amplasarea fișierelor
+
+- QMD-urile traduse se salvează în `Labs/` al cursului românesc.
+- XML-ul și READABLE-ul quiz-ului se salvează împreună în `Labs/` al
+  cursului privat românesc, nu în repo-ul public și nu implicit în `Ro/`.
+- Destinațiile se identifică din `COURSES.md`, fără căi locale absolute aici.
+- La redenumire sau mutare se actualizează referințele din READABLE.
+  În titluri și categorii Moodle se folosește DEPI; identificatorii întrebărilor
+  rămân stabili pentru sincronizarea dintre limbi.
+
 ## Proveniență și limitele comparației
 
 Preferințele de mai sus combină instrucțiunile explicite ale instructorului

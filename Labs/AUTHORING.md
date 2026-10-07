@@ -55,6 +55,19 @@ Supplementary exercises are optional, not a required section.
 
 ## Romanian translations
 
+- Resolve destinations through `COURSES.md`: translated QMDs belong in the
+  Romanian course’s `Labs/`; quiz XML and READABLE files belong together in
+  the private Romanian course’s `Labs/`. Do not default to this repo’s `Labs/Ro/`.
+- English quiz pairs likewise belong in the private English labs folder. Locate
+  the current files before editing; older local copies may still exist.
+- Preserve the instructor’s manual edits when updating a translation. Apply
+  English changes only where needed, then verify the entire XML/READABLE pair
+  and cross-language IDs, values, answers, tolerances, and grading.
+- After renaming or moving quiz files, update filename references in READABLE
+  and use DEPI in Romanian titles and Moodle categories. On an explicit move,
+  verify the destination before removing the old copy; do not leave duplicate
+  public quiz copies. Do not relocate files merely as part of a content check.
+
 - Consult [GLOSAR_RO.md](GLOSAR_RO.md) for terminology, translation style, and examples from the instructor’s manual edits.
 
 - Translate descriptive filename components, but keep the markers `quiz` and `READABLE` unchanged.
@@ -115,6 +128,10 @@ Supplementary exercises are optional, not a required section.
 - Every quiz question must assess a concept or task explicitly encountered in
   the current lab or a previous lab. Check the lab sources before including it;
   do not assume that related material or an unstated extension has been covered.
+- A lab PDF may be available during the quiz; practical questions remain the
+  default, but explicitly requested theoretical categories are appropriate.
+  Keep each category’s variants comparable in task and difficulty, check source
+  coverage, and distinguish bank size from the student’s selected quiz length.
 - Numerical variants may change the data, but must not introduce new methods
   or properties that students have not explicitly encountered.
 - Use different numerical inputs from the lab examples (e.g. distribution
