@@ -37,6 +37,11 @@ probability density $w_A(x)$, its **statistical mean** is
 
 $$\mu_A=\mathrm{E}\{A\}=\overline{A}=\int_{-\infty}^{\infty}x\,w_A(x)\,dx.$$
 
+The **average squared value** (second moment) is the mean of the squared
+variable:
+
+$$\mathrm{E}\{A^2\}=\overline{A^2}=\int_{-\infty}^{\infty}x^2\,w_A(x)\,dx.$$
+
 Its **statistical variance** is:
 
 $$\sigma_A^2=\mathrm{E}\{(A-\mu_A)^2\}
@@ -154,6 +159,7 @@ table td, table th { border-bottom: 1px solid #ddd; }
 | Signature or notation | Example | Description |
 |---|---|---|
 | $\mathrm{E}\{A\}$ | $\mu_A=\mathrm{E}\{A\}$ | Statistical mean, defined by the distribution |
+| $\mathrm{E}\{A^2\}$ | $\overline{A^2}=\int_{-\infty}^{\infty}x^2w_A(x)\,dx$ | Average squared value (second moment), not $\mu_A^2$ |
 | $\sigma_A^2$, $\sigma_A$ | $\sigma_A=\sqrt{\sigma_A^2}$ | Statistical variance and standard deviation |
 | `mean(x)` | `mean(x)` | Arithmetic mean of a vector; temporal mean if entries are time samples |
 | `std(x,1)`, `var(x,1)` | `var(x,1)` | Observed spread normalized by $N$ |
@@ -168,7 +174,19 @@ table td, table th { border-bottom: 1px solid #ddd; }
 \newpage
 ```
 
-# Exercises
+# Theoretical Exercises
+
+1. Let $A$ be a random variable uniformly distributed on $[a,b]$, where $a<b$.
+
+   Using the definitions of the statistical averages, compute in terms of $a$ and $b$:
+
+   a. The statistical average value $\mu_A=\mathrm{E}\{A\}$.
+   b. The average squared value $\mathrm{E}\{A^2\}$.
+   c. The variance $\sigma_A^2=\mathrm{E}\{(A-\mu_A)^2\}$.
+
+   Special case: $a=-4$, $b=6$.
+
+# Matlab Exercises
 
 Write all commands yourself in a script or live script. Label figures and answer
 interpretation questions in comments. Run the script from `Labs/` so that the

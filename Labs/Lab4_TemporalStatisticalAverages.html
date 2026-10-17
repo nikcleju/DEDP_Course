@@ -139,8 +139,9 @@ window.Quarto = {
   <li><a href="#loading-variables-from-a-file" id="toc-loading-variables-from-a-file" class="nav-link" data-scroll-target="#loading-variables-from-a-file"><span class="header-section-number">2.4</span> Loading variables from a file</a></li>
   <li><a href="#summary-functions-and-notation-you-should-know" id="toc-summary-functions-and-notation-you-should-know" class="nav-link" data-scroll-target="#summary-functions-and-notation-you-should-know"><span class="header-section-number">2.5</span> Summary: functions and notation you should know</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3</span> Exercises</a></li>
-  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions"><span class="header-section-number">4</span> Final questions</a></li>
+  <li><a href="#theoretical-exercises" id="toc-theoretical-exercises" class="nav-link" data-scroll-target="#theoretical-exercises"><span class="header-section-number">3</span> Theoretical Exercises</a></li>
+  <li><a href="#matlab-exercises" id="toc-matlab-exercises" class="nav-link" data-scroll-target="#matlab-exercises"><span class="header-section-number">4</span> Matlab Exercises</a></li>
+  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions"><span class="header-section-number">5</span> Final questions</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab4_TemporalStatisticalAverages.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="Lab4_TemporalStatisticalAverages.ipynb" download="Lab4_TemporalStatisticalAverages.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
 </div>
@@ -177,6 +178,8 @@ window.Quarto = {
 <p>Statistical averages are defined using the probability distribution, rather than a particular measured sequence.</p>
 <p>For a continuous random variable <span class="math inline">A</span> with probability density <span class="math inline">w_A(x)</span>, its <strong>statistical mean</strong> is</p>
 <p><span class="math display">\mu_A=\mathrm{E}\{A\}=\overline{A}=\int_{-\infty}^{\infty}x\,w_A(x)\,dx.</span></p>
+<p>The <strong>average squared value</strong> (second moment) is the mean of the squared variable:</p>
+<p><span class="math display">\mathrm{E}\{A^2\}=\overline{A^2}=\int_{-\infty}^{\infty}x^2\,w_A(x)\,dx.</span></p>
 <p>Its <strong>statistical variance</strong> is:</p>
 <p><span class="math display">\sigma_A^2=\mathrm{E}\{(A-\mu_A)^2\}
 = \overline{(A-\mu_A)^2}
@@ -264,46 +267,51 @@ table td, table th { border-bottom: 1px solid #ddd; }
 <td>Statistical mean, defined by the distribution</td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\mathrm{E}\{A^2\}</span></td>
+<td><span class="math inline">\overline{A^2}=\int_{-\infty}^{\infty}x^2w_A(x)\,dx</span></td>
+<td>Average squared value (second moment), not <span class="math inline">\mu_A^2</span></td>
+</tr>
+<tr class="odd">
 <td><span class="math inline">\sigma_A^2</span>, <span class="math inline">\sigma_A</span></td>
 <td><span class="math inline">\sigma_A=\sqrt{\sigma_A^2}</span></td>
 <td>Statistical variance and standard deviation</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>mean(x)</code></td>
 <td><code>mean(x)</code></td>
 <td>Arithmetic mean of a vector; temporal mean if entries are time samples</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>std(x,1)</code>, <code>var(x,1)</code></td>
 <td><code>var(x,1)</code></td>
 <td>Observed spread normalized by <span class="math inline">N</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>std(x)</code>, <code>var(x)</code></td>
 <td><code>std(x)</code>, <code>var(x)</code></td>
 <td>Sample standard deviation and variance, normalized by <span class="math inline">N-1</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>mean(X,dim)</code></td>
 <td><code>mean(X,2)</code></td>
 <td>Average along the chosen matrix dimension</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>std(X,w,dim)</code>, <code>var(X,w,dim)</code></td>
 <td><code>std(X,0,1)</code></td>
 <td>Spread along a dimension: <code>w=0</code> uses <span class="math inline">N-1</span>, <code>w=1</code> uses <span class="math inline">N</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>X(:)</code></td>
 <td><code>mean(X(:))</code></td>
 <td>All matrix entries as one column vector</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>load(filename)</code></td>
 <td><code>load('data.mat')</code></td>
 <td>Load saved variables directly into the Workspace</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>D = load(filename)</code></td>
 <td><code>D = load('data.mat'); x = D.x;</code></td>
 <td>Load saved variables into a structure; access fields using a dot</td>
@@ -312,8 +320,21 @@ table td, table th { border-bottom: 1px solid #ddd; }
 </table>
 </section>
 </section>
-<section id="exercises" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Exercises</h1>
+<section id="theoretical-exercises" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Theoretical Exercises</h1>
+<ol type="1">
+<li><p>Let <span class="math inline">A</span> be a random variable uniformly distributed on <span class="math inline">[a,b]</span>, where <span class="math inline">a&lt;b</span>.</p>
+<p>Using the definitions of the statistical averages, compute in terms of <span class="math inline">a</span> and <span class="math inline">b</span>:</p>
+<ol type="a">
+<li>The statistical average value <span class="math inline">\mu_A=\mathrm{E}\{A\}</span>.</li>
+<li>The average squared value <span class="math inline">\mathrm{E}\{A^2\}</span>.</li>
+<li>The variance <span class="math inline">\sigma_A^2=\mathrm{E}\{(A-\mu_A)^2\}</span>.</li>
+</ol>
+<p>Special case: <span class="math inline">a=-4</span>, <span class="math inline">b=6</span>.</p></li>
+</ol>
+</section>
+<section id="matlab-exercises" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Matlab Exercises</h1>
 <p>Write all commands yourself in a script or live script. Label figures and answer interpretation questions in comments. Run the script from <code>Labs/</code> so that the relative dataset paths work.</p>
 <ol type="1">
 <li><p>Mean, standard deviation, and variance:</p>
@@ -402,8 +423,8 @@ Compute the mean and standard deviation in each group. Which group has greater s
 </ol></li>
 </ol>
 </section>
-<section id="final-questions" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Final questions</h1>
+<section id="final-questions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Final questions</h1>
 <ol type="1">
 <li>Randomly reorder the samples of an ECG signal. What happens to its mean and variance? Do they change or not?</li>
 <li>Split one voting centre into two identical halves, dividing both its votes and registered voters equally. Can the mean centre turnout change even though nobody’s vote has changed? What happens to the city turnout?</li>
