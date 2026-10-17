@@ -329,9 +329,10 @@ table td, table th { border-bottom: 1px solid #ddd; }
 <li><p>Election turnout:</p>
 <p>Load <code>ElectionsData.mat</code>, containing data from the local elections in Iași on 27 September 2020:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">D</span> <span class="op">=</span> <span class="va">load</span>(<span class="ss">'ElectionsData.mat'</span>)<span class="op">;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">values</span> <span class="op">=</span> <span class="va">double</span>(<span class="va">D</span>.<span class="va">values</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">values</span> <span class="op">=</span> <span class="va">double</span>(<span class="va">D</span>.<span class="va">values</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">names</span> <span class="op">=</span> <span class="va">D</span>.<span class="va">names</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>double()</code> converts the stored integer counts to floating-point values before calculations.</p>
-<p>Each row of <code>values</code> corresponds to one voting centre. The columns are:</p>
+<p>Each row of <code>values</code> corresponds to one voting centre. The cell array <code>names</code> contains the corresponding names in the same order; <code>names{k}</code> gives the name of the centre in row <code>k</code>. The columns of <code>values</code> are:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -373,9 +374,11 @@ table td, table th { border-bottom: 1px solid #ddd; }
 <li>Compute the total registered voters and total votes for each centre. Store them in column vectors <code>registered</code> and <code>votes</code>. Hint: use <code>sum()</code> and specify the dimension along the rows.</li>
 <li>Make sure that all entries of <code>registered</code> and <code>votes</code> are positive. Write the code to make all negative entries, if there are any, equal to zero.</li>
 <li>Compute the turnout percentage for each centre (use <code>./</code>).</li>
+<li>Identify the names of the centres with maximum and minimum turnout. Report their turnout percentages. Hint: use the second output of <code>max()</code> and <code>min()</code> to obtain the indices, then use these to access <code>names</code>.</li>
 <li>Plot turnout against centre index. Plot a histogram of turnout.</li>
 <li>Compute the mean, standard deviation, and variance of turnout. Express the standard deviation in percentage points.</li>
-<li>Compute the turnout for the entire city: total votes across all centres divided by total registered voters, multiplied by 100. Compare it with the mean from point d.&nbsp;Why are they different?</li>
+<li>Identify potential outliers in the turnout vector using the three-sigma rule: flag any value strictly outside <span class="math inline">[m-3s,\,m+3s]</span>, where <span class="math inline">m</span> is the mean turnout and <span class="math inline">s</span> is its sample standard deviation (use <code>std()</code>). Use logical indexing to extract the flagged turnout percentages and the corresponding centre names. Treat these as potential outliers, not necessarily errors.</li>
+<li>Compute the turnout for the entire city: total votes across all centres divided by total registered voters, multiplied by 100. Compare it with the mean from point f.&nbsp;Why are they different?</li>
 <li>Divide the centres into two groups:
 <ul>
 <li>those with registered voters fewer than <code>median(registered)</code>,</li>

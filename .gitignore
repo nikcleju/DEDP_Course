@@ -3,3 +3,5 @@
 /Lectures/.jupyter_cache/
 /Labs/Lab3_Decision_files/*
 /.omo/**
+/Labs/Lab*_files/libs/*
+/Lectures/*_files/libs/*

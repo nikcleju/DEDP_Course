@@ -200,12 +200,15 @@ relative dataset paths work.
    ```matlab
    D = load('ElectionsData.mat');
    values = double(D.values);
+   names = D.names;
    ```
 
    `double()` converts the stored integer counts to floating-point values
    before calculations.
 
-   Each row of `values` corresponds to one voting centre. The columns are:
+   Each row of `values` corresponds to one voting centre. The cell array `names`
+   contains the corresponding names in the same order; `names{k}` gives the name
+   of the centre in row `k`. The columns of `values` are:
 
    | Column | Meaning |
    |---|---|
@@ -226,14 +229,23 @@ relative dataset paths work.
       Hint: use `sum()` and specify the dimension along the rows.
    b. Make sure that all entries of `registered` and `votes` are positive.
       Write the code to make all negative entries, if there are any, equal to zero.
-   b. Compute the turnout percentage for each centre (use `./`).
-   c. Plot turnout against centre index. Plot a histogram of turnout.
-   d. Compute the mean, standard deviation, and variance of turnout.
+   c. Compute the turnout percentage for each centre (use `./`).
+   d. Identify the names of the centres with maximum and minimum turnout.
+      Report their turnout percentages. Hint: use the second output of `max()`
+      and `min()` to obtain the indices, then use these to access `names`.
+   e. Plot turnout against centre index. Plot a histogram of turnout.
+   f. Compute the mean, standard deviation, and variance of turnout.
       Express the standard deviation in percentage points.
-   e. Compute the turnout for the entire city: total votes across all centres
+   g. Identify potential outliers in the turnout vector using the three-sigma
+      rule: flag any value strictly outside $[m-3s,\,m+3s]$, where $m$ is the
+      mean turnout and $s$ is its sample standard deviation (use `std()`).
+      Use logical indexing to extract the flagged turnout percentages and the
+      corresponding centre names. Treat these as potential outliers, not
+      necessarily errors.
+   h. Compute the turnout for the entire city: total votes across all centres
       divided by total registered voters, multiplied by 100.
-      Compare it with the mean from point d. Why are they different?
-   g. Divide the centres into two groups:
+      Compare it with the mean from point f. Why are they different?
+   i. Divide the centres into two groups:
       - those with registered voters fewer than `median(registered)`,
       - those with registered voters equal or more than `median(registered)`.
 

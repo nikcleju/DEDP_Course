@@ -918,9 +918,8 @@ $$R_{fg}(t_1,t_2) = \overline{f(t_1) g(t_2)} = \int_{-\infty}^\infty \int_{-\inf
 * Note:
     * these functions may have different values for a different pair of samples at times ($t_1$,$t_2$)
 
-### Discrete random processes
-
-For **discrete random processes**: integral becomes sum, notation $f(t)$ becomes $f[t]$):
+### Discrete values
+If the values are discrete: integral becomes sum, notation $f(t)$ becomes $f[t]$):
 
 1. $\overline{f[t_1]} = \mu(t_1) = \sum_{x=-\infty}^{\infty} x \cdot w_1(x; t_1)$
 
@@ -983,7 +982,7 @@ and divide to $2N+1$ instead of $2T$
 
 2. $\overline{[f^{(k)}[t]]^2} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} (f^{(k)}[t])^2$
 
-3. $\sigma^2 = \overline{\left\{ f^{(k)}[t] - \mu^{[k]} \right\}^2} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} (f^{(k)}[t]-\mu^{(k)})^2$
+3. $\sigma^2 = \overline{\left\{ f^{(k)}[t] - \mu^{(k)} \right\}^2} = \lim_{N \to \infty} \frac{1}{2N+1} \sum_{t=-N}^{N} (f^{(k)}[t]-\mu^{(k)})^2$
 
 ### Discrete random processes
 
@@ -1194,9 +1193,9 @@ depending on the frequency $f$ ($\omega = 2 \pi f$)
 - For a **deterministic** signal (i.e. non-random), it is given by the modulus of the Fourier transform (squared):
     $$S_{ff}(\omega) = |F(\omega)|^2$$
 
-- The power in the frequency band $[f_1, f_2]$ is equal to $\int_{f_1}^{f_2} S_{ff}(\omega) d\omega$
+- The power in the frequency band $[f_1, f_2]$ is equal to $\frac{1}{2\pi} \cdot \int_{2 \pi f_1}^{2 \pi f_2} S_{ff}(\omega) d\omega$
 
-- The whole power of the signal is $P = \int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$
+- The whole power of the signal is $P = \frac{1}{2\pi} \cdot \int_{-\infty}^{\infty} S_{ff}(\omega) d\omega$
 
 - The PSD is a measurable quantity
 
@@ -1235,7 +1234,7 @@ all possible realizations
 ### White noise
 
 - **White noise** = a random process with **autocorrelation function equal to a Dirac** function
-    $$R_{ff}(\tau) = \delta(\tau)$$
+    $$R_{ff}(\tau) = A \cdot \delta(\tau)$$
 
     - is a random process: every sample of white noise is a random variable
     - autocorrelation is a Dirac: autocorrelation is 0 for any $\tau \neq 0$
@@ -1259,7 +1258,7 @@ all possible realizations
 
 - In real life, power spectral density goes to 0 at very high frequencies
 
-    - because total power $P = \int_{-\infty}^{\infty} S_{ff}{\omega} d\omega$ cannot be infinite
+    - because total power $P = \frac{1}{2\pi} \int_{-\infty}^{\infty} S_{ff}{\omega} d\omega$ cannot be infinite
 
     - known as "**band-limited white noise**"
 
@@ -1336,7 +1335,7 @@ $$\begin{split}
 R_{yy}(\tau) =& \overline{y[n] y[n + \tau]}\\
 =& \overline{\sum_{k_1=-\infty}^\infty h[k_1] x[n-k_1] \sum_{k_2=-\infty}^\infty h[k_2] x[n+\tau-k_2]}\\
 =& \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] \overline{x[n-k_1] x[n+\tau-k_2]}\\
-=& \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[\tau - k_1 + k_2]
+=& \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[\tau + k_1 - k_2]
 \end{split}$$
 
 * From Wiener-Hincin theorem:
@@ -1347,16 +1346,16 @@ $$S_{ff}(\omega) = \sum_{\tau = -\infty}^{\infty} R_{ff}(\tau) e^{- j \omega \ta
 
 * Therefore
 $$
-S_{yy}(\omega) = \sum_{\tau=-\infty}^{\infty} \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[\tau - k_1 + k_2] e^{- j \omega \tau}
+S_{yy}(\omega) = \sum_{\tau=-\infty}^{\infty} \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[\tau + k_1 - k_2] e^{- j \omega \tau}
 $$
 
-* Change of variable: $\tau - k_1 + k_2 = u$
-    * then $\tau = u + k_1 - k_2$
+* Change of variable: $\tau + k_1 - k_2 = u$
+    * then $\tau = u - k_1 + k_2$
 
 $$\begin{split}
-S_{yy}(\omega) =& \sum_{u=-\infty}^{\infty} \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[u] e^{- j \omega (u + k_1 + k_2)}\\
-=& \sum_{u=-\infty}^{\infty} R_{xx}[u] e^{- j \omega u} \sum_{k_1=-\infty}^\infty h[k_1] e^{- j \omega k_1} \sum_{k_2=-\infty}^\infty h[k_2]  e^{ j \omega k_2}\\
-=& S_{xx}(\omega) \cdot H(\omega) \cdot H^*(\omega)\\
+S_{yy}(\omega) =& \sum_{u=-\infty}^{\infty} \sum_{k_1=-\infty}^\infty \sum_{k_2=-\infty}^\infty h[k_1] h[k_2] R_{xx}[u] e^{- j \omega (u - k_1 + k_2)}\\
+=& \sum_{u=-\infty}^{\infty} R_{xx}[u] e^{- j \omega u} \sum_{k_1=-\infty}^\infty h[k_1] e^{j \omega k_1} \sum_{k_2=-\infty}^\infty h[k_2]  e^{ - j \omega k_2}\\
+=& S_{xx}(\omega) \cdot H^*(\omega) \cdot H(\omega)\\
 =& S_{xx}(\omega) \cdot |H(\omega)|^2\\
 \end{split}$$
 
