@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Image binarization by thresholding: Otsu’s method</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Lab5_ImageThresholding_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab5_ImageThresholding_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Lab5_ImageThresholding_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Lab5_ImageThresholding_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab5_ImageThresholding_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Lab5_ImageThresholding_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Lab5_ImageThresholding_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab5_ImageThresholding_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Lab5_ImageThresholding_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Lab5_ImageThresholding_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Lab5_ImageThresholding_files/libs/bootstrap/bootstrap-7c6a896853115d4253cd2a0127942323.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective"><span class="header-section-number">1</span> Objective</a></li>
+  <li><a href="#theoretical-aspects" id="toc-theoretical-aspects" class="nav-link" data-scroll-target="#theoretical-aspects"><span class="header-section-number">2</span> Theoretical aspects</a>
+  <ul class="collapse">
+  <li><a href="#a-grayscale-image-is-a-matrix" id="toc-a-grayscale-image-is-a-matrix" class="nav-link" data-scroll-target="#a-grayscale-image-is-a-matrix"><span class="header-section-number">2.1</span> A grayscale image is a matrix</a></li>
+  <li><a href="#from-pixels-to-a-histogram" id="toc-from-pixels-to-a-histogram" class="nav-link" data-scroll-target="#from-pixels-to-a-histogram"><span class="header-section-number">2.2</span> From pixels to a histogram</a></li>
+  <li><a href="#side-note-histogram-equalization" id="toc-side-note-histogram-equalization" class="nav-link" data-scroll-target="#side-note-histogram-equalization"><span class="header-section-number">2.3</span> Side note: histogram equalization</a></li>
+  <li><a href="#thresholding-and-image-binarization" id="toc-thresholding-and-image-binarization" class="nav-link" data-scroll-target="#thresholding-and-image-binarization"><span class="header-section-number">2.4</span> Thresholding and image binarization</a></li>
+  <li><a href="#otsus-criterion-compact-intensity-clusters" id="toc-otsus-criterion-compact-intensity-clusters" class="nav-link" data-scroll-target="#otsus-criterion-compact-intensity-clusters"><span class="header-section-number">2.5</span> Otsu’s criterion: compact intensity clusters</a>
+  <ul class="collapse">
+  <li><a href="#searching-all-thresholds" id="toc-searching-all-thresholds" class="nav-link" data-scroll-target="#searching-all-thresholds">Searching all thresholds</a></li>
+  </ul></li>
+  <li><a href="#summary-functions-and-notation-you-should-know" id="toc-summary-functions-and-notation-you-should-know" class="nav-link" data-scroll-target="#summary-functions-and-notation-you-should-know"><span class="header-section-number">2.6</span> Summary: functions and notation you should know</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3</span> Exercises</a></li>
+  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions"><span class="header-section-number">4</span> Final questions</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab5_ImageThresholding.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="Lab5_ImageThresholding.ipynb" download="Lab5_ImageThresholding.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Image binarization by thresholding: Otsu’s method</h1>
+<p class="subtitle lead">Laboratory 5, DEDP</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objective" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Objective</h1>
+<p>Read and display grayscale images in Matlab, relate them to their intensity histograms, and implement image binarization using Otsu’s threshold search and within-cluster variances.</p>
+</section>
+<section id="theoretical-aspects" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Theoretical aspects</h1>
+<section id="a-grayscale-image-is-a-matrix" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="a-grayscale-image-is-a-matrix"><span class="header-section-number">2.1</span> A grayscale image is a matrix</h2>
+<p>A digital image is a rectangular grid of <strong>pixels</strong>. A grayscale image stores one intensity value per pixel in a matrix <code>I</code>:</p>
+<ul>
+<li><code>I(r,c)</code> is the pixel in row <code>r</code>, column <code>c</code>.</li>
+<li>Small intensities represent dark pixels; large intensities represent bright pixels.</li>
+<li>For an 8-bit image stored as <code>uint8</code>, intensities are integers from 0 (black) to 255 (white).</li>
+<li>If the image is stored as <code>double</code>, intensities are real numbers, either in the interval 0–255 or the interval 0–1.</li>
+</ul>
+<p>In this lab, we prefer pixel values to be in the range 0–1, and having the <code>double</code> type, which allows for precise calculations.</p>
+<p>For example, this is a small grayscale image, not a colour image:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">I_small</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0.25</span> <span class="fl">0.5</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">0</span> <span class="fl">0.25</span> <span class="fl">0.5</span> <span class="fl">1</span><span class="op">;</span> <span class="fl">0</span> <span class="fl">0.25</span> <span class="fl">0.5</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="va">imshow</span>(<span class="va">I_small</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>In the example below:</p>
+<ul>
+<li><code>imread()</code> reads an image file;</li>
+<li><code>im2double()</code> converts an integer image to <code>double</code> and rescales its intensities to 0–1.</li>
+<li><code>size(I)</code> gives its number of rows and columns (just like any Matlab matrix).</li>
+<li><code>imshow()</code> displays it.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">Iraw</span> <span class="op">=</span> <span class="va">imread</span>(<span class="ss">'coins.png'</span>)<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">I</span> <span class="op">=</span> <span class="va">im2double</span>(<span class="va">Iraw</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">size</span>(<span class="va">I</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="va">imshow</span>(<span class="va">I</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The images used in this lab are already grayscale, so no colour conversion is needed. A colour RGB image would have three channels, and could be converted to grayscale with <code>rgb2gray()</code>.</p>
+<p>For the 8-bit images in this lab, <code>im2double(Iraw)</code> is equivalent to <code>double(Iraw)/255</code>. The value 0 represents black and 1 represents white. This conversion uses the full 8-bit scale, not the smallest and largest values actually present in the image, so those observed values need not become 0 and 1.</p>
+<p><strong>Conversion is not just a change of type:</strong> <code>double(Iraw)</code> alone leaves 8-bit intensities on the 0–255 scale. Also, <code>im2double()</code> does not rescale an input that is already <code>double</code>; convert the original integer image directly.</p>
+<p>From now on, use the normalized image <code>I</code> for display and calculations. <code>imshow(I)</code> uses the range 0–1 for a <code>double</code> image; no additional display-range argument is needed. See the <a href="https://www.mathworks.com/help/matlab/ref/im2double.html"><code>im2double</code> documentation</a>.</p>
+</section>
+<section id="from-pixels-to-a-histogram" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="from-pixels-to-a-histogram"><span class="header-section-number">2.2</span> From pixels to a histogram</h2>
+<p>The image histogram counts how many pixels have each intensity, and shows the distribution of intensities.</p>
+<p>Use <code>imhist()</code> directly on the image to display its intensity histogram:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">imhist</span>(<span class="va">I</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Intensity'</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Number of pixels'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>For a grayscale image, <code>imhist(I)</code> uses 256 bins by default. For our normalized <code>double</code> image, the bin locations span 0–1. Use <code>imhist(I,256)</code> to specify that bin count explicitly when comparing images. Unlike a PDF-normalized histogram, this plot shows pixel counts. See the <a href="https://www.mathworks.com/help/images/ref/imhist.html"><code>imhist</code> documentation</a>.</p>
+<p>For the threshold calculations, <code>I(:)</code> collects every pixel into a single column vector, without changing its type or intensity scale:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">pixels</span> <span class="op">=</span> <span class="va">I</span>(<span class="op">:</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Two concentrations of intensities may suggest two groups, such as dark and bright regions. The histogram counts intensities but does not describe where those pixels are located in the image.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/Lab5_camera_thresholding.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>A real grayscale photograph, its intensity histogram, and its binarization. The red line marks the Otsu threshold in this published example.</figcaption>
+</figure>
+</div>
+<p>Photograph: Lav Varshney (CC0), via <a href="https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.camera">scikit-image’s camera dataset</a>. Comparison figure: <a href="https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_thresholding.html">scikit-image thresholding example</a>. This external illustration uses 8-bit intensities on the 0–255 scale; divide those intensities and the threshold by 255 to express them on our 0–1 scale. The binary image separates dark from bright pixels, not necessarily the whole person from the background.</p>
+</section>
+<section id="side-note-histogram-equalization" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="side-note-histogram-equalization"><span class="header-section-number">2.3</span> Side note: histogram equalization</h2>
+<p>An image whose intensities occupy a narrow part of 0–1 may have low contrast. <strong>Histogram equalization</strong> remaps intensities using the cumulative histogram (the fraction of pixels at or below each intensity, as in the CDF from Lab 2). It spreads frequently occurring intensities over a wider range, without changing pixel positions. It is contrast enhancement, not binarization or noise removal, and is not a required preprocessing step for Otsu’s method.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ieq</span> <span class="op">=</span> <span class="va">histeq</span>(<span class="va">I</span><span class="op">,</span><span class="fl">256</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The result has the same size and type as <code>I</code>, with intensities still in 0–1. Compare <code>imshow(I)</code> with <code>imshow(Ieq)</code> and <code>imhist(I,256)</code> with <code>imhist(Ieq,256)</code>. The histogram need not become exactly flat: pixels with the same input intensity remain mapped together. See the <a href="https://www.mathworks.com/help/images/ref/histeq.html"><code>histeq</code> documentation</a>.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="figures/Lab5_histogram_equalization.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Histogram equalization on a simulated low-contrast grayscale image using a cumulative-histogram mapping. Both images use the same 0–1 display range, and both histograms use 256 bins and identical axes. Contrast increases, but the histogram is not exactly flat and small intensity fluctuations become more visible.</figcaption>
+</figure>
+</div>
+<p>To compare plots in one figure, <code>subplot(2,2,1)</code> selects the first position in a 2-by-2 grid. Then call <code>imshow()</code> or <code>imhist()</code> to draw there. Positions are numbered across the first row, then across the second row. Use the same 0–1 image display range and the same histogram bin count before and after.</p>
+</section>
+<section id="thresholding-and-image-binarization" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="thresholding-and-image-binarization"><span class="header-section-number">2.4</span> Thresholding and image binarization</h2>
+<p><strong>Image binarization</strong> converts a grayscale image into an image with only two values (black and white). <strong>Thresholding</strong> is one way to perform binarization: assign one binary value to intensities on one side of a threshold, and the other value to intensities on the other side.</p>
+<p>A threshold <span class="math inline">t</span> divides the intensities into two clusters, those below <span class="math inline">t</span> and those above <span class="math inline">t</span>:</p>
+<p><span class="math display">C_0(t)=\{x:x\le t\}, \qquad C_1(t)=\{x:x&gt;t\}.</span></p>
+<p>Here, each <span class="math inline">x</span> is a pixel intensity. The comparison produces a <strong>binary image</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">BW</span> <span class="op">=</span> <span class="va">I</span> <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">imshow</span>(<span class="va">BW</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>BW</code> has the same rows and columns as <code>I</code>. Its values are <code>false</code> (displayed as black) and <code>true</code> (displayed as white). In this convention, white pixels are those <strong>above</strong> the threshold. This does not automatically mean that white pixels are the objects of interest.</p>
+<p>Typical binarization examples include:</p>
+<ul>
+<li><strong>Dark printed text on white paper:</strong> separate ink from the paper.</li>
+<li><strong>Handwritten notes on paper:</strong> distinguish the dark ink from the paper, even when a photograph introduces shadows and varying illumination.</li>
+<li><strong>Bright coins on a darker background:</strong> separate the coins from their surroundings.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/Lab5_handwrittenText.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>A real grayscale photograph of handwritten mathematics on paper. Binarization aims to separate the dark ink from the paper; shadows can make a single global threshold less effective.</figcaption>
+</figure>
+</div>
+<p>Source: <a href="https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.text">scikit-image’s text image</a>, originally from Wikipedia; released into the public domain. The unmodified grayscale image is supplied locally as <code>img/Lab5_handwrittenText.png</code>.</p>
+<p>For dark text or other dark objects, <code>I &gt; t</code> keeps the background white and the objects black. If the desired mask should instead mark the objects as <code>true</code>, use <code>I &lt;= t</code>. Choosing the threshold and choosing which cluster represents the foreground are separate decisions.</p>
+<p>The question is how to choose a threshold that separates foreground and background well. Otsu’s method is one way to do this.</p>
+</section>
+<section id="otsus-criterion-compact-intensity-clusters" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="otsus-criterion-compact-intensity-clusters"><span class="header-section-number">2.5</span> Otsu’s criterion: compact intensity clusters</h2>
+<p>We want pixels within each cluster to have similar intensities. Otsu’s method chooses a threshold that minimizes the <strong>weighted within-cluster variance</strong>.</p>
+<p>Let <span class="math inline">N</span> be the total number of pixels, and let <span class="math inline">N_0(t)</span> and <span class="math inline">N_1(t)</span> be the numbers of pixels in the two clusters. Their weights are</p>
+<p><span class="math display">w_0(t)=\frac{N_0(t)}{N}, \qquad w_1(t)=\frac{N_1(t)}{N}.</span></p>
+<p>For a nonempty cluster <span class="math inline">C_j(t)</span>, compute its mean and variance as</p>
+<p><span class="math display">m_j(t)=\frac{1}{N_j(t)}\sum_{x\in C_j(t)}x,</span></p>
+<p><span class="math display">v_j(t)=\frac{1}{N_j(t)}\sum_{x\in C_j(t)}(x-m_j(t))^2.</span></p>
+<p>In Matlab, after extracting the intensities of one nonempty cluster into a vector <code>cluster</code>, use <code>mean()</code> and <code>var()</code> to compute <span class="math inline">m_j(t)</span> and <span class="math inline">v_j(t)</span>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">mj</span> <span class="op">=</span> <span class="va">mean</span>(<span class="va">cluster</span>)<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">vj</span> <span class="op">=</span> <span class="va">var</span>(<span class="va">cluster</span><span class="op">,</span><span class="fl">1</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>These are statistics of the <strong>pixel intensities</strong>, not of the pixel coordinates or of the binary mask. Repeat the calculations for each of the two clusters.</p>
+<p>The score to minimize is</p>
+<p><span class="math display">J(t)=w_0(t)v_0(t)+w_1(t)v_1(t).</span></p>
+<p>The weights matter: a cluster containing few pixels should not contribute as much as one containing most pixels. Do not minimize the unweighted sum of the two variances.</p>
+<p><strong>Variance normalization:</strong> here we describe all the observed pixels in each cluster, so use <code>var(cluster,1)</code>, with denominator equal to the cluster size, not Matlab’s default sample normalization. A one-pixel cluster has variance 0.</p>
+<section id="searching-all-thresholds" class="level3">
+<h3 class="anchored" data-anchor-id="searching-all-thresholds">Searching all thresholds</h3>
+<p>For an image obtained by normalizing 8-bit intensities, use 256 candidate thresholds on the same scale:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">thresholds</span> <span class="op">=</span> (<span class="fl">0</span><span class="op">:</span><span class="fl">255</span>)<span class="op">/</span><span class="fl">255</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>These run from 0 to 1 in steps of <code>1/255</code>. At each threshold:</p>
+<ol type="1">
+<li>Extract the two pixel vectors using logical indexing.</li>
+<li>If either vector is empty, do not evaluate that threshold.</li>
+<li>Otherwise, compute both variances, both weights, and the score <span class="math inline">J(t)</span>.</li>
+<li>Store the score so that it can be plotted and its minimum located.</li>
+</ol>
+<p><code>isempty(x)</code> tests whether a vector has no elements. Inside a <code>for</code> loop, <code>continue</code> skips the rest of the current iteration. Use these to avoid calculating a variance for an empty cluster.</p>
+<p>One way to store the scores is to initialize a vector with infinity:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">scores</span> <span class="op">=</span> <span class="va">Inf</span>(<span class="fl">1</span><span class="op">,</span><span class="fl">256</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Leave invalid thresholds at <code>Inf</code>, so they cannot be selected as minima. For a nonconstant image, at least one threshold has two nonempty clusters. A constant image has no valid split. If all scores remain <code>Inf</code>, report that no valid threshold exists rather than interpreting the index from <code>min()</code>.</p>
+<p><strong>Indexing:</strong> a threshold is now an intensity in 0–1, not a vector index. Loop over integer indices <code>k=1:numel(thresholds)</code>, set <code>t=thresholds(k)</code>, and store the score at position <code>k</code>. The second output of <code>min()</code> gives an index:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">value</span><span class="op">,</span> <span class="va">index</span>] <span class="op">=</span> <span class="va">min</span>(<span class="va">v</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Use that index to look up the corresponding intensity in <code>thresholds</code>. Do not use a fractional threshold as a Matlab array index.</p>
+<p>Several thresholds can produce the same split and score when there are gaps in the histogram. Use the first minimizing threshold returned by <code>min()</code>. This is a convention for ties, not a unique physical boundary.</p>
+<p>In this lab, implement the search yourself. Do not replace it with <code>graythresh</code>, <code>otsuthresh</code>, or another automatic threshold-selection function.</p>
+</section>
+</section>
+<section id="summary-functions-and-notation-you-should-know" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="summary-functions-and-notation-you-should-know"><span class="header-section-number">2.6</span> Summary: functions and notation you should know</h2>
+<style>
+table td, table th { border-bottom: 1px solid #ddd; }
+</style>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Signature or notation</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>imread(filename)</code></td>
+<td><code>Iraw = imread('coins.png')</code></td>
+<td>Read an image from a file</td>
+</tr>
+<tr class="even">
+<td><code>size(I)</code></td>
+<td><code>size(I)</code></td>
+<td>Image dimensions (matrix dimensions)</td>
+</tr>
+<tr class="odd">
+<td><code>im2double(Iraw)</code></td>
+<td><code>I = im2double(Iraw)</code></td>
+<td>Convert an integer image to normalized <code>double</code> intensities in 0–1</td>
+</tr>
+<tr class="even">
+<td><code>imshow(I)</code></td>
+<td><code>imshow(I)</code></td>
+<td>Display a normalized <code>double</code> or logical image</td>
+</tr>
+<tr class="odd">
+<td><code>I(r,c)</code>, <code>I(:)</code></td>
+<td><code>I(10,20)</code>, <code>I(:)</code></td>
+<td>Access one pixel; collect all pixels into a column vector</td>
+</tr>
+<tr class="even">
+<td><code>imhist(I)</code>, <code>imhist(I,n)</code></td>
+<td><code>imhist(I,256)</code></td>
+<td>Display the image histogram; normalized intensities span 0–1</td>
+</tr>
+<tr class="odd">
+<td><code>I &gt; t</code></td>
+<td><code>BW = I &gt; 0.5</code></td>
+<td>Logical mask selecting pixels above a threshold</td>
+</tr>
+<tr class="even">
+<td>Logical indexing</td>
+<td><code>pixels(pixels &lt;= t)</code></td>
+<td>Extract intensities satisfying a condition</td>
+</tr>
+<tr class="odd">
+<td><code>numel(x)</code></td>
+<td><code>numel(pixels)</code></td>
+<td>Number of elements</td>
+</tr>
+<tr class="even">
+<td><code>mean(x)</code></td>
+<td><code>mean(cluster)</code></td>
+<td>Mean intensity <span class="math inline">m_j(t)</span> of a cluster</td>
+</tr>
+<tr class="odd">
+<td><code>var(x,1)</code></td>
+<td><code>var(cluster,1)</code></td>
+<td>Variance normalized by the number of cluster elements</td>
+</tr>
+<tr class="even">
+<td><code>isempty(x)</code>, <code>continue</code></td>
+<td><code>isempty(cluster)</code></td>
+<td>Detect an empty cluster; skip a loop iteration</td>
+</tr>
+<tr class="odd">
+<td><code>Inf(m,n)</code></td>
+<td><code>Inf(1,256)</code></td>
+<td>Initialize a matrix or vector with infinity</td>
+</tr>
+<tr class="even">
+<td><code>min(x)</code></td>
+<td><code>[value,index] = min(scores)</code></td>
+<td>Minimum value and index of its first occurrence</td>
+</tr>
+<tr class="odd">
+<td><code>plot(x,y)</code></td>
+<td><code>plot(thresholds,scores)</code></td>
+<td>Plot score against candidate threshold</td>
+</tr>
+<tr class="even">
+<td><code>histeq(I,n)</code></td>
+<td><code>histeq(I,256)</code></td>
+<td>Histogram equalization with <code>n</code> target bins</td>
+</tr>
+<tr class="odd">
+<td><code>subplot(m,n,k)</code></td>
+<td><code>subplot(2,2,3)</code></td>
+<td>Select a plotting position in a grid</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="exercises" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Exercises</h1>
+<p>Write your commands in a script or live script. Label figures and answer interpretation questions in comments. Use Matlab with Image Processing Toolbox for <code>imhist()</code> and <code>histeq()</code>. The grayscale sample images <code>coins.png</code> and <code>pout.tif</code> are supplied with that toolbox. Two additional grayscale teaching images are supplied in this lab’s <code>img/</code> directory: the simulated <code>Lab5_document.png</code> and the real photograph <code>Lab5_handwrittenText.png</code>. Run your script from <code>Labs/</code> so these relative paths work. The <a href="https://www.mathworks.com/help/images/image-import-and-export.html">image-import tutorial</a> uses <code>pout.tif</code>, and the <a href="https://www.mathworks.com/help/images/ref/graythresh.html">Otsu documentation example</a> uses <code>coins.png</code>; the latter is a reference, not a substitute for your loop.</p>
+<p>Suggested allocation: 15 minutes for Exercise 1, 10 for Exercise 2, 65 for Exercise 3, 10 for the short side experiment in Exercise 4, and 20 for the final questions and checking.</p>
+<ol type="1">
+<li><p>Your first grayscale image:</p>
+<ol type="a">
+<li>Read <code>coins.png</code> into <code>Iraw</code>. Convert it with <code>im2double()</code> and store the normalized image in <code>I</code>. Display <code>I</code> in a figure.</li>
+<li>Find its size. How many pixels does it contain? Compare the smallest and largest observed intensities in <code>Iraw</code> and <code>I</code>. Are the values in <code>I</code> exactly those in <code>Iraw</code> divided by 255?</li>
+<li>Read the pixel at row 50, column 100. Does a large row index move down or across the displayed image?</li>
+<li>Plot the intensity histogram directly with <code>imhist(I)</code>. Which ranges of normalized intensity are most common?</li>
+<li>Collect the pixels into a column vector <code>pixels</code> using <code>I(:)</code>. Use this vector for calculations, keeping <code>I</code> as a matrix for display.</li>
+</ol></li>
+<li><p>Choosing a threshold by eye:</p>
+<ol type="a">
+<li>Predict how the white regions will change when the threshold increases.</li>
+<li>Create and display binary images for thresholds 0.3, 0.5, and 0.7. Use a 1-by-3 subplot layout, with the threshold in each title.</li>
+<li>Select one of these thresholds and explain your choice by inspecting both the image and its histogram. Are all coins separated cleanly from the background?</li>
+</ol></li>
+<li><p>Implement Otsu’s method as a function:</p>
+<ol type="a">
+<li><p>Create a new file <code>otsuManual.m</code>, in the same folder as your script, with this function header:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> [<span class="va">bestThreshold</span><span class="op">,</span> <span class="va">minScore</span><span class="op">,</span> <span class="va">scores</span><span class="op">,</span> <span class="va">thresholds</span>] <span class="op">=</span> <span class="va">otsuManual</span>(<span class="va">I</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The input <code>I</code> is a grayscale <code>double</code> image in 0–1. Return the selected threshold, its score, the vector of scores, and the candidate thresholds. Finish the function with <code>end</code>.</p></li>
+<li><p>Inside the function, collect the pixels into a vector, set <code>thresholds = (0:255)/255</code>, and initialize the scores to <code>Inf</code>. Write a <code>for</code> loop that splits the pixels into two clusters at each threshold. Skip empty clusters; otherwise, compute both variances with <code>var(cluster,1)</code> and their weighted score <span class="math inline">J(t)</span>. After the loop, use the first minimum to select the best threshold. Do not use an automatic Otsu function.</p></li>
+<li><p>Call your function from the script for the coins image:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">bestThreshold</span><span class="op">,</span> <span class="va">minScore</span><span class="op">,</span> <span class="va">scores</span><span class="op">,</span> <span class="va">thresholds</span>] <span class="op">=</span> <span class="va">otsuManual</span>(<span class="va">I</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Plot the scores against the thresholds and report <code>bestThreshold</code>. Binarize <code>I</code> using that threshold. Display the result beside the original and compare it with your manual choice from Exercise 2.</p></li>
+<li><p>Optional: call the same function for <code>img/Lab5_handwrittenText.png</code> or <code>img/Lab5_document.png</code>, after reading and normalizing the image. Show the image, its histogram, and its binarization. For dark ink, compare the masks <code>I &gt; bestThreshold</code> and <code>I &lt;= bestThreshold</code>.</p></li>
+<li><p>Optional: test the function on <code>[0.2 0.2 0.2 0.2; 0.8 0.8 0.8 0.8]</code>. Can several thresholds give the same minimum score and binary image?</p></li>
+</ol></li>
+<li><p>Short side experiment: histogram equalization (about 10 minutes):</p>
+<ol type="a">
+<li>Read <code>pout.tif</code>, convert it with <code>im2double()</code>, and store it in <code>P</code>. Leave the image used for your Otsu implementation unchanged.</li>
+<li>Compute <code>Peq = histeq(P,256)</code>. In a 2-by-2 figure, show <code>P</code> and <code>Peq</code> above their histograms, using <code>imhist(...,256)</code> for both. Keep both image displays on the default 0–1 scale.</li>
+<li>Briefly describe the change in visible contrast and the histograms. Is the equalized histogram exactly flat?</li>
+</ol></li>
+</ol>
+</section>
+<section id="final-questions" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Final questions</h1>
+<ol type="1">
+<li>Randomly rearrange all pixels without changing their intensity values. Does Otsu’s score curve change? Can the image still look completely different?</li>
+<li>Suppose you minimize <span class="math inline">v_0(t)+v_1(t)</span> instead of the weighted score. Why might the chosen threshold change when one cluster contains very few pixels?</li>
+<li>Can a single intensity threshold separate a dark object from an equally dark background? What information is missing from this decision rule?</li>
+<li>Can histogram equalization recover details that were lost because several different scene intensities were recorded as the same pixel value?</li>
+</ol>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
