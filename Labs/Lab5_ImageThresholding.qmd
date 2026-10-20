@@ -29,58 +29,45 @@ and within-cluster variances.
 
 ## A grayscale image is a matrix
 
-A digital image is a rectangular grid of **pixels**. A grayscale image stores
-one intensity value per pixel in a matrix `I`:
+A digital image is a rectangular grid of **pixels**.
 
-- `I(r,c)` is the pixel in row `r`, column `c`.
-- Small intensities represent dark pixels; large intensities represent bright pixels.
-- For an 8-bit image stored as `uint8`, intensities are integers from 0 (black)
-  to 255 (white).
-- If the image is stored as `double`, intensities are real numbers, either
-  in the interval 0--255 or the interval 0--1.
+A grayscale image has one value per pixel, arranged in a matrix `I`.
 
-In this lab, we prefer pixel values to be in the range 0--1, and having the `double` type,
+Pixel values are numbers between 0 and 1 (type `double`) or between 0 and 255 (type `uint8`).
+
+- 0 represents black;
+- the maximum value (1 or 255) represents white;
+- values in between represent shades of gray.
+
+In this lab, we prefer pixel values to be in the range 0--1 and of type `double`,
 which allows for precise calculations.
 
-For example, this is a small grayscale image, not a colour image:
+For example, this creates and shows a small grayscale image:
 
 ```matlab
-I_small = [0 0.25 0.5 1; 0 0.25 0.5 1; 0 0.25 0.5 1];
-figure
+I_small = [0 0.25 0.5 1; 0 0.25 0.5 1; 0 0.25 0.5 1]; % A 3-by-4 matrix of values between 0 and 1
 imshow(I_small)
 ```
 
-In the example below:
-
-- `imread()` reads an image file;
-- `im2double()` converts an integer image to `double` and rescales its intensities to 0--1.
-- `size(I)` gives its number of rows and columns (just like any Matlab matrix).
-- `imshow()` displays it.
+Images can be read from a file with the `imread()` function, as in the example below:
 
 ```matlab
-Iraw = imread('coins.png');
-I = im2double(Iraw);
-size(I)
-figure
+I = imread('coins.png');
+% I = rgb2gray(I);  % If the image is RGB, convert it to grayscale first.
+I = im2double(I);
 imshow(I)
 ```
 
-The images used in this lab are already grayscale, so no colour conversion is
-needed. A colour RGB image would have three channels, and could be converted to grayscale with `rgb2gray()`.
+Functions used:
 
-For the 8-bit images in this lab, `im2double(Iraw)` is equivalent to
-`double(Iraw)/255`. The value 0 represents black and 1 represents white.
-This conversion uses the full 8-bit scale, not the smallest and largest values
-actually present in the image, so those observed values need not become 0 and 1.
+- `imread()` reads an image file and returns the matrix of pixel values;
+- `rgb2gray()` converts an RGB image to grayscale, if needed;
+- `im2double()` converts the image matrix to `double` and rescales its intensities to 0--1.
+- `imshow()` receives the matrix and displays it as an image.
 
-**Conversion is not just a change of type:** `double(Iraw)` alone leaves
-8-bit intensities on the 0--255 scale. Also, `im2double()` does not rescale an
-input that is already `double`; convert the original integer image directly.
+The images used in this lab are already grayscale, so
+we don't need to convert them from RGB to grayscale.
 
-From now on, use the normalized image `I` for display and calculations.
-`imshow(I)` uses the range 0--1 for a `double` image; no additional display-range
-argument is needed. See the
-[`im2double` documentation](https://www.mathworks.com/help/matlab/ref/im2double.html).
 
 ## From pixels to a histogram
 
@@ -96,72 +83,29 @@ xlabel('Intensity')
 ylabel('Number of pixels')
 ```
 
-For a grayscale image, `imhist(I)` uses 256 bins by default. For our normalized
-`double` image, the bin locations span 0--1. Use `imhist(I,256)` to specify
-that bin count explicitly when comparing images. Unlike a PDF-normalized
-histogram, this plot shows pixel counts. See the
-[`imhist` documentation](https://www.mathworks.com/help/images/ref/imhist.html).
+For a grayscale image, `imhist(I)` uses 256 bins by default.
+Use `imhist(I,64)` to specify a different number of bins (here 64).
 
-For the threshold calculations, `I(:)` collects every pixel into a single
-column vector, without changing its type or intensity scale:
+To transform the matrix into a vector, concatenating all the columns, use `I(:)`.
+This is useful for calculations that do not depend on pixel positions:
 
 ```matlab
 pixels = I(:);
 ```
 
-Two concentrations of intensities may suggest two groups, such as dark and
-bright regions. The histogram counts intensities but does not describe where
-those pixels are located in the image.
 
 ![A real grayscale photograph, its intensity histogram, and its binarization. The red line marks the Otsu threshold in this published example.](figures/Lab5_camera_thresholding.png){width=95% fig-align="center"}
 
-Photograph: Lav Varshney (CC0), via
-[scikit-image's camera dataset](https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.camera).
-Comparison figure: [scikit-image thresholding example](https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_thresholding.html).
-This external illustration uses 8-bit intensities on the 0--255 scale; divide
-those intensities and the threshold by 255 to express them on our 0--1 scale.
-The binary image separates dark from bright pixels, not necessarily the whole
-person from the background.
-
-## Side note: histogram equalization
-
-An image whose intensities occupy a narrow part of 0--1 may have low contrast.
-**Histogram equalization** remaps intensities using the cumulative histogram
-(the fraction of pixels at or below each intensity, as in the CDF from Lab 2).
-It spreads frequently occurring intensities over a wider range, without
-changing pixel positions. It is contrast enhancement, not binarization or
-noise removal, and is not a required preprocessing step for Otsu's method.
-
-```matlab
-Ieq = histeq(I,256);
-```
-
-The result has the same size and type as `I`, with intensities still in 0--1.
-Compare `imshow(I)` with `imshow(Ieq)` and `imhist(I,256)` with
-`imhist(Ieq,256)`. The histogram need not become exactly flat: pixels with the
-same input intensity remain mapped together. See the
-[`histeq` documentation](https://www.mathworks.com/help/images/ref/histeq.html).
-
-![Histogram equalization on a simulated low-contrast grayscale image using a cumulative-histogram mapping. Both images use the same 0--1 display range, and both histograms use 256 bins and identical axes. Contrast increases, but the histogram is not exactly flat and small intensity fluctuations become more visible.](figures/Lab5_histogram_equalization.png){width=90% fig-align="center"}
-
-To compare plots in one figure, `subplot(2,2,1)` selects the first position in
-a 2-by-2 grid. Then call `imshow()` or `imhist()` to draw there. Positions are
-numbered across the first row, then across the second row. Use the same 0--1
-image display range and the same histogram bin count before and after.
 
 ## Thresholding and image binarization
 
-**Image binarization** converts a grayscale image into an image with only two
-values (black and white). **Thresholding** is one way to perform binarization:
-assign one binary value to intensities on one side of a threshold, and the other
-value to intensities on the other side.
+**Image binarization** converts a grayscale image into a binary image,
+with only two values (0=black and 1=white).
 
-A threshold $t$ divides the intensities into two clusters,
-those below $t$ and those above $t$:
+We can do this by **thresholding**, i.e. comparing with a threshold value $T$:
 
-$$C_0(t)=\{x:x\le t\}, \qquad C_1(t)=\{x:x>t\}.$$
-
-Here, each $x$ is a pixel intensity. The comparison produces a **binary image**:
+- all pixels $\leq T$ become 0
+- all pixels $> T$ become 1
 
 ```matlab
 BW = I > 0.5;
@@ -169,119 +113,44 @@ figure
 imshow(BW)
 ```
 
-`BW` has the same rows and columns as `I`. Its values are `false` (displayed as
-black) and `true` (displayed as white). In this convention, white pixels are
-those **above** the threshold. This does not automatically mean that white
-pixels are the objects of interest.
+`BW` has the same rows and columns as `I`.
+Its values are `false` (= 0, displayed as black) and `true` (=1, displayed as white).
 
-Typical binarization examples include:
 
-- **Dark printed text on white paper:** separate ink from the paper.
-- **Handwritten notes on paper:** distinguish the dark ink from the paper,
-  even when a photograph introduces shadows and varying illumination.
-- **Bright coins on a darker background:** separate the coins from their surroundings.
+## Question: how to choose the threshold $T$?
 
-![A real grayscale photograph of handwritten mathematics on paper. Binarization aims to separate the dark ink from the paper; shadows can make a single global threshold less effective.](img/Lab5_handwrittenText.png){width=75% fig-align="center"}
+The question is how to choose a **good threshold** that separates
+the darker part of the image from the brighter part,
+not chosen by eye, but by an automatic criterion.
 
-Source: [scikit-image's text image](https://scikit-image.org/docs/stable/api/skimage.data.html#skimage.data.text),
-originally from Wikipedia; released into the public domain. The unmodified
-grayscale image is supplied locally as `img/Lab5_handwrittenText.png`.
+## Otsu's criterion: clusters should be compact
 
-For dark text or other dark objects, `I > t` keeps the background white and the objects
-black. If the desired mask should instead mark the objects as `true`, use
-`I <= t`. Choosing the threshold and choosing which cluster represents the
-foreground are separate decisions.
+Otsu's method chooses a threshold that minimizes the **weighted cluster variance**.
 
-The question is how to choose a threshold that separates foreground and
-background well. Otsu's method is one way to do this.
+- for i = [1:254]:
+   - compute the threshold $T = i/255$ (so that it has values in 0--1)
+   - split the pixels into two clusters:
+      - $C_0$ = pixels $\leq T$
+      - $C_1$ = pixels $> T$
+   - compute the number of pixels in each cluster, $N_0$ and $N_1$
+   - compute the **mean** and **variance** of each cluster, $m_0$, $m_1$, $v_0$, $v_1$
+   - compute the **weighted sum of variances**:
+     $$ J = \frac{N_0}{N_0+N_1} v_0 + \frac{N_1}{N_0+N_1} v_1 $$
+   - save the score $J$ for this threshold $i$ in a vector `scores(i)`
 
-## Otsu's criterion: compact intensity clusters
+- Pick the threshold that produced the **minimum score** in `scores`.
 
-We want pixels within each cluster to have similar intensities. Otsu's method
-chooses a threshold that minimizes the **weighted within-cluster variance**.
 
-Let $N$ be the total number of pixels, and let $N_0(t)$ and $N_1(t)$ be the
-numbers of pixels in the two clusters. Their weights are
-
-$$w_0(t)=\frac{N_0(t)}{N}, \qquad w_1(t)=\frac{N_1(t)}{N}.$$
-
-For a nonempty cluster $C_j(t)$, compute its mean and variance as
-
-$$m_j(t)=\frac{1}{N_j(t)}\sum_{x\in C_j(t)}x,$$
-
-$$v_j(t)=\frac{1}{N_j(t)}\sum_{x\in C_j(t)}(x-m_j(t))^2.$$
-
-In Matlab, after extracting the intensities of one nonempty cluster into a
-vector `cluster`, use `mean()` and `var()` to compute $m_j(t)$ and $v_j(t)$:
+In Matlab, to compute the mean and variance of a vector `x`, use:
 
 ```matlab
-mj = mean(cluster);
-vj = var(cluster,1);
+m = mean(x);
+v = var(x,1);  % Use normalization by N here
 ```
 
-These are statistics of the **pixel intensities**, not of the pixel coordinates
-or of the binary mask. Repeat the calculations for each of the two clusters.
+If either of the two clusters is empty, skip that threshold and set its score $J$ as `Inf` (infinity).
 
-The score to minimize is
 
-$$J(t)=w_0(t)v_0(t)+w_1(t)v_1(t).$$
-
-The weights matter: a cluster containing few pixels should not contribute as
-much as one containing most pixels. Do not minimize the unweighted sum of the
-two variances.
-
-**Variance normalization:** here we describe all the observed pixels in each
-cluster, so use `var(cluster,1)`, with denominator equal to the cluster size,
-not Matlab's default sample normalization. A one-pixel cluster has variance 0.
-
-### Searching all thresholds
-
-For an image obtained by normalizing 8-bit intensities, use 256 candidate
-thresholds on the same scale:
-
-```matlab
-thresholds = (0:255)/255;
-```
-
-These run from 0 to 1 in steps of `1/255`. At each threshold:
-
-1. Extract the two pixel vectors using logical indexing.
-2. If either vector is empty, do not evaluate that threshold.
-3. Otherwise, compute both variances, both weights, and the score $J(t)$.
-4. Store the score so that it can be plotted and its minimum located.
-
-`isempty(x)` tests whether a vector has no elements. Inside a `for` loop,
-`continue` skips the rest of the current iteration. Use these to avoid
-calculating a variance for an empty cluster.
-
-One way to store the scores is to initialize a vector with infinity:
-
-```matlab
-scores = Inf(1,256);
-```
-
-Leave invalid thresholds at `Inf`, so they cannot be selected as minima.
-For a nonconstant image, at least one threshold has two nonempty clusters.
-A constant image has no valid split. If all scores remain `Inf`, report that
-no valid threshold exists rather than interpreting the index from `min()`.
-
-**Indexing:** a threshold is now an intensity in 0--1, not a vector index.
-Loop over integer indices `k=1:numel(thresholds)`, set `t=thresholds(k)`, and
-store the score at position `k`. The second output of `min()` gives an index:
-
-```matlab
-[value, index] = min(v);
-```
-
-Use that index to look up the corresponding intensity in `thresholds`.
-Do not use a fractional threshold as a Matlab array index.
-
-Several thresholds can produce the same split and score when there are gaps
-in the histogram. Use the first minimizing threshold returned by `min()`.
-This is a convention for ties, not a unique physical boundary.
-
-In this lab, implement the search yourself. Do not replace it with `graythresh`,
-`otsuthresh`, or another automatic threshold-selection function.
 
 ## Summary: functions and notation you should know
 
@@ -291,23 +160,20 @@ table td, table th { border-bottom: 1px solid #ddd; }
 
 | Signature or notation | Example | Description |
 |---|---|---|
-| `imread(filename)` | `Iraw = imread('coins.png')` | Read an image from a file |
-| `size(I)` | `size(I)` | Image dimensions (matrix dimensions) |
-| `im2double(Iraw)` | `I = im2double(Iraw)` | Convert an integer image to normalized `double` intensities in 0--1 |
-| `imshow(I)` | `imshow(I)` | Display a normalized `double` or logical image |
-| `I(r,c)`, `I(:)` | `I(10,20)`, `I(:)` | Access one pixel; collect all pixels into a column vector |
-| `imhist(I)`, `imhist(I,n)` | `imhist(I,256)` | Display the image histogram; normalized intensities span 0--1 |
-| `I > t` | `BW = I > 0.5` | Logical mask selecting pixels above a threshold |
-| Logical indexing | `pixels(pixels <= t)` | Extract intensities satisfying a condition |
-| `numel(x)` | `numel(pixels)` | Number of elements |
-| `mean(x)` | `mean(cluster)` | Mean intensity $m_j(t)$ of a cluster |
-| `var(x,1)` | `var(cluster,1)` | Variance normalized by the number of cluster elements |
-| `isempty(x)`, `continue` | `isempty(cluster)` | Detect an empty cluster; skip a loop iteration |
-| `Inf(m,n)` | `Inf(1,256)` | Initialize a matrix or vector with infinity |
-| `min(x)` | `[value,index] = min(scores)` | Minimum value and index of its first occurrence |
-| `plot(x,y)` | `plot(thresholds,scores)` | Plot score against candidate threshold |
-| `histeq(I,n)` | `histeq(I,256)` | Histogram equalization with `n` target bins |
-| `subplot(m,n,k)` | `subplot(2,2,3)` | Select a plotting position in a grid |
+| `imread(filename)` | `I = imread('coins.png')` | Read an image as a matrix of pixel values |
+| `rgb2gray(I)` | `I = rgb2gray(I)` | Convert an RGB image to grayscale |
+| `im2double(I)` | `I = im2double(I)` | Convert a `uint8` image to `double`, rescaling 0--255 to 0--1 |
+| `imshow(I)` | `imshow(I)` | Display an image I |
+| `size(I)`, `numel(I)` | `size(I)`, `numel(I)` | Image dimensions and total number of pixels |
+| `I(:)` | `pixels = I(:)` | Transform a matrix into a column vector |
+| `imhist(I)`, `imhist(I,n)` | `imhist(I,64)` | Display the intensity histogram; 256 bins by default for grayscale images |
+| `I > T` | `BW = I > 0.5` | Binarize: pixels above the threshold become 1, the others 0 |
+| Logical indexing | `C0 = pixels(pixels <= T)` | Extract the values that meet a condition |
+| `numel(x)` | `N0 = numel(C0)` | Count the pixels in a vector |
+| `mean(x)` | `m0 = mean(C0)` | Mean intensity of a vector |
+| `var(x,1)` | `v0 = var(C0,1)` | Variance, normalized by its number of pixels |
+| `Inf(m,n)` | `scores = Inf(1,254)` | Initialize scores to infinity so skipped candidates cannot win |
+| `min(x)` | `[minScore,index] = min(scores)` | Minimum value and the index of its first occurrence |
 
 ```{=latex}
 \newpage
@@ -315,94 +181,46 @@ table td, table th { border-bottom: 1px solid #ddd; }
 
 # Exercises
 
-Write your commands in a script or live script. Label figures and answer
-interpretation questions in comments. Use Matlab with Image Processing Toolbox
-for `imhist()` and `histeq()`. The grayscale sample images `coins.png` and `pout.tif` are
-supplied with that toolbox. Two additional grayscale teaching images are
-supplied in this lab's `img/` directory: the simulated `Lab5_document.png` and
-the real photograph `Lab5_handwrittenText.png`. Run your script from `Labs/` so these relative paths work. The
-[image-import tutorial](https://www.mathworks.com/help/images/image-import-and-export.html)
-uses `pout.tif`, and the
-[Otsu documentation example](https://www.mathworks.com/help/images/ref/graythresh.html)
-uses `coins.png`; the latter is a reference, not a substitute for your loop.
+Write your commands in a script or live script, except for the function in
+Exercise 2, which goes in its own file.
 
-Suggested allocation: 15 minutes for Exercise 1, 10 for Exercise 2,
-65 for Exercise 3, 10 for the short side experiment in Exercise 4, and
-20 for the final questions and checking.
+1. Read, display, and binarize an image:
 
-1. Your first grayscale image:
+   a. Read `coins.png` into `I`, convert it to `double` and range 0--1, and display it.
 
-   a. Read `coins.png` into `Iraw`. Convert it with `im2double()` and store
-      the normalized image in `I`. Display `I` in a figure.
-   b. Find its size. How many pixels does it contain?
-      Compare the smallest and largest observed intensities in `Iraw` and `I`.
-      Are the values in `I` exactly those in `Iraw` divided by 255?
-   c. Read the pixel at row 50, column 100. Does a large row index move down
-      or across the displayed image?
-   d. Plot the intensity histogram directly with `imhist(I)`.
-      Which ranges of normalized intensity are most common?
-   e. Collect the pixels into a column vector `pixels` using `I(:)`.
-      Use this vector for calculations, keeping `I` as a matrix for display.
+   b. Display the image histogram. Which values correspond to the background and which to the coins?
 
-2. Choosing a threshold by eye:
+   c. Choose a threshold $T$ by inspecting the image and its histogram.
+      Create the binary image `BW` via thresholding with $T$ and display `BW`.
 
-   a. Predict how the white regions will change when the threshold increases.
-   b. Create and display binary images for thresholds 0.3, 0.5, and 0.7.
-      Use a 1-by-3 subplot layout, with the threshold in each title.
-   c. Select one of these thresholds and explain your choice by inspecting
-      both the image and its histogram. Are all coins separated cleanly
-      from the background?
+   d. Display the histogram of `BW`. Which two intensity values remain?
 
-3. Implement Otsu's method as a function:
+2. Implement Otsu's method as a function:
 
-   a. Create a new file `otsuManual.m`, in the same folder as your script,
-      with this function header:
+   a. Create the file `otsuManual.m` in the same folder as your script, with this header:
 
       ```matlab
-      function [bestThreshold, minScore, scores, thresholds] = otsuManual(I)
+      function [bestThreshold] = otsuManual(I)
       ```
 
-      The input `I` is a grayscale `double` image in 0--1. Return the selected
-      threshold, its score, the vector of scores, and the candidate thresholds.
-      Finish the function with `end`.
+      The input `I` is a grayscale `double` image in 0--1. Return the best
+      threshold found with the algorithm described above.
 
-   b. Inside the function, collect the pixels into a vector, set
-      `thresholds = (0:255)/255`, and initialize the scores to `Inf`.
-      Write a `for` loop that splits the pixels into two clusters at each
-      threshold. Skip empty clusters; otherwise, compute both variances
-      with `var(cluster,1)` and their weighted score $J(t)$.
-      After the loop, use the first minimum to select the best threshold.
-      Do not use an automatic Otsu function.
+3. Apply your function:
 
-   c. Call your function from the script for the coins image:
+   a. Call the function for the normalized image `I` from Exercise 1:
 
       ```matlab
-      [bestThreshold, minScore, scores, thresholds] = otsuManual(I);
+      bestThreshold = otsuManual(I);
       ```
 
-      Plot the scores against the thresholds and report `bestThreshold`.
-      Binarize `I` using that threshold. Display the result beside the original
-      and compare it with your manual choice from Exercise 2.
+      What is the value of `bestThreshold`?
 
-   d. Optional: call the same function for `img/Lab5_handwrittenText.png` or
-      `img/Lab5_document.png`, after reading and normalizing the image.
-      Show the image, its histogram, and its binarization. For dark ink,
-      compare the masks `I > bestThreshold` and `I <= bestThreshold`.
+   b. Binarize `I` with `bestThreshold` and display the result.
 
-   e. Optional: test the function on
-      `[0.2 0.2 0.2 0.2; 0.8 0.8 0.8 0.8]`. Can several thresholds give the
-      same minimum score and binary image?
+4. Repeat Exercise 3 for the image `Lab5_handwrittenText.png` available in the same folder.
 
-4. Short side experiment: histogram equalization (about 10 minutes):
-
-   a. Read `pout.tif`, convert it with `im2double()`, and store it in `P`.
-      Leave the image used for your Otsu implementation unchanged.
-   b. Compute `Peq = histeq(P,256)`. In a 2-by-2 figure, show `P` and `Peq`
-      above their histograms, using `imhist(...,256)` for both. Keep both
-      image displays on the default 0--1 scale.
-   c. Briefly describe the change in visible contrast and the histograms.
-      Is the equalized histogram exactly flat?
-
+<!--
 # Final questions
 
 1. Randomly rearrange all pixels without changing their intensity values.
@@ -411,5 +229,5 @@ Suggested allocation: 15 minutes for Exercise 1, 10 for Exercise 2,
    Why might the chosen threshold change when one cluster contains very few pixels?
 3. Can a single intensity threshold separate a dark object from an equally
    dark background? What information is missing from this decision rule?
-4. Can histogram equalization recover details that were lost because several
-   different scene intensities were recorded as the same pixel value?
+4. For an image containing only intensities 0.2 and 0.8, can several candidate
+   thresholds give the same minimum score? Do they produce different binary images? -->
