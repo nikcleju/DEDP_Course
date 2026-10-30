@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Threshold detection and ROC curves</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="Lab6_ThresholdDetectionROC_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab6_ThresholdDetectionROC_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="Lab6_ThresholdDetectionROC_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="Lab6_ThresholdDetectionROC_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab6_ThresholdDetectionROC_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Lab6_ThresholdDetectionROC_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Lab6_ThresholdDetectionROC_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab6_ThresholdDetectionROC_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Lab6_ThresholdDetectionROC_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Lab6_ThresholdDetectionROC_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Lab6_ThresholdDetectionROC_files/libs/bootstrap/bootstrap-7c6a896853115d4253cd2a0127942323.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#objective" id="toc-objective" class="nav-link active" data-scroll-target="#objective"><span class="header-section-number">1</span> Objective</a></li>
+  <li><a href="#theoretical-aspects" id="toc-theoretical-aspects" class="nav-link" data-scroll-target="#theoretical-aspects"><span class="header-section-number">2</span> Theoretical aspects</a>
+  <ul class="collapse">
+  <li><a href="#binary-decisions-by-thresholding" id="toc-binary-decisions-by-thresholding" class="nav-link" data-scroll-target="#binary-decisions-by-thresholding"><span class="header-section-number">2.1</span> Binary decisions by thresholding</a></li>
+  <li><a href="#four-possible-outcomes" id="toc-four-possible-outcomes" class="nav-link" data-scroll-target="#four-possible-outcomes"><span class="header-section-number">2.2</span> Four possible outcomes</a></li>
+  <li><a href="#changing-the-threshold-the-roc-curve" id="toc-changing-the-threshold-the-roc-curve" class="nav-link" data-scroll-target="#changing-the-threshold-the-roc-curve"><span class="header-section-number">2.3</span> Changing the threshold: the ROC curve</a></li>
+  <li><a href="#how-often-is-each-bit-transmitted" id="toc-how-often-is-each-bit-transmitted" class="nav-link" data-scroll-target="#how-often-is-each-bit-transmitted"><span class="header-section-number">2.4</span> How often is each bit transmitted?</a></li>
+  <li><a href="#matlab-tools" id="toc-matlab-tools" class="nav-link" data-scroll-target="#matlab-tools"><span class="header-section-number">2.5</span> Matlab tools</a>
+  <ul class="collapse">
+  <li><a href="#generating-random-bits-with-chosen-probabilities" id="toc-generating-random-bits-with-chosen-probabilities" class="nav-link" data-scroll-target="#generating-random-bits-with-chosen-probabilities">Generating random bits with chosen probabilities</a></li>
+  <li><a href="#transmitted-and-received-voltages" id="toc-transmitted-and-received-voltages" class="nav-link" data-scroll-target="#transmitted-and-received-voltages">Transmitted and received voltages</a></li>
+  <li><a href="#comparing-the-received-voltage-distributions" id="toc-comparing-the-received-voltage-distributions" class="nav-link" data-scroll-target="#comparing-the-received-voltage-distributions">Comparing the received-voltage distributions</a></li>
+  <li><a href="#sweeping-and-selecting-thresholds" id="toc-sweeping-and-selecting-thresholds" class="nav-link" data-scroll-target="#sweeping-and-selecting-thresholds">Sweeping and selecting thresholds</a></li>
+  </ul></li>
+  <li><a href="#summary-functions-and-notation-you-should-know" id="toc-summary-functions-and-notation-you-should-know" class="nav-link" data-scroll-target="#summary-functions-and-notation-you-should-know"><span class="header-section-number">2.6</span> Summary: functions and notation you should know</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3</span> Exercises</a></li>
+  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions"><span class="header-section-number">4</span> Final questions</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab6_ThresholdDetectionROC.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="Lab6_ThresholdDetectionROC.ipynb" download="Lab6_ThresholdDetectionROC.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Threshold detection and ROC curves</h1>
+<p class="subtitle lead">Laboratory 6, DEDP</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objective" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Objective</h1>
+<p>Simulate transmission of bits using two voltage levels with additive noise, make receiver decisions by thresholding, and measure detections and false alarms. Plot an ROC curve and choose a threshold subject to a false-alarm limit.</p>
+</section>
+<section id="theoretical-aspects" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Theoretical aspects</h1>
+<section id="binary-decisions-by-thresholding" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="binary-decisions-by-thresholding"><span class="header-section-number">2.1</span> Binary decisions by thresholding</h2>
+<p>A transmitter may represent each bit by a constant voltage level:</p>
+<ul>
+<li>bit 0: <span class="math inline">s=0</span> V; (or some other value)</li>
+<li>bit 1: <span class="math inline">s=A</span> V, where <span class="math inline">A&gt;0</span>.</li>
+</ul>
+<p>The signal is corrupted by additive noise. The receiver receives the noisy signal, and takes one sample per transmitted bit, in order to make a decision. The received voltage is:</p>
+<p><span class="math display">r=s+n,</span></p>
+<p>where <span class="math inline">n</span> is additive noise. The two hypotheses describe what was transmitted:</p>
+<ul>
+<li><span class="math inline">H_0</span>: bit 0 was transmitted (<span class="math inline">s=0</span> V);</li>
+<li><span class="math inline">H_1</span>: bit 1 was transmitted (<span class="math inline">s=A</span> V).</li>
+</ul>
+<p>The receiver does not know the transmitted bit. It compares <span class="math inline">r</span> with a threshold <span class="math inline">T</span> and makes one of two decisions:</p>
+<p><span class="math display">
+D_1\text{ (decide bit 1) if }r&gt;T;\qquad
+D_0\text{ (decide bit 0) if }r\le T.
+</span></p>
+<p><strong>Hypotheses describe the true transmitted bit; decisions describe the receiver’s output.</strong> Noise can cause the decision to be wrong.</p>
+<p>In Matlab, <code>v = r &gt; T</code> returns a logical vector: <code>true</code> represents <span class="math inline">D_1</span>, and <code>false</code> represents <span class="math inline">D_0</span>.</p>
+</section>
+<section id="four-possible-outcomes" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="four-possible-outcomes"><span class="header-section-number">2.2</span> Four possible outcomes</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Transmitted bit (hypothesis)</th>
+<th>Decision <span class="math inline">D_0</span> (bit 0)</th>
+<th>Decision <span class="math inline">D_1</span> (bit 1)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">H_0</span> (bit 0)</td>
+<td>Correct rejection</td>
+<td>False alarm</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">H_1</span> (bit 1)</td>
+<td>Miss</td>
+<td>Hit (correct detection)</td>
+</tr>
+</tbody>
+</table>
+<p>A false alarm means deciding bit 1 when bit 0 was transmitted; a miss means deciding bit 0 when bit 1 was transmitted. The conditional probabilities are <span class="math inline">P_{\mathrm{FA}}=P(D_1\mid H_0)</span> and <span class="math inline">P_{\mathrm{D}}=P(D_1\mid H_1)</span>.</p>
+<p>Let <span class="math inline">N_0</span> be the number of observations whose true state is <span class="math inline">H_0</span>, and <span class="math inline">N_1</span> the number whose true state is <span class="math inline">H_1</span>. Estimate the conditional probabilities by:</p>
+<p><span class="math display">
+\widehat{P}_{\mathrm{FA}} = \frac{\text{number of false alarms}}{N_0},
+\qquad
+\widehat{P}_{\mathrm{D}} = \frac{\text{number of hits}}{N_1}.
+</span></p>
+<p>The estimated miss probability is <span class="math inline">1-\widehat{P}_{\mathrm{D}}</span>. <strong>Do not divide both counts by the total <span class="math inline">N_0+N_1</span>:</strong> each probability refers to a different true state.</p>
+<p>For example, keep observations from the two states in separate row vectors <code>r0</code> and <code>r1</code>. The number of false alarms is <code>sum(r0 &gt; T)</code>, and its denominator is <code>numel(r0)</code>. Count hits in <code>r1</code> in the same way. We assume both vectors are nonempty.</p>
+</section>
+<section id="changing-the-threshold-the-roc-curve" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="changing-the-threshold-the-roc-curve"><span class="header-section-number">2.3</span> Changing the threshold: the ROC curve</h2>
+<p>Lowering <span class="math inline">T</span> makes decisions <span class="math inline">D_1</span> more frequent: both the detection probability and the false-alarm probability increase or stay unchanged. Raising <span class="math inline">T</span> has the opposite effect.</p>
+<p>The <strong>receiver operating characteristic (ROC)</strong> plots:</p>
+<ul>
+<li>horizontal axis: <span class="math inline">P_{\mathrm{FA}}</span>;</li>
+<li>vertical axis: <span class="math inline">P_{\mathrm{D}}</span>.</li>
+</ul>
+<p>Each threshold gives one point. Sweep through many thresholds to obtain the curve. Use the <strong>same observations for every threshold</strong>, so changes reflect the decision rule rather than newly generated noise.</p>
+<p>For finite observations, <code>T = Inf</code> gives the point <span class="math inline">(0,0)</span> and <code>T = -Inf</code> gives <span class="math inline">(1,1)</span>. These are the rules “always output <span class="math inline">D_0</span>” and “always output <span class="math inline">D_1</span>”, respectively. An informative detector has points towards the upper-left corner: many detections with few false alarms. The diagonal <span class="math inline">P_{\mathrm{D}}=P_{\mathrm{FA}}</span> is a reference for decisions made randomly, independently of the true state.</p>
+<p>A practical requirement might be <span class="math inline">P_{\mathrm{FA}}\le 0.05</span>. Among the tested thresholds satisfying this limit, select one with the largest estimated <span class="math inline">P_{\mathrm{D}}</span>. A limit met in a simulation is not a guarantee for future observations.</p>
+</section>
+<section id="how-often-is-each-bit-transmitted" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="how-often-is-each-bit-transmitted"><span class="header-section-number">2.4</span> How often is each bit transmitted?</h2>
+<p>The ROC describes performance <strong>within each true state</strong>. The overall error probability also depends on how often each bit is transmitted.</p>
+<p>If <span class="math inline">p_1=P(H_1)</span> is the probability of transmitting bit 1, then <span class="math inline">P(H_0)=1-p_1</span>, and:</p>
+<p><span class="math display">
+P_{\mathrm{error}}=(1-p_1)P_{\mathrm{FA}}+p_1(1-P_{\mathrm{D}}).
+</span></p>
+<p>Multiplying this probability by the number of future observations gives their expected number of errors. Changing <span class="math inline">p_1</span> alone does not change the ROC if the two conditional received-voltage distributions stay unchanged, but it can change which threshold gives fewer total errors. This formula treats a false alarm and a miss as equally costly.</p>
+</section>
+<section id="matlab-tools" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="matlab-tools"><span class="header-section-number">2.5</span> Matlab tools</h2>
+<section id="generating-random-bits-with-chosen-probabilities" class="level3">
+<h3 class="anchored" data-anchor-id="generating-random-bits-with-chosen-probabilities">Generating random bits with chosen probabilities</h3>
+<p>Use <code>rand(1,N)</code> to generate <code>N</code> uniform samples between 0 and 1. Comparing each sample with 0.5 produces random bits with equal probabilities:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> <span class="fl">20000</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">bits</span> <span class="op">=</span> <span class="va">rand</span>(<span class="fl">1</span><span class="op">,</span><span class="va">N</span>) <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To change the proportions, adapt the comparison threshold. For example, to obtain approximately <strong>30% zeros and 70% ones</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">bits</span> <span class="op">=</span> <span class="va">rand</span>(<span class="fl">1</span><span class="op">,</span><span class="va">N</span>) <span class="op">&gt;</span> <span class="fl">0.3</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Samples at or below 0.3 become 0; samples above 0.3 become 1. Since <code>rand()</code> is uniform, the probabilities are <span class="math inline">P(0)=0.3</span> and <span class="math inline">P(1)=0.7</span>. More generally, <code>rand(1,N) &gt; p0</code> produces zeros with probability <code>p0</code> and ones with probability <code>1-p0</code>.</p>
+<p>The probabilities are predetermined, but the actual counts fluctuate: this method does <strong>not</strong> guarantee exactly 30% zeros and 70% ones in a finite vector. Check the observed proportions with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">fraction0</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">0</span>)<span class="op">/</span><span class="va">N</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">fraction1</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">1</span>)<span class="op">/</span><span class="va">N</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This bit-generation threshold controls the transmitted bit probabilities; it is different from the receiver’s voltage threshold <span class="math inline">T</span>.</p>
+</section>
+<section id="transmitted-and-received-voltages" class="level3">
+<h3 class="anchored" data-anchor-id="transmitted-and-received-voltages">Transmitted and received voltages</h3>
+<p>Multiply the bit vector by <span class="math inline">A</span> to obtain the transmitted voltages. Use <code>randn()</code> as in Lab 3 to generate independent Gaussian noise and add it to the transmitted voltages to obtain the received vector <code>r</code>.</p>
+<p>Logical indexing separates received samples according to the <strong>transmitted</strong> bits, not the receiver’s decisions:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">r0</span> <span class="op">=</span> <span class="va">r</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">0</span>)<span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">r1</span> <span class="op">=</span> <span class="va">r</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">1</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>==</code> tests equality element by element; <code>=</code> assigns a value to a variable.</p>
+</section>
+<section id="comparing-the-received-voltage-distributions" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-the-received-voltage-distributions">Comparing the received-voltage distributions</h3>
+<p>To compare two histograms on the same axes:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">edges</span> <span class="op">=</span> <span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">0.25</span><span class="op">:</span><span class="fl">7</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">r0</span><span class="op">,</span> <span class="va">edges</span><span class="op">,</span> <span class="ss">'Normalization'</span><span class="op">,</span> <span class="ss">'pdf'</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">hold</span> <span class="va">on</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">r1</span><span class="op">,</span> <span class="va">edges</span><span class="op">,</span> <span class="ss">'Normalization'</span><span class="op">,</span> <span class="ss">'pdf'</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="va">hold</span> <span class="va">off</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Received voltage (V)'</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Estimated probability density'</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="ss">'Bit 0 transmitted'</span><span class="op">,</span> <span class="ss">'Bit 1 transmitted'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>edges</code> specifies common bin boundaries. The plotting range does not truncate the vectors: use all observations when calculating probabilities.</p>
+</section>
+<section id="sweeping-and-selecting-thresholds" class="level3">
+<h3 class="anchored" data-anchor-id="sweeping-and-selecting-thresholds">Sweeping and selecting thresholds</h3>
+<p>For a threshold sweep, create a vector such as <code>thresholds = -4:0.05:7</code>. Preallocate result vectors with <code>zeros(size(thresholds))</code>, then use a <code>for</code> loop to fill one entry per threshold. Plot the ROC with <code>plot(pFA,pD)</code>.</p>
+<p>Logical indexing selects entries satisfying a condition. For example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">eligible</span> <span class="op">=</span> <span class="va">pFA</span> <span class="op">&lt;=</span> <span class="fl">0.05</span><span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">eligibleThresholds</span> <span class="op">=</span> <span class="va">thresholds</span>(<span class="va">eligible</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Apply the same logical index to <code>pD</code> to obtain the matching detection probabilities. <code>[bestValue,index] = max(v)</code> returns the largest value and its first index <strong>within <code>v</code></strong>, not within the original unfiltered vector.</p>
+</section>
+</section>
+<section id="summary-functions-and-notation-you-should-know" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="summary-functions-and-notation-you-should-know"><span class="header-section-number">2.6</span> Summary: functions and notation you should know</h2>
+<style>
+table td, table th { border-bottom: 1px solid #ddd; }
+</style>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Signature or notation</th>
+<th>Example</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>rand(1,N) &gt; p0</code></td>
+<td><code>bits = rand(1,N) &gt; 0.3</code></td>
+<td>Random bits: probability <code>p0</code> of 0 and <code>1-p0</code> of 1</td>
+</tr>
+<tr class="even">
+<td><code>A*bits</code></td>
+<td><code>s = 3*bits</code></td>
+<td>Map bits to transmitted voltage levels 0 and <span class="math inline">A</span></td>
+</tr>
+<tr class="odd">
+<td><code>r(bits == 0)</code></td>
+<td><code>r0 = r(bits == 0)</code></td>
+<td>Select received samples whose transmitted bit was 0</td>
+</tr>
+<tr class="even">
+<td><code>mu + sigma*randn(1,N)</code></td>
+<td><code>3 + randn(1,10000)</code></td>
+<td>Normal samples with mean <code>mu</code> and standard deviation <code>sigma</code></td>
+</tr>
+<tr class="odd">
+<td><code>r &gt; T</code></td>
+<td><code>decision = r &gt; 1.5</code></td>
+<td>Logical decisions: 1 for <span class="math inline">D_1</span>, 0 for <span class="math inline">D_0</span></td>
+</tr>
+<tr class="even">
+<td><code>sum(condition)</code></td>
+<td><code>sum(r0 &gt; T)</code></td>
+<td>Count observations satisfying a condition</td>
+</tr>
+<tr class="odd">
+<td><code>numel(x)</code></td>
+<td><code>numel(r0)</code></td>
+<td>Number of observations in a vector</td>
+</tr>
+<tr class="even">
+<td><code>histogram(x,edges,...)</code></td>
+<td><code>histogram(r0,edges,'Normalization','pdf')</code></td>
+<td>Histogram with specified bin boundaries and unit-area normalization</td>
+</tr>
+<tr class="odd">
+<td><code>hold on</code>, <code>hold off</code>, <code>legend(...)</code></td>
+<td><code>legend('Bit 0 transmitted','Bit 1 transmitted')</code></td>
+<td>Overlay plots and identify them</td>
+</tr>
+<tr class="even">
+<td><code>a:step:b</code></td>
+<td><code>-4:0.05:7</code></td>
+<td>Candidate thresholds with a fixed step</td>
+</tr>
+<tr class="odd">
+<td><code>zeros(size(v))</code></td>
+<td><code>pFA = zeros(size(thresholds))</code></td>
+<td>Preallocate a vector with the same dimensions as <code>v</code></td>
+</tr>
+<tr class="even">
+<td><code>for k = 1:numel(v)</code></td>
+<td><code>T = thresholds(k)</code> inside the loop</td>
+<td>Visit each candidate by index</td>
+</tr>
+<tr class="odd">
+<td><code>Inf</code>, <code>-Inf</code></td>
+<td><code>thresholds = [-Inf thresholds Inf]</code></td>
+<td>Add thresholds giving the two ROC endpoints</td>
+</tr>
+<tr class="even">
+<td><code>plot(x,y)</code></td>
+<td><code>plot(pFA,pD)</code></td>
+<td>Plot detection probability against false-alarm probability</td>
+</tr>
+<tr class="odd">
+<td>Logical indexing</td>
+<td><code>pD(pFA &lt;= 0.05)</code></td>
+<td>Select matching entries using a condition</td>
+</tr>
+<tr class="even">
+<td><code>max(v)</code></td>
+<td><code>[bestValue,index] = max(v)</code></td>
+<td>Largest value and the index of its first occurrence</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="exercises" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Exercises</h1>
+<p>Write your commands in a script or live script. Label figures and record your numerical results and short explanations in comments. Use the same generated vectors throughout Exercises 1–4; do not generate new received samples inside the threshold loop.</p>
+<ol type="1">
+<li><p>Simulate transmission using two voltage levels:</p>
+<p>Use <span class="math inline">A=3</span> V. The channel adds independent Gaussian noise with mean 0 V and standard deviation 1 V to each transmitted voltage. Thus, received samples follow <span class="math inline">\mathcal{N}(0,1)</span> under <span class="math inline">H_0</span> and <span class="math inline">\mathcal{N}(3,1)</span> under <span class="math inline">H_1</span>, with voltages expressed in volts. Each sample leads to one bit decision.</p>
+<ol type="a">
+<li><p>Generate a row vector <code>bits</code> of 20000 random bits. Call <code>rand()</code> and compare its output with 0.5 so that each bit has a 50% chance of being 0 or 1. Count the 0s and 1s. Are the counts exactly equal?</p></li>
+<li><p>Map <code>bits</code> to a vector <code>s</code> of transmitted voltages, using 0 V for bit 0 and 3 V for bit 1. Generate a noise vector of the same size using <code>randn()</code>, then form the received vector <code>r = s + n</code>.</p></li>
+<li><p>Extract <code>r0</code> and <code>r1</code> from <code>r</code> using the transmitted bits as logical conditions. Plot their PDF-normalized histograms on the same axes, using common bin boundaries. Describe the overlap. Can a threshold separate all received samples correctly?</p></li>
+<li><p>Before calculating, predict what happens to false alarms and misses when the threshold increases.</p></li>
+</ol></li>
+<li><p>Evaluate individual thresholds:</p>
+<ol type="a">
+<li><p>Set <code>T = 1.5</code>. Count false alarms and correct rejections in <code>r0</code>, then hits and misses in <code>r1</code>. Verify that the two counts for each true state add up to the number of samples for that transmitted bit.</p></li>
+<li><p>Estimate <code>pFA</code>, <code>pD</code>, and the miss probability, using the appropriate denominator for each. Also calculate the total number of errors.</p></li>
+<li><p>Repeat for <code>T = 1</code> and <code>T = 2</code>. Record a small table with one row per threshold and columns for <code>T</code>, <code>pFA</code>, <code>pD</code>, and the total error count. Compare with your prediction from Exercise 1.</p></li>
+</ol></li>
+<li><p>Draw the ROC and choose an operating point:</p>
+<ol type="a">
+<li><p>Create candidate thresholds from -4 to 7 in steps of 0.05. Add <code>-Inf</code> at the beginning and <code>Inf</code> at the end to include the ROC endpoints.</p></li>
+<li><p>Complete the template below to calculate one pair of probabilities per threshold. Replace each <code>...</code> with the appropriate expression, using the counting method from Exercise 2. Do not generate new noise inside the loop.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">pFA</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">size</span>(<span class="va">thresholds</span>))<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">pD</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">size</span>(<span class="va">thresholds</span>))<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">numel</span>(<span class="va">thresholds</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">T</span> <span class="op">=</span> <span class="va">thresholds</span>(<span class="va">k</span>)<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Count false alarms and hits for this threshold</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">falseAlarms</span> <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">hits</span> <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Divide by the number of samples for the corresponding true bit</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">pFA</span>(<span class="va">k</span>) <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">pD</span>(<span class="va">k</span>) <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Plot <code>pD</code> against <code>pFA</code>. Add the diagonal reference with <code>plot([0 1],[0 1],'--')</code>, using <code>hold on</code>. Label both axes. Verify the endpoints and explain the direction in which the curve is traversed as the threshold increases.</p></li>
+<li><p>Among the tested thresholds with <code>pFA &lt;= 0.05</code>, find one with the largest <code>pD</code>. Report the threshold and both probabilities, and mark its point on the ROC using <code>plot(chosenFA,chosenD,'ro')</code>. If several thresholds give the same largest detection probability, choose the first in the threshold vector.</p></li>
+</ol></li>
+<li><p><strong>Optional: unequal bit probabilities</strong>:</p>
+<p>The bits above were generated with equal probabilities. Now consider future transmissions in which the probability of bit 1 may differ, while the voltage levels and noise distribution stay unchanged.</p>
+<ol type="a">
+<li><p>Using the probabilities estimated in Exercise 2 for <code>T = 1</code>, <code>1.5</code>, and <code>2</code>, calculate the expected number of errors per 1000 future transmitted bits when <span class="math inline">p_1=0.5</span>. Which of these three thresholds gives fewer expected errors?</p></li>
+<li><p>Repeat for <span class="math inline">p_1=0.01</span>, without generating new received samples. Calculate expected false alarms and expected misses separately, then add them. Which of the three thresholds is now preferred? Expected counts need not be integers.</p></li>
+<li><p>Does the ROC change when only the probability of transmitting bit 1 changes? Explain why a smaller total error count can coexist with a larger fraction of missed 1 bits.</p></li>
+</ol></li>
+</ol>
+</section>
+<section id="final-questions" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Final questions</h1>
+<ol type="1">
+<li>If every received voltage increases by 10 V, how should the threshold change to keep every decision unchanged? Would the ROC change?</li>
+<li>Can a detector have no false alarms in 10000 simulated samples for transmitted bit 0 even though its true false-alarm probability is positive?</li>
+<li>A receiver always outputs <span class="math inline">D_0</span> (bit 0). What are its detection and false-alarm probabilities? Why could its overall error rate still look small when bit 1 is rarely transmitted?</li>
+<li>What does an ROC curve fail to tell you about the consequences of a missed 1 bit compared with a false alarm?</li>
+</ol>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
