@@ -23,8 +23,8 @@ execute:
 
 Simulate transmission of bits using two voltage levels with additive noise,
 make receiver decisions by thresholding, and
-measure detections and false alarms. Plot an ROC curve and choose a threshold
-subject to a false-alarm limit.
+measure detections and false alarms. Choose a maximum-likelihood threshold
+and plot an ROC curve.
 
 # Theoretical aspects
 
@@ -36,10 +36,12 @@ A transmitter may represent each bit by a constant voltage level:
 - bit 1: $s=A$ V, where $A>0$.
 
 The signal is corrupted by additive noise.
-The receiver receives the noisy signal, and takes one sample per transmitted bit,
-in order to make a decision. The received voltage is:
+The receiver takes one sample per transmitted bit to make a decision.
+The received voltage is:
 
-$$r=s+n,$$
+$$
+r=s+n,
+$$ {#eq-received-voltage}
 
 where $n$ is additive noise. The two hypotheses describe what was transmitted:
 
@@ -52,86 +54,70 @@ threshold $T$ and makes one of two decisions:
 $$
 D_1\text{ (decide bit 1) if }r>T;\qquad
 D_0\text{ (decide bit 0) if }r\le T.
-$$
+$$ {#eq-threshold-rule}
 
-**Hypotheses describe the true transmitted bit; decisions describe the
-receiver's output.** Noise can cause the decision to be wrong.
-
-In Matlab, `v = r > T` returns a logical vector: `true` represents
-$D_1$, and `false` represents $D_0$.
+Hypotheses are the true transmitted bit.
+Decisions are the receiver's output. Noise can cause the decision to be wrong.
 
 ## Four possible outcomes
 
-| Transmitted bit (hypothesis) | Decision $D_0$ (bit 0) | Decision $D_1$ (bit 1) |
-|---|---|---|
-| $H_0$ (bit 0) | Correct rejection | False alarm |
-| $H_1$ (bit 1) | Miss | Correct detection |
+- **Correct rejection** ($D_0 \mid H_0$): receiver decides 0 ($D_0$) when bit 0 was transmitted ($H_0$).
+- **False alarm** ($D_1 \mid H_0$): receiver decides 1 ($D_1$) when bit 0 was transmitted ($H_0$).
+- **Miss** ($D_0 \mid H_1$): receiver decides 0 ($D_0$) when bit 1 was transmitted ($H_1$).
+- **Correct detection** ($D_1 \mid H_1$): receiver decides 1 ($D_1$) when bit 1 was transmitted ($H_1$).
 
-A false alarm means deciding bit 1 when bit 0 was transmitted; a miss means
-deciding bit 0 when bit 1 was transmitted. The conditional probabilities are
-$P_{\mathrm{FA}}=P(D_1\mid H_0)$ and $P_{\mathrm{D}}=P(D_1\mid H_1)$.
+We can compute the (conditional) probabilities of these four outcomes, based on the distributions $w(r\mid H_0)$ and $w(r\mid H_1)$
+in @fig-conditional-probabilities. We know how to compute such probabilities.
 
-Let $N_0$ be the number of observations whose true state is $H_0$, and $N_1$
-the number whose true state is $H_1$. Estimate the conditional probabilities by:
+- Probability of correct rejection: $P_{\mathrm{CR}}=P(D_0\mid H_0)$.
+- Probability of false alarm: $P_{\mathrm{FA}}=P(D_1\mid H_0)$.
+- Probability of miss: $P_{\mathrm{M}}=P(D_0\mid H_1)$.
+- Probability of correct detection: $P_{\mathrm{D}}=P(D_1\mid H_1)$.
+
+![The four conditional probabilities are areas under the two conditional distributions. The threshold value splits each density into decisions $D_0$ (left) and $D_1$ (right). Illustration for Gaussian noise with standard deviation 1 V and $A=3$ V.](figures/Lab6_conditional_probabilities.png){#fig-conditional-probabilities width=95% fig-align="center"}
+
+In practice, these values can be estimated from a finite number of observations, by counting.
 
 $$
-\widehat{P}_{\mathrm{FA}} = \frac{\text{number of false alarms}}{N_0},
+\widehat{P}_{\mathrm{FA}} = \frac{\text{number of false alarms}}{\text{number of transmitted bit 0s}}
 \qquad
-\widehat{P}_{\mathrm{D}} = \frac{\text{number of correct detections}}{N_1}.
+\widehat{P}_{\mathrm{D}} = \frac{\text{number of correct detections}}{\text{number of transmitted bit 1s}}.
+$$ {#eq-estimated-probabilities}
+
+## Maximum likelihood criterion
+
+How to choose the value of the threshold $T$, i.e. how to take a decision based on a received voltage $r$?
+
+The **Maximum Likelihood (ML)** criterion chooses the hypothesis with the
+larger density function at the received voltage $r$:
+
+- take decision $D_1$ if $w_R(r\mid H_1)>w_R(r\mid H_0)$
+- take decision $D_0$ if $w_R(r\mid H_1)\le w_R(r\mid H_0)$.
+
+In our case, this means choosing the threshold $T$ at the intersection of the two densities, which is in the middle, as shown in @fig-conditional-probabilities.
+
+$$
+T_{\mathrm{ML}} = \frac{0 + A}{2}
 $$
 
-The estimated miss probability is $1-\widehat{P}_{\mathrm{D}}$.
-**Do not divide both counts by the total $N_0+N_1$:** each probability refers
-to a different true state.
-
-For example, keep observations from the two states in separate row vectors
-`r0` and `r1`. The number of false alarms is `sum(r0 > T)`, and its denominator
-is `numel(r0)`. Count correct detections in `r1` in the same way. We assume both vectors
-are nonempty.
 
 ## Changing the threshold: the ROC curve
 
-Lowering $T$ makes decisions $D_1$ more frequent: both the detection
-probability and the false-alarm probability increase or stay unchanged.
-Raising $T$ has the opposite effect.
+In general, choosing a threshold $T$ is a tradeoff between false alarms and correct detections.
 
-The **receiver operating characteristic (ROC)** plots:
+The **receiver operating characteristic (ROC)** is a graphical representation obtained
+by varying $T$ and plotting:
 
 - horizontal axis: $P_{\mathrm{FA}}$;
 - vertical axis: $P_{\mathrm{D}}$.
 
-Each threshold gives one point. Sweep through many thresholds to obtain the
-curve. Use the **same observations for every threshold**, so changes reflect
-the decision rule rather than newly generated noise.
+Each threshold value gives one point. The designer picks the threshold that meets the requirements.
 
-For finite observations, `T = Inf` gives the point $(0,0)$ and `T = -Inf`
-gives $(1,1)$. These are the rules "always output $D_0$" and "always output
-$D_1$", respectively. An informative detector has points towards the
-upper-left corner: many detections with few false alarms. The diagonal
-$P_{\mathrm{D}}=P_{\mathrm{FA}}$ is a reference for decisions made randomly,
-independently of the true state.
+The ROC curve indicates how well the two hypotheses can be separated across
+thresholds.
 
-A practical requirement might be $P_{\mathrm{FA}}\le 0.05$. Among the tested
-thresholds satisfying this limit, select one with the largest estimated
-$P_{\mathrm{D}}$. A limit met in a simulation is not a guarantee for future
-observations.
+![A typical ROC curve for the lab's Gaussian model ($A=3$ V, noise standard deviation 1 V). Lowering the threshold moves the operating point from $(0,0)$ towards $(1,1)$. The dashed diagonal represents random decisions independent of the transmitted bit; curves closer to the upper-left corner indicate better separation.](figures/Lab6_typical_ROC.png){#fig-typical-roc width=80% fig-align="center"}
 
-## How often is each bit transmitted?
-
-The ROC describes performance **within each true state**. The overall error
-probability also depends on how often each bit is transmitted.
-
-If $p_1=P(H_1)$ is the probability of transmitting bit 1, then $P(H_0)=1-p_1$, and:
-
-$$
-P_{\mathrm{error}}=(1-p_1)P_{\mathrm{FA}}+p_1(1-P_{\mathrm{D}}).
-$$
-
-Multiplying this probability by the number of future observations gives their
-expected number of errors. Changing $p_1$ alone does not change the ROC if the
-two conditional received-voltage distributions stay unchanged, but it can change
-which threshold gives fewer total errors. This formula treats a false alarm
-and a miss as equally costly.
 
 ## Matlab tools
 
@@ -154,74 +140,33 @@ bits = rand(1,N) > 0.3;
 
 Samples at or below 0.3 become 0; samples above 0.3 become 1. Since `rand()`
 is uniform, the probabilities are $P(0)=0.3$ and $P(1)=0.7$.
+
 More generally, `rand(1,N) > p0` produces zeros with probability `p0` and
 ones with probability `1-p0`.
 
-The probabilities are predetermined, but the actual counts fluctuate: this
-method does **not** guarantee exactly 30% zeros and 70% ones in a finite
-vector. Check the observed proportions with:
-
-```matlab
-fraction0 = sum(bits == 0)/N;
-fraction1 = sum(bits == 1)/N;
-```
-
-This bit-generation threshold controls the transmitted bit probabilities;
-it is different from the receiver's voltage threshold $T$.
 
 ### Transmitted and received voltages
 
-Multiply the bit vector by $A$ to obtain the transmitted voltages. Use
-`randn()` as in Lab 3 to generate independent Gaussian noise and add it to
+Multiply the bit vector by $A$, or use similar methods, to obtain the transmitted voltages.
+
+Use `randn()` as in Lab 3 to generate independent Gaussian noise and add it to
 the transmitted voltages to obtain the received vector `r`.
 
-Logical indexing separates received samples according to the **transmitted**
-bits, not the receiver's decisions:
+We can separate received samples according to the **transmitted**
+bits, not the receiver's decisions, using logical indexing.
 
 ```matlab
 r0 = r(bits == 0);
 r1 = r(bits == 1);
 ```
 
-`==` tests equality element by element; `=` assigns a value to a variable.
+Reminder: `==` tests equality element by element, while `=` assigns a value to a variable.
 
-### Comparing the received-voltage distributions
+### Varying the threshold for the ROC
 
-To compare two histograms on the same axes:
-
-```matlab
-edges = -4:0.25:7;
-figure
-histogram(r0, edges, 'Normalization', 'pdf', ...
-      'FaceColor', [0 0.45 0.74], 'FaceAlpha', 0.5)
-hold on
-histogram(r1, edges, 'Normalization', 'pdf', ...
-      'FaceColor', [0.85 0.33 0.10], 'FaceAlpha', 0.5)
-hold off
-xlabel('Received voltage (V)')
-ylabel('Estimated probability density')
-legend('Bit 0 transmitted', 'Bit 1 transmitted')
-```
-
-`edges` specifies common bin boundaries. The plotting range does not truncate
-the vectors: use all observations when calculating probabilities.
-
-### Sweeping and selecting thresholds
-
-For a threshold sweep, create a vector such as `thresholds = -4:0.05:7`.
+To vary the threshold, create a vector such as `thresholds = -4:0.05:7`.
 Preallocate result vectors with `zeros(size(thresholds))`, then use a `for`
 loop to fill one entry per threshold. Plot the ROC with `plot(pFA,pD)`.
-
-Logical indexing selects entries satisfying a condition. For example:
-
-```matlab
-eligible = pFA <= 0.05;
-eligibleThresholds = thresholds(eligible);
-```
-
-Apply the same logical index to `pD` to obtain the matching detection
-probabilities. `[bestValue,index] = max(v)` returns the largest value and its
-first index **within `v`**, not within the original unfiltered vector.
 
 ## Summary: functions and notation you should know
 
@@ -238,21 +183,17 @@ table td, table th { border-bottom: 1px solid #ddd; }
 | `r > T` | `decision = r > 1.5` | Logical decisions: 1 for $D_1$, 0 for $D_0$ |
 | `sum(condition)` | `sum(r0 > T)` | Count observations satisfying a condition |
 | `numel(x)` | `numel(r0)` | Number of observations in a vector |
-| `histogram(x,edges,...)` | `histogram(r0,edges,'Normalization','pdf')` | Histogram with specified bin boundaries and unit-area normalization |
 | `hold on`, `hold off`, `legend(...)` | `legend('Bit 0 transmitted','Bit 1 transmitted')` | Overlay plots and identify them |
 | `a:step:b` | `-4:0.05:7` | Candidate thresholds with a fixed step |
 | `zeros(size(v))` | `pFA = zeros(size(thresholds))` | Preallocate a vector with the same dimensions as `v` |
 | `for k = 1:numel(v)` | `T = thresholds(k)` inside the loop | Visit each candidate by index |
-| `Inf`, `-Inf` | `thresholds = [-Inf thresholds Inf]` | Add thresholds giving the two ROC endpoints |
 | `plot(x,y)` | `plot(pFA,pD)` | Plot detection probability against false-alarm probability |
-| Logical indexing | `pD(pFA <= 0.05)` | Select matching entries using a condition |
-| `max(v)` | `[bestValue,index] = max(v)` | Largest value and the index of its first occurrence |
 
 ```{=latex}
 \newpage
 ```
 
-# Theoretical exercise
+# Theoretical exercise {#sec-theoretical-exercise}
 
 A transmitter sends bit 0 as 0 V and bit 1 as 3 V. The received sample is
 $r=s+n$, where the noise has the normal distribution $\mathcal{N}(0,1)$
@@ -271,7 +212,7 @@ and $D_0$ otherwise.
 
 Write your commands in a script or live script. Label figures and record your
 numerical results and short explanations in comments. Use the same generated
-vectors throughout Exercises 1–4; do not generate new received samples inside the
+vectors throughout Exercises 1–3; do not generate new received samples inside the
 threshold loop.
 
 1. Simulate transmission using two voltage levels:
@@ -285,15 +226,13 @@ threshold loop.
    a. Generate a row vector `bits` of 20000 random bits 0 and 1, with equal probabilities.
       Do this by calling `rand()` and comparing with a suitable threshold.
 
-   b. Count the 0s and 1s. Are the counts exactly equal?
-
    c. Transform `bits` to a vector `s` of transmitted voltages, using 0 V for bit 0
       and 3 V for bit 1.
 
    d. Generate a noise vector of the same size, with the normal distribution $\mathcal{N}(0,1)$,
       and create a received vector `r = s + n`.
 
-   e. Run the code below to plot the two likelihood functions. Can a threshold
+   e. Run the code below to estimate the two conditional densities. Can a threshold
       separate all received samples correctly?
 
       ```matlab
@@ -347,7 +286,7 @@ threshold loop.
       probabilities add up to 1.
 
       For `T = 1.5`, compare `pFA` and `pD` with the theoretical results
-      from Section 3. Why are the estimates not exactly equal to theory?
+      from the [theoretical exercise](#sec-theoretical-exercise). Why are the estimates not exactly equal to theory?
 
    e. Calculate the total number of errors as false alarms plus misses.
       Check it by counting the positions where `d` differs from `bits`,
@@ -358,10 +297,9 @@ threshold loop.
       `T`, `pFA`, `pD`, and the total error count. Compare with your
       prediction from Exercise 1.
 
-3. Draw the ROC and choose an operating point:
+3. Draw the ROC:
 
-   a. Create a vector `thresholds` of candidate thresholds  from -4 to 7 in steps of 0.05. Add `-Inf`
-      at the beginning and `Inf` at the end to include the ROC endpoints.
+   a. Create a vector `thresholds` of candidate thresholds from -4 to 7 in steps of 0.05.
 
    b. Complete the template below to calculate `pFA` and `pD` for each threshold.
       Replace each `...` with the appropriate expression,
@@ -390,32 +328,6 @@ threshold loop.
 
    c. Plot the vector `pD` against `pFA`.
 
-   <!-- d. Among the tested thresholds with `pFA <= 0.05`, find one with the
-      largest `pD`. Report the threshold and both probabilities, and mark
-      its point on the ROC using `plot(chosenFA,chosenD,'ro')`. If several
-      thresholds give the same largest detection probability, choose the
-      first in the threshold vector. -->
-
-4. **Optional: unequal bit probabilities**:
-
-   The bits above were generated with equal probabilities. Now consider
-   future transmissions in which the probability of bit 1 may differ, while
-   the voltage levels and noise distribution stay unchanged.
-
-   a. Using the probabilities estimated in Exercise 2 for `T = 1`, `1.5`,
-      and `2`, calculate the expected number of errors per 1000 future
-      transmitted bits when $p_1=0.5$. Which of these three thresholds gives fewer
-      expected errors?
-
-   b. Repeat for $p_1=0.01$, without generating new received samples. Calculate
-      expected false alarms and expected misses separately, then add them.
-      Which of the three thresholds is now preferred? Expected counts need
-      not be integers.
-
-   c. Does the ROC change when only the probability of transmitting bit 1 changes? Explain
-      why a smaller total error count can coexist with a larger fraction
-      of missed 1 bits.
-
 # Final questions
 
 1. If every received voltage increases by 10 V, how should the threshold change to keep
@@ -423,7 +335,5 @@ threshold loop.
 2. Can a detector have no false alarms in 10000 simulated samples for transmitted bit 0
    even though its true false-alarm probability is positive?
 3. A receiver always outputs $D_0$ (bit 0). What are its detection and
-   false-alarm probabilities? Why could its overall error rate still look
-   small when bit 1 is rarely transmitted?
-4. What does an ROC curve fail to tell you about the consequences of a
-   missed 1 bit compared with a false alarm?
+   false-alarm probabilities? Where is its point on the ROC? What if it
+   always outputs $D_1$ instead?

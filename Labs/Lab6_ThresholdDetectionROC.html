@@ -135,19 +135,19 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#binary-decisions-by-thresholding" id="toc-binary-decisions-by-thresholding" class="nav-link" data-scroll-target="#binary-decisions-by-thresholding"><span class="header-section-number">2.1</span> Binary decisions by thresholding</a></li>
   <li><a href="#four-possible-outcomes" id="toc-four-possible-outcomes" class="nav-link" data-scroll-target="#four-possible-outcomes"><span class="header-section-number">2.2</span> Four possible outcomes</a></li>
-  <li><a href="#changing-the-threshold-the-roc-curve" id="toc-changing-the-threshold-the-roc-curve" class="nav-link" data-scroll-target="#changing-the-threshold-the-roc-curve"><span class="header-section-number">2.3</span> Changing the threshold: the ROC curve</a></li>
-  <li><a href="#how-often-is-each-bit-transmitted" id="toc-how-often-is-each-bit-transmitted" class="nav-link" data-scroll-target="#how-often-is-each-bit-transmitted"><span class="header-section-number">2.4</span> How often is each bit transmitted?</a></li>
+  <li><a href="#maximum-likelihood-criterion" id="toc-maximum-likelihood-criterion" class="nav-link" data-scroll-target="#maximum-likelihood-criterion"><span class="header-section-number">2.3</span> Maximum likelihood criterion</a></li>
+  <li><a href="#changing-the-threshold-the-roc-curve" id="toc-changing-the-threshold-the-roc-curve" class="nav-link" data-scroll-target="#changing-the-threshold-the-roc-curve"><span class="header-section-number">2.4</span> Changing the threshold: the ROC curve</a></li>
   <li><a href="#matlab-tools" id="toc-matlab-tools" class="nav-link" data-scroll-target="#matlab-tools"><span class="header-section-number">2.5</span> Matlab tools</a>
   <ul class="collapse">
   <li><a href="#generating-random-bits-with-chosen-probabilities" id="toc-generating-random-bits-with-chosen-probabilities" class="nav-link" data-scroll-target="#generating-random-bits-with-chosen-probabilities">Generating random bits with chosen probabilities</a></li>
   <li><a href="#transmitted-and-received-voltages" id="toc-transmitted-and-received-voltages" class="nav-link" data-scroll-target="#transmitted-and-received-voltages">Transmitted and received voltages</a></li>
-  <li><a href="#comparing-the-received-voltage-distributions" id="toc-comparing-the-received-voltage-distributions" class="nav-link" data-scroll-target="#comparing-the-received-voltage-distributions">Comparing the received-voltage distributions</a></li>
-  <li><a href="#sweeping-and-selecting-thresholds" id="toc-sweeping-and-selecting-thresholds" class="nav-link" data-scroll-target="#sweeping-and-selecting-thresholds">Sweeping and selecting thresholds</a></li>
+  <li><a href="#varying-the-threshold-for-the-roc" id="toc-varying-the-threshold-for-the-roc" class="nav-link" data-scroll-target="#varying-the-threshold-for-the-roc">Varying the threshold for the ROC</a></li>
   </ul></li>
   <li><a href="#summary-functions-and-notation-you-should-know" id="toc-summary-functions-and-notation-you-should-know" class="nav-link" data-scroll-target="#summary-functions-and-notation-you-should-know"><span class="header-section-number">2.6</span> Summary: functions and notation you should know</a></li>
   </ul></li>
-  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3</span> Exercises</a></li>
-  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions"><span class="header-section-number">4</span> Final questions</a></li>
+  <li><a href="#sec-theoretical-exercise" id="toc-sec-theoretical-exercise" class="nav-link" data-scroll-target="#sec-theoretical-exercise"><span class="header-section-number">3</span> Theoretical exercise</a></li>
+  <li><a href="#matlab-exercises" id="toc-matlab-exercises" class="nav-link" data-scroll-target="#matlab-exercises"><span class="header-section-number">4</span> Matlab exercises</a></li>
+  <li><a href="#final-questions" id="toc-final-questions" class="nav-link" data-scroll-target="#final-questions"><span class="header-section-number">5</span> Final questions</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Lab6_ThresholdDetectionROC.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li><li><a href="Lab6_ThresholdDetectionROC.ipynb" download="Lab6_ThresholdDetectionROC.ipynb"><i class="bi bi-journal-code"></i>Jupyter</a></li></ul></div></nav>
 </div>
@@ -175,7 +175,7 @@ window.Quarto = {
 
 <section id="objective" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Objective</h1>
-<p>Simulate transmission of bits using two voltage levels with additive noise, make receiver decisions by thresholding, and measure detections and false alarms. Plot an ROC curve and choose a threshold subject to a false-alarm limit.</p>
+<p>Simulate transmission of bits using two voltage levels with additive noise, make receiver decisions by thresholding, and measure detections and false alarms. Choose a maximum-likelihood threshold and plot an ROC curve.</p>
 </section>
 <section id="theoretical-aspects" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Theoretical aspects</h1>
@@ -186,79 +186,87 @@ window.Quarto = {
 <li>bit 0: <span class="math inline">s=0</span> V; (or some other value)</li>
 <li>bit 1: <span class="math inline">s=A</span> V, where <span class="math inline">A&gt;0</span>.</li>
 </ul>
-<p>The signal is corrupted by additive noise. The receiver receives the noisy signal, and takes one sample per transmitted bit, in order to make a decision. The received voltage is:</p>
-<p><span class="math display">r=s+n,</span></p>
+<p>The signal is corrupted by additive noise. The receiver takes one sample per transmitted bit to make a decision. The received voltage is:</p>
+<p><span id="eq-received-voltage"><span class="math display">
+r=s+n,
+\tag{1}</span></span></p>
 <p>where <span class="math inline">n</span> is additive noise. The two hypotheses describe what was transmitted:</p>
 <ul>
 <li><span class="math inline">H_0</span>: bit 0 was transmitted (<span class="math inline">s=0</span> V);</li>
 <li><span class="math inline">H_1</span>: bit 1 was transmitted (<span class="math inline">s=A</span> V).</li>
 </ul>
 <p>The receiver does not know the transmitted bit. It compares <span class="math inline">r</span> with a threshold <span class="math inline">T</span> and makes one of two decisions:</p>
-<p><span class="math display">
+<p><span id="eq-threshold-rule"><span class="math display">
 D_1\text{ (decide bit 1) if }r&gt;T;\qquad
 D_0\text{ (decide bit 0) if }r\le T.
-</span></p>
-<p><strong>Hypotheses describe the true transmitted bit; decisions describe the receiver’s output.</strong> Noise can cause the decision to be wrong.</p>
-<p>In Matlab, <code>v = r &gt; T</code> returns a logical vector: <code>true</code> represents <span class="math inline">D_1</span>, and <code>false</code> represents <span class="math inline">D_0</span>.</p>
+\tag{2}</span></span></p>
+<p>Hypotheses are the true transmitted bit. Decisions are the receiver’s output. Noise can cause the decision to be wrong.</p>
 </section>
 <section id="four-possible-outcomes" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="four-possible-outcomes"><span class="header-section-number">2.2</span> Four possible outcomes</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Transmitted bit (hypothesis)</th>
-<th>Decision <span class="math inline">D_0</span> (bit 0)</th>
-<th>Decision <span class="math inline">D_1</span> (bit 1)</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><span class="math inline">H_0</span> (bit 0)</td>
-<td>Correct rejection</td>
-<td>False alarm</td>
-</tr>
-<tr class="even">
-<td><span class="math inline">H_1</span> (bit 1)</td>
-<td>Miss</td>
-<td>Hit (correct detection)</td>
-</tr>
-</tbody>
-</table>
-<p>A false alarm means deciding bit 1 when bit 0 was transmitted; a miss means deciding bit 0 when bit 1 was transmitted. The conditional probabilities are <span class="math inline">P_{\mathrm{FA}}=P(D_1\mid H_0)</span> and <span class="math inline">P_{\mathrm{D}}=P(D_1\mid H_1)</span>.</p>
-<p>Let <span class="math inline">N_0</span> be the number of observations whose true state is <span class="math inline">H_0</span>, and <span class="math inline">N_1</span> the number whose true state is <span class="math inline">H_1</span>. Estimate the conditional probabilities by:</p>
-<p><span class="math display">
-\widehat{P}_{\mathrm{FA}} = \frac{\text{number of false alarms}}{N_0},
+<ul>
+<li><strong>Correct rejection</strong> (<span class="math inline">D_0 \mid H_0</span>): receiver decides 0 (<span class="math inline">D_0</span>) when bit 0 was transmitted (<span class="math inline">H_0</span>).</li>
+<li><strong>False alarm</strong> (<span class="math inline">D_1 \mid H_0</span>): receiver decides 1 (<span class="math inline">D_1</span>) when bit 0 was transmitted (<span class="math inline">H_0</span>).</li>
+<li><strong>Miss</strong> (<span class="math inline">D_0 \mid H_1</span>): receiver decides 0 (<span class="math inline">D_0</span>) when bit 1 was transmitted (<span class="math inline">H_1</span>).</li>
+<li><strong>Correct detection</strong> (<span class="math inline">D_1 \mid H_1</span>): receiver decides 1 (<span class="math inline">D_1</span>) when bit 1 was transmitted (<span class="math inline">H_1</span>).</li>
+</ul>
+<p>We can compute the (conditional) probabilities of these four outcomes, based on the distributions <span class="math inline">w(r\mid H_0)</span> and <span class="math inline">w(r\mid H_1)</span> in <a href="#fig-conditional-probabilities" class="quarto-xref">Figure&nbsp;1</a>. We know how to compute such probabilities.</p>
+<ul>
+<li>Probability of correct rejection: <span class="math inline">P_{\mathrm{CR}}=P(D_0\mid H_0)</span>.</li>
+<li>Probability of false alarm: <span class="math inline">P_{\mathrm{FA}}=P(D_1\mid H_0)</span>.</li>
+<li>Probability of miss: <span class="math inline">P_{\mathrm{M}}=P(D_0\mid H_1)</span>.</li>
+<li>Probability of correct detection: <span class="math inline">P_{\mathrm{D}}=P(D_1\mid H_1)</span>.</li>
+</ul>
+<div id="fig-conditional-probabilities" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-conditional-probabilities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/Lab6_conditional_probabilities.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:95.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-conditional-probabilities-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: The four conditional probabilities are areas under the two conditional distributions. The threshold value splits each density into decisions <span class="math inline">D_0</span> (left) and <span class="math inline">D_1</span> (right). Illustration for Gaussian noise with standard deviation 1 V and <span class="math inline">A=3</span> V.
+</figcaption>
+</figure>
+</div>
+<p>In practice, these values can be estimated from a finite number of observations, by counting.</p>
+<p><span id="eq-estimated-probabilities"><span class="math display">
+\widehat{P}_{\mathrm{FA}} = \frac{\text{number of false alarms}}{\text{number of transmitted bit 0s}}
 \qquad
-\widehat{P}_{\mathrm{D}} = \frac{\text{number of hits}}{N_1}.
-</span></p>
-<p>The estimated miss probability is <span class="math inline">1-\widehat{P}_{\mathrm{D}}</span>. <strong>Do not divide both counts by the total <span class="math inline">N_0+N_1</span>:</strong> each probability refers to a different true state.</p>
-<p>For example, keep observations from the two states in separate row vectors <code>r0</code> and <code>r1</code>. The number of false alarms is <code>sum(r0 &gt; T)</code>, and its denominator is <code>numel(r0)</code>. Count hits in <code>r1</code> in the same way. We assume both vectors are nonempty.</p>
+\widehat{P}_{\mathrm{D}} = \frac{\text{number of correct detections}}{\text{number of transmitted bit 1s}}.
+\tag{3}</span></span></p>
 </section>
-<section id="changing-the-threshold-the-roc-curve" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="changing-the-threshold-the-roc-curve"><span class="header-section-number">2.3</span> Changing the threshold: the ROC curve</h2>
-<p>Lowering <span class="math inline">T</span> makes decisions <span class="math inline">D_1</span> more frequent: both the detection probability and the false-alarm probability increase or stay unchanged. Raising <span class="math inline">T</span> has the opposite effect.</p>
-<p>The <strong>receiver operating characteristic (ROC)</strong> plots:</p>
+<section id="maximum-likelihood-criterion" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="maximum-likelihood-criterion"><span class="header-section-number">2.3</span> Maximum likelihood criterion</h2>
+<p>How to choose the value of the threshold <span class="math inline">T</span>, i.e.&nbsp;how to take a decision based on a received voltage <span class="math inline">r</span>?</p>
+<p>The <strong>Maximum Likelihood (ML)</strong> criterion chooses the hypothesis with the larger density function at the received voltage <span class="math inline">r</span>:</p>
+<ul>
+<li>take decision <span class="math inline">D_1</span> if <span class="math inline">w_R(r\mid H_1)&gt;w_R(r\mid H_0)</span></li>
+<li>take decision <span class="math inline">D_0</span> if <span class="math inline">w_R(r\mid H_1)\le w_R(r\mid H_0)</span>.</li>
+</ul>
+<p>In our case, this means choosing the threshold <span class="math inline">T</span> at the intersection of the two densities, which is in the middle, as shown in <a href="#fig-conditional-probabilities" class="quarto-xref">Figure&nbsp;1</a>.</p>
+<p><span class="math display">
+T_{\mathrm{ML}} = \frac{0 + A}{2}
+</span></p>
+</section>
+<section id="changing-the-threshold-the-roc-curve" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="changing-the-threshold-the-roc-curve"><span class="header-section-number">2.4</span> Changing the threshold: the ROC curve</h2>
+<p>In general, choosing a threshold <span class="math inline">T</span> is a tradeoff between false alarms and correct detections.</p>
+<p>The <strong>receiver operating characteristic (ROC)</strong> is a graphical representation obtained by varying <span class="math inline">T</span> and plotting:</p>
 <ul>
 <li>horizontal axis: <span class="math inline">P_{\mathrm{FA}}</span>;</li>
 <li>vertical axis: <span class="math inline">P_{\mathrm{D}}</span>.</li>
 </ul>
-<p>Each threshold gives one point. Sweep through many thresholds to obtain the curve. Use the <strong>same observations for every threshold</strong>, so changes reflect the decision rule rather than newly generated noise.</p>
-<p>For finite observations, <code>T = Inf</code> gives the point <span class="math inline">(0,0)</span> and <code>T = -Inf</code> gives <span class="math inline">(1,1)</span>. These are the rules “always output <span class="math inline">D_0</span>” and “always output <span class="math inline">D_1</span>”, respectively. An informative detector has points towards the upper-left corner: many detections with few false alarms. The diagonal <span class="math inline">P_{\mathrm{D}}=P_{\mathrm{FA}}</span> is a reference for decisions made randomly, independently of the true state.</p>
-<p>A practical requirement might be <span class="math inline">P_{\mathrm{FA}}\le 0.05</span>. Among the tested thresholds satisfying this limit, select one with the largest estimated <span class="math inline">P_{\mathrm{D}}</span>. A limit met in a simulation is not a guarantee for future observations.</p>
-</section>
-<section id="how-often-is-each-bit-transmitted" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="how-often-is-each-bit-transmitted"><span class="header-section-number">2.4</span> How often is each bit transmitted?</h2>
-<p>The ROC describes performance <strong>within each true state</strong>. The overall error probability also depends on how often each bit is transmitted.</p>
-<p>If <span class="math inline">p_1=P(H_1)</span> is the probability of transmitting bit 1, then <span class="math inline">P(H_0)=1-p_1</span>, and:</p>
-<p><span class="math display">
-P_{\mathrm{error}}=(1-p_1)P_{\mathrm{FA}}+p_1(1-P_{\mathrm{D}}).
-</span></p>
-<p>Multiplying this probability by the number of future observations gives their expected number of errors. Changing <span class="math inline">p_1</span> alone does not change the ROC if the two conditional received-voltage distributions stay unchanged, but it can change which threshold gives fewer total errors. This formula treats a false alarm and a miss as equally costly.</p>
+<p>Each threshold value gives one point. The designer picks the threshold that meets the requirements.</p>
+<p>The ROC curve indicates how well the two hypotheses can be separated across thresholds.</p>
+<div id="fig-typical-roc" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-typical-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figures/Lab6_typical_ROC.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-typical-roc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: A typical ROC curve for the lab’s Gaussian model (<span class="math inline">A=3</span> V, noise standard deviation 1 V). Lowering the threshold moves the operating point from <span class="math inline">(0,0)</span> towards <span class="math inline">(1,1)</span>. The dashed diagonal represents random decisions independent of the transmitted bit; curves closer to the upper-left corner indicate better separation.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="matlab-tools" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="matlab-tools"><span class="header-section-number">2.5</span> Matlab tools</h2>
@@ -269,41 +277,21 @@ P_{\mathrm{error}}=(1-p_1)P_{\mathrm{FA}}+p_1(1-P_{\mathrm{D}}).
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">bits</span> <span class="op">=</span> <span class="va">rand</span>(<span class="fl">1</span><span class="op">,</span><span class="va">N</span>) <span class="op">&gt;</span> <span class="fl">0.5</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>To change the proportions, adapt the comparison threshold. For example, to obtain approximately <strong>30% zeros and 70% ones</strong>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">bits</span> <span class="op">=</span> <span class="va">rand</span>(<span class="fl">1</span><span class="op">,</span><span class="va">N</span>) <span class="op">&gt;</span> <span class="fl">0.3</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Samples at or below 0.3 become 0; samples above 0.3 become 1. Since <code>rand()</code> is uniform, the probabilities are <span class="math inline">P(0)=0.3</span> and <span class="math inline">P(1)=0.7</span>. More generally, <code>rand(1,N) &gt; p0</code> produces zeros with probability <code>p0</code> and ones with probability <code>1-p0</code>.</p>
-<p>The probabilities are predetermined, but the actual counts fluctuate: this method does <strong>not</strong> guarantee exactly 30% zeros and 70% ones in a finite vector. Check the observed proportions with:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">fraction0</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">0</span>)<span class="op">/</span><span class="va">N</span><span class="op">;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">fraction1</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">1</span>)<span class="op">/</span><span class="va">N</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>This bit-generation threshold controls the transmitted bit probabilities; it is different from the receiver’s voltage threshold <span class="math inline">T</span>.</p>
+<p>Samples at or below 0.3 become 0; samples above 0.3 become 1. Since <code>rand()</code> is uniform, the probabilities are <span class="math inline">P(0)=0.3</span> and <span class="math inline">P(1)=0.7</span>.</p>
+<p>More generally, <code>rand(1,N) &gt; p0</code> produces zeros with probability <code>p0</code> and ones with probability <code>1-p0</code>.</p>
 </section>
 <section id="transmitted-and-received-voltages" class="level3">
 <h3 class="anchored" data-anchor-id="transmitted-and-received-voltages">Transmitted and received voltages</h3>
-<p>Multiply the bit vector by <span class="math inline">A</span> to obtain the transmitted voltages. Use <code>randn()</code> as in Lab 3 to generate independent Gaussian noise and add it to the transmitted voltages to obtain the received vector <code>r</code>.</p>
-<p>Logical indexing separates received samples according to the <strong>transmitted</strong> bits, not the receiver’s decisions:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">r0</span> <span class="op">=</span> <span class="va">r</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">0</span>)<span class="op">;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">r1</span> <span class="op">=</span> <span class="va">r</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">1</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>==</code> tests equality element by element; <code>=</code> assigns a value to a variable.</p>
+<p>Multiply the bit vector by <span class="math inline">A</span>, or use similar methods, to obtain the transmitted voltages.</p>
+<p>Use <code>randn()</code> as in Lab 3 to generate independent Gaussian noise and add it to the transmitted voltages to obtain the received vector <code>r</code>.</p>
+<p>We can separate received samples according to the <strong>transmitted</strong> bits, not the receiver’s decisions, using logical indexing.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">r0</span> <span class="op">=</span> <span class="va">r</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">0</span>)<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">r1</span> <span class="op">=</span> <span class="va">r</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">1</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Reminder: <code>==</code> tests equality element by element, while <code>=</code> assigns a value to a variable.</p>
 </section>
-<section id="comparing-the-received-voltage-distributions" class="level3">
-<h3 class="anchored" data-anchor-id="comparing-the-received-voltage-distributions">Comparing the received-voltage distributions</h3>
-<p>To compare two histograms on the same axes:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">edges</span> <span class="op">=</span> <span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">0.25</span><span class="op">:</span><span class="fl">7</span><span class="op">;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">r0</span><span class="op">,</span> <span class="va">edges</span><span class="op">,</span> <span class="ss">'Normalization'</span><span class="op">,</span> <span class="ss">'pdf'</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">hold</span> <span class="va">on</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">r1</span><span class="op">,</span> <span class="va">edges</span><span class="op">,</span> <span class="ss">'Normalization'</span><span class="op">,</span> <span class="ss">'pdf'</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="va">hold</span> <span class="va">off</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Received voltage (V)'</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Estimated probability density'</span>)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="ss">'Bit 0 transmitted'</span><span class="op">,</span> <span class="ss">'Bit 1 transmitted'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>edges</code> specifies common bin boundaries. The plotting range does not truncate the vectors: use all observations when calculating probabilities.</p>
-</section>
-<section id="sweeping-and-selecting-thresholds" class="level3">
-<h3 class="anchored" data-anchor-id="sweeping-and-selecting-thresholds">Sweeping and selecting thresholds</h3>
-<p>For a threshold sweep, create a vector such as <code>thresholds = -4:0.05:7</code>. Preallocate result vectors with <code>zeros(size(thresholds))</code>, then use a <code>for</code> loop to fill one entry per threshold. Plot the ROC with <code>plot(pFA,pD)</code>.</p>
-<p>Logical indexing selects entries satisfying a condition. For example:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">eligible</span> <span class="op">=</span> <span class="va">pFA</span> <span class="op">&lt;=</span> <span class="fl">0.05</span><span class="op">;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">eligibleThresholds</span> <span class="op">=</span> <span class="va">thresholds</span>(<span class="va">eligible</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Apply the same logical index to <code>pD</code> to obtain the matching detection probabilities. <code>[bestValue,index] = max(v)</code> returns the largest value and its first index <strong>within <code>v</code></strong>, not within the original unfiltered vector.</p>
+<section id="varying-the-threshold-for-the-roc" class="level3">
+<h3 class="anchored" data-anchor-id="varying-the-threshold-for-the-roc">Varying the threshold for the ROC</h3>
+<p>To vary the threshold, create a vector such as <code>thresholds = -4:0.05:7</code>. Preallocate result vectors with <code>zeros(size(thresholds))</code>, then use a <code>for</code> loop to fill one entry per threshold. Plot the ROC with <code>plot(pFA,pD)</code>.</p>
 </section>
 </section>
 <section id="summary-functions-and-notation-you-should-know" class="level2" data-number="2.6">
@@ -361,109 +349,123 @@ table td, table th { border-bottom: 1px solid #ddd; }
 <td>Number of observations in a vector</td>
 </tr>
 <tr class="even">
-<td><code>histogram(x,edges,...)</code></td>
-<td><code>histogram(r0,edges,'Normalization','pdf')</code></td>
-<td>Histogram with specified bin boundaries and unit-area normalization</td>
-</tr>
-<tr class="odd">
 <td><code>hold on</code>, <code>hold off</code>, <code>legend(...)</code></td>
 <td><code>legend('Bit 0 transmitted','Bit 1 transmitted')</code></td>
 <td>Overlay plots and identify them</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>a:step:b</code></td>
 <td><code>-4:0.05:7</code></td>
 <td>Candidate thresholds with a fixed step</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>zeros(size(v))</code></td>
 <td><code>pFA = zeros(size(thresholds))</code></td>
 <td>Preallocate a vector with the same dimensions as <code>v</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>for k = 1:numel(v)</code></td>
 <td><code>T = thresholds(k)</code> inside the loop</td>
 <td>Visit each candidate by index</td>
-</tr>
-<tr class="odd">
-<td><code>Inf</code>, <code>-Inf</code></td>
-<td><code>thresholds = [-Inf thresholds Inf]</code></td>
-<td>Add thresholds giving the two ROC endpoints</td>
 </tr>
 <tr class="even">
 <td><code>plot(x,y)</code></td>
 <td><code>plot(pFA,pD)</code></td>
 <td>Plot detection probability against false-alarm probability</td>
 </tr>
-<tr class="odd">
-<td>Logical indexing</td>
-<td><code>pD(pFA &lt;= 0.05)</code></td>
-<td>Select matching entries using a condition</td>
-</tr>
-<tr class="even">
-<td><code>max(v)</code></td>
-<td><code>[bestValue,index] = max(v)</code></td>
-<td>Largest value and the index of its first occurrence</td>
-</tr>
 </tbody>
 </table>
 </section>
 </section>
-<section id="exercises" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Exercises</h1>
-<p>Write your commands in a script or live script. Label figures and record your numerical results and short explanations in comments. Use the same generated vectors throughout Exercises 1–4; do not generate new received samples inside the threshold loop.</p>
+<section id="sec-theoretical-exercise" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Theoretical exercise</h1>
+<p>A transmitter sends bit 0 as 0 V and bit 1 as 3 V. The received sample is <span class="math inline">r=s+n</span>, where the noise has the normal distribution <span class="math inline">\mathcal{N}(0,1)</span> with voltages expressed in volts. The receiver decides <span class="math inline">D_1</span> if <span class="math inline">r&gt;T</span>, and <span class="math inline">D_0</span> otherwise.</p>
+<ol type="1">
+<li><p>Compute the theoretical probabilities of false alarm and correct detection:</p>
+<ol type="a">
+<li><p>Draw the distribution of <span class="math inline">r</span> under each hypothesis, <span class="math inline">w(r|H_0)</span> and <span class="math inline">w(r|H_1)</span>.</p></li>
+<li><p>What is the value of <span class="math inline">T</span> for the Maximum Likelihood (ML) decision rule?</p></li>
+<li><p>Compute the false-alarm probability <span class="math inline">P_{\mathrm{FA}}</span> and the detection probability <span class="math inline">P_{\mathrm{D}}</span> for the ML threshold.</p></li>
+</ol></li>
+</ol>
+</section>
+<section id="matlab-exercises" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Matlab exercises</h1>
+<p>Write your commands in a script or live script. Label figures and record your numerical results and short explanations in comments. Use the same generated vectors throughout Exercises 1–3; do not generate new received samples inside the threshold loop.</p>
 <ol type="1">
 <li><p>Simulate transmission using two voltage levels:</p>
 <p>Use <span class="math inline">A=3</span> V. The channel adds independent Gaussian noise with mean 0 V and standard deviation 1 V to each transmitted voltage. Thus, received samples follow <span class="math inline">\mathcal{N}(0,1)</span> under <span class="math inline">H_0</span> and <span class="math inline">\mathcal{N}(3,1)</span> under <span class="math inline">H_1</span>, with voltages expressed in volts. Each sample leads to one bit decision.</p>
 <ol type="a">
-<li><p>Generate a row vector <code>bits</code> of 20000 random bits. Call <code>rand()</code> and compare its output with 0.5 so that each bit has a 50% chance of being 0 or 1. Count the 0s and 1s. Are the counts exactly equal?</p></li>
-<li><p>Map <code>bits</code> to a vector <code>s</code> of transmitted voltages, using 0 V for bit 0 and 3 V for bit 1. Generate a noise vector of the same size using <code>randn()</code>, then form the received vector <code>r = s + n</code>.</p></li>
-<li><p>Extract <code>r0</code> and <code>r1</code> from <code>r</code> using the transmitted bits as logical conditions. Plot their PDF-normalized histograms on the same axes, using common bin boundaries. Describe the overlap. Can a threshold separate all received samples correctly?</p></li>
-<li><p>Before calculating, predict what happens to false alarms and misses when the threshold increases.</p></li>
+<li><p>Generate a row vector <code>bits</code> of 20000 random bits 0 and 1, with equal probabilities. Do this by calling <code>rand()</code> and comparing with a suitable threshold.</p></li>
+<li><p>Transform <code>bits</code> to a vector <code>s</code> of transmitted voltages, using 0 V for bit 0 and 3 V for bit 1.</p></li>
+<li><p>Generate a noise vector of the same size, with the normal distribution <span class="math inline">\mathcal{N}(0,1)</span>, and create a received vector <code>r = s + n</code>.</p></li>
+<li><p>Run the code below to estimate the two conditional densities. Can a threshold separate all received samples correctly?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">% Select received samples according to the transmitted bit</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">r0</span> <span class="op">=</span> <span class="va">r</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">0</span>)<span class="op">;</span>  <span class="co">% What does this line do?</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">r1</span> <span class="op">=</span> <span class="va">r</span>(<span class="va">bits</span> <span class="op">==</span> <span class="fl">1</span>)<span class="op">;</span>  <span class="co">% What does this line do?</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">% Use the same bin boundaries for both histograms</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="va">edges</span> <span class="op">=</span> <span class="op">-</span><span class="fl">4</span><span class="op">:</span><span class="fl">0.25</span><span class="op">:</span><span class="fl">7</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="va">figure</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">r0</span><span class="op">,</span> <span class="va">edges</span><span class="op">,</span> <span class="ss">'Normalization'</span><span class="op">,</span> <span class="ss">'pdf'</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="ss">'FaceColor'</span><span class="op">,</span> [<span class="fl">0</span> <span class="fl">0.45</span> <span class="fl">0.74</span>]<span class="op">,</span> <span class="ss">'FaceAlpha'</span><span class="op">,</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="va">hold</span> <span class="va">on</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="va">histogram</span>(<span class="va">r1</span><span class="op">,</span> <span class="va">edges</span><span class="op">,</span> <span class="ss">'Normalization'</span><span class="op">,</span> <span class="ss">'pdf'</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="ss">'FaceColor'</span><span class="op">,</span> [<span class="fl">0.85</span> <span class="fl">0.33</span> <span class="fl">0.10</span>]<span class="op">,</span> <span class="ss">'FaceAlpha'</span><span class="op">,</span> <span class="fl">0.5</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="va">hold</span> <span class="va">off</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'Received voltage (V)'</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'Estimated probability density'</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="ss">'Bit 0 transmitted'</span><span class="op">,</span> <span class="ss">'Bit 1 transmitted'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>From the histograms, choose an appropriate threshold <span class="math inline">T</span> to separate the two distributions. What happens to false alarms and misses when the threshold increases? What about when it decreases?</p></li>
 </ol></li>
 <li><p>Evaluate individual thresholds:</p>
 <ol type="a">
-<li><p>Set <code>T = 1.5</code>. Count false alarms and correct rejections in <code>r0</code>, then hits and misses in <code>r1</code>. Verify that the two counts for each true state add up to the number of samples for that transmitted bit.</p></li>
-<li><p>Estimate <code>pFA</code>, <code>pD</code>, and the miss probability, using the appropriate denominator for each. Also calculate the total number of errors.</p></li>
-<li><p>Repeat for <code>T = 1</code> and <code>T = 2</code>. Record a small table with one row per threshold and columns for <code>T</code>, <code>pFA</code>, <code>pD</code>, and the total error count. Compare with your prediction from Exercise 1.</p></li>
+<li><p>Set <code>T = 1.5</code>. Compute the vector of decisions <code>d</code> by comparing the values in <code>r</code> with the threshold. Each element of <code>d</code> should be 1 (<span class="math inline">D_1</span>) if the received voltage is greater than <code>T</code>, and 0 (<span class="math inline">D_0</span>) otherwise. The vectors <code>bits</code>, <code>r</code>, and <code>d</code> must all have the same size.</p></li>
+<li><p>Compare <code>d</code> with the transmitted vector <code>bits</code> and count the four possible outcomes:</p>
+<ul>
+<li>false alarms: the transmitted bit is 0, but the decision is 1;</li>
+<li>correct rejections: the transmitted bit is 0 and the decision is 0;</li>
+<li>correct detections: the transmitted bit is 1 and the decision is 1;</li>
+<li>misses: the transmitted bit is 1, but the decision is 0.</li>
+</ul>
+<p>Use <code>==</code> to test equality, <code>&amp;</code> to combine two logical conditions element by element, and <code>sum()</code> to count the positions satisfying both conditions. Put parentheses around each comparison.</p></li>
+<li><p>Count the transmitted 0s and 1s, storing the counts in <code>N0</code> and <code>N1</code>. Verify that false alarms plus correct rejections equal <code>N0</code>, and correct detections plus misses equal <code>N1</code>.</p></li>
+<li><p>Estimate the probability of false alarm <code>pFA</code> by dividing the counts of false alarms by <code>N0</code>. Estimate <code>pD</code> by dividing the correct detection count by <code>N1</code>, and the miss probability by dividing the miss count by <code>N1</code>. Verify that the detection and miss probabilities add up to 1.</p>
+<p>For <code>T = 1.5</code>, compare <code>pFA</code> and <code>pD</code> with the theoretical results from the <a href="#sec-theoretical-exercise">theoretical exercise</a>. Why are the estimates not exactly equal to theory?</p></li>
+<li><p>Calculate the total number of errors as false alarms plus misses. Check it by counting the positions where <code>d</code> differs from <code>bits</code>, using <code>~=</code> (not equal).</p></li>
+<li><p>Repeat for <code>T = 1</code> and <code>T = 2</code>, using the same <code>bits</code> and <code>r</code>. Record a small table with one row per threshold and columns for <code>T</code>, <code>pFA</code>, <code>pD</code>, and the total error count. Compare with your prediction from Exercise 1.</p></li>
 </ol></li>
-<li><p>Draw the ROC and choose an operating point:</p>
+<li><p>Draw the ROC:</p>
 <ol type="a">
-<li><p>Create candidate thresholds from -4 to 7 in steps of 0.05. Add <code>-Inf</code> at the beginning and <code>Inf</code> at the end to include the ROC endpoints.</p></li>
-<li><p>Complete the template below to calculate one pair of probabilities per threshold. Replace each <code>...</code> with the appropriate expression, using the counting method from Exercise 2. Do not generate new noise inside the loop.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">pFA</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">size</span>(<span class="va">thresholds</span>))<span class="op">;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">pD</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">size</span>(<span class="va">thresholds</span>))<span class="op">;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">numel</span>(<span class="va">thresholds</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">T</span> <span class="op">=</span> <span class="va">thresholds</span>(<span class="va">k</span>)<span class="op">;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Count false alarms and hits for this threshold</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">falseAlarms</span> <span class="op">=</span> <span class="op">...;</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">hits</span> <span class="op">=</span> <span class="op">...;</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Divide by the number of samples for the corresponding true bit</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">pFA</span>(<span class="va">k</span>) <span class="op">=</span> <span class="op">...;</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">pD</span>(<span class="va">k</span>) <span class="op">=</span> <span class="op">...;</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
-<li><p>Plot <code>pD</code> against <code>pFA</code>. Add the diagonal reference with <code>plot([0 1],[0 1],'--')</code>, using <code>hold on</code>. Label both axes. Verify the endpoints and explain the direction in which the curve is traversed as the threshold increases.</p></li>
-<li><p>Among the tested thresholds with <code>pFA &lt;= 0.05</code>, find one with the largest <code>pD</code>. Report the threshold and both probabilities, and mark its point on the ROC using <code>plot(chosenFA,chosenD,'ro')</code>. If several thresholds give the same largest detection probability, choose the first in the threshold vector.</p></li>
-</ol></li>
-<li><p><strong>Optional: unequal bit probabilities</strong>:</p>
-<p>The bits above were generated with equal probabilities. Now consider future transmissions in which the probability of bit 1 may differ, while the voltage levels and noise distribution stay unchanged.</p>
-<ol type="a">
-<li><p>Using the probabilities estimated in Exercise 2 for <code>T = 1</code>, <code>1.5</code>, and <code>2</code>, calculate the expected number of errors per 1000 future transmitted bits when <span class="math inline">p_1=0.5</span>. Which of these three thresholds gives fewer expected errors?</p></li>
-<li><p>Repeat for <span class="math inline">p_1=0.01</span>, without generating new received samples. Calculate expected false alarms and expected misses separately, then add them. Which of the three thresholds is now preferred? Expected counts need not be integers.</p></li>
-<li><p>Does the ROC change when only the probability of transmitting bit 1 changes? Explain why a smaller total error count can coexist with a larger fraction of missed 1 bits.</p></li>
+<li><p>Create a vector <code>thresholds</code> of candidate thresholds from -4 to 7 in steps of 0.05.</p></li>
+<li><p>Complete the template below to calculate <code>pFA</code> and <code>pD</code> for each threshold. Replace each <code>...</code> with the appropriate expression, using the counting method from Exercise 2. Do not generate new noise inside the loop.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">pFA</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">size</span>(<span class="va">thresholds</span>))<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">pD</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">size</span>(<span class="va">thresholds</span>))<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">numel</span>(<span class="va">thresholds</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">T</span> <span class="op">=</span> <span class="va">thresholds</span>(<span class="va">k</span>)<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Compute decisions for the received samples</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">d</span> <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Compare decisions with transmitted bits and count outcomes</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">falseAlarms</span> <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">correctDetections</span> <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">% Divide by the number of samples for the corresponding true bit</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">pFA</span>(<span class="va">k</span>) <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">pD</span>(<span class="va">k</span>) <span class="op">=</span> <span class="op">...;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p>Plot the vector <code>pD</code> against <code>pFA</code>.</p></li>
 </ol></li>
 </ol>
 </section>
-<section id="final-questions" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Final questions</h1>
+<section id="final-questions" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Final questions</h1>
 <ol type="1">
 <li>If every received voltage increases by 10 V, how should the threshold change to keep every decision unchanged? Would the ROC change?</li>
 <li>Can a detector have no false alarms in 10000 simulated samples for transmitted bit 0 even though its true false-alarm probability is positive?</li>
-<li>A receiver always outputs <span class="math inline">D_0</span> (bit 0). What are its detection and false-alarm probabilities? Why could its overall error rate still look small when bit 1 is rarely transmitted?</li>
-<li>What does an ROC curve fail to tell you about the consequences of a missed 1 bit compared with a false alarm?</li>
+<li>A receiver always outputs <span class="math inline">D_0</span> (bit 0). What are its detection and false-alarm probabilities? Where is its point on the ROC? What if it always outputs <span class="math inline">D_1</span> instead?</li>
 </ol>
 </section>
 
