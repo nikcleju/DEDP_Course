@@ -1,5 +1,5 @@
 ---
-title: "Binary waveform detection: distance and inner product"
+title: "Detection with multiple samples: distance and inner product"
 subtitle: "Laboratory 7, DEDP"
 
 format:
