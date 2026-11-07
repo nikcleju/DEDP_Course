@@ -70,8 +70,8 @@ $$ {#eq-example-sample-vectors}
 
 ![Received waveform, with additive Gaussian noise](figures/Lab7_example_noisy_cosine.png){#fig-example-noisy-cosine width=95%}
 
-Two candidate bit waveforms and a noisy observation when bit 0 is sent.
-Each vector contains 64 samples over one bit interval.
+Two candidate bit waveforms and a noisy observation vector.
+Each vector contains 64 samples.
 The receiver must decide which bit was sent, based on the received vector $\mathbf{r}$.
 :::
 
@@ -236,7 +236,7 @@ table td, table th { border-bottom: 1px solid #ddd; }
 
    c. Compute the energies $E_0$ and $E_1$ of the two reference waveforms.
 
-   d. Generate one received row vector `r` by adding independent Gaussian noise with mean 0 V and standard deviation `sigma = 1.5` V to the transmitted waveform (choose either `s0` or `s1`). Plot `r` and the two references together.
+   d. Generate one received row vector `r` by adding independent Gaussian noise with mean 0 V and standard deviation `sigma = 1.5` V to the transmitted waveform (choose either `s0` or `s1`). Plot `r`.
 
 
 2. **Simulate transmission and count the four outcomes.**
@@ -246,7 +246,7 @@ table td, table th { border-bottom: 1px solid #ddd; }
    Write a `for` loop to simulate the transmission of `N` bits, one bit at a time, and count the four possible outcomes (correct rejection, false alarm, miss, and correct detection).
 
    a. Before the loop, initialize counters to zero:
-      `countCR`, `countFA`, `countMiss`, and `countDetection`
+      `countCR`, `countFA`, `countM`, and `countCD`
       and also `N0` and `N1` (to count the number of transmitted bits 0 and 1, respectively).
 
    b. Write a for loop that iterates `k` from 1 to `N`. In each iteration:
