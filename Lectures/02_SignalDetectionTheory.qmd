@@ -48,14 +48,14 @@ signal is present from 2 or more possibilities
 - Data transmission with various binary modulations:
 
     - Constant voltage levels (e.g. $s_n(t)$ = constant = 0 or 5V)
-    
+
     - PSK modulation (Phase Shift Keying): $s_n(t)$ = cosine with same frequency but various initial phases
-    
+
     - FSK modulation (Frequency Shift Keying): $s_n(t)$ = cosines with different frequencies
-    
+
     - OFDM modulation (Orthogonal Frequency Division Multiplexing): particular case of FSK
 
-    - The receiver gets some noisy signal, has to decide 
+    - The receiver gets some noisy signal, has to decide
     when it is 0 and when it is 1
 
 ### Practical scenarios
@@ -63,9 +63,9 @@ signal is present from 2 or more possibilities
 - Radar detections:
 
     - a signal is emitted; if there is an obstacle, the signal gets reflected back
-    
+
     - the receiver waits for possible reflections of the signal and must **decide**:
-    
+
         - no reflection is present -> no object
         - reflected signal is present -> object detected
 
@@ -110,7 +110,7 @@ signal is present from 2 or more possibilities
 - Receiver can take **two decisions**:
 
     - $D_0$: receiver decides that signal was $s(t) = s_0(t)$
-    
+
     - $D_1$: receiver decides that signal was $s(t) = s_1(t)$
 
 ### Possible outcomes
@@ -118,22 +118,22 @@ signal is present from 2 or more possibilities
 - There are 4 possible outcomes:
 
     1. **Correct rejection**: true hypothesis is $H_0$, decision is $D_0$
-    
+
         - Probability is $P_r = P(D_0 \cap H_0)$
         - Also known as **True Negative**
 
     2. **False alarm**: true hypothesis is $H_0$, decision is $D_1$
-    
+
         - Probability is $P_{fa} = P(D_1 \cap H_0)$
         - Also known as **False Positive**
 
     3. **Miss**: true hypothesis is $H_1$, decision is $D_0$
-    
+
         - Probability is $P_m = P(D_0 \cap H_1)$
         - Also known as **False Negative**
 
     4. **Correct detection** ("*hit*"): true hypothesis is $H_1$, decision $D_1$
-    
+
         - Probability is $P_d = P(D_1 \cap H_1)$
         - Also known as **True Positive**
 
@@ -142,13 +142,13 @@ signal is present from 2 or more possibilities
 - The terms originate from radar applications:
 
     - a signal is emitted from source
-    
+
     - received signal = possible reflection from a target, with lots of noise
-    
+
     - $H_0$ = no target is present, no reflected signal (only noise)
-    
+
     - $H_1$ = target is present, there is a reflected signal
-    
+
     - hence the names "miss", "hit" etc.
 
 
@@ -157,16 +157,16 @@ signal is present from 2 or more possibilities
 - In general we consider **additive**, **white**, **stationary** noise
 
     - additive = the noise is added to the signal
-    
+
     - white = two samples from the noise are uncorrelated
-    
+
     - stationary = has same statistical properties at all times
 
 - The noise signal $n(t)$ is unknown
 
     - it's random
-    
-    - we just know it's distribution, but not the actual values
+
+    - we just know its distribution, but not the actual values
 
 ### The sample
 
@@ -196,7 +196,7 @@ signal is present from 2 or more possibilities
 
     - a constant + a r.v. = has same distribution as r.v., but shifted
     with the constant
-    
+
 
 ### The conditional distributions
 
@@ -212,13 +212,13 @@ signal is present from 2 or more possibilities
 **likelihood functions**
     - "|" means "conditioned by", "given that"
     - i.e. considering one hypothesis or the other one
-    - $r$ is the unknown of the function 
+    - $r$ is the unknown of the function
 
 ### The conditional distributions
 
-Example: 
+Example:
 
-- A constant signal $s(t)$ can have two values, 0 or 4. 
+- A constant signal $s(t)$ can have two values, 0 or 4.
 The signal is affected by noise $\mathcal{N}(\mu=0, \sigma^2 = 2)$.
 What is the distribution of a sample $r$, in both hypotheses?
 
@@ -236,7 +236,7 @@ The problem of decision:
 
 ### The likelihood of a parameter
 
-- In general, the **likelihood** of a some parameter $P$ based on some **observation** $O$ = the probability density of $O$, if the parameter has value $P$:  
+- In general, the **likelihood** of some parameter $P$ based on some **observation** $O$ = the probability density of $O$, if the parameter has value $P$:
   $$L(P | O) = w(O | P)$$
 
 - In our case:
@@ -251,8 +251,8 @@ The problem of decision:
 
 ### Maximum Likelihood decision criterion
 
-- **Maximum Likelihood (ML) criterion**: choose the hypothesis 
-that has the **highest likelihood** 
+- **Maximum Likelihood (ML) criterion**: choose the hypothesis
+that has the **highest likelihood**
 of having generated the observed sample value $r = r(t_0)$
 
   - "pick the most likely hypothesis"
@@ -267,14 +267,14 @@ of having generated the observed sample value $r = r(t_0)$
 
 ### Example: gaussian noise
 
-Example (follow-up): 
+Example (follow-up):
 
-- A constant signal $s(t)$ can have two values, 0 or 4. 
+- A constant signal $s(t)$ can have two values, 0 or 4.
 The signal is affected by noise $\mathcal{N}(\mu=0, \sigma^2 = 2)$.
 
 - What is the decision taken with the ML criterion, if $r = 1.6$?
 
-- At blackboard: 
+- At blackboard:
 
     - plot the two conditional distributions for $w(r | H_0)$, $w(r | H_1)$
     - discuss the decision taken for different values of $r$
@@ -299,7 +299,7 @@ Pick the tree with the **highest likelihood**:
 - Particular case: the noise has normal distribution $\mathcal{N}(0,\sigma^2)$
     - i.e. it is AWGN
 
-- Likelihood ratio is $\frac{w(r|H_1)}{w(r|H_0)} = \frac{e^{-\frac{(r-s_1(t_0))^2}{2\sigma^2}}}{e^{-\frac{(r-s_0(r_0))^2}{2\sigma^2}}} \grtlessH 1$
+- Likelihood ratio is $\frac{w(r|H_1)}{w(r|H_0)} = \frac{e^{-\frac{(r-s_1(t_0))^2}{2\sigma^2}}}{e^{-\frac{(r-s_0(t_0))^2}{2\sigma^2}}} \grtlessH 1$
 
 - For normal distribution, it is easier to apply **natural logarithm** to the terms
     - logarithm is a monotonic increasing function, so it won't change the comparison
@@ -347,20 +347,20 @@ $s_0(t_0)$ or $s_1(t_0)$ is **nearest** to our observed sample $r = r(t_0)$
 - Choosing the nearest value = same thing as **comparing $r$ with a threshold** $T = \frac{s_0(t_0) + s_1(t_0)}{2}$
 
     - i.e. if the two values are 0 and 5, decide by comparing with 2.5 (like in laboratory)
- 
+
 - For the **ML criterion**, the threshold = the **cross-over point** between the conditioned distributions
 
 ### Exercise
 
-- A signal can have two possible values, $0$ or $5$. 
+- A signal can have two possible values, $0$ or $5$.
 The signal is affected by white gaussian noise $\mathcal{N}\;(\mu=0, \sigma^2=2)$.
 The receiver takes one sample with value $r = 2.25$.
 
-    a. Write the expressions of the conditional probabilities and sketch them 
-    a. What is the decision based on the Maximum Likelihood criterion?
-    b. What if the signal $0$ is affected by gaussian noise $\mathcal{N}(0, 0.5)$,
+    a. Write the expressions of the conditional probability densities and sketch them
+    b. What is the decision based on the Maximum Likelihood criterion?
+    c. What if the signal $0$ is affected by gaussian noise $\mathcal{N}(0, 0.5)$,
   while the signal $5$ is affected by uniform noise $\mathcal{U}[-4,4]$?
-    c. Repeat b. and c. assuming the value $0$ is replaced by $-1$
+    d. Repeat b. and c. assuming the value $0$ is replaced by $-1$
 
 ### Decision regions
 
@@ -371,8 +371,8 @@ The receiver takes one sample with value $r = 2.25$.
 - The decision regions cover the whole $\mathbb{R}$ axis
 
 - Example: indicate the decision regions for the previous exercise:
-    - $R_0 = [-\infty, 2.5]$
-    - $R_1 = [2.5, \infty]$
+    - $R_0 = (-\infty, 2.5)$
+    - $R_1 = (2.5, \infty)$
 
 ### The likelihood function
 
@@ -396,7 +396,7 @@ The receiver takes one sample with value $r = 2.25$.
 we call it **probability density function** (distribution)
 
     - if we know value (e.g. $r$, $x$), and the unknown is some statistical parameter (e.g. $\mu$, $\sigma$, $i$), we call it a **likelihood function**
- 
+
 
 
 ### Generalizations
@@ -407,13 +407,13 @@ we call it **probability density function** (distribution)
     - Locate the given $r = r(t_0)$
     - ML criterion = choose the highest function $w(r|H_i)$ in that point
 
-- The decision regions are defined by the **cross-over points** 
+- The decision regions are defined by the **cross-over points**
 
     - There can be more cross-overs, so multiple thresholds
 
 ### Generalizations
 
-- What if the noise has a different distribution in hypothesis $H_0$ than in hypothesis $H_1$? 
+- What if the noise has a different distribution in hypothesis $H_0$ than in hypothesis $H_1$?
 
 - Same thing:
     - Sketch the conditional distributions
@@ -426,7 +426,7 @@ we call it **probability density function** (distribution)
 
 - We **don't care about the shape** of the signals
 
-- All we care about are **the two values at the sample time $t_0$**: 
+- All we care about are **the two values at the sample time $t_0$**:
     - $s_0(t_0)$
     - $s_1(t_0)$
 
@@ -437,11 +437,11 @@ we call it **probability density function** (distribution)
 - Extend to $n$ hypotheses
 
     - We have $n$ possible signals $s_0(t)$, ... $s_{n-1}(t)$
-    
+
     - We have $n$ different values $s_0(t_0)$, ... $s_{n-1}(t_0)$
-    
+
     - We have $n$ conditional distributions $w(r|H_i)$
-    
+
     - We **choose the highest function** $w(r|H_i)$ in the point $r = r(t_0)$
 
 ### Generalizations
@@ -451,7 +451,7 @@ we call it **probability density function** (distribution)
 - Patience, we'll treat this later as a separate sub-chapter
 
 
-### Multiple separate detection 
+### Multiple separate detection
 
 - In a binary communications setup, each detection/decision reads 1 bit
 
@@ -459,12 +459,12 @@ we call it **probability density function** (distribution)
 
 ### Exercise
 
-- A signal can have four possible values: -6, -2, 2, 6. 
-Each value lasts for 1 second. 
-The signal is affected by white noise with normal distribution. 
+- A signal can have four possible values: -6, -2, 2, 6.
+Each value lasts for 1 second.
+The signal is affected by white noise with normal distribution.
 The receiver takes 1 sample per second.
 Using ML criterion, decide what signal has been transmitted, if the received samples are:
-$$4,\; 6.6,\; -5.2,\; 1.1,\; 0.3,\; -1.5,\; 7,\; -7,\; 4.4$$
+$$4.2,\; 6.6,\; -5.2,\; 1.1,\; 0.3,\; -1.5,\; 7,\; -7,\; 4.4$$
 
 ### Conditional probabilities
 
@@ -474,29 +474,29 @@ $$4,\; 6.6,\; -5.2,\; 1.1,\; 0.3,\; -1.5,\; 7,\; -7,\; 4.4$$
 
     - $R_0$: when $r \in R_0$, decision is $D_0$
     - $R_1$: when $r \in R_1$, decision is $D_1$
-    
+
 - Conditional probability of correct rejection
     - = probability to take decision $D_0$ in the case that hypothesis is $H_0$
-    - = probability that $r$ is in $R_0$ computed from the distribution $w(r|H_0)$ 
-$$P(D_0 | H_0) = \int_{R_0} w(r|H_0) dx$$
+    - = probability that $r$ is in $R_0$ computed from the distribution $w(r|H_0)$
+$$P(D_0 | H_0) = \int_{R_0} w(r|H_0) dr$$
 
-- Conditional probability of false alarm 
+- Conditional probability of false alarm
     - = probability to take decision $D_1$ in the case that hypothesis is $H_0$
-    - = probability that $r$ is in $R_1$ computed from the distribution $w(r|H_0)$ 
-$$P(D_1 | H_0) = \int_{R_1} w(r|H_0) dx$$
+    - = probability that $r$ is in $R_1$ computed from the distribution $w(r|H_0)$
+$$P(D_1 | H_0) = \int_{R_1} w(r|H_0) dr$$
 
 
 ### Conditional probabilities
 
 - Conditional probability of miss
     - = probability to take decision $D_0$ in the case that hypothesis is $H_1$
-    - = probability that $r$ is in $R_0$ computed from the distribution $w(r|H_1)$ 
-$$P(D_0 | H_1) = \int_{R_0} w(r|H_1) dx$$
+    - = probability that $r$ is in $R_0$ computed from the distribution $w(r|H_1)$
+$$P(D_0 | H_1) = \int_{R_0} w(r|H_1) dr$$
 
-- Conditional probability of correct rejection
+- Conditional probability of correct detection
     - = probability to take decision $D_1$ in the case that hypothesis is $H_1$
-    - = probability that $r$ is in $R_1$ computed from the distribution $w(r|H_1)$ 
-$$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
+    - = probability that $r$ is in $R_1$ computed from the distribution $w(r|H_1)$
+$$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dr$$
 
 
 ### Conditional probabilities
@@ -504,9 +504,9 @@ $$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
 - Relation between them:
 
     - $P(D_0 | H_0) + P(D_1 | H_0) = 1$ (correct rejection + false alarm)
-    
+
     - $P(D_0 | H_1) + P(D_1 | H_1) = 1$ (miss + correct detection)
-    
+
     - Why? Prove this.
 
 ### Computing conditional probabilities
@@ -521,10 +521,10 @@ $$P(D_1 | H_1) = \int_{R_1} w(r|H_1) dx$$
 **Theorem:**
 
   The ML criterion **minimizes the total conditioned probability of error $P(D_1 | H_0) + P(D_0 | H_1)$**
-    
+
 **Proof:**
 
-  Informal: on the previous pivture, if $T$ is moved either to the right or to the left,
+  Informal: on the previous picture, if $T$ is moved either to the right or to the left,
 the sum of the two areas of false alarm + misses increases.
 
   TODO: rigorous proof
@@ -550,25 +550,25 @@ $$P(A \cap B) = P(B | A) \cdot P(A)$$
 - Interpretation:
 
     - The probability $P(A)$ is taken out from $P(B|A)$
-    
+
     - $P(B|A)$ gives no information on $P(A)$, the chances of $A$ actually happening
-    
+
     - Example: P(score | shoot) = $\frac{1}{2}$. How many goals are scored?
 
-- In our case: 
+- In our case:
     $$P(D_i \cap H_j) = P(D_i | H_j) \cdot P(H_j)$$
 
     - for all $i$ and $j$, i.e. all 4 cases
 
 ### Exercise
 
-- A constant signal can have two possible values, $-2$ or $5$. 
+- A constant signal can have two possible values, $-2$ or $5$.
 The signal is affected by gaussian noise $\mathcal{N}(\mu=0, \sigma^2=2)$.
 The receiver performs ML decision based on a single sample.
 
     a. Compute the conditional probability of a false alarm
     b. Compute the conditional probability of a miss
-    c. If $P(H_0) = \frac{1}{3}$ and $P(H_1) = \frac{2}{3}$, compute the actual probabilities 
+    c. If $P(H_0) = \frac{1}{3}$ and $P(H_1) = \frac{2}{3}$, compute the actual probabilities
     of correct rejection and correct detection (not conditional)
 
 ### Pitfalls of ML decision criterion
@@ -585,7 +585,7 @@ or vice-versa
 - But if $P(H_0) > P(H_1)$, we may want to move the threshold towards $H_1$, and vice-versa
 
     - because it is more likely that the true signal is $s_0(t)$
-    - and thus we want to "encourage" decision $D_0$ 
+    - and thus we want to "encourage" decision $D_0$
 
 - Looks like we want a more general criterion ...
 
@@ -609,9 +609,9 @@ $$\frac{P(H_1) \cdot w(r | H_1)}{P(H_0) \cdot w(r | H_0)} \grtlessH 1$$
 
 **Theorem:**
 
-  The MPE decision criterion **minimizes the total probability of errors**: 
+  The MPE decision criterion **minimizes the total probability of errors**:
   $$P_e = P_{fa} + P_m = P(D_1 \cap H_0) + P(D_0 \cap H_1)$$
-    
+
   - errors = false alarms and misses
 
 ### Minimum error probability criterion
@@ -621,18 +621,18 @@ $$\frac{P(H_1) \cdot w(r | H_1)}{P(H_0) \cdot w(r | H_0)} \grtlessH 1$$
 - The probability of false alarm is:
 $$\begin{split}
 P(D_1 \cap H_0) =& P(D_1 | H_0) \cdot P(H_0)\\
-=& \int_{R_1} w(r | H_0) dx \cdot P(H_0)\\
-=& (1 - \int_{R_0} w(r | H_0 dx )  \cdot P(H_0)
+=& \int_{R_1} w(r | H_0) dr \cdot P(H_0)\\
+=& (1 - \int_{R_0} w(r | H_0) dr )  \cdot P(H_0)
 \end{split}$$
 
 - The probability of miss is:
 $$\begin{split}
 P(D_0 \cap H_1) =& P(D_0 | H_1) \cdot P(H_1)\\
-=& \int_{R_0} w(r | H_1) dx \cdot P(H_1)
+=& \int_{R_0} w(r | H_1) dr \cdot P(H_1)
 \end{split}$$
 
 - The total error probability (their sum) is:
-$$P_e = P(H_0) + \int_{R_0} [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)] dx$$
+$$P_e = P(H_0) + \int_{R_0} [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)] dr$$
 
 ### Minimum probability of error
 
@@ -641,10 +641,10 @@ $$P_e = P(H_0) + \int_{R_0} [w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)] dx$$
 - The term $w(r|H_1) \cdot P(H_1) - w(r|H_0) \cdot P(H_0)$ is negative whenever
 
   $$w(r|H_1) \cdot P(H_1) < w(r|H_0) \cdot P(H_0)$$
-  
+
   i.e. when we take decision $D_0$, i.e. on region $R_0$
-  
-- Therefore the integral on $R_0$ is minimal, 
+
+- Therefore the integral on $R_0$ is minimal,
 
 - $P(H_0)$ is a constant => $P_e$ is minimal
 
@@ -664,8 +664,8 @@ for $P(H_0) = P(H_1) = \frac{1}{2}$
 ### Minimum probability of error - Gaussian noise
 
 - Assuming the noise has normal distribution $\mathcal{N}(0, \sigma^2)$
-$$w(r | H_1) = e^{-\frac{(r-s_1(t_0))^2}{2\sigma^2}}$$
-$$w(r | H_0) = e^{-\frac{(r-s_0(t_0))^2}{2\sigma^2}}$$
+$$w(r | H_1) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(r-s_1(t_0))^2}{2\sigma^2}}$$
+$$w(r | H_0) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(r-s_0(t_0))^2}{2\sigma^2}}$$
 
 - Apply natural logarithm
 $$-\frac{(r-s_1(t_0))^2}{2\sigma^2} + \frac{(r-s_0(t_0))^2}{2\sigma^2} \grtlessH \ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
@@ -686,8 +686,8 @@ $$(r-s_0(t_0))^2 \grtlessH (r - s_1(t_0))^2$$
 of the most probable hypothesis:
 $$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2\sigma^2 \cdot\ln \left(\frac{P(H_0)}{P(H_1)} \right)$$
     - term depends on the ratio $\frac{P(H_0)}{P(H_1)}$
-    
-    
+
+
 ### Interpretation 2: The threshold value
 
 - For ML criterion, we compare $r$ with a threshold $T$
@@ -701,7 +701,8 @@ $$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_
 ### Exercises
 
 - Consider the decision between two constant signals: $s_0(t) = -5$ and $s_1(t) = 5$.
-The signals are affected by gaussian noise $\mathcal{N}(0, \sigma^2=3)$
+The signals are affected by gaussian noise $\mathcal{N}(0, \sigma^2=3)$.
+The probabilities of the two hypotheses are $P(H_0) = \frac{1}{4}$ and $P(H_1) = \frac{3}{4}$.
 The receiver takes one sample $r$.
     a. Find the decision regions $R_0$ and $R_1$ according to the MPE criterion
     c. What are the probabilities of false alarm and of miss?
@@ -722,7 +723,7 @@ than other kind (e.g. miss)?
     - $C_{10}$ = cost for false alarm (detection $D_1$ in case of $H_0$)
     - $C_{01}$ = cost for miss (detection $D_0$ in case of $H_1$)
     - $C_{11}$ = cost for good detection $D_1$ in case of $H_1$
-    
+
 - The idea of assigning "costs" and minimizing average cost is very general
     - e.g. IT: Shannon coding: "cost" of each message is the length of its codeword,
     we want to minimize average cost, i.e. minimize average length
@@ -732,25 +733,25 @@ than other kind (e.g. miss)?
 -  Define the **risk** = **the average cost** value
 $$R = C_{00} P(D_0 \cap H_0) + C_{10} P(D_1 \cap H_0) + C_{01} P(D_0 \cap H_1) + C_{11} P(D_1 \cap H_1)$$
 
-- Minimum risk criterion: **minimize the risk R** 
+- Minimum risk criterion: **minimize the risk R**
     - i.e. minimize the average cost
     - also known as "minimum cost criterion"
 
 ### Computations
 
-- Proof on blackboard: (sorry, no time to put in on slides)
+- Proof on blackboard: (sorry, no time to put in on the slides)
     - Use Bayes rule
     - Notations: $w(r | H_j)$ (*likelihood*)
-    - Probabilities: $\int_{R_i} w(r | H_j) dV$
+    - Probabilities: $\int_{R_i} w(r | H_j) dr$
 
 - Conclusion, **decision rule is**
-$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$$
+$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)}$$
 
 ### Minimum risk criterion
 
 **Minimum risk criterion** (MR):
 
-$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$$
+$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)}$$
 
 ### Interpretation
 
@@ -767,9 +768,9 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11
 - If the noise is gaussian (normal), do like for the other criteria, apply logarithm
 
 - Obtain:
-$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)$$
-    - or 
-$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)$$
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)} \right)$$
+    - or
+$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)} \right)$$
 
 ### Interpretation 1: Comparing distance
 
@@ -779,7 +780,7 @@ $$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2\sigma^2 \cdot\ln \left(\frac{P(H_0
     - term depends on the ratio $\frac{P(H_0)}{P(H_1)}$
 
 - For MR criterion, besides the probabilities we also are influenced by the costs
-$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)$$    
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( \frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)} \right)$$
 
 ### Interpretation 2: The threshold value
 
@@ -788,7 +789,7 @@ $$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_
     - depending on the ratio $\frac{P(H_0)}{P(H_1)}$
 
 - For MR criterion, besides the probabilities we also are influenced by the costs
-$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)} \right)$$
+$$ r \grtlessH \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(\frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)} \right)$$
 
 ### Influence of costs
 
@@ -808,7 +809,7 @@ Reasoning of the French philosopher and mathematician Blaise Pascal (1623–1662
 > You must wager (it is not optional)
 >
 > If you gain, you gain all; if you lose, you lose nothing
-    
+
 > Wager, then, without hesitation that He is. There is here an infinity of an infinitely happy life to gain, against a finite number of chances of loss.[^PW]
 
 - A philosophical example of using the Minimum Risk criterion
@@ -821,14 +822,14 @@ Reasoning of the French philosopher and mathematician Blaise Pascal (1623–1662
 $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
     - for ML: $K=1$
     - for MPE: $K=\frac{P(H_0)}{P(H_1)}$
-    - for MR: $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
+    - for MR: $K=\frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)}$
 
 ### General form of ML, MPE and MR criteria
 
 In gaussian noise, all criteria reduce to:
 
 - Comparing squared distances:
-$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( K \right)$$    
+$$(r-s_0(t_0))^2 \grtlessH (r-s_1(t_0))^2 + 2 \sigma^2 \cdot \ln \left( K \right)$$
 
 - Comparing the sample $r$ with a threshold $T$:
 $$r \grtlessH \underbrace{\frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(K \right)}_T$$
@@ -837,29 +838,30 @@ $$r \grtlessH \underbrace{\frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_
 
 - A vehicle airbag system detects a crash by evaluating a sensor which provides two values: $s_0(t) = 0$ (no crash) or $s_1(t) = 5$ (crashing)
 - The signal is affected by gaussian noise $\mathcal{N}\;(\mu=0, \sigma^2=1)$.
+- The probabilities of the two hypotheses are $P(H_0) = \frac{9}{10}$ and $P(H_1) = \frac{1}{10}$.
 - The costs of the scenarios are: $C_{00} = 0$, $C_{01} = 100$, $C_{10} = 10$, $C_{11} = -100$
     a. Find the decision regions $R_0$ and $R_1$.
 
 
 ### Neyman-Pearson criterion
 
-- An even more general criteria than all the others until now
+- An even more general criterion than all the others until now
 
-- **Neyman-Pearson criterion**: maximize probability of correct detection ($P(D_1 \cap H_1)$)
-while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0) \leq \lambda)$
+- **Neyman-Pearson criterion**: maximize probability of correct detection ($P(D_1 | H_1)$)
+while keeping probability of false alarms smaller than a limit $(P(D_1 | H_0) \leq \lambda)$
 
-    - Deduce the threshold $T$ from the limit condition $P(D_1 \cap H_0) = \lambda$
-    
+    - Deduce the threshold $T$ from the limit condition $P(D_1 | H_0) = \lambda$
+
 - ML, MPE and MR criteria are particular cases of Neyman-Pearson, for particular values of $\lambda$
 
 ### Exercise
 
 - An information source provides two messages with probabilities $p(a_0) = \frac{2}{3}$ and $p(a_1) = \frac{1}{3}$.
 - The messages are encoded as constant signals with values $-5$ ($a_0$) and $5$ ($a_1$).
-- The signals are affected by noise with uniform distribution $U [-5,5]$.
+- The signals are affected by noise with uniform distribution $U [-6,6]$.
 - The receiver takes one sample $r$.
 
-    a. Find the decision regions according to the Neymar-Pearson criterion, considering $P_{fa} \leq 10^{-2}$
+    a. Find the decision regions according to the Neyman-Pearson criterion, considering $P_{fa} \leq 10^{-2}$
     b. What is the probability of correct detection, in this case?
 
 
@@ -877,7 +879,7 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
     - region $R_0$: if $r$ is in here, decide $D_0$
     - region $R_1$: if $r$ is in here, decide $D_1$
 
-- For gaussian noise, the boundary of the regions (threshold) is 
+- For gaussian noise, the boundary of the regions (threshold) is
     $$T = \frac{s_0(t_0) + s_1(t_0)}{2} + \frac{\sigma^2}{s_1(t_0) - s_0(t_0)} \cdot\ln \left(K \right)$$
 
 ### Comparing two decision problems
@@ -907,19 +909,19 @@ while keeping probability of false alarms smaller then a limit $(P(D_1 \cap H_0)
 
 ### Receiver Operating Characteristic
 
-- ROC graph shows there is always a **tradeoff** between good $P_d$ and bad $P_{fa}$
+- ROC graph shows there is a **tradeoff** between good $P_d$ and bad $P_{fa}$
 
-  - to increase $P_d$ one must also increase $P_{fa}$
+  - to increase $P_d$ one must also increase $P_{fa}$, in general
   - if we want to make sure we don't miss any real detections (increase P_d), we pay by increasing
     the chances of false alarms
-    
+
 - Different criteria = different likelihood thresholds $K$  = different points on the graph
  = different tradeoffs
-   
+
 - An overall performance measure is the total **Area Under the Curve** (AUC)
-  
+
   - this doesn't depend on the choice of a particular threshold value
-  
+
 - We can compare two different decision situations (e.g. different signals, or different algorithms etc)
 by plotting their ROC and comparing their AUC
 
@@ -928,7 +930,7 @@ by plotting their ROC and comparing their AUC
 - A similar curve is the **Precision vs. Recall** curve
 
 - **Precision** = $\frac{P(D_1 \cap H_1)}{P(D_1 \cap H_1) + P(D_1 \cap H_0)}$
-    
+
   - = True Positives  / (True Positives + False Positives)
 
 - **Recall** = $\frac{P(D_1 \cap H_1)}{P(D_1 \cap H_1) + P(D_0 \cap H_1)} = P(D_1 | H_1)$
@@ -953,21 +955,17 @@ Real-life app from which the preceding curve was taken:
 - How to improve the detection performance?
 
   - i.e. increase $P_D$ while keeping $P_{fa}$ the same
-  
+
   - irrespective of what threshold is chosen
 
 - Two solutions:
-   
-  - Increase the seperation between $s_0(t)$ and $s_1(t)$ (increase **signal power**)
-  
+
+  - Increase the separation between $s_0(t)$ and $s_1(t)$ (increase **signal power**)
+
   - Reduce the noise (decrease **noise power**)
-  
+
   - i.e. increase **Signal-to-Noise ratio**
 
-
-### 2020-2021 Exam
-
-- 2020-2021 Exam: Skip next 3 slides (until Signal-to-noise ratio)
 
 ### Performance of likelihood-ratio decoding in AWGN
 
@@ -982,10 +980,10 @@ $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH K$$
 - Conditional probability of correct detection is:
 $$\begin{split}
 P_d =& P(D_1 | H_1)\\
-=& \int_{T}^{\infty} w(r | H_1) \\
+=& \int_{T}^{\infty} w(r | H_1) dr\\
 =& (F(\infty) - F(T)) \\
 =& \frac{1}{2} \left( 1 - erf \left( \frac{T - s_1(t_0)}{\sqrt{2}\sigma} \right) \right) \\
-=& Q \left( \frac{T - s_1(t_0)}{\sqrt{2}\sigma} \right) \\
+=& Q \left( \frac{T - s_1(t_0)}{\sigma} \right) \\
 \end{split}$$
 
 
@@ -994,38 +992,38 @@ P_d =& P(D_1 | H_1)\\
 - Conditional probability of false alarm is:
 $$\begin{split}
 P_{fa} =& P(D_1 | H_0) \\
-=& \int_{T}^{\infty} w(r | H_0) \\
+=& \int_{T}^{\infty} w(r | H_0) dr\\
 =& (F(\infty) - F(T)) \\
 =& \frac{1}{2} \left( 1 - erf \left( \frac{T - s_0(t_0)}{\sqrt{2}\sigma} \right) \right) \\
-=& Q \left( \frac{T - s_0(t_0)}{\sqrt{2}\sigma} \right) \\
+=& Q \left( \frac{T - s_0(t_0)}{\sigma} \right) \\
 \end{split}$$
 
-- Therefore $\frac{T - s_0(t_0)}{\sqrt{2}\sigma} = Q^{-1} \left( P_{fa}\right)$, 
+- Therefore $\frac{T - s_0(t_0)}{\sigma} = Q^{-1} \left( P_{fa}\right)$,
 
-- And: $\frac{T - s_1(t_0)}{\sqrt{2}\sigma} = Q^{-1} \left( P_{fa}\right) + \frac{s_0(t_0) - s_1(t_0)}{\sqrt{2}\sigma}$
+- And: $\frac{T - s_1(t_0)}{\sigma} = Q^{-1} \left( P_{fa}\right) + \frac{s_0(t_0) - s_1(t_0)}{\sigma}$
 
 ### Performance of likelihood-ratio decoding in AWGN
 
 - Replacing in $P_d$ yields:
-$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} + \frac{s_0(t_0) - s_1(t_0)}{\sqrt{2}\sigma} \right)$$
+$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} + \frac{s_0(t_0) - s_1(t_0)}{\sigma} \right)$$
 
 - Consider a simple case:
     - $s_0(t_0) = 0$
     - $s_1(t_0) = A = constant$
 
 - We get:
-$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \frac{A}{\sqrt{2}\sigma} \right)$$
+$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \frac{A}{\sigma} \right)$$
 
 ### Signal-to-noise ratio
 
 - **Signal-to-noise ratio (SNR)** = $\frac{\text{power of original signal}}{\text{power of noise}}$
 
 - Average power of a signal = average squared value = $\overline{X^2}$
-    - Original signal power of $s(t)$ is $\frac{A^2}{2}$
+    - Original signal power of $s(t)$ is $\frac{A^2}{2}$ (assuming $s_0$ and $s_1$ are equiprobable)
     - Noise power is $\overline{X^2} = \sigma^2$ (when noise mean value $\mu = 0$)
-    
+
 - In our case, SNR = $\frac{A^2}{2 \sigma^2}$
-$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{SNR} \right)$$
+$$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{2 SNR} \right)$$
 
 - For a fixed $P_{fa}$, $P_d$ **increases with SNR**
     - Q is a monotonic decreasing function
@@ -1035,8 +1033,8 @@ $$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{SNR}
 
 - Receiver performance increases with SNR increase
     - high SNR: good performance
-    - poor SNR: bad perfomance
-    
+    - poor SNR: bad performance
+
 ![Detection performance depends on SNR](img/PD_SNR.png){#id .class width=47%}
 
 *[source: Fundamentals of Statistical Signal Processing, Steven Kay]*
@@ -1046,7 +1044,7 @@ $$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{SNR}
 
 - Can we apply these decision criteria in other engineering problems?
     - e.g. not for deciding between two signals, but for something else
-    
+
 - The core mathematical problem we solve is:
     - we have 2 (or more) possible distributions
     - we observe 1 value
@@ -1062,14 +1060,14 @@ $$P_d = Q \left( \underbrace{Q^{-1} \left(P_{fa}\right)}_{constant} - \sqrt{SNR}
 
 ### Applications of decision theory
 
-Example (purely imaginary): 
+Example (purely imaginary):
 
  - A healthy person of weight = X kg has the concentration of thrombocytes per ml of blood
    distributed approximately as $\mathcal{N} \; (\mu=10 \cdot X, \sigma^2 = 20)$.
-   
+
 - A person suffering from disease D has a much lower value of thrombocytes,
     distributed approximately as $\mathcal{N} \; (100, \sigma^2=10)$.
-    
+
 - The lab measures your blood and finds your value equal to $r = 255$. Your weight is 70 kg.
 - Decide: are you most likely healthy, or ill?
 
@@ -1082,15 +1080,15 @@ Example (purely imaginary):
 
   - A signal $s(t)$ is transmitted
   - There are **two hypotheses**:
-  
+
     - $H_0$: true signal is $s(t) = s_0(t)$
     - $H_1$: true signal is $s(t) = s_1(t)$
-  
+
   - Receiver can take **two decisions**:
     - $D_0$: receiver decides that signal was $s(t) = s_0(t)$
     - $D_1$: receiver decides that signal was $s(t) = s_1(t)$
 
-  - There 4 possible outcomes 
+  - There are 4 possible outcomes
 
 ### Multiple samples from a signal
 
@@ -1114,19 +1112,19 @@ Example (purely imaginary):
 
 - The sample vector $\vec{r}$ is a set of $N$ random variables from a random process
 
-- Considering the whole sample vector $\vec{r}$ as a whole, 
+- Considering the whole sample vector $\vec{r}$ as a whole,
 the values of $\vec{r}$ are described by the **distributions of order $N$**
 
-- In hypothesis $H_0$: 
+- In hypothesis $H_0$:
     $$w_N(\vec{r} | H_0) = w_N(r_1, r_2, ...r_N | H_0)$$
 
-- In hypothesis $H_1$: 
+- In hypothesis $H_1$:
     $$w_N(\vec{r} | H_1) = w_N(r_1, r_2, ...r_N | H_1)$$
 
 
 ### Likelihood of vector samples
 
-- We can apply **the same criteria** based on likelihood ratio as 
+- We can apply **the same criteria** based on likelihood ratio as
 for 1 sample
     $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} \grtlessH K$$
 
@@ -1140,53 +1138,53 @@ for 1 sample
 - Interpretation: we choose the hypothesis that is most likely to have produced the observed data
 
   - now the data = a set of samples, not just 1
-    
-### Separation 
 
-- Assuming the noise is white noise, the noise samples are independent, 
+### Separation
+
+- Assuming the noise is white noise, the noise samples are independent,
 and therefore the samples $r_i$ are independent
 
-- In that case the joint distribution $w_N(\vec{r} | H_i)$ can be decomposed 
+- In that case the joint distribution $w_N(\vec{r} | H_i)$ can be decomposed
 as a **product of individual distributions**:
-    
+
     $$w_N(\vec{r} | H_i) = w(r_1|H_i) \cdot w(r_2|H_i) \cdot ... \cdot w(r_N|H_i)$$
-    
+
     - e.g. the likelihood of obtaining $[5.1, 4.7, 4.9]$ = likelihood of obtaining $5.1$ $\times$
     likelihood of getting $4.7$ $\times$ likelihood of getting $4.9$
 
 - The $w(r_i|H_i)$ are just conditional distributions for each sample
-    
+
     - we've seen them already
 
-### Separation 
+### Separation
 
 - Then all likelihood ratio criteria can be written as:
-    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
+    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot
     \frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
 
 - The likelihood ratio of a vector of samples = product of likelihood ratio for each sample
 
-- We **multiply** the likelihood ratio **of each sample**, and then use the same 
+- We **multiply** the likelihood ratio **of each sample**, and then use the same
 criteria for the end result
 
 ### Criteria for decisions
 
 - All likelihood ratio criteria can be written as:
-    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot 
+    $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{w(r_1|H_1)}{w(r_1|H_0)}  \cdot
     \frac{w(r_2|H_1)}{w(r_2|H_0)} ... \frac{w(r_N|H_1)}{w(r_N|H_0)} \grtlessH K$$
 
 - The value of $K$ is the same as for 1 sample:
 
     - for ML: $K=1$
     - for MPE: $K=\frac{P(H_0)}{P(H_1)}$
-    - for MR: $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
+    - for MR: $K=\frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)}$
 
-### Particular case: AWGN 
+### Particular case: AWGN
 
 - AWGN = "Additive White Gaussian Noise"
 
 - In hypothesis $H_1$: $w(r_i|H_1) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - s_1(t_i))^2}{2 \sigma^2}}$
-- In hypothesis $H_0$: $w(r_i|H_0) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - s_1(t_i))^2}{2 \sigma^2}}$
+- In hypothesis $H_0$: $w(r_i|H_0) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-\frac{(r_i - s_0(t_i))^2}{2 \sigma^2}}$
 
 - Likelihood ratio for vector $\vec{r}$
     $$\frac{w_N(\vec{r} | H_1)}{w_N(\vec{r} | H_0)} = \frac{e^{-\frac{\sum (r_i - s_1(t_i))^2}{2 \sigma^2}}}{e^{-\frac{\sum (r_i - s_0(t_i))^2}{2 \sigma^2}}} = e^{\frac{\sum (r_i - s_0(t_i))^2 - \sum (r_i - s_1(t_i))^2}{2 \sigma^2}}$$
@@ -1204,10 +1202,10 @@ criteria for the end result
 - The sums are squared **geometrical distances**:
     $$\sum (r_i - s_1(t_i))^2 = \|\vec{r} - \vec{s_1(t)}\|^2 = d(\vec{r}, s_1(t))^2$$
     $$\sum (r_i - s_0(t_i))^2 = \|\vec{r} - \vec{s_0(t)}\|^2 = d(\vec{r}, s_0(t))^2$$
-    
-    - the distance between the observed samples $\vec{r}$ and 
+
+    - the distance between the observed samples $\vec{r}$ and
     the true possible underlying signals $s_1(t)$ and $s_0(t)$
-    
+
     - with N samples => distance between vectors of size $N$
 
 - It comes down to a decision between distances
@@ -1217,10 +1215,10 @@ criteria for the end result
 - Maximum Likelihood criterion:
 
   - $K = 1$, $\ln(K) = 0$
-  - we choose the **minimum distance** between what is ($\vec{r}$) 
+  - we choose the **minimum distance** between what is ($\vec{r}$)
     and what should have been in absence of noise ($s_1(t)$ and $s_0(t)$)
   - hence the name "minimum distance receiver"
-    
+
 - Minimum Probability of Error criterion:
 
   - $K = \frac{P(H_0)}{P(H_1)}$
@@ -1228,7 +1226,7 @@ criteria for the end result
 
 - Minimum Risk criterion:
 
-  - $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
+  - $K=\frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)}$
   - Additional term depends on both probabilities and costs
 
 
@@ -1236,7 +1234,7 @@ criteria for the end result
 
 Exercise:
 
-- A signal can have two values, $0$ (hypothesis $H_0$) or $6$ (hypothesis $H_1$). 
+- A signal can have two values, $0$ (hypothesis $H_0$) or $6$ (hypothesis $H_1$).
 The signal is affected by AWGN $\mathcal{N}(0, \sigma^2=1)$.
 The receiver takes 5 samples with values $\left\{ 1.1, 4.4, 3.7, 4.1, 3.8 \right\}$.
 
@@ -1248,7 +1246,7 @@ The receiver takes 5 samples with values $\left\{ 1.1, 4.4, 3.7, 4.1, 3.8 \right
 
 
 ### Another exercise
-    
+
 Another Exercise:
 
 - Consider detecting a signal $s_1(t) = 3 \sin(2 \pi f_1 t)$ that can be present (hypothesis $H_1$) or not ($s_0(t)=0$, hypothesis $H_0$).
@@ -1282,7 +1280,7 @@ $$\sum r_i s_1(t_i) - \frac{ \sum (s_1(t_i))^2}{2} \grtlessH \sum r_i s_0(t_i) -
 
 ### Interpretation 2: inner-product
 
-- Linear algebra: **inner product** of vectors $\vec{a}$ and $\vec{b}$: 
+- Linear algebra: **inner product** of vectors $\vec{a}$ and $\vec{b}$:
 $$\langle a,b \rangle = \sum_i a_i b_i$$
 
 - $\sum r_i s_1(t_i) = \langle \vec{r}, \vec{s_1(t)} \rangle$ is the inner product of vector $\vec{r} = [r_1, r_2, ... r_N]$
@@ -1312,13 +1310,13 @@ $$\langle \vec{r}, \vec{s_1} \rangle - \frac{E_1}{2} \grtlessH \langle \vec{r},\
 
     - If the two signals have the same energy: $E_1 = \sum s_1(t_i)^2 = E_0 = \sum s_0(t_i)^2$
     - Examples:
-    
+
         - BPSK modulation: $s_1 = A \cos(2 \pi f t)$, $s_0 = -A \cos(2 \pi f t)$
-        - 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{4})$
-        
+        - 4-PSK modulation: $s_{n=0,1,2,3} = A \cos(2 \pi f t + n \frac{\pi}{2})$
+
     - Then it is simplified as:
-    $$\langle \vec{r}, \vec{s_1} \rangle \grtlessH \langle \vec{r},\vec{s_0} \rangle + \sigma^2 \ln(K)$$    
-    
+    $$\langle \vec{r}, \vec{s_1} \rangle \grtlessH \langle \vec{r},\vec{s_0} \rangle + \sigma^2 \ln(K)$$
+
 
 ### Interpretation 2: inner-product
 
@@ -1330,7 +1328,7 @@ $s_1(t)$ or to $s_0(t)$
   - Choose the one which shows more similarity to $\vec{r}$
   - There is also the subtraction of the energies, for a fair comparison (due to mathematical reasons)
 
-- **Inner product** of vectors $\vec{a}$ and $\vec{b}$: 
+- **Inner product** of vectors $\vec{a}$ and $\vec{b}$:
 $$\langle a,b \rangle = \sum_i a_i b_i$$
 
 
@@ -1342,15 +1340,15 @@ $$\langle a,b \rangle = \sum_i a_i b_i$$
 
 ### Example: BPSK
 
-- BPSK demodulation: 
+- BPSK demodulation:
 
 ![BPSK decision: naive implementation](img/BPSK_Decision_1.png)
 
 ### Example: BPSK
 
-- BPSK demodulation: 
+- BPSK demodulation:
 
-![BKSP detection: usual implementation](img/BPSK_Decision_2.png)
+![BPSK detection: usual implementation](img/BPSK_Decision_2.png)
 
 ### Example: QPSK
 
@@ -1358,14 +1356,14 @@ $$\langle a,b \rangle = \sum_i a_i b_i$$
 
 ### Example: QPSK
 
-![QKSP detection: usual implementation](img/QPSK_Decision_2.png)
+![QPSK detection: usual implementation](img/QPSK_Decision_2.png)
 
 ### Matched filters
 
 - How to compute the inner product of two signals $r[n]$ and $s[n]$ of length $N$?
 $$\langle \vec{r},\vec{s} \rangle = \sum r_i s(t_i)$$
 
-- Let $h[n]$ be the signal $s[n]$ **flipped / mirrored** ("oglindit") and delayed with $N$
+- Let $h[n]$ be the signal $s[n]$ **flipped / mirrored** ("oglindit") and delayed with $N-1$
     - starts from time 0, goes up to time $N-1$, but backwards
 $$h[n] = s[N-1-n]$$
 
@@ -1404,7 +1402,7 @@ version of a signal we search for
 - Sample both filters at the end of the signal $n = N-1$
     - obtain the values of the inner products
 
-- Use the decision rule (with the inner products) to decide 
+- Use the decision rule (with the inner products) to decide
 
 
 ### Signal detection with matched filters
@@ -1421,7 +1419,7 @@ and compare the result to a threshold
 
 ### Continuous observation of a general signal
 
-- Continuous observation = we don't take samples anymore, we use 
+- Continuous observation = we don't take samples anymore, we use
 **all the continuous signal**
     - like taking $N$ samples but with $N \to \infty$
 
@@ -1432,7 +1430,7 @@ and compare the result to a threshold
 
 - Received signal is $r(t)$
 
-### Euclidian space
+### Euclidean space
 
 - Extend from $N$ samples to the case a full continuous signal
 
@@ -1450,7 +1448,7 @@ $$\langle \vec{r},\vec{s} \rangle = \int r(t) s(t) dt$$
 
 - For AWGN, same decision rule as always:
 $$d(\vec{r}, \vec{s_0})^2 \grtlessH d(\vec{r}, \vec{s_1})^2  + 2 \sigma^2 \ln(K)$$
-    
+
 - Distance = previous formula, with integral
 
 - Same criteria:
@@ -1458,13 +1456,13 @@ $$d(\vec{r}, \vec{s_0})^2 \grtlessH d(\vec{r}, \vec{s_1})^2  + 2 \sigma^2 \ln(K)
     - Maximum Likelihood criterion: $K = 1$, $\ln(K) = 0$
         - we choose the **minimum distance**
     - Minimum Probability of Error criterion: $K = \frac{P(H_0)}{P(H_1)}$
-    - Minimum Risk criterion: $K=\frac{(C_{10}-C_{00})p(H_0)}{(C_{01}-C_{11})p(H_1)}$
-    
+    - Minimum Risk criterion: $K=\frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)}$
+
 ### Decision rule for AWGN: inner products
 
 - For AWGN, same decision rule as always:
 $$\langle \vec{r}, \vec{s_1} \rangle - \frac{E_1}{2} \grtlessH \langle \vec{r},\vec{s_0} \rangle - \frac{E_0}{2} + \sigma^2 \ln(K)$$
-    
+
 - Inner product = previous formula, with integral
 
 - All interpretations remain the same
@@ -1479,7 +1477,7 @@ $$\langle \vec{r}, \vec{s_1} \rangle - \frac{E_1}{2} \grtlessH \langle \vec{r},\
 version of a signal we search for
     - if original signal $s(t)$ has length T
     - then $h(t) = s(T - t)$
-    - filter is analogical, impulse response is continuous
+    - filter is analog, impulse response is continuous
 
 - Output of a matched filter at time $t = T$ is equal to the inner product
 of the input $r(t)$ with $s(t)$
@@ -1493,7 +1491,7 @@ of the input $r(t)$ with $s(t)$
 - Sample both filters at the end of the signal $t = T$
     - obtain the values of the inner products
 
-- Use the decision rule (with the inner products) to decide 
+- Use the decision rule (with the inner products) to decide
 
 ### Review of Euclidean vector spaces
 
@@ -1509,14 +1507,14 @@ of the input $r(t)$ with $s(t)$
         - 3D = a 3-D space
         - N-D = ...
         - $\infty$-D = ..
-    
+
 ### Review of Euclidean vector spaces
 
 - The fundamental function: **inner product**
-    - for discrete signals 
+    - for discrete signals
         $$\langle \vec{x},\vec{y} \rangle = \sum_i x_i y_i$$
-    - for continuous signals 
-        $$\langle \vec{x},\vec{y} \rangle = \int x(t) y(t)$$        
+    - for continuous signals
+        $$\langle \vec{x},\vec{y} \rangle = \int x(t) y(t)$$
 
 - Norm (length) of a vector = sqrt(inner product with itself)
 $$\|\vec{x}\| = \sqrt{ \langle \vec{x},\vec{x} \rangle }$$
@@ -1540,13 +1538,13 @@ $$cos(\alpha) = \frac{\langle x,y \rangle}{||x|| \cdot ||y||}$$
 $$\mathcal{F} \{ x(t)\} = \langle x(t), e^{j \omega t}\rangle = \int x(t) e^{-j \omega t}$$
     - for complex signals, the second function is conjugated, hence $-j$ instead of $j$
         $$\langle \vec{x},\vec{y} \rangle = \sum_i x_i y_i^*$$
-        $$\langle \vec{x},\vec{y} \rangle = \int x(t) y(t)^*$$        
- 
-- Also same for discrete signals     
+        $$\langle \vec{x},\vec{y} \rangle = \int x(t) y(t)^*$$
+
+- Also same for discrete signals
 
 ### Review of Euclidean vector spaces
 
-- Conclusion: expressing algorithms in a generic way, 
+- Conclusion: expressing algorithms in a generic way,
 with inner products / distances / norms, is very powerful
     - they automatically apply to all vector spaces
     - work once, reuse in many places
@@ -1559,14 +1557,14 @@ with inner products / distances / norms, is very powerful
 - Until now, we always knew what samples we expect
 
   - We knew the signals:
-  
+
     - $s_0(t) = ...$
     - $s_1(t) = ...$
-  
+
   - We knew the noise type
-  
+
     - gaussian, uniform, etc.
-  
+
   - So we knew the sample distributions:
     - $w(r|H_0) = ...$
     - $w(r|H_1) = ...$
@@ -1580,7 +1578,7 @@ do not exist / we do not know them?
 
 - Example: face recognition
 
-    - Task: identify person A vs B based on a face image 
+    - Task: identify person A vs B based on a face image
     - We have:
         - 100 images of person A, in various conditions
         - 100 images of person B, in various conditions
@@ -1593,7 +1591,7 @@ do not exist / we do not know them?
 
     - two hypotheses $H_0$ (person A) and $H_1$ (person B)
     - a sample vector $\vec{r}$ = the test image we need to decide upon
-    - we can take two decisions 
+    - we can take two decisions
     - 4 scenarios: correct rejection, false alarm, miss, correct detection
 
 - What's different? We don't have formulas
@@ -1601,31 +1599,31 @@ do not exist / we do not know them?
     - there is no "true" data described by formulas $s_0(t) = ...$ and $s_1(t)...$
     - (faces of persons A and B are not signals)
     - instead, we have lots of examples of each distribution
-    
-        - 100 images of A = examples of $\vec{r}$ might look in hypotesis $H_0$
-        - 100 images of B = examples of $\vec{r}$ might look in hypotesis $H_1$
+
+        - 100 images of A = examples of what $\vec{r}$ might look in hypotesis $H_0$
+        - 100 images of B = examples of what $\vec{r}$ might look in hypotesis $H_1$
 
 ### Machine learning terminology
 
 - Terminology used in **machine learning**:
 
     - This kind of problem = signal **classification** problem
-    
+
         - given one data vector, specify which class it belongs to
-        
+
     - The **classes** = the two categories, hypotheses $H_i$, persons A/B etc
-    
+
     - A **training set** = a set of known data
-    
+
         - e.g. our 100 images of each person
         - it will be used in the decision process
-        
+
     - Signal **label** = the class of a signal
-   
+
 
 ### Samples vs distributions
 
-- The training set gives us the same information as 
+- The training set gives us the same information as
 the conditional distributions $w(r|H_0)$ and $w(r|H_1)$
 
     - $w(r|H_0)$ tells us how $r$ looks like in hypothesis $H_0$
@@ -1636,9 +1634,9 @@ the conditional distributions $w(r|H_0)$ and $w(r|H_1)$
 
 ### The k-NN algorithm
 
-The k-Neareast Neighbours algorithm (k-NN)
+The k-Nearest Neighbours algorithm (k-NN)
 
-- Input: 
+- Input:
 
     - a labelled training set of vectors $\vec{x}_1 ... \vec{x}_N$,
     from $L$ possible classes $C_1$...$C_L$
@@ -1647,7 +1645,7 @@ The k-Neareast Neighbours algorithm (k-NN)
 
 1. Compute distance from $\vec{r}$ to each training vector $\vec{x}_i$
 
-    - can use same Euclidean distance we used for signal 
+    - can use same Euclidean distance we used for signal
     detection with multiple samples
 
 2. Choose the closest $k$ vectors to $\vec{r}$ (the *$k$ nearest neighbours*)
@@ -1690,7 +1688,7 @@ of 5 vectors of class A and another 5 vectors from class B:
 \vec{v}_3 = \begin{bmatrix} -4 \\  2 \end{bmatrix}\;
 \vec{v}_4 = \begin{bmatrix}  2 \\  1 \end{bmatrix}\;
 \vec{v}_5 = \begin{bmatrix} -2 \\ -2 \end{bmatrix}$$
-    
+
     - Class B:
     $$
 \vec{v}_6    = \begin{bmatrix}  7 \\ 0 \end{bmatrix}\;
@@ -1709,7 +1707,7 @@ using the k-NN algorithm, with $k=1$, $k=3$, $k=5$, $k=7$ and $k=9$
     - training data needs to be labelled
 
 \smallskip
-    
+
 - Effect of $k$ is to smooth the decision boundary:
     - small $k$: lots of edges
     - large $k$: smooth boundary
@@ -1722,7 +1720,7 @@ using the k-NN algorithm, with $k=1$, $k=3$, $k=5$, $k=7$ and $k=9$
     - by trial and error ("băbește")
 
 \smallskip
-    
+
 - **Cross-validation** = use a small testing set for checking what parameter value is best
 
     - this data set is known as **cross-validation set**
@@ -1741,7 +1739,7 @@ using the k-NN algorithm, with $k=1$, $k=3$, $k=5$, $k=7$ and $k=9$
     - For final testing, use data that the algorithm has never seen, for fairness
 
 \smallskip
-    
+
 - How to split the data into datasets?
 
 
@@ -1750,7 +1748,7 @@ using the k-NN algorithm, with $k=1$, $k=3$, $k=5$, $k=7$ and $k=9$
 - Suppose you have 200 face images, 100 images of person A and 100 of person B
 
 \smallskip
-	    
+
 - Split the data into:
 	\smallskip
     - Training set
@@ -1770,9 +1768,9 @@ using the k-NN algorithm, with $k=1$, $k=3$, $k=5$, $k=7$ and $k=9$
 
 - k-Means: an algorithm for data **clustering**
     - identifying groups of close vectors in data
-    
+
 \smallskip
-       
+
 - Is an example of unsupervised learning algorithm
     - "unsupervised learning" = we don't know the data classes of the signals beforehand
 
@@ -1780,7 +1778,7 @@ using the k-NN algorithm, with $k=1$, $k=3$, $k=5$, $k=7$ and $k=9$
 
 The k-Means algorithm
 
-- Input: 
+- Input:
     - unlabelled training set of vectors $\vec{x}_1 ... \vec{x}_N$
     - number of classes C
 
@@ -1789,7 +1787,7 @@ The k-Means algorithm
 - Repeat
   1. Classification: assign each data $\vec{x}$ to the nearest centroid $\vec{c}_i$:
 	    $$l_n = \arg\min_i d(\vec{x}, \vec{c}_i), \forall \vec{x}$$
-  2. Update: update each centroids $\vec{c}_i$ = average of the $\vec{x}$ assigned to $\vec{c}_i$
+  2. Update: update each centroid $\vec{c}_i$ = average of the $\vec{x}$ assigned to $\vec{c}_i$
 	    $$\vec{c}_i \leftarrow \textrm{ average of } \vec{x}, \forall \vec{x} \textrm{ in class } i$$
 
 - Output: return the centroids $\vec{c}_i$, the labels $l_i$ of the input data $\vec{x}_i$
@@ -1807,7 +1805,7 @@ Video explanations of the k-Means algorithm:
 - Watch this, starting from time 3:05 to end
 
   [https: // www.youtube.com/watch?v=IuRb3y8qKX4](https://www.youtube.com/watch?v=IuRb3y8qKX4)
-  
+
 
 ### The k-Means algorithm
 
@@ -1822,7 +1820,7 @@ Video explanations of the k-Means algorithm:
 Exercise
 
 1. Consider the following data
-    $$\left\lbrace \vec{v_n} \right\rbrace = 
+    $$\left\lbrace \vec{v_n} \right\rbrace =
 [ 1.3, -0.1, 0.5, 4.7, 5.1, 5.8, 0.4, 4.8, -0.7, 4.9 ] $$
 
     Use the k-Means algorithm to find the two centroids $\vec{c}_1$ and $\vec{c}_2$,
