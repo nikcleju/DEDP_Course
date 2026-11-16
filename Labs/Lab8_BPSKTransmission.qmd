@@ -71,7 +71,7 @@ We shall implement and simulate a BPSK transmission and detection model in Simul
 | Switch | Three inputs: $s_1$ at the top, bit control in the middle, $s_0$ at the bottom; criterion `u2 ~= 0` |
 | AWGN Channel | Add Gaussian noise; `Signal to noise ratio (SNR)` mode |
 | Product | Two inputs, element-wise multiplication: received signal times one reference |
-| Integrator | Initial condition `0`; integrate each Product output |
+| Discrete-Time Integrator | Initial condition `0`; integrate each Product output |
 | Relational Operator | Operator `>`; compare two values |
 | Scope, Display | Show waveforms and values |
 | Square Wave Generator | Model 2 only: generate recangular pulses |
@@ -81,7 +81,8 @@ We shall implement and simulate a BPSK transmission and detection model in Simul
 ### General explanations
 
 For simulation purposes, we consider each bit to last one second of simulation time.
-For this reason, we set the frequency of the Sine Wave blocks to $f=1$ (i.e., $\omega = 2\pi$ rad/s, so that one period of the cosine is one second.
+For this reason, we set the frequency of the Sine Wave blocks to $f=1$ (i.e., $\omega = 2\pi$ rad/s), so that one period of the cosine is one second.
+We may also use $f=2$, so that two periods of the cosine fit in one second.
 In practice, the frequency is much higher than one Hertz, and one bit consists of many periods of the carrier cosine.
 
 <!-- For the run with ones, estimate the **probability of correct detection**:
@@ -137,8 +138,14 @@ table td, table th { border-bottom: 1px solid #ddd; }
 
    Implement the model in @fig-lab8-model1 and save it as `Lab8_OneBit.slx`.
 
-
    ![Model 1: BPSK transmission and detection for one bit ](figures/Lab8_Model1.png){#fig-lab8-model1 width=100%}
+
+   Set the parameters of the Sine Wave blocks to $f=1$ Hz (or $f=2$ Hz), amplitudes `1` and `-1`,
+   and Sample Time to 0.001, as illustrated in @fig-lab8-sine-settings.
+
+   In the model configuration parameters (Modeling tab > Model Settings),
+   set the solver to **Fixed-step**, **discrete (no continuous states)**, and Fixed-step size to `0.001`,
+   as illustrated in @fig-lab8-solver-settings.
 
    a. Select bit 1 with the Manual Switch. Run the model for 1 second (set Stop Time to `1`).
 
@@ -177,7 +184,7 @@ table td, table th { border-bottom: 1px solid #ddd; }
       Set the **Trigger type** to `Falling edge` and check the `Latch (buffer) input` box
       as illustrated in @fig-lab8-sample-settings.
 
-   2. **Reset the integrators every second.**  To do this, set both Integrators' **External reset** to **falling**
+   2. **Reset the integrators every second.**  To do this, set both integrators' **External reset** to **falling**
 
 
    3. Add a **Square Wave Generator** block, and configure it as in @fig-lab8-square-settings.
@@ -193,21 +200,6 @@ table td, table th { border-bottom: 1px solid #ddd; }
    5. For the AWGN block, set **Simulate using: Interpreted execution**, as in @fig-lab8-awgn-settings.
 
    6. Set the **Stop Time** to `1000` seconds and the **SNR** to `-20` dB.
-
-   ::: {#fig-lab8-model2-settings layout-ncol=2}
-
-   ![Settings for Sample and Hold.](figures/Lab8_Model2_settingsSampleAndHold.png){#fig-lab8-sample-settings width=100%}
-
-   ![Settings for the Square Wave Generator.](figures/Lab8_Model2_settingsSquareWave.png){#fig-lab8-square-settings width=100%}
-
-   ![Settings for the Integrator.](figures/Lab8_Model2_settingsIntegrator.png){#fig-lab8-integrator-settings width=100%}
-
-   ![Settings for the AWGN Channel.](figures/Lab8_Model2_settingsAWGN.png){#fig-lab8-awgn-settings width=100%}
-
-   ![Settings for the To Workspace blocks.](figures/Lab8_Model2_settingsToWorkspace.png){#fig-lab8-workspace-settings width=100%}
-
-   Block settings for Model 2.
-   :::
 
 3. **Transmit 1000 ones, then 1000 zeros.**
 
@@ -235,3 +227,32 @@ table td, table th { border-bottom: 1px solid #ddd; }
    c. Change the SNR to `-10` dB and repeat the two 1000-bit runs. Compare the results with the previous ones.
 
 
+::: {#fig-lab8-model1-settings layout-ncol=2}
+
+![Solver settings for the whole model.](figures/Lab8_configuration.png){#fig-lab8-solver-settings width=100%}
+
+![Settings for Sine Wave.](figures/Lab8_Model1_settingsSineWave.png){#fig-lab8-sine-settings width=100%}
+
+Block settings for Model 1 and Model 2.
+:::
+
+::: {#fig-lab8-model2-settings layout-ncol=2}
+
+![Settings for Sample and Hold.](figures/Lab8_Model2_settingsSampleAndHold.png){#fig-lab8-sample-settings width=100%}
+
+![Settings for the Square Wave Generator.](figures/Lab8_Model2_settingsSquareWave.png){#fig-lab8-square-settings width=100%}
+
+![Settings for the Discrete-Time Integrator.](figures/Lab8_Model2_settingsIntegrator.png){#fig-lab8-integrator-settings width=100%}
+
+Block settings for Model 2 - part 1.
+:::
+
+
+::: {#fig-lab8-model2-settings layout-ncol=2}
+
+![Settings for the AWGN Channel.](figures/Lab8_Model2_settingsAWGN.png){#fig-lab8-awgn-settings width=100%}
+
+![Settings for the To Workspace blocks.](figures/Lab8_Model2_settingsToWorkspace.png){#fig-lab8-workspace-settings width=100%}
+
+Block settings for Model 2 - part 2.
+:::
