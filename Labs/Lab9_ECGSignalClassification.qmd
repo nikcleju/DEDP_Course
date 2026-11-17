@@ -141,8 +141,9 @@ For labels `0`, `1`, `2`, `3`, use a fixed order:
 A = confusionmat(true_labels, predicted_labels, 'Order', [0 1 2 3]);
 ```
 
-The diagonal contains correct classifications. The overall accuracy is the sum
-of the diagonal entries divided by the total number of test signals.
+The diagonal contains correct classifications.
+The overall **classification accuracy** is the sum of the diagonal entries divided by the total number of test signals,
+which means the fraction of test signals that were classified correctly.
 
 ## Data for this laboratory
 
