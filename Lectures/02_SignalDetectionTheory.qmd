@@ -737,21 +737,47 @@ $$R = C_{00} P(D_0 \cap H_0) + C_{10} P(D_1 \cap H_0) + C_{01} P(D_0 \cap H_1) +
     - i.e. minimize the average cost
     - also known as "minimum cost criterion"
 
-### Computations
+### Minimum risk: deriving the criterion
 
-- Proof on blackboard: (sorry, no time to put in on the slides)
-    - Use Bayes rule
-    - Notations: $w(r | H_j)$ (*likelihood*)
-    - Probabilities: $\int_{R_i} w(r | H_j) dr$
+Let's expand the probabilities in the four terms:
 
-- Conclusion, **decision rule is**
-$$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)}$$
+- $C_{00}P(D_0 \cap H_0) = C_{00}P(H_0)\int_{R_0} w(r|H_0)\,dr$
+- $C_{10}P(D_1 \cap H_0) = C_{10}P(H_0)\int_{R_1} w(r|H_0)\,dr = C_{10}P(H_0)\left(1-\int_{R_0} w(r|H_0)\,dr\right)$
+- $C_{01}P(D_0 \cap H_1) = C_{01}P(H_1)\int_{R_0} w(r|H_1)\,dr$
+- $C_{11}P(D_1 \cap H_1) = C_{11}P(H_1)\int_{R_1} w(r|H_1)\,dr = C_{11}P(H_1)\left(1-\int_{R_0} w(r|H_1)\,dr\right)$
+
+(We used the fact that $\int_{R_0} w(r|H_j)\,dr = 1 - \int_{R_1} w(r|H_j)\,dr$.)
+
+### Minimum risk: deriving the criterion
+
+Adding the four terms, we get:
+$$\begin{aligned}
+R &= C_{10}P(H_0) + C_{11}P(H_1) \\
+&\quad + \int_{R_0} \Bigl[ (C_{01}-C_{11})P(H_1)w(r|H_1) - (C_{10}-C_{00})P(H_0)w(r|H_0)\Bigr]\,dr.
+\end{aligned}$$
+
+- The first two terms are constants, independent of R_0$ and $R_1$
+
+- The integral is minimized by choosing $R_0$ to be the set where the function inside the brackets is negative,
+so that we integrate where the function is negative
+
+- This means we choose decision $D_0$ when
+  $$(C_{01}-C_{11})P(H_1)w(r|H_1) < (C_{10}-C_{00})P(H_0)w(r|H_0)$$
+
+  and choose decision $D_1$ when
+  $$(C_{01}-C_{11})P(H_1)w(r|H_1) > (C_{10}-C_{00})P(H_0)w(r|H_0).$$
 
 ### Minimum risk criterion
 
 **Minimum risk criterion** (MR):
 
+The risk (expected cost) is minimized by taking the decision according to:
+
 $$\frac{w(r|H_1)}{w(r|H_0)} \grtlessH \frac{(C_{10}-C_{00})P(H_0)}{(C_{01}-C_{11})P(H_1)}$$
+
+i.e.,
+
+$$\frac{(C_{01}-C_{11})P(H_1) w(r|H_1)}{(C_{10}-C_{00})P(H_0)w(r|H_0)} \grtlessH 1$$
 
 ### Interpretation
 
